@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
   Phone, 
@@ -25,8 +25,8 @@ import {
   Wrench, 
   Layers, 
   MessageCircle,
-  Bot,
   X,
+  Menu,
   ArrowRight,
   Clock,
   Send,
@@ -37,58 +37,10 @@ import {
 } from 'lucide-react';
 
 // --- Sound Effects ---
-const playHoverSound = () => {
-  // Disabled to prevent lag on hover
-};
-
 const playClickSound = () => {
   const audio = new Audio('https://assets.mixkit.io/active_storage/sfx/2571/2571-preview.mp3');
   audio.volume = 0.2;
   audio.play().catch(() => {});
-};
-
-// --- Custom Cursor Component ---
-const CustomCursor = () => {
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const [isHovering, setIsHovering] = useState(false);
-  
-  // Ultra-responsive spring for the outer ring - even tighter for zero perceived lag
-  const springConfig = { damping: 15, stiffness: 2000, mass: 0.02 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-
-  useEffect(() => {
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    };
-    window.addEventListener('mousemove', moveCursor, { passive: true });
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, [cursorX, cursorY]);
-
-  return (
-    <>
-      <motion.div
-        className="custom-cursor"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-          left: -16,
-          top: -16,
-        }}
-      />
-      <motion.div
-        className="custom-cursor-dot"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          left: -3,
-          top: -3,
-        }}
-      />
-    </>
-  );
 };
 
 // --- Before/After Slider Component ---
@@ -120,7 +72,7 @@ const BeforeAfterSlider = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full aspect-video rounded-[2rem] overflow-hidden glass border-white/10 cursor-col-resize shadow-2xl"
+      className="relative w-full aspect-[4/3] md:aspect-video rounded-[2rem] overflow-hidden glass border-white/10 cursor-col-resize shadow-2xl"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
       onMouseEnter={() => setIsAuto(false)}
@@ -173,6 +125,7 @@ interface Strength {
   items: (string | { label: string; subItems: string[] })[];
   image: string;
   keywords: string[];
+  icon: React.ReactNode;
 }
 
 interface Sector {
@@ -191,6 +144,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa1',
     title: 'Pisos para uso comercial e industrial',
+    icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
     image: 'https://i.postimg.cc/T34mT6P3/Whats-App-Image-2026-02-28-at-14-32-13-(5).jpg',
@@ -216,6 +170,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa2',
     title: 'PISOS EPÓXICOS DE VALOR',
+    icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
     image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=600&q=80',
@@ -230,6 +185,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa3',
     title: 'ACABADOS DE ALTA GAMA',
+    icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
     image: 'https://i.postimg.cc/fyfmsS3h/Whats-App-Image-2026-02-28-at-14-32-11-(9).jpg',
@@ -281,6 +237,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa4',
     title: 'REPARACIÓN DE CONCRETO',
+    icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
     image: 'https://i.postimg.cc/qqhxdv8D/Reparacion-de-Concreto.jpg',
@@ -300,6 +257,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa5',
     title: 'IMPERMEABILIZACIÓN',
+    icon: <Droplets className="w-5 h-5" />,
     intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80',
@@ -314,6 +272,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa6',
     title: 'PINTURAS Y ACABADOS ESPECIALES',
+    icon: <Paintbrush className="w-5 h-5" />,
     intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
     image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=600&q=80',
@@ -331,6 +290,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa7',
     title: 'SISTEMAS CORTAFUEGO DE PROTECCIÓN PASIVA',
+    icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
     image: 'https://images.unsplash.com/photo-1507208216393-27e3661159cc?auto=format&fit=crop&w=600&q=80',
@@ -343,6 +303,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa8',
     title: 'ESPECIALIDADES COMPLEMENTARIAS',
+    icon: <HardHat className="w-5 h-5" />,
     intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
     image: 'https://i.postimg.cc/XJwyKBk4/Otras-Especialidades.png',
@@ -360,7 +321,7 @@ const STRENGTHS: Strength[] = [
         ]
       },
       {
-        label: 'Grouts de presición',
+        label: 'Grouts de precisión',
         subItems: [
           'Asentamiento especializado de maquinaria y equipo (rotativo o vibratorio) usando grouts, libres de contracciones al curado'
         ]
@@ -651,11 +612,11 @@ export default function App() {
   const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
-  const [activeStrength, setActiveStrength] = useState<Strength>({ id: '' } as any);
+  const [activeStrength, setActiveStrength] = useState<Strength>(STRENGTHS[0]);
+  const [isStrengthHovered, setIsStrengthHovered] = useState(false);
   const [activeSector, setActiveSector] = useState<string | null>(null);
   const [activeHeroTab, setActiveHeroTab] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [isGalleryVisible, setIsGalleryVisible] = useState(false);
   const [userInput, setUserInput] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -780,9 +741,110 @@ export default function App() {
     }, 1000);
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Click outside to close mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  const navLinks = [
+    { name: 'Inicio', href: '#inicio' },
+    { name: 'Sectores', href: '#sectores' },
+    { name: 'Fortalezas', href: '#fortalezas' },
+    { name: 'Galería', href: '#galeria' },
+    { name: 'Contacto', href: '#contacto-footer' }
+  ];
+
   return (
     <div className="min-h-screen">
-      <CustomCursor />
+      
+      {/* Header / Navigation */}
+      <header className="fixed top-0 left-0 right-0 z-[10000] glass border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-[#3b82f6] rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+              <ShieldCheck className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-black tracking-tighter text-white leading-none">MCI</span>
+              <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#3b82f6]">Soluciones</span>
+            </div>
+          </div>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <a 
+                key={link.name}
+                href={link.href}
+                className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60 hover:text-[#3b82f6] transition-colors"
+                onClick={playClickSound}
+              >
+                {link.name}
+              </a>
+            ))}
+            <a 
+              href="#contacto-footer"
+              className="bg-[#3b82f6] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_15px_30px_rgba(59,130,246,0.4)] transition-all hover:-translate-y-0.5"
+              onClick={playClickSound}
+            >
+              Cotizar
+            </a>
+          </nav>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden p-2 text-white/60 hover:text-white transition-colors"
+            onClick={() => {
+              playClickSound();
+              setIsMenuOpen(!isMenuOpen);
+            }}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="md:hidden absolute top-full left-0 right-0 glass border-b border-white/10 overflow-hidden"
+              ref={menuRef}
+            >
+              <nav className="flex flex-col p-6 gap-4">
+                {navLinks.map((link) => (
+                  <a 
+                    key={link.name}
+                    href={link.href}
+                    className="text-xs font-black uppercase tracking-[0.3em] text-white/60 hover:text-[#3b82f6] py-3 border-b border-white/5 last:border-0"
+                    onClick={() => {
+                      playClickSound();
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
       
       {/* Progress Bar */}
       <motion.div
@@ -797,7 +859,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section id="inicio" className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -811,7 +873,7 @@ export default function App() {
           />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-8 space-y-8">
             <motion.div 
@@ -819,11 +881,11 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-2"
             >
-              <div className="flex items-baseline gap-4 flex-wrap">
-                <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-gradient leading-[0.9]">MCI</h1>
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white uppercase">Soluciones</h2>
+              <div className="flex items-baseline gap-2 md:gap-4 flex-wrap">
+                <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-gradient leading-[0.9]">MCI</h1>
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white uppercase">Soluciones</h2>
               </div>
-              <span className="block text-xl md:text-2xl font-bold tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
+              <span className="block text-lg md:text-2xl font-bold tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
             </motion.div>
 
             <motion.p 
@@ -867,7 +929,7 @@ export default function App() {
                   onMouseLeave={() => setActiveHeroTab(null)}
                 >
                   <div className={`glass p-6 rounded-2xl border-white/5 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-[#3b82f6]/40 bg-[#3b82f6]/10 -translate-y-2 shadow-[0_10px_30px_rgba(59,130,246,0.1)]' : 'hover:border-white/10'}`}>
-                    <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-[10px] md:text-xs transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-[#3b82f6]'}`}>{tab.label}</h3>
+                <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-xs transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-[#3b82f6]'}`}>{tab.label}</h3>
                     <AnimatePresence mode="wait">
                       {activeHeroTab === i && (
                         <motion.p 
@@ -921,7 +983,6 @@ export default function App() {
             {/* Results Accordion Section */}
             <div className="mt-8">
               <button 
-                onMouseEnter={playHoverSound}
                 onClick={() => {
                   playClickSound();
                   setIsResultsOpen(!isResultsOpen);
@@ -969,7 +1030,7 @@ export default function App() {
     </section>
 
       {/* Stats Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {[
             { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
@@ -984,14 +1045,14 @@ export default function App() {
                 {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
                 <span className="text-[#3b82f6]">{stat.suffix}</span>
               </div>
-              <div className="text-[10px] md:text-xs font-bold text-[#A0AAB2] uppercase tracking-[0.3em]">{stat.label}</div>
+              <div className="text-xs font-bold text-[#A0AAB2] uppercase tracking-[0.3em]">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Sectors Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
+      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
           <h2 className="inline-block px-8 py-3 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white text-xs md:text-sm font-black uppercase tracking-[0.3em] rounded-full shadow-lg">
             Sectores que Atendemos
@@ -1029,9 +1090,9 @@ export default function App() {
                 <div className={`p-3 rounded-2xl glass border-white/10 text-[#3b82f6] transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]' : ''}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
                 </div>
-                <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-[#3b82f6]' : 'text-white'}`}>{sector.title}</h3>
+                <h3 className={`text-sm md:text-base font-black uppercase tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-[#3b82f6]' : 'text-white'}`}>{sector.title}</h3>
               </div>
-              <p className="text-xs text-[#A0AAB2] leading-relaxed mb-4 font-light tracking-wide">{sector.description}</p>
+              <p className="text-sm text-[#A0AAB2] leading-relaxed mb-4 font-light tracking-wide">{sector.description}</p>
               
               <AnimatePresence>
                 {activeSector === sector.id && (
@@ -1042,17 +1103,17 @@ export default function App() {
                     className="pt-6 border-t border-white/5 space-y-5 max-h-[300px] overflow-y-auto custom-scrollbar pr-2"
                   >
                     {sector.details?.intro && (
-                      <p className="text-xs text-[#3b82f6] font-bold italic tracking-wide bg-[#3b82f6]/5 p-2 rounded-lg">{sector.details.intro}</p>
+                      <p className="text-sm text-[#3b82f6] font-bold italic tracking-wide bg-[#3b82f6]/5 p-2 rounded-lg">{sector.details.intro}</p>
                     )}
                     {sector.details?.groups.map((group, i) => (
                       <div key={i} className="space-y-3">
-                        <h4 className="text-xs font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                        <h4 className="text-sm font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
                           <div className="w-1 h-1 bg-[#3b82f6] rounded-full" />
                           {group.title}
                         </h4>
                         <ul className="grid grid-cols-1 gap-2.5">
                           {group.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-xs text-[#A0AAB2] font-light leading-relaxed">
+                            <li key={j} className="flex items-start gap-3 text-sm text-[#A0AAB2] font-light leading-relaxed">
                               <ArrowRight className="w-2.5 h-2.5 text-[#3b82f6]/40 mt-0.5 flex-shrink-0" />
                               {item}
                             </li>
@@ -1073,136 +1134,152 @@ export default function App() {
       </section>
 
       {/* Strengths Section */}
-      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-24">
+      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-6">
           <h2 className="inline-block px-8 py-3 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white text-xs md:text-sm font-black uppercase tracking-[0.3em] rounded-full shadow-lg">
             Nuestras Fortalezas
           </h2>
           <p className="text-lg md:text-xl text-[#A0AAB2] max-w-3xl mx-auto leading-relaxed font-light">
-            Conoce los pilares técnicos que sustentan la calidad y durabilidad de nuestros proyectos.<br />
-            <strong className="text-white font-bold">Selecciona cada especialidad</strong> para descubrir los detalles.
+            Selecciona una especialidad para ver su ficha técnica detallada.
           </p>
         </div>
 
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.05
-              }
-            }
-          }}
-          className="space-y-4"
+        {/* Dashboard Navigation Grid & Technical Sheet */}
+        <div 
+          onMouseEnter={() => setIsStrengthHovered(true)}
+          onMouseLeave={() => setIsStrengthHovered(false)}
+          className="space-y-12"
         >
-          {STRENGTHS.map((s) => (
-            <motion.div 
-              key={s.id}
-              variants={{
-                hidden: { opacity: 0, x: -20 },
-                visible: { opacity: 1, x: 0 }
-              }}
-              onMouseEnter={() => setActiveStrength(s)}
-              onMouseLeave={() => setActiveStrength({ id: '' } as any)}
-              className={`glass rounded-[2rem] border-white/5 overflow-hidden transition-all duration-500 ${activeStrength.id === s.id ? 'ring-1 ring-[#3b82f6]/20 bg-white/[0.02] -translate-y-1 shadow-xl' : 'hover:bg-white/[0.01]'}`}
-            >
+          {/* Dashboard Navigation Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {STRENGTHS.map((s) => (
               <button
-                className={`w-full text-left p-6 md:p-8 flex items-center justify-between group transition-colors ${activeStrength.id === s.id ? 'text-[#3b82f6]' : 'text-white/60'}`}
+                key={s.id}
+                onMouseEnter={() => {
+                  setActiveStrength(s);
+                }}
+                onClick={() => {
+                  playClickSound();
+                  setActiveStrength(s);
+                  setIsStrengthHovered(true);
+                }}
+                className={`relative group p-4 md:p-6 rounded-2xl md:rounded-3xl transition-all duration-500 flex flex-col items-center text-center gap-3 md:gap-4 overflow-hidden ${
+                  activeStrength.id === s.id && isStrengthHovered
+                    ? 'bg-[#3b82f6] text-white shadow-[0_20px_40px_rgba(59,130,246,0.3)] scale-[1.02] z-10' 
+                    : 'glass border-white/5 text-white/60 hover:bg-white/5 hover:text-white hover:-translate-y-1'
+                }`}
               >
-                <span className="font-black text-xs md:text-sm uppercase tracking-[0.5em]">{s.title}</span>
-                <div className={`p-2 rounded-full glass border-white/10 transition-all duration-500 ${activeStrength.id === s.id ? 'bg-[#3b82f6] text-white rotate-180' : 'group-hover:border-[#3b82f6]/30'}`}>
-                  <ChevronDown className="w-4 h-4" />
+                <div className={`p-2 md:p-3 rounded-xl md:rounded-2xl transition-colors duration-500 ${activeStrength.id === s.id && isStrengthHovered ? 'bg-white/20' : 'bg-white/5 group-hover:bg-[#3b82f6]/20'}`}>
+                  {s.icon}
                 </div>
-              </button>
-
-              <AnimatePresence>
-                {activeStrength.id === s.id && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
-                  >
-                    <div className="px-5 md:px-6 pb-6 md:pb-8 flex flex-row gap-6 md:gap-10 border-t border-white/5 pt-6 items-start">
-                      <div className="flex-1 space-y-5 text-justify">
-                        <div className="space-y-2">
-                          <p className="text-xs md:text-sm leading-relaxed font-light text-white/80">
-                            <HighlightText text={s.intro} keywords={s.keywords} isIntro />
-                          </p>
-                        </div>
-
-                        <div className="space-y-3">
-                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                            {s.items.map((item, i) => (
-                              <li key={i} className="space-y-1.5">
-                                {typeof item === 'string' ? (
-                                  <div className="flex gap-2.5">
-                                    <ArrowRight className="w-2.5 h-2.5 text-[#3b82f6] mt-1 flex-shrink-0" />
-                                    <p className="text-[#D1D5DB] text-xs md:text-sm leading-relaxed font-light">
-                                      <HighlightText text={item} keywords={s.keywords} />
-                                    </p>
-                                  </div>
-                                ) : (
-                                  <div className="space-y-2">
-                                    <div className="flex gap-2.5">
-                                      <ArrowRight className="w-2.5 h-2.5 text-[#3b82f6] mt-1 flex-shrink-0" />
-                                      <p className="text-[#3b82f6] font-bold text-[10px] md:text-xs uppercase tracking-widest">
-                                        <HighlightText text={item.label} keywords={s.keywords} />
-                                      </p>
-                                    </div>
-                                    <ul className="pl-6 space-y-2 border-l border-[#3b82f6]/10 ml-1">
-                                      {item.subItems.map((sub, j) => (
-                                        <li key={j} className="flex gap-2.5">
-                                          <div className="w-1 h-1 bg-[#A0AAB2] rounded-full mt-1.5 flex-shrink-0" />
-                                          <p className="text-[#A0AAB2] text-[10px] md:text-xs leading-relaxed font-light">
-                                            <HighlightText text={sub} keywords={s.keywords} />
-                                          </p>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="w-20 md:w-28 lg:w-32 flex-shrink-0">
-                        <div className="relative group">
-                          {/* Neon Glow Effect */}
-                          <div className="absolute -inset-1 bg-[#3b82f6] rounded-xl blur-md opacity-40 group-hover:opacity-100 transition duration-500"></div>
-                          <div className="relative glass p-1 rounded-xl border border-[#3b82f6]/50 overflow-hidden">
-                            <img 
-                              src={s.image} 
-                              alt={s.title}
-                              className="w-full aspect-[3/4] object-cover rounded-lg grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+                <span className="font-black text-[10px] uppercase tracking-widest leading-tight">{s.title}</span>
+                {activeStrength.id === s.id && isStrengthHovered && (
+                  <motion.div 
+                    layoutId="activeGlow"
+                    className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"
+                  />
                 )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </motion.div>
+              </button>
+            ))}
+          </div>
+
+          {/* Technical Sheet Area */}
+          <AnimatePresence mode="wait">
+            {isStrengthHovered && (
+              <motion.div
+                key={activeStrength.id}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                className="glass rounded-[3rem] border-white/10 overflow-hidden shadow-2xl"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  {/* Image Side */}
+                  <div className="relative h-64 md:h-80 lg:h-auto min-h-[300px] md:min-h-[400px] overflow-hidden">
+                    <img 
+                      src={activeStrength.image} 
+                      alt={activeStrength.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent hidden lg:block" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
+                    
+                    {/* Floating Badge */}
+                    <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
+                      <div className="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Ficha Técnica</span>
+                    </div>
+                  </div>
+
+                  {/* Content Side */}
+                  <div className="p-6 md:p-16 space-y-8 md:space-y-10">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
+                        {activeStrength.title}
+                      </h3>
+                      <div className="w-24 h-2 bg-[#3b82f6] rounded-full" />
+                    </div>
+
+                    <p className="text-xl md:text-2xl leading-relaxed text-white/90 font-light italic border-l-4 border-[#3b82f6] pl-8">
+                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
+                    </p>
+
+                    <div className="grid grid-cols-1 gap-6">
+                      {activeStrength.items.map((item, i) => (
+                        <div key={i} className="space-y-4">
+                          {typeof item === 'string' ? (
+                            <div className="flex gap-5 group/item">
+                              <div className="mt-1.5 w-8 h-8 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center flex-shrink-0 group-hover/item:bg-[#3b82f6]/20 transition-all duration-300">
+                                <ArrowRight className="w-4 h-4 text-[#3b82f6]" />
+                              </div>
+                              <p className="text-[#D1D5DB] text-lg leading-relaxed font-light">
+                                <HighlightText text={item} keywords={activeStrength.keywords} />
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="space-y-6 bg-white/5 p-8 rounded-[2rem] border border-white/5">
+                              <div className="flex gap-5 items-center">
+                                <div className="w-10 h-10 rounded-2xl bg-[#3b82f6]/20 flex items-center justify-center flex-shrink-0">
+                                  <ArrowRight className="w-5 h-5 text-[#3b82f6]" />
+                                </div>
+                                <p className="text-[#3b82f6] font-black text-base uppercase tracking-[0.2em]">
+                                  <HighlightText text={item.label} keywords={activeStrength.keywords} />
+                                </p>
+                              </div>
+                              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-4">
+                                {item.subItems.map((sub, j) => (
+                                  <li key={j} className="flex gap-3 items-start">
+                                    <div className="w-1.5 h-1.5 bg-[#3b82f6]/40 rounded-full mt-2.5 flex-shrink-0" />
+                                    <p className="text-[#A0AAB2] text-sm leading-relaxed font-light">
+                                      <HighlightText text={sub} keywords={activeStrength.keywords} />
+                                    </p>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </section>
 
       {/* Before/After Section */}
-      <section className="relative z-10 py-24 bg-white/[0.01]">
+      <section className="relative z-10 py-8 md:py-12 bg-white/[0.01]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 space-y-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#00f2ff]/30 text-[#00f2ff] text-[10px] font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#00f2ff]/30 text-[#00f2ff] text-xs font-bold uppercase tracking-widest"
             >
               <Zap className="w-3 h-3" />
               Transformación Radical
@@ -1219,14 +1296,14 @@ export default function App() {
       </section>
 
       {/* Gallery Section */}
-      <section id="galeria" className="relative z-10 py-24 overflow-hidden">
+      <section id="galeria" className="relative z-10 py-8 md:py-12 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 mb-16">
           <div className="text-center space-y-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-xs font-bold uppercase tracking-widest"
             >
               <Paintbrush className="w-3 h-3" />
               Portafolio Visual en Movimiento
@@ -1283,7 +1360,7 @@ export default function App() {
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
-                  <p className="text-white font-black text-[10px] uppercase tracking-widest">{img.title}</p>
+                  <p className="text-white font-black text-xs uppercase tracking-widest">{img.title}</p>
                 </div>
               </motion.div>
             ))}
@@ -1321,7 +1398,7 @@ export default function App() {
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
-                  <p className="text-white font-black text-[10px] uppercase tracking-widest">{img.title}</p>
+                  <p className="text-white font-black text-xs uppercase tracking-widest">{img.title}</p>
                 </div>
               </motion.div>
             ))}
@@ -1330,13 +1407,13 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-xs font-bold uppercase tracking-widest"
           >
             <Star className="w-3 h-3" />
             Casos de Éxito
@@ -1380,7 +1457,7 @@ export default function App() {
               </div>
               <div className="mt-8 pt-6 border-t border-white/5">
                 <p className="text-white font-black text-xs uppercase tracking-widest">{t.name}</p>
-                <p className="text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest mt-1">{t.company}</p>
+                <p className="text-[#3b82f6] text-xs font-bold uppercase tracking-widest mt-1">{t.company}</p>
               </div>
             </motion.div>
           ))}
@@ -1388,12 +1465,12 @@ export default function App() {
       </section>
 
       {/* Commitment Section */}
-      <section className="relative z-10 py-32 overflow-hidden">
+      <section className="relative z-10 py-10 md:py-16 overflow-hidden">
         <div className="absolute inset-0 bg-[#3b82f6]/5 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6">
           <div className="glass rounded-[3rem] md:rounded-[4rem] border-white/10 overflow-hidden shadow-2xl">
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="p-8 md:p-20 space-y-10">
+              <div className="p-6 md:p-20 space-y-8 md:space-y-10">
                 <div className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
@@ -1408,7 +1485,7 @@ export default function App() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85]"
+                    className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.95] py-2"
                   >
                     Nosotros nos <br />
                     <span className="text-gradient">encargamos</span>
@@ -1425,16 +1502,16 @@ export default function App() {
 
                 <div className="grid grid-cols-2 gap-8 pt-4">
                   <div className="space-y-2">
-                    <div className="text-white font-black text-4xl md:text-6xl tracking-tighter">
+                    <div className="text-3xl md:text-6xl font-black text-white tracking-tighter">
                       <Counter target={30} />+
                     </div>
-                    <p className="text-[#3b82f6] text-[10px] uppercase tracking-widest font-black">Años de Confianza</p>
+                    <p className="text-[#3b82f6] text-xs uppercase tracking-widest font-black">Años de Confianza</p>
                   </div>
                   <div className="space-y-2">
-                    <div className="text-white font-black text-4xl md:text-6xl tracking-tighter">
+                    <div className="text-3xl md:text-6xl font-black text-white tracking-tighter">
                       <Counter target={500} />+
                     </div>
-                    <p className="text-[#3b82f6] text-[10px] uppercase tracking-widest font-black">Casos de Éxito</p>
+                    <p className="text-[#3b82f6] text-xs uppercase tracking-widest font-black">Casos de Éxito</p>
                   </div>
                 </div>
               </div>
@@ -1450,7 +1527,7 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden block" />
                 
                 {/* Floating Badge */}
-                <div className="absolute bottom-12 right-12 glass p-8 rounded-[2.5rem] border-white/10 backdrop-blur-xl hidden md:block shadow-2xl">
+                <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 glass p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/10 backdrop-blur-xl hidden md:block shadow-2xl">
                   <div className="flex items-center gap-6">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#2563eb] flex items-center justify-center text-white shadow-[0_0_30px_rgba(59,130,246,0.4)]">
                       <HardHat className="w-8 h-8" />
@@ -1508,7 +1585,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Coverage Section */}
-      <section className="relative z-10 py-24 overflow-hidden">
+      <section className="relative z-10 py-8 md:py-12 overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <div className="space-y-12">
             <div className="space-y-8">
@@ -1543,7 +1620,7 @@ export default function App() {
                     transition={{ delay: i * 0.1 }}
                     className="glass p-6 rounded-3xl border-white/5 hover:border-[#3b82f6]/30 transition-all group"
                   >
-                    <p className="text-[#3b82f6] text-[10px] font-black uppercase tracking-widest mb-2">{stat.label}</p>
+                    <p className="text-[#3b82f6] text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
                     <p className="text-white font-black text-2xl tracking-tighter">{stat.value}</p>
                   </motion.div>
                 ))}
@@ -1554,13 +1631,13 @@ export default function App() {
       </section>
 
       {/* FAQ Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-6 py-24">
+      <section className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-xs font-bold uppercase tracking-widest"
           >
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
@@ -1596,8 +1673,8 @@ export default function App() {
       </section>
 
       {/* Footer Section */}
-      <footer id="contacto-footer" className="relative z-10 bg-white/[0.02] backdrop-blur-3xl border-t border-white/10 mt-24">
-        <div className="max-w-7xl mx-auto px-6 py-20">
+      <footer id="contacto-footer" className="relative z-10 bg-white/[0.02] backdrop-blur-3xl border-t border-white/10 mt-8 md:mt-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12">
           <div className="text-center mb-20 space-y-4">
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
@@ -1641,32 +1718,38 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-8">
-              <div className="glass p-8 md:p-12 rounded-[2.5rem] border-white/5 relative overflow-hidden">
+              <div className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#3b82f6]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
                 
-                <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); alert('Solicitud de cotización recibida. Hemos enviado una copia a mci.spolimericas@polycovers.mx y un ingeniero se pondrá en contacto pronto.'); }}>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Nombre Completo</label>
-                    <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Ing. Roberto Silva" />
+                <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" onSubmit={(e) => { e.preventDefault(); alert('Solicitud de cotización recibida. Hemos enviado una copia a mci.spolimericas@polycovers.mx y un ingeniero se pondrá en contacto pronto.'); }}>
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+                    <div className="md:col-span-1 space-y-1.5 md:space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Cargo</label>
+                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Ing." />
+                    </div>
+                    <div className="md:col-span-3 space-y-1.5 md:space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Nombre Completo</label>
+                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Roberto Silva" />
+                    </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 md:space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Empresa / Planta</label>
-                    <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Planta Industrial Norte" />
+                    <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Planta Industrial Norte" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 md:space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Correo Corporativo</label>
-                    <input type="email" required className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="rsilva@empresa.com" />
+                    <input type="email" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="rsilva@empresa.com" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 md:space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Teléfono de Contacto</label>
-                    <input type="tel" required className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="55 0000 0000" />
+                    <input type="tel" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="55 0000 0000" />
                   </div>
-                  <div className="md:col-span-2 space-y-2">
+                  <div className="md:col-span-2 space-y-1.5 md:space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-4">Detalles del Proyecto</label>
-                    <textarea required rows={4} className="w-full glass bg-white/5 border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all resize-none" placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."></textarea>
+                    <textarea required rows={4} className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all resize-none" placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."></textarea>
                   </div>
-                  <div className="md:col-span-2 pt-4">
-                    <button type="submit" className="w-full py-5 bg-[#3b82f6] text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl shadow-[0_20px_40px_rgba(59,130,246,0.2)] hover:shadow-[0_25px_50px_rgba(59,130,246,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98]">
+                  <div className="md:col-span-2 pt-2 md:pt-4">
+                    <button type="submit" className="w-full py-4 md:py-5 bg-[#3b82f6] text-white font-black uppercase tracking-[0.2em] text-[10px] md:text-xs rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(59,130,246,0.2)] hover:shadow-[0_25px_50px_rgba(59,130,246,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98]">
                       Solicitar una Cotización
                     </button>
                   </div>
@@ -1676,7 +1759,7 @@ export default function App() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-white/5 text-center">
-            <p className="text-white/20 text-[10px] uppercase tracking-[0.4em] font-light">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama</p>
+            <p className="text-white/20 text-xs uppercase tracking-[0.4em] font-light">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama</p>
           </div>
         </div>
       </footer>
@@ -1814,7 +1897,6 @@ export default function App() {
                   <button 
                     type="submit"
                     disabled={isTyping || !userInput.trim()}
-                    onMouseEnter={playHoverSound}
                     onClick={() => playClickSound()}
                     className="p-2 bg-[#3b82f6] text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2563eb] transition-colors"
                   >
@@ -1830,7 +1912,6 @@ export default function App() {
                     <button 
                       key={i}
                       type="button"
-                      onMouseEnter={playHoverSound}
                       onClick={() => {
                         playClickSound();
                         handleChatOption(opt.q, opt.a);
@@ -1870,7 +1951,6 @@ export default function App() {
         </AnimatePresence>
 
         <button 
-          onMouseEnter={playHoverSound}
           onClick={() => {
             playClickSound();
             toggleSpeech();
