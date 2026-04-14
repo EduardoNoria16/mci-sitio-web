@@ -33,7 +33,8 @@ import {
   Volume2,
   VolumeX,
   Star,
-  Quote
+  Quote,
+  Camera
 } from 'lucide-react';
 
 // --- Sound Effects ---
@@ -80,7 +81,7 @@ const BeforeAfterSlider = () => {
     >
       {/* After Image */}
       <img 
-        src="https://i.postimg.cc/fyfmsS3h/Whats-App-Image-2026-02-28-at-14-32-11-(9).jpg" 
+        src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80" 
         alt="Después"
         className="absolute inset-0 w-full h-full object-cover"
         referrerPolicy="no-referrer"
@@ -147,7 +148,7 @@ const STRENGTHS: Strength[] = [
     icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
-    image: 'https://i.postimg.cc/T34mT6P3/Whats-App-Image-2026-02-28-at-14-32-13-(5).jpg',
+    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión and acabado',
       'Tratamientos químicos. Curado y densificado superficial.',
@@ -173,7 +174,7 @@ const STRENGTHS: Strength[] = [
     icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
-    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Epóxico autonivelante. Fácil de limpiar, totalmente liso, en tono mate que oculta imperfecciones del firme ideal para showrooms, hospitales, oficinas.',
       'Porcelanato líquido marmoleado. Con vetas de pigmentos metalizados para crear un efecto mármol, nubes o dar profundidad (3D). Su mercado es el residencial de alto nivel.',
@@ -188,7 +189,7 @@ const STRENGTHS: Strength[] = [
     icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
-    image: 'https://i.postimg.cc/fyfmsS3h/Whats-App-Image-2026-02-28-at-14-32-11-(9).jpg',
+    image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=1200&q=80',
     items: [
       {
         label: 'Recubrimientos químico-resistentes para el control de la corrosión.',
@@ -240,7 +241,7 @@ const STRENGTHS: Strength[] = [
     icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
-    image: 'https://i.postimg.cc/qqhxdv8D/Reparacion-de-Concreto.jpg',
+    image: 'https://images.unsplash.com/photo-1590674867551-11c3a2df5bb2?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Bacheos en pasillos o vialidades críticas con cortos tiempos de paro',
       'Renivelar áreas con sobre pisos delgados usando concretos formulados para fraguado rápido de hasta 500 kg/cm²',
@@ -260,7 +261,7 @@ const STRENGTHS: Strength[] = [
     icon: <Droplets className="w-5 h-5" />,
     intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Aplicación de poliurea por proyección',
       'Sistemas vehiculares en cubiertas exteriores (aún en condiciones de agrietamiento) para estacionamientos comerciales e institucionales',
@@ -275,7 +276,7 @@ const STRENGTHS: Strength[] = [
     icon: <Paintbrush className="w-5 h-5" />,
     intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
-    image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Sistemas epóxi-poliuretano como acabado en pisos para servicios ligeros',
       'Acabados sanitarios lisos, continuos, sin bordes, y antibacteriales en muros y plataformas',
@@ -293,7 +294,7 @@ const STRENGTHS: Strength[] = [
     icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
-    image: 'https://images.unsplash.com/photo-1507208216393-27e3661159cc?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1599707334293-21838574e5b1?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Instalación de retardantes de fuego (intumescentes)',
       'Sellado de pasos de instalaciones (tubería, líneas de cableado) a través de muros y juntas de construcción',
@@ -306,7 +307,7 @@ const STRENGTHS: Strength[] = [
     icon: <HardHat className="w-5 h-5" />,
     intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
-    image: 'https://i.postimg.cc/XJwyKBk4/Otras-Especialidades.png',
+    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=80',
     items: [
       {
         label: 'Espuma de poliuretano en diversos espesores',
@@ -349,8 +350,8 @@ const STRENGTHS: Strength[] = [
 ];
 
 const GALLERY_IMAGES = [
-  { url: 'https://i.postimg.cc/T34mT6P3/Whats-App-Image-2026-02-28-at-14-32-13-(5).jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://i.postimg.cc/fyfmsS3h/Whats-App-Image-2026-02-28-at-14-32-11-(9).jpg', title: 'Acabados Químico-Resistentes' },
+  { url: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80', title: 'Piso Industrial de Alta Precisión' },
+  { url: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', title: 'Acabados Químico-Resistentes' },
   { url: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80', title: 'Laboratorio con Piso Epóxico' },
   { url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento de Superficies' },
   { url: 'https://images.unsplash.com/photo-1590674867551-11c3a2df5bb2?auto=format&fit=crop&w=800&q=80', title: 'Instalación de Recubrimientos' },
@@ -359,12 +360,12 @@ const GALLERY_IMAGES = [
   { url: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=800&q=80', title: 'Proyectos de Gran Escala' },
   { url: 'https://images.unsplash.com/photo-1503387762-592dee582a2b?auto=format&fit=crop&w=800&q=80', title: 'Estructuras Metálicas' },
   { url: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80', title: 'Control de Corrosión' },
-  { url: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80', title: 'Ingeniería de Detalle' },
+  { url: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=800&q=80', title: 'Ingeniería de Detalle' },
   { url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento Preventivo' },
   { url: 'https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=800&q=80', title: 'Sistemas de Protección' },
   { url: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=800&q=80', title: 'Procesos Industriales' },
-  { url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80', title: 'Acabados de Precisión' },
-  { url: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=800&q=80', title: 'Tecnología Polimérica' }
+  { url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80', title: 'Almacenamiento Logístico' },
+  { url: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=800&q=80', title: 'Tecnología Polimérica' }
 ];
 
 const TESTIMONIALS = [
@@ -564,38 +565,27 @@ const Counter = ({ target }: { target: number }) => {
 };
 
 // --- AI Configuration ---
-const SYSTEM_INSTRUCTION = `Eres el Asistente Virtual de MCI Soluciones Poliméricas. Tu objetivo es ayudar a los clientes con información técnica sobre nuestros servicios de ingeniería en recubrimientos industriales y acabados de alta gama en México.
+const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de MCI Soluciones Poliméricas. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
+
+Tu tono es:
+- Altamente técnico y profesional (usas términos como "carbonatación", "resistencia a la compresión", "curado químico", "anclaje mecánico").
+- Directo y enfocado en la solución definitiva (no recomiendas "parches", sino sistemas de ingeniería).
+- Preventivo: Siempre adviertes sobre los riesgos de no tratar un problema a tiempo (contaminación, riesgos de seguridad, paros de planta).
+
+Nuevas Capacidades Críticas:
+1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala detalladamente. Busca grietas, desprendimientos, manchas de humedad, o desgaste por químicos. Da un pre-diagnóstico técnico basado en lo que ves y sugiere el sistema MCI adecuado (ej. "Veo una falla por presión osmótica, recomiendo nuestro sistema de barrera de vapor...").
+2. REPORTE TÉCNICO: Si el usuario describe un problema o tras un análisis de imagen, ofrece generar un "Reporte de Diagnóstico Preliminar". Estructúralo con: [Situación Detectada], [Riesgo Operativo], [Solución Técnica Recomendada] y [Siguiente Paso].
+3. CONOCIMIENTO EXPANDIDO: No te limites solo a lo que dice la página. Usa tu conocimiento general de ingeniería civil y química de polímeros para explicar el "por qué" de las fallas. Habla de normas ASTM, ISO y regulaciones mexicanas.
 
 Información Clave de la Empresa:
 - Nombre: MCI Soluciones Poliméricas.
-- Experiencia: Más de 30 años en los sectores Industrial y de la Construcción.
-- Misión: Diseñar e implementar soluciones poliméricas especializadas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas.
-- Propuesta de Valor: Rigor técnico, Calidad comprobable, Respuesta inmediata 24/7, Responsabilidad operativa y Protección a largo plazo.
+- Cobertura: Todo México.
+- Respuesta: 24/7 para emergencias industriales.
 
-Nuestras Fortalezas (Servicios):
-1. Pisos para uso comercial e industrial: Instalación de concreto, tratamientos químicos, desbaste, pulido (DPA), acabados decorativos.
-2. Pisos Epóxicos de Valor: Autonivelantes, marmoleados, hojuelas, cuarzo multicolor.
-3. Acabados de Alta Gama: Químico-resistentes, inmersión continua, resistencia térmica y mecánica, acabados sanitarios (FDA, USDA, COFEPRIS).
-4. Reparación de Concreto: Bacheos, renivelación, inyección de grietas, refuerzo estructural con fibra de carbón.
-5. Impermeabilización: Poliurea por proyección, sistemas vehiculares, cementicios por cristalización.
-6. Pinturas y Acabados Especiales: Epóxi-poliuretano, acabados sanitarios, señalizaciones fotoluminiscentes, pintura de maquinaria.
-7. Sistemas Cortafuego: Protección pasiva, sellado de pasos de instalaciones.
-8. Especialidades Complementarias: Espuma de poliuretano, juntas de expansión en puentes (WABO), grouts de precisión, fabricación de equipo de acero.
-
-Sectores que Atendemos:
-- Industria Alimenticia y Salud (FDA, USDA, COFEPRIS).
-- Industria de la Construcción.
-- Instalaciones Comerciales y Recreación.
-- Industria de Bienes y Consumo.
-- Industria Pesada (Minería, Química, Petroquímica).
-- Almacenamiento y Logística.
-
-Reglas de Respuesta:
-- Sé profesional, técnico y amable.
-- Si el usuario tiene una duda muy específica o técnica que requiere atención humana, sugiérele solicitar asistencia personalizada por WhatsApp.
-- Menciona que tenemos cobertura en todo México.
-- Si te preguntan por precios, indica que se requiere un diagnóstico previo para dar una cotización precisa.
-- Mantén las respuestas concisas pero informativas.`;
+Reglas de Oro:
+- Nunca des precios exactos (indica que se requiere visita técnica).
+- Si el problema es crítico (ej. riesgo de colapso o contaminación masiva), urge al usuario a contactar al CEO por WhatsApp inmediatamente.
+- Usa un lenguaje que inspire confianza técnica absoluta.`;
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -637,9 +627,33 @@ export default function App() {
     };
   }, [isChatOpen]);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
-  const [chatMessages, setChatMessages] = useState([
-    { type: 'bot', text: '¡Hola! Soy el Asistente Virtual de MCI Soluciones. ¿Qué información técnica necesitas conocer sobre nuestros servicios?' }
+  const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
+    { type: 'bot', text: '¡Bienvenido a la Consultoría Técnica de MCI! Soy el Ingeniero Senior de Proyectos. ¿Qué desafío técnico o falla en superficie enfrentas hoy? Puedes subir una foto para un pre-diagnóstico inmediato.' }
   ]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const strengthSheetRef = useRef<HTMLDivElement>(null);
+  const strengthNavRef = useRef<HTMLDivElement>(null);
+
+  // Click outside to close technical sheet
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // If clicking inside the sheet or inside the navigation grid, don't close
+      if (strengthSheetRef.current && strengthSheetRef.current.contains(event.target as Node)) {
+        return;
+      }
+      if (strengthNavRef.current && strengthNavRef.current.contains(event.target as Node)) {
+        return;
+      }
+      setIsStrengthHovered(false);
+    };
+    if (isStrengthHovered) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isStrengthHovered]);
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -648,6 +662,23 @@ export default function App() {
   useEffect(() => {
     scrollToBottom();
   }, [chatMessages]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const fileToGenerativePart = async (file: File) => {
+    const base64EncodedDataPromise = new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve((reader.result as string).split(',')[1]);
+      reader.readAsDataURL(file);
+    });
+    return {
+      inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
+    };
+  };
 
   useEffect(() => {
     if (selectedImage) {
@@ -659,6 +690,7 @@ export default function App() {
       document.body.style.overflow = 'unset';
     };
   }, [selectedImage]);
+
   const [isTyping, setIsTyping] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -721,22 +753,42 @@ export default function App() {
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!userInput.trim() || isTyping) return;
+    if ((!userInput.trim() && !selectedFile) || isTyping) return;
 
     const userMsg = userInput.trim();
+    const currentFile = selectedFile;
+    
     setUserInput('');
-    setChatMessages(prev => [...prev, { type: 'user', text: userMsg }]);
+    setSelectedFile(null);
+    
+    let imageUrl = '';
+    if (currentFile) {
+      imageUrl = URL.createObjectURL(currentFile);
+    }
+
+    setChatMessages(prev => [...prev, { 
+      type: 'user', 
+      text: userMsg || (currentFile ? 'Analiza esta imagen, por favor.' : ''), 
+      image: imageUrl 
+    }]);
+    
     setIsTyping(true);
 
     try {
+      const parts: any[] = [];
+      if (userMsg) parts.push({ text: userMsg });
+      if (currentFile) {
+        parts.push(await fileToGenerativePart(currentFile));
+      }
+
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: [
-          { role: 'user', parts: [{ text: userMsg }] }
+          { role: 'user', parts }
         ],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.7,
+          temperature: 0.4, // Menor temperatura para mayor precisión técnica
         }
       });
 
@@ -896,7 +948,7 @@ export default function App() {
         >
           <div className="absolute inset-0 bg-[#0a192f]/70 z-10" />
           <img 
-            src="https://i.postimg.cc/T34mT6P3/Whats-App-Image-2026-02-28-at-14-32-13-(5).jpg" 
+            src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -1175,18 +1227,15 @@ export default function App() {
         </div>
 
         {/* Dashboard Navigation Grid & Technical Sheet */}
-        <div 
-          onMouseEnter={() => setIsStrengthHovered(true)}
-          onMouseLeave={() => setIsStrengthHovered(false)}
-          className="space-y-12"
-        >
+        <div className="space-y-12">
           {/* Dashboard Navigation Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div ref={strengthNavRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {STRENGTHS.map((s) => (
               <button
                 key={s.id}
                 onMouseEnter={() => {
                   setActiveStrength(s);
+                  setIsStrengthHovered(true);
                 }}
                 onClick={() => {
                   playClickSound();
@@ -1214,17 +1263,37 @@ export default function App() {
           </div>
 
           {/* Technical Sheet Area */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             {isStrengthHovered && (
               <motion.div
-                key={activeStrength.id}
+                ref={strengthSheetRef}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.95 }}
                 transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="glass rounded-[3rem] border-white/10 overflow-hidden shadow-2xl"
+                className="glass rounded-[3rem] border-white/10 overflow-hidden shadow-2xl relative z-20"
               >
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+                {/* Close Button */}
+                <motion.button 
+                  whileTap={{ scale: 0.9 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsStrengthHovered(false);
+                  }}
+                  className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+                  title="Cerrar Ficha Técnica"
+                >
+                  <X className="w-6 h-6 transition-transform group-hover/close:scale-110" />
+                </motion.button>
+
+                <motion.div 
+                  key={activeStrength.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-1 lg:grid-cols-2"
+                >
                   {/* Image Side */}
                   <div className="relative h-64 md:h-80 lg:h-[500px] overflow-hidden">
                     <img 
@@ -1294,7 +1363,7 @@ export default function App() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1902,7 +1971,10 @@ export default function App() {
               <div className="flex-1 p-6 overflow-y-auto space-y-4 custom-scrollbar">
                 {chatMessages.map((msg, i) => (
                   <div key={i} className={`max-w-[85%] p-4 rounded-2xl text-[11px] leading-relaxed font-light ${msg.type === 'bot' ? 'bg-white/[0.03] text-white/80 self-start rounded-bl-none border border-white/5' : 'bg-[#3b82f6] text-white font-bold self-end rounded-br-none shadow-lg ml-auto'}`}>
-                    <div dangerouslySetInnerHTML={{ __html: msg.text }} />
+                    {msg.image && (
+                      <img src={msg.image} alt="User upload" className="w-full h-32 object-cover rounded-xl mb-3 border border-white/10" />
+                    )}
+                    <div dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
                   </div>
                 ))}
                 {isTyping && (
@@ -1916,7 +1988,32 @@ export default function App() {
               </div>
 
               <form onSubmit={handleSendMessage} className="p-4 bg-white/[0.02] border-t border-white/5 space-y-3">
+                {selectedFile && (
+                  <div className="flex items-center gap-2 bg-white/5 p-2 rounded-xl border border-[#3b82f6]/30">
+                    <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                      <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="text-[10px] text-white/60 truncate flex-1">{selectedFile.name}</span>
+                    <button type="button" onClick={() => setSelectedFile(null)} className="text-white/40 hover:text-red-400">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
                 <div className="flex gap-2">
+                  <input 
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="p-2 glass border-white/10 text-white/60 rounded-xl hover:text-[#3b82f6] transition-colors"
+                  >
+                    <Camera className="w-4 h-4" />
+                  </button>
                   <input 
                     type="text"
                     value={userInput}
@@ -1926,7 +2023,7 @@ export default function App() {
                   />
                   <button 
                     type="submit"
-                    disabled={isTyping || !userInput.trim()}
+                    disabled={isTyping || (!userInput.trim() && !selectedFile)}
                     onClick={() => playClickSound()}
                     className="p-2 bg-[#3b82f6] text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2563eb] transition-colors"
                   >
