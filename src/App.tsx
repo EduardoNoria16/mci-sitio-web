@@ -72,7 +72,7 @@ const BeforeAfterSlider = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full aspect-[4/3] md:aspect-video rounded-[2rem] overflow-hidden glass border-white/10 cursor-col-resize shadow-2xl"
+      className="relative w-full max-w-5xl mx-auto aspect-[4/3] md:aspect-video lg:aspect-[21/9] rounded-[2rem] overflow-hidden glass border-white/10 cursor-col-resize shadow-2xl"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
       onMouseEnter={() => setIsAuto(false)}
@@ -1196,7 +1196,7 @@ export default function App() {
               >
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* Image Side */}
-                  <div className="relative h-64 md:h-80 lg:h-auto min-h-[300px] md:min-h-[400px] overflow-hidden">
+                  <div className="relative h-64 md:h-80 lg:h-[500px] overflow-hidden">
                     <img 
                       src={activeStrength.image} 
                       alt={activeStrength.title}
@@ -1351,7 +1351,7 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[300px] md:w-[400px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl"
+                className="relative w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl"
               >
                 <img
                   src={img.url}
@@ -1389,7 +1389,7 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[250px] md:w-[350px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl"
+                className="relative w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl"
               >
                 <img
                   src={img.url}
@@ -1516,7 +1516,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="relative min-h-[400px] lg:min-h-full group overflow-hidden rounded-3xl">
+              <div className="relative min-h-[400px] lg:h-[600px] group overflow-hidden rounded-3xl">
                 <img 
                   src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80" 
                   alt="MCI Soluciones - Ingeniería Industrial"
