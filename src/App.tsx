@@ -1759,7 +1759,7 @@ export default function App() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-white/5 text-center">
-            <p className="text-white/20 text-xs uppercase tracking-[0.4em] font-light">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama</p>
+            <p className="text-white/20 text-xs uppercase tracking-[0.4em] font-light">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
           </div>
         </div>
       </footer>
