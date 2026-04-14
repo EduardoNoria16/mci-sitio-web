@@ -682,7 +682,18 @@ export default function App() {
         Atendemos sectores como la Industria Alimenticia, Sector Salud, Construcción, Comercio, Industria de Bienes y Consumo, Industria Pesada y Logística.
       `;
       const utterance = new SpeechSynthesisUtterance(textToRead);
+      
+      // Intentar obtener una voz más natural en español
+      const voices = window.speechSynthesis.getVoices();
+      const spanishVoice = voices.find(v => v.lang.includes('es-MX') || v.lang.includes('es-ES')) || voices.find(v => v.lang.includes('es'));
+      
+      if (spanishVoice) {
+        utterance.voice = spanishVoice;
+      }
+      
       utterance.lang = 'es-MX';
+      utterance.rate = 0.95; // Un poco más lento para sonar más humano
+      utterance.pitch = 1.0;
       utterance.onend = () => setIsSpeaking(false);
       window.speechSynthesis.speak(utterance);
       setIsSpeaking(true);
@@ -1929,18 +1940,19 @@ export default function App() {
       </div>
 
       {/* Accessibility Widget (TTS) */}
-      <div className="fixed bottom-8 right-8 z-[9999] flex flex-col gap-4">
+      <div className="fixed bottom-8 right-8 z-[9999] flex flex-col gap-4 pointer-events-none">
         <AnimatePresence>
           {showBackToTop && (
             <motion.button 
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.5 }}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 playClickSound();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="w-14 h-14 glass border-white/10 text-white/40 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:text-white transition-all group"
+              className="w-14 h-14 glass border-white/10 text-white/40 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:text-white transition-all group pointer-events-auto"
             >
               <div className="absolute -top-10 right-0 glass border-white/10 text-white/60 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
@@ -1951,11 +1963,12 @@ export default function App() {
         </AnimatePresence>
 
         <button 
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             playClickSound();
             toggleSpeech();
           }}
-          className={`relative w-14 h-14 glass border-[#3b82f6]/40 text-[#3b82f6] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group ${isSpeaking ? 'bg-[#3b82f6]/20 border-[#3b82f6]' : ''}`}
+          className={`relative w-14 h-14 glass border-[#3b82f6]/40 text-[#3b82f6] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group pointer-events-auto ${isSpeaking ? 'bg-[#3b82f6]/20 border-[#3b82f6]' : ''}`}
         >
           <div className="absolute -top-10 right-0 glass border-[#3b82f6]/30 text-[#3b82f6] px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
             {isSpeaking ? 'Detener lectura' : 'Lectura asistida'}
