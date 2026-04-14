@@ -676,25 +676,44 @@ export default function App() {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
     } else {
+      // Recopilamos más contenido para una lectura completa y profesional
       const textToRead = `
-        MCI Soluciones Poliméricas. Empresa con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México.
-        Nuestras fortalezas incluyen: Pisos para uso comercial e industrial, Pisos Epóxicos de Valor, Acabados de Alta Gama, Reparación de Concreto, Impermeabilización, Pinturas y Acabados Especiales, Sistemas Cortafuego y Especialidades Complementarias.
-        Atendemos sectores como la Industria Alimenticia, Sector Salud, Construcción, Comercio, Industria de Bienes y Consumo, Industria Pesada y Logística.
+        MCI Soluciones Poliméricas. Ingeniería líder en recubrimientos y protección de activos industriales en México.
+        Con más de 30 años de experiencia, ofrecemos soluciones de alta gama.
+        Nuestros servicios principales incluyen: 
+        Pisos para uso comercial e industrial con altos niveles de calidad y seguridad.
+        Pisos Epóxicos de Valor para la industria alimenticia y de salud, cumpliendo normas F D A y U S D A.
+        Acabados de Alta Gama para residencias y comercios.
+        Reparación de Concreto, Impermeabilización técnica, y Sistemas Cortafuego certificados.
+        Atendemos sectores clave como la Industria Alimenticia, Sector Salud, Construcción, Comercio, e Industria Pesada en toda la República Mexicana.
+        MCI Soluciones: Protegemos tu inversión con precisión y durabilidad extrema.
       `;
+      
       const utterance = new SpeechSynthesisUtterance(textToRead);
       
-      // Intentar obtener una voz más natural en español
+      // Forzar la búsqueda de voces de México específicamente
       const voices = window.speechSynthesis.getVoices();
-      const spanishVoice = voices.find(v => v.lang.includes('es-MX') || v.lang.includes('es-ES')) || voices.find(v => v.lang.includes('es'));
       
-      if (spanishVoice) {
-        utterance.voice = spanishVoice;
+      // Prioridad 1: Voces de Google (suelen ser más naturales) de México
+      // Prioridad 2: Cualquier voz de México
+      // Prioridad 3: Voz en español neutro
+      const mxVoice = voices.find(v => v.lang === 'es-MX' && v.name.includes('Google')) || 
+                      voices.find(v => v.lang === 'es-MX') ||
+                      voices.find(v => v.lang.includes('es-MX')) ||
+                      voices.find(v => v.lang.includes('es'));
+      
+      if (mxVoice) {
+        utterance.voice = mxVoice;
       }
       
       utterance.lang = 'es-MX';
-      utterance.rate = 0.95; // Un poco más lento para sonar más humano
+      utterance.rate = 0.9; // Un poco más pausado para mayor naturalidad
       utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
       utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      
       window.speechSynthesis.speak(utterance);
       setIsSpeaking(true);
     }
