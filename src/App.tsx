@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -43,12 +43,12 @@ import {
 // --- Sound Effects ---
 const playClickSound = () => {
   const audio = new Audio('https://assets.mixkit.io/active_storage/sfx/2571/2571-preview.mp3');
-  audio.volume = 0.2;
+  audio.volume = 0.1;
   audio.play().catch(() => {});
 };
 
 // --- Custom Video Player Component ---
-const CustomVideoPlayer = () => {
+const CustomVideoPlayer = memo(() => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true); 
   const [progress, setProgress] = useState(0);
@@ -62,7 +62,7 @@ const CustomVideoPlayer = () => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.3;
+      audioRef.current.volume = 0.2;
     }
   }, []);
 
@@ -70,16 +70,14 @@ const CustomVideoPlayer = () => {
     if (audioRef.current) {
       audioRef.current.muted = isMuted;
       if (isPlaying && !isMuted) {
-        audioRef.current.play().catch(() => {
-          console.log("Autoplay con sonido bloqueado");
-        });
+        audioRef.current.play().catch(() => {});
       } else {
         audioRef.current.pause();
       }
     }
   }, [isMuted, isPlaying]);
 
-  const togglePlay = (e?: React.MouseEvent) => {
+  const togglePlay = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
     if (targetVideo) {
@@ -90,22 +88,22 @@ const CustomVideoPlayer = () => {
       }
       setIsPlaying(!isPlaying);
     }
-  };
+  }, [isPlaying, isModalOpen]);
 
-  const toggleMute = (e?: React.MouseEvent) => {
+  const toggleMute = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setIsMuted(!isMuted);
     if (videoRef.current) videoRef.current.muted = !isMuted;
     if (modalVideoRef.current) modalVideoRef.current.muted = !isMuted;
-  };
+  }, [isMuted]);
 
-  const handleTimeUpdate = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+  const handleTimeUpdate = useCallback((e: React.SyntheticEvent<HTMLVideoElement>) => {
     const video = e.currentTarget;
     const currentProgress = (video.currentTime / video.duration) * 100;
     setProgress(currentProgress);
-  };
+  }, []);
 
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
     if (targetVideo) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -115,7 +113,7 @@ const CustomVideoPlayer = () => {
       targetVideo.currentTime = newTime;
       setProgress(newProgress);
     }
-  };
+  }, [isModalOpen]);
 
   const VideoControls = ({ isModal = false }: { isModal?: boolean }) => (
     <div className={`absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20 transition-opacity duration-300 ${isModal ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
@@ -218,7 +216,7 @@ const CustomVideoPlayer = () => {
             className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-12"
           >
             <div 
-              className="absolute inset-0 bg-[#0a192f]/95 backdrop-blur-xl"
+              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-lg"
               onClick={() => setIsModalOpen(false)}
             />
             
@@ -253,38 +251,48 @@ const CustomVideoPlayer = () => {
       </AnimatePresence>
     </>
   );
-};
+});
 
 // --- Before/After Slider Component ---
-const BeforeAfterSlider = () => {
+const BeforeAfterSlider = memo(() => {
   const [sliderPos, setSliderPos] = useState(50);
   const [isAuto, setIsAuto] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isAuto) return;
-    const interval = setInterval(() => {
-      setSliderPos((prev) => {
-        const next = prev + 0.5;
-        return next > 100 ? 0 : next;
-      });
-    }, 50);
-    return () => clearInterval(interval);
+    let lastTime = performance.now();
+    let frameId: number;
+
+    const animate = (time: number) => {
+      const deltaTime = time - lastTime;
+      if (deltaTime >= 50) {
+        setSliderPos((prev) => {
+          const next = prev + 0.5;
+          return next > 100 ? 0 : next;
+        });
+        lastTime = time;
+      }
+      frameId = requestAnimationFrame(animate);
+    };
+
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
   }, [isAuto]);
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     setIsAuto(false);
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const position = ((x - rect.left) / rect.width) * 100;
     setSliderPos(Math.min(Math.max(position, 0), 100));
-  };
+  }, []);
 
   return (
     <div 
       ref={containerRef}
-      className="relative w-full max-w-5xl mx-auto aspect-[4/3] md:aspect-video lg:aspect-[21/9] rounded-[2rem] overflow-hidden glass border-white/10 cursor-col-resize shadow-2xl"
+      className="relative w-full max-w-5xl mx-auto aspect-[4/3] md:aspect-video lg:aspect-[21/9] rounded-[2rem] overflow-hidden bg-[#0a192f] border-white/10 cursor-col-resize shadow-2xl will-change-transform"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
       onMouseEnter={() => setIsAuto(false)}
@@ -296,6 +304,7 @@ const BeforeAfterSlider = () => {
         alt="Después"
         className="absolute inset-0 w-full h-full object-cover"
         referrerPolicy="no-referrer"
+        loading="lazy"
       />
       {/* Before Image */}
       <div 
@@ -308,6 +317,7 @@ const BeforeAfterSlider = () => {
           className="absolute inset-0 w-full h-full object-cover grayscale brightness-50"
           style={{ width: `${10000 / sliderPos}%` }}
           referrerPolicy="no-referrer"
+          loading="lazy"
         />
       </div>
       {/* Slider Line */}
@@ -327,7 +337,7 @@ const BeforeAfterSlider = () => {
       <div className="absolute top-6 right-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-[#3b82f6]">Después</div>
     </div>
   );
-};
+});
 
 // --- Types ---
 interface Strength {
@@ -710,7 +720,7 @@ const SECTORS: Sector[] = [
 
 // --- Helper Components ---
 
-const HighlightText = ({ text, keywords, isIntro = false }: { text: string; keywords: string[]; isIntro?: boolean }) => {
+const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string; keywords: string[]; isIntro?: boolean }) => {
   if (isIntro) {
     return <span className="text-[#3b82f6] font-bold">{text}</span>;
   }
@@ -742,9 +752,9 @@ const HighlightText = ({ text, keywords, isIntro = false }: { text: string; keyw
       })}
     </>
   );
-};
+});
 
-const Counter = ({ target }: { target: number }) => {
+const Counter = memo(({ target }: { target: number }) => {
   const [count, setCount] = useState(0);
   const nodeRef = useRef(null);
 
@@ -752,18 +762,22 @@ const Counter = ({ target }: { target: number }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          let start = 0;
+          let startTime: number | null = null;
           const duration = 2000;
-          const increment = target / (duration / 16);
-          const timer = setInterval(() => {
-            start += increment;
-            if (start >= target) {
-              setCount(target);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(start));
+          let frameId: number;
+
+          const animate = (currentTime: number) => {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            setCount(Math.floor(progress * target));
+            
+            if (progress < 1) {
+              frameId = requestAnimationFrame(animate);
             }
-          }, 16);
+          };
+
+          frameId = requestAnimationFrame(animate);
+          return () => cancelAnimationFrame(frameId);
         }
       },
       { threshold: 0.1 }
@@ -774,7 +788,7 @@ const Counter = ({ target }: { target: number }) => {
   }, [target]);
 
   return <span ref={nodeRef}>{count}</span>;
-};
+});
 
 // --- AI Configuration ---
 const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de MCI Soluciones Poliméricas. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
@@ -841,7 +855,7 @@ export default function App() {
   }, [isChatOpen]);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: '¡Bienvenido a la Consultoría Técnica de MCI! Soy el Ingeniero Senior de Proyectos. ¿Qué desafío técnico o falla en superficie enfrentas hoy? Puedes subir una foto para un pre-diagnóstico inmediato.' }
+    { type: 'bot', text: '¡Hola! Soy tu asistente de MCI Soluciones Poliméricas. ¿En qué puedo ayudarte hoy?' }
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -868,21 +882,21 @@ export default function App() {
     };
   }, [isStrengthHovered]);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [chatMessages]);
+  }, [chatMessages, scrollToBottom]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
-  };
+  }, []);
 
-  const fileToGenerativePart = async (file: File) => {
+  const fileToGenerativePart = useCallback(async (file: File) => {
     const base64EncodedDataPromise = new Promise((resolve) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve((reader.result as string).split(',')[1]);
@@ -891,10 +905,10 @@ export default function App() {
     return {
       inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
     };
-  };
+  }, []);
 
   useEffect(() => {
-    if (selectedImage) {
+    if (selectedImage || isStrengthHovered) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -902,7 +916,7 @@ export default function App() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [selectedImage]);
+  }, [selectedImage, isStrengthHovered]);
 
   const [isTyping, setIsTyping] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -916,12 +930,11 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleSpeech = () => {
+  const toggleSpeech = useCallback(() => {
     if (isSpeaking) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
     } else {
-      // Recopilamos más contenido para una lectura completa y profesional
       const textToRead = `
         MCI Soluciones Poliméricas. Ingeniería líder en recubrimientos y protección de activos industriales en México.
         Con más de 30 años de experiencia, ofrecemos soluciones de alta gama.
@@ -935,24 +948,15 @@ export default function App() {
       `;
       
       const utterance = new SpeechSynthesisUtterance(textToRead);
-      
-      // Forzar la búsqueda de voces de México específicamente
       const voices = window.speechSynthesis.getVoices();
-      
-      // Prioridad 1: Voces de Google (suelen ser más naturales) de México
-      // Prioridad 2: Cualquier voz de México
-      // Prioridad 3: Voz en español neutro
       const mxVoice = voices.find(v => v.lang === 'es-MX' && v.name.includes('Google')) || 
                       voices.find(v => v.lang === 'es-MX') ||
                       voices.find(v => v.lang.includes('es-MX')) ||
                       voices.find(v => v.lang.includes('es'));
       
-      if (mxVoice) {
-        utterance.voice = mxVoice;
-      }
-      
+      if (mxVoice) utterance.voice = mxVoice;
       utterance.lang = 'es-MX';
-      utterance.rate = 0.9; // Un poco más pausado para mayor naturalidad
+      utterance.rate = 0.9;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
       
@@ -962,9 +966,9 @@ export default function App() {
       window.speechSynthesis.speak(utterance);
       setIsSpeaking(true);
     }
-  };
+  }, [isSpeaking]);
 
-  const handleSendMessage = async (e?: React.FormEvent) => {
+  const handleSendMessage = useCallback(async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if ((!userInput.trim() && !selectedFile) || isTyping) return;
 
@@ -1000,13 +1004,11 @@ export default function App() {
         contents: { parts },
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.4, // Menor temperatura para mayor precisión técnica
+          temperature: 0.4,
         }
       });
 
       const botText = response.text || "Lo siento, no pude procesar tu solicitud en este momento.";
-      
-      // Check if the response suggests contacting WhatsApp
       const needsWhatsApp = botText.toLowerCase().includes('whatsapp') || 
                           botText.toLowerCase().includes('ceo') || 
                           botText.toLowerCase().includes('contacto directo');
@@ -1026,9 +1028,9 @@ export default function App() {
     } finally {
       setIsTyping(false);
     }
-  };
+  }, [userInput, selectedFile, isTyping, fileToGenerativePart]);
 
-  const handleChatOption = (option: string, response: string) => {
+  const handleChatOption = useCallback((option: string, response: string) => {
     setChatMessages(prev => [...prev, { type: 'user', text: option }]);
     setIsTyping(true);
     setBotExpression('thinking');
@@ -1038,7 +1040,7 @@ export default function App() {
       setBotExpression('happy');
       setTimeout(() => setBotExpression('idle'), 3000);
     }, 1000);
-  };
+  }, []);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -1069,13 +1071,13 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { name: 'Inicio', href: '#inicio' },
     { name: 'Sectores', href: '#sectores' },
     { name: 'Fortalezas', href: '#fortalezas' },
     { name: 'Galería', href: '#galeria' },
     { name: 'Contacto', href: '#contacto-footer' }
-  ];
+  ], []);
 
   return (
     <div className="min-h-screen">
@@ -1200,12 +1202,12 @@ export default function App() {
 
       {/* Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-[#3b82f6]/10 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-[#60a5fa]/10 blur-[120px] rounded-full animate-pulse delay-1000" />
+        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-[#3b82f6]/5 blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-[#60a5fa]/5 blur-[120px] rounded-full will-change-transform" />
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden">
+      <section id="inicio" className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden will-change-transform">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -1216,6 +1218,7 @@ export default function App() {
             alt="Hero Background"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
+            loading="lazy"
           />
         </motion.div>
         
@@ -1374,7 +1377,7 @@ export default function App() {
             { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
             { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
           ].map((stat, i) => (
-            <div key={i} className="glass p-8 rounded-3xl text-center space-y-2 border-white/5 hover:border-[#3b82f6]/20 transition-colors group">
+            <div key={i} className="glass p-8 rounded-3xl text-center space-y-2 border-white/5 hover:border-[#3b82f6]/20 transition-colors group will-change-transform">
               <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-[#3b82f6] mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
@@ -1389,7 +1392,7 @@ export default function App() {
       </section>
 
       {/* Sectors Section */}
-      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 will-change-transform">
         <div className="text-center mb-20 space-y-6">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
             Sectores que <span className="text-[#3b82f6]">Atendemos</span>
@@ -1436,12 +1439,13 @@ export default function App() {
               </div>
               <p className="text-sm text-[#A0AAB2] leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
               
-              <AnimatePresence>
+              <AnimatePresence mode="popLayout">
                 {activeSector === sector.id && (
                   <motion.div 
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                     className="pt-6 border-t border-white/5 space-y-5 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"
                   >
                     {sector.details?.intro && (
@@ -1476,7 +1480,7 @@ export default function App() {
       </section>
 
       {/* Strengths Section */}
-      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 will-change-transform">
         <div className="text-center mb-20 space-y-6">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
             Nuestras <span className="text-[#3b82f6]">Fortalezas</span>
@@ -1515,121 +1519,6 @@ export default function App() {
             ))}
           </div>
         </div>
-
-        {/* Technical Sheet Modal */}
-        <AnimatePresence>
-          {isStrengthHovered && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-8"
-            >
-              <div 
-                className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-md"
-                onClick={() => setIsStrengthHovered(false)}
-              />
-              
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-5xl glass rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col"
-              >
-                {/* Close Button */}
-                <button 
-                  onClick={() => setIsStrengthHovered(false)}
-                  className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-
-                <div className="flex-1 overflow-y-auto custom-scrollbar">
-                  <div className="grid grid-cols-1 lg:grid-cols-2">
-                    {/* Image Side */}
-                    <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
-                      <img 
-                        src={activeStrength.image} 
-                        alt={activeStrength.title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent hidden lg:block" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
-                      
-                      <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
-                        <div className="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
-                      </div>
-                    </div>
-
-                    {/* Content Side */}
-                    <div className="p-8 md:p-12 space-y-8">
-                      <div className="space-y-4">
-                        <div className="inline-block px-3 py-1 rounded-lg bg-[#3b82f6]/10 border border-[#3b82f6]/20">
-                          <span className="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">Fortaleza MCI</span>
-                        </div>
-                        <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-tight">
-                          {activeStrength.title}
-                        </h3>
-                        <div className="w-20 h-1.5 bg-[#3b82f6] rounded-full" />
-                      </div>
-
-                      <p className="text-base md:text-lg leading-relaxed text-white/80 font-normal italic border-l-4 border-[#3b82f6] pl-6">
-                        <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
-                      </p>
-
-                      <div className="space-y-5">
-                        {activeStrength.items.map((item, i) => (
-                          <div key={i} className="group/item">
-                            {typeof item === 'string' ? (
-                              <div className="flex gap-4">
-                                <div className="mt-1.5 w-2 h-2 rounded-full bg-[#3b82f6] flex-shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                                <p className="text-[#D1D5DB] text-sm md:text-base leading-relaxed">
-                                  <HighlightText text={item} keywords={activeStrength.keywords} />
-                                </p>
-                              </div>
-                            ) : (
-                              <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
-                                <div className="flex items-center gap-3">
-                                  <div className="w-1.5 h-6 bg-[#3b82f6] rounded-full" />
-                                  <p className="text-[#3b82f6] font-black text-xs uppercase tracking-widest">
-                                    {item.label}
-                                  </p>
-                                </div>
-                                <ul className="grid grid-cols-1 gap-3 pl-4">
-                                  {item.subItems.map((sub, j) => (
-                                    <li key={j} className="flex gap-3 items-start text-xs text-white/60 leading-relaxed">
-                                      <div className="w-1 h-1 bg-[#3b82f6]/40 rounded-full mt-1.5 flex-shrink-0" />
-                                      {sub}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* CTA in Modal */}
-                      <div className="pt-8 border-t border-white/10">
-                        <a 
-                          href="https://wa.me/525561500317" 
-                          target="_blank"
-                          className="inline-flex items-center gap-3 bg-[#3b82f6] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#2563eb] transition-all hover:scale-105 shadow-xl"
-                        >
-                          Solicitar Cotización
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </section>
 
       {/* Before/After Section */}
@@ -1712,12 +1601,13 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl"
+                className="relative w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
               >
                 <img
                   src={img.url}
                   alt={img.title}
                   referrerPolicy="no-referrer"
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
@@ -1750,12 +1640,13 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl"
+                className="relative w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
               >
                 <img
                   src={img.url}
                   alt={img.title}
                   referrerPolicy="no-referrer"
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
@@ -1939,6 +1830,123 @@ export default function App() {
 
               <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 glass px-6 py-2 rounded-full border-white/10 text-white/60 text-xs font-bold uppercase tracking-widest whitespace-nowrap">
                 Haz clic fuera para cerrar
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Technical Sheet Modal */}
+      <AnimatePresence mode="wait">
+        {isStrengthHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
+          >
+            <div 
+              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
+              onClick={() => setIsStrengthHovered(false)}
+            />
+            
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-5xl glass rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col will-change-transform"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setIsStrengthHovered(false)}
+                className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  {/* Image Side */}
+                  <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
+                    <img 
+                      src={activeStrength.image} 
+                      alt={activeStrength.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent hidden lg:block" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
+                    
+                    <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
+                      <div className="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
+                    </div>
+                  </div>
+
+                  {/* Content Side */}
+                  <div className="p-8 md:p-12 space-y-8">
+                    <div className="space-y-4">
+                      <div className="inline-block px-3 py-1 rounded-lg bg-[#3b82f6]/10 border border-[#3b82f6]/20">
+                        <span className="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">Fortaleza MCI</span>
+                      </div>
+                      <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-tight">
+                        {activeStrength.title}
+                      </h3>
+                      <div className="w-20 h-1.5 bg-[#3b82f6] rounded-full" />
+                    </div>
+
+                    <p className="text-base md:text-lg leading-relaxed text-white/80 font-normal italic border-l-4 border-[#3b82f6] pl-6">
+                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
+                    </p>
+
+                    <div className="space-y-5">
+                      {activeStrength.items.map((item, i) => (
+                        <div key={i} className="group/item">
+                          {typeof item === 'string' ? (
+                            <div className="flex gap-4">
+                              <div className="mt-1.5 w-2 h-2 rounded-full bg-[#3b82f6] flex-shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                              <p className="text-[#D1D5DB] text-sm md:text-base leading-relaxed">
+                                <HighlightText text={item} keywords={activeStrength.keywords} />
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
+                              <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-6 bg-[#3b82f6] rounded-full" />
+                                <p className="text-[#3b82f6] font-black text-xs uppercase tracking-widest">
+                                  {item.label}
+                                </p>
+                              </div>
+                              <ul className="grid grid-cols-1 gap-3 pl-4">
+                                {item.subItems.map((sub, j) => (
+                                  <li key={j} className="flex gap-3 items-start text-xs text-white/60 leading-relaxed">
+                                    <div className="w-1 h-1 bg-[#3b82f6]/40 rounded-full mt-1.5 flex-shrink-0" />
+                                    {sub}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA in Modal */}
+                    <div className="pt-8 border-t border-white/10">
+                      <a 
+                        href="https://wa.me/525561500317" 
+                        target="_blank"
+                        className="inline-flex items-center gap-3 bg-[#3b82f6] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#2563eb] transition-all hover:scale-105 shadow-xl"
+                      >
+                        Solicitar Cotización
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -2166,7 +2174,7 @@ export default function App() {
                   >
                     {/* Eyes with Expressions */}
                     <motion.div 
-                      className="w-2.5 h-2.5 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
+                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
                       animate={
                         botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
                         botExpression === 'thinking' ? { x: [-2, 2, -2] } :
@@ -2178,7 +2186,7 @@ export default function App() {
                       }
                     />
                     <motion.div 
-                      className="w-2.5 h-2.5 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
+                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
                       animate={
                         botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
                         botExpression === 'thinking' ? { x: [-2, 2, -2] } :
@@ -2219,33 +2227,32 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[420px] max-w-[calc(100vw-40px)] max-h-[calc(100vh-140px)] bg-[#0a192f]/90 glass rounded-[3rem] border-white/10 shadow-[0_40px_120px_rgba(0,0,0,0.7)] flex flex-col overflow-hidden backdrop-blur-2xl"
+              className="absolute bottom-24 left-0 w-[360px] max-w-[calc(100vw-40px)] h-[600px] max-h-[calc(100vh-120px)] bg-[#0a192f] rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
-              <div className="bg-[#0a192f] p-8 border-b border-white/5 flex justify-between items-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/10 to-transparent pointer-events-none" />
-                <div className="flex items-center gap-5 relative z-10">
-                  <div className="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center relative overflow-hidden shadow-2xl border-b-4 border-gray-200">
-                    <div className="absolute inset-1.5 bg-[#0a192f] rounded-[1rem] flex items-center justify-center gap-2 shadow-inner">
+              <div className="bg-[#3b82f6] p-4 flex justify-between items-center relative shrink-0">
+                <div className="flex items-center gap-3 relative z-10">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center relative overflow-hidden shadow-lg">
+                    <div className="absolute inset-0.5 bg-[#0a192f] rounded-full flex items-center justify-center gap-1 shadow-inner">
                       <AnimatePresence mode="wait">
                         <motion.div 
                           key={botExpression}
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
-                          className="flex gap-1.5"
+                          className="flex gap-0.5"
                         >
                           <motion.div 
-                            className="w-2 h-2 bg-[#00f2ff] rounded-full shadow-[0_0_8px_#00f2ff]"
+                            className="w-1 h-1 bg-[#00f2ff] rounded-full shadow-[0_0_3px_#00f2ff]"
                             animate={
-                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1] } :
                               botExpression === 'thinking' ? { x: [-1, 1, -1] } :
                               { scaleY: [1, 0.1, 1] }
                             }
                             transition={{ duration: 3, repeat: Infinity }}
                           />
                           <motion.div 
-                            className="w-2 h-2 bg-[#00f2ff] rounded-full shadow-[0_0_8px_#00f2ff]"
+                            className="w-1 h-1 bg-[#00f2ff] rounded-full shadow-[0_0_3px_#00f2ff]"
                             animate={
-                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1] } :
                               botExpression === 'thinking' ? { x: [-1, 1, -1] } :
                               { scaleY: [1, 0.1, 1] }
                             }
@@ -2254,36 +2261,54 @@ export default function App() {
                         </motion.div>
                       </AnimatePresence>
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#39ff14] border-4 border-[#0a192f] rounded-full shadow-[0_0_10px_#39ff14]" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#39ff14] border-2 border-[#0a192f] rounded-full shadow-sm" />
                   </div>
                   <div>
-                    <h4 className="text-white font-black text-base tracking-[0.2em] uppercase">MCI Astrobot</h4>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-[#39ff14] rounded-full animate-pulse shadow-[0_0_5px_#39ff14]" />
-                      <p className="text-[#39ff14] text-[10px] font-black uppercase tracking-[0.2em]">En línea y listo</p>
-                    </div>
+                    <h4 className="text-white font-bold text-sm">MCI Bot</h4>
+                    <p className="text-white/80 text-[10px] font-medium">En línea</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => setIsChatOpen(false)}
-                  className="p-3 rounded-2xl glass border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                  className="p-2 rounded-full hover:bg-white/10 text-white transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="flex-1 p-8 overflow-y-auto space-y-6 custom-scrollbar min-h-[400px]">
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-gray-50/5">
                 {chatMessages.map((msg, i) => (
                   <motion.div 
                     key={i}
-                    initial={{ opacity: 0, x: msg.type === 'bot' ? -10 : 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className={`max-w-[90%] p-5 rounded-3xl text-sm leading-relaxed font-medium ${msg.type === 'bot' ? 'bg-white/[0.04] text-white/90 self-start rounded-bl-none border border-white/5 shadow-xl' : 'bg-[#3b82f6] text-white font-bold self-end rounded-br-none shadow-[0_10px_30px_rgba(59,130,246,0.3)] ml-auto'}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col gap-2"
                   >
-                    {msg.image && (
-                      <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-white text-gray-800 self-start rounded-tl-none shadow-sm border border-gray-100' : 'bg-[#3b82f6] text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
+                      {msg.image && (
+                        <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
+                      )}
+                      <div dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
+                    </div>
+                    
+                    {i === 0 && chatMessages.length === 1 && (
+                      <div className="flex flex-col gap-2 self-start w-[85%]">
+                        {[
+                          { q: 'Cobertura MCI', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
+                          { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
+                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
+                        ].map((opt, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleChatOption(opt.q, opt.a)}
+                            className="text-left p-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-[#3b82f6] transition-all shadow-sm flex justify-between items-center group"
+                          >
+                            {opt.q}
+                            <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </button>
+                        ))}
+                      </div>
                     )}
-                    <div dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
                   </motion.div>
                 ))}
                 {isTyping && (
@@ -2296,22 +2321,21 @@ export default function App() {
                 <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-6 bg-white/[0.03] border-t border-white/5 space-y-4">
+              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 space-y-3 shrink-0">
                 {selectedFile && (
-                  <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-[#3b82f6]/40 shadow-inner">
-                    <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-lg">
+                  <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-200">
+                    <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-white/80 font-bold truncate">{selectedFile.name}</p>
-                      <p className="text-[9px] text-white/40 uppercase tracking-widest">Imagen lista para análisis</p>
+                      <p className="text-[10px] text-gray-600 font-bold truncate">{selectedFile.name}</p>
                     </div>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="p-2 text-white/40 hover:text-red-400 transition-colors">
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-gray-400 hover:text-red-500">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                 )}
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <input 
                     type="file"
                     accept="image/*"
@@ -2322,7 +2346,7 @@ export default function App() {
                   <button 
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="p-3.5 glass border-white/10 text-white/60 rounded-2xl hover:text-[#3b82f6] hover:bg-white/5 transition-all shadow-lg"
+                    className="p-2.5 text-gray-400 hover:text-[#3b82f6] transition-colors"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2330,36 +2354,17 @@ export default function App() {
                     type="text"
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
-                    placeholder="Escribe tu duda técnica..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#3b82f6]/50 transition-all shadow-inner"
+                    placeholder="Escribe tu mensaje..."
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#3b82f6] transition-all"
                   />
                   <button 
                     type="submit"
                     disabled={isTyping || (!userInput.trim() && !selectedFile)}
                     onClick={() => playClickSound()}
-                    className="p-3.5 bg-[#3b82f6] text-white rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2563eb] transition-all shadow-[0_10px_20px_rgba(59,130,246,0.3)] hover:scale-105 active:scale-95"
+                    className="p-2.5 bg-[#3b82f6] text-white rounded-full disabled:opacity-50 hover:bg-[#2563eb] transition-all shadow-sm"
                   >
                     <Send className="w-5 h-5" />
                   </button>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center pt-2">
-                  {[
-                    { q: 'Cobertura', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
-                    { q: 'Normas', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
-                    { q: 'WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
-                  ].map((opt, i) => (
-                    <button 
-                      key={i}
-                      type="button"
-                      onClick={() => {
-                        playClickSound();
-                        handleChatOption(opt.q, opt.a);
-                      }}
-                      className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-xl border border-white/10 text-white/40 hover:bg-[#3b82f6]/20 hover:text-white hover:border-[#3b82f6]/40 transition-all shadow-sm"
-                    >
-                      {opt.q}
-                    </button>
-                  ))}
                 </div>
               </form>
             </motion.div>
