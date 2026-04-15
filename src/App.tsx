@@ -907,17 +907,6 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    if (selectedImage || isStrengthHovered) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedImage, isStrengthHovered]);
-
   const [isTyping, setIsTyping] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -1017,7 +1006,7 @@ export default function App() {
         ...prev, 
         { 
           type: 'bot', 
-          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525561500317" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
+          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525512979217" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
         }
       ]);
       setBotExpression('happy');
@@ -1045,6 +1034,17 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedImage || isStrengthHovered || isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage, isStrengthHovered, isMenuOpen]);
 
   // Scroll listener for sticky header and back to top
   useEffect(() => {
@@ -1165,17 +1165,17 @@ export default function App() {
                 
                 <div className="mt-6 pt-6 border-t border-white/10 space-y-6">
                   <div className="flex flex-col gap-4">
-                    <a href="tel:5561500317" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
+                    <a href="tel:5512979217" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                         <Phone className="w-5 h-5 text-[#3b82f6]" />
                       </div>
-                      <span className="text-xs font-bold tracking-wider">55 6150 0317</span>
+                      <span className="text-xs font-bold tracking-wider">55 1297 9217</span>
                     </a>
-                    <a href="mailto:ventas@mcispolimericas.com" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
+                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                         <Mail className="w-5 h-5 text-[#3b82f6]" />
                       </div>
-                      <span className="text-xs font-bold tracking-wider">ventas@mcispolimericas.com</span>
+                      <span className="text-xs font-bold tracking-wider">mci.spolimericas@polycovers.mx</span>
                     </a>
                   </div>
 
@@ -1274,8 +1274,16 @@ export default function App() {
                     visible: { opacity: 1, y: 0 }
                   }}
                   className="group relative"
-                  onMouseEnter={() => setActiveHeroTab(i)}
-                  onMouseLeave={() => setActiveHeroTab(null)}
+                  onClick={() => {
+                    playClickSound();
+                    setActiveHeroTab(activeHeroTab === i ? null : i);
+                  }}
+                  onMouseEnter={() => {
+                    if (window.innerWidth > 768) setActiveHeroTab(i);
+                  }}
+                  onMouseLeave={() => {
+                    if (window.innerWidth > 768) setActiveHeroTab(null);
+                  }}
                 >
                   <div className={`glass p-6 rounded-2xl border-white/5 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-[#3b82f6]/40 bg-[#3b82f6]/10 -translate-y-2 shadow-[0_10px_30px_rgba(59,130,246,0.1)]' : 'hover:border-white/10'}`}>
                 <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-[#3b82f6]'}`}>{tab.label}</h3>
@@ -1937,7 +1945,7 @@ export default function App() {
                     {/* CTA in Modal */}
                     <div className="pt-8 border-t border-white/10">
                       <a 
-                        href="https://wa.me/525561500317" 
+                        href="https://wa.me/525512979217" 
                         target="_blank"
                         className="inline-flex items-center gap-3 bg-[#3b82f6] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#2563eb] transition-all hover:scale-105 shadow-xl"
                       >
@@ -2296,7 +2304,7 @@ export default function App() {
                         {[
                           { q: 'Cobertura MCI', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
                           { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
-                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
+                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525512979217" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
                         ].map((opt, idx) => (
                           <button
                             key={idx}
