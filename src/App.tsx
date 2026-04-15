@@ -1162,10 +1162,10 @@ export default function App() {
               className="space-y-2"
             >
               <div className="flex items-baseline gap-2 md:gap-4 flex-wrap">
-                <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-gradient leading-[0.9]">MCI</h1>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white uppercase">Soluciones</h2>
+                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-[0.9]">MCI</h1>
+                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">Soluciones</h2>
               </div>
-              <span className="block text-lg md:text-2xl font-black tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
+              <span className="block text-lg md:text-xl font-black tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
             </motion.div>
 
             <motion.p 
@@ -1357,8 +1357,6 @@ export default function App() {
                 visible: { opacity: 1, y: 0 }
               }}
               className={`glass p-8 rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'ring-1 ring-[#3b82f6]/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(59,130,246,0.05)]' : 'hover:bg-white/[0.01]'}`}
-              onMouseEnter={() => setActiveSector(sector.id)}
-              onMouseLeave={() => setActiveSector(null)}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
@@ -1430,10 +1428,6 @@ export default function App() {
             {STRENGTHS.map((s) => (
               <button
                 key={s.id}
-                onMouseEnter={() => {
-                  setActiveStrength(s);
-                  setIsStrengthHovered(true);
-                }}
                 onClick={() => {
                   playClickSound();
                   if (activeStrength.id === s.id && isStrengthHovered) {
@@ -1443,7 +1437,7 @@ export default function App() {
                     setIsStrengthHovered(true);
                   }
                 }}
-                className={`relative group p-4 md:p-6 rounded-2xl md:rounded-3xl transition-all duration-500 flex flex-col items-center text-center gap-3 md:gap-4 overflow-hidden ${
+                className={`relative group p-4 md:p-5 rounded-2xl md:rounded-3xl transition-all duration-500 flex flex-col items-center text-center gap-3 md:gap-4 overflow-hidden min-h-[140px] md:min-h-[180px] justify-center ${
                   activeStrength.id === s.id && isStrengthHovered
                     ? 'bg-[#3b82f6] text-white shadow-[0_20px_40px_rgba(59,130,246,0.3)] scale-[1.02] z-10' 
                     : 'glass border-white/5 text-white/60 hover:bg-white/5 hover:text-white hover:-translate-y-1'
@@ -1452,7 +1446,7 @@ export default function App() {
                 <div className={`p-2 md:p-3 rounded-xl md:rounded-2xl transition-colors duration-500 ${activeStrength.id === s.id && isStrengthHovered ? 'bg-white/20' : 'bg-white/5 group-hover:bg-[#3b82f6]/20'}`}>
                   {s.icon}
                 </div>
-                <span className="font-black text-sm md:text-base uppercase tracking-widest leading-tight">{s.title}</span>
+                <span className="font-bold text-[10px] md:text-xs uppercase tracking-wider leading-tight max-w-full break-words px-1">{s.title}</span>
                 {activeStrength.id === s.id && isStrengthHovered && (
                   <motion.div 
                     layoutId="activeGlow"
@@ -1516,13 +1510,13 @@ export default function App() {
                   {/* Content Side */}
                   <div className="p-6 md:p-12 space-y-6 md:space-y-8">
                     <div className="space-y-3">
-                      <h3 className="text-2xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
+                      <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-none">
                         {activeStrength.title}
                       </h3>
                       <div className="w-20 h-1.5 bg-[#3b82f6] rounded-full" />
                     </div>
 
-                    <p className="text-xl md:text-2xl leading-relaxed text-white/90 font-normal italic border-l-4 border-[#3b82f6] pl-6">
+                    <p className="text-lg md:text-xl leading-relaxed text-white/90 font-normal italic border-l-4 border-[#3b82f6] pl-6">
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
