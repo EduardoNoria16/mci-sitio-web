@@ -36,7 +36,8 @@ import {
   Quote,
   Camera,
   Play,
-  Pause
+  Pause,
+  Maximize2
 } from 'lucide-react';
 
 // --- Sound Effects ---
@@ -49,18 +50,19 @@ const playClickSound = () => {
 // --- Custom Video Player Component ---
 const CustomVideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false); // Cambiado a false para intentar sonido por defecto
+  const [isMuted, setIsMuted] = useState(true); 
   const [progress, setProgress] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const videoUrl = "https://i.imgur.com/LoeTAM6.mp4";
-  // Usando una pista de audio más confiable y rítmica para ambientación técnica
   const ambientMusicUrl = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73456.mp3?filename=technology-background-106514.mp3";
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.2;
+      audioRef.current.volume = 0.3;
     }
   }, []);
 
@@ -69,8 +71,7 @@ const CustomVideoPlayer = () => {
       audioRef.current.muted = isMuted;
       if (isPlaying && !isMuted) {
         audioRef.current.play().catch(() => {
-          console.log("Autoplay con sonido bloqueado por el navegador");
-          setIsMuted(true); // Volver a silenciar si el navegador bloquea
+          console.log("Autoplay con sonido bloqueado");
         });
       } else {
         audioRef.current.pause();
@@ -80,11 +81,12 @@ const CustomVideoPlayer = () => {
 
   const togglePlay = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (videoRef.current) {
+    const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
+    if (targetVideo) {
       if (isPlaying) {
-        videoRef.current.pause();
+        targetVideo.pause();
       } else {
-        videoRef.current.play();
+        targetVideo.play();
       }
       setIsPlaying(!isPlaying);
     }
@@ -92,107 +94,164 @@ const CustomVideoPlayer = () => {
 
   const toggleMute = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
+    setIsMuted(!isMuted);
+    if (videoRef.current) videoRef.current.muted = !isMuted;
+    if (modalVideoRef.current) modalVideoRef.current.muted = !isMuted;
   };
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-      setProgress(currentProgress);
-    }
+  const handleTimeUpdate = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    const currentProgress = (video.currentTime / video.duration) * 100;
+    setProgress(currentProgress);
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (videoRef.current) {
+    const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
+    if (targetVideo) {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const newProgress = (x / rect.width) * 100;
-      const newTime = (newProgress / 100) * videoRef.current.duration;
-      videoRef.current.currentTime = newTime;
+      const newTime = (newProgress / 100) * targetVideo.duration;
+      targetVideo.currentTime = newTime;
       setProgress(newProgress);
     }
   };
 
-  return (
-    <div 
-      className="relative w-full h-full overflow-hidden rounded-3xl"
-      onMouseEnter={(e) => e.stopPropagation()}
-    >
-      <video
-        ref={videoRef}
-        src={videoUrl}
-        autoPlay
-        loop
-        muted={isMuted}
-        playsInline
-        onTimeUpdate={handleTimeUpdate}
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
-
-      <audio 
-        ref={audioRef}
-        src={ambientMusicUrl}
-        loop
-      />
-
-      {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none z-10" />
-
-      {/* Interactive Layer */}
-      <div className="absolute inset-0 z-20 group">
-        {/* Controls Bar */}
-        <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between opacity-40 group-hover:opacity-100 transition-all duration-300 z-30 pointer-events-auto">
-          <div className="flex items-center gap-6 flex-1">
-            <button 
-              onClick={togglePlay}
-              className="p-4 glass rounded-full text-white hover:bg-[#3b82f6] transition-all duration-300 hover:scale-110 shadow-[0_0_20px_rgba(59,130,246,0.3)] border-white/20 pointer-events-auto"
-              title={isPlaying ? "Pausar" : "Reproducir"}
-            >
-              {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />} 
-            </button>
-            
-            <div 
-              className="h-6 flex-1 max-w-[250px] cursor-pointer relative group/progress flex items-center pointer-events-auto"
-              onClick={handleSeek}
-            >
-              <div className="h-2 w-full bg-white/20 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-[#3b82f6] transition-all duration-100 shadow-[0_0_15px_rgba(59,130,246,0.6)]"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <div 
-                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg opacity-0 group-hover/progress:opacity-100 transition-opacity pointer-events-none" 
-                style={{ left: `calc(${progress}% - 8px)` }} 
-              />
-            </div>
-          </div>
-          
-          <button 
-            onClick={toggleMute}
-            className="p-4 glass rounded-full text-white hover:bg-[#3b82f6] transition-all duration-300 hover:scale-110 shadow-[0_0_20px_rgba(59,130,246,0.3)] border-white/20 pointer-events-auto"
-            title={isMuted ? "Activar Sonido" : "Silenciar"}
-          >
-            {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
-          </button>
+  const VideoControls = ({ isModal = false }: { isModal?: boolean }) => (
+    <div className={`absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20 transition-opacity duration-300 ${isModal ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+      <div className="space-y-4">
+        {/* Progress Bar */}
+        <div 
+          className="h-1.5 w-full bg-white/20 rounded-full cursor-pointer relative group/progress overflow-hidden"
+          onClick={handleSeek}
+        >
+          <motion.div 
+            className="absolute top-0 left-0 h-full bg-[#3b82f6] shadow-[0_0_10px_rgba(59,130,246,0.8)]"
+            style={{ width: `${progress}%` }}
+          />
+          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover/progress:opacity-100 bg-white/10 transition-opacity" />
         </div>
 
-        {/* Play/Pause Center Icon */}
-        <button 
-          onClick={togglePlay}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 glass rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-500 hover:scale-110 z-30 shadow-2xl border-white/20 pointer-events-auto"
-        >
-          {isPlaying ? (
-            <Pause className="w-12 h-12" />
-          ) : (
-            <Play className="w-12 h-12 translate-x-1" />
-          )}
-        </button>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4 md:gap-6">
+            <button 
+              onClick={togglePlay}
+              className="text-white hover:text-[#3b82f6] transition-colors p-1"
+            >
+              {isPlaying ? <Pause className="w-5 h-5 md:w-6 md:h-6 fill-current" /> : <Play className="w-5 h-5 md:w-6 md:h-6 fill-current" />}
+            </button>
+            <button 
+              onClick={toggleMute}
+              className="text-white hover:text-[#3b82f6] transition-colors p-1 flex items-center gap-2"
+            >
+              {isMuted ? <VolumeX className="w-5 h-5 md:w-6 md:h-6" /> : <Volume2 className="w-5 h-5 md:w-6 md:h-6" />}
+              <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">
+                {isMuted ? 'Activar Audio' : 'Silenciar'}
+              </span>
+            </button>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            {!isModal && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
+                className="text-white hover:text-[#3b82f6] transition-colors p-1 flex items-center gap-2"
+                title="Ver en grande"
+              >
+                <Maximize2 className="w-5 h-5" />
+                <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">Expandir</span>
+              </button>
+            )}
+            <div className="px-3 py-1 rounded-full glass border-white/10">
+              <span className="text-[10px] font-black text-white/90 tracking-widest uppercase">HD 4K</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  );
+
+  return (
+    <>
+      <div 
+        className="relative w-full h-full overflow-hidden rounded-3xl group"
+        onClick={() => setIsModalOpen(true)}
+      >
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          onTimeUpdate={handleTimeUpdate}
+          className="absolute inset-0 w-full h-full object-contain bg-black z-0"
+        />
+
+        <audio 
+          ref={audioRef}
+          src={ambientMusicUrl}
+          loop
+        />
+
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500 z-10" />
+        
+        <VideoControls />
+
+        {/* Play Overlay */}
+        {!isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+            <div className="w-20 h-20 rounded-full glass border-white/20 flex items-center justify-center animate-pulse">
+              <Play className="w-8 h-8 text-white fill-current ml-1" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Modal Video Player */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-12"
+          >
+            <div 
+              className="absolute inset-0 bg-[#0a192f]/95 backdrop-blur-xl"
+              onClick={() => setIsModalOpen(false)}
+            />
+            
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-6xl aspect-video glass rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl z-10"
+            >
+              <video
+                ref={modalVideoRef}
+                src={videoUrl}
+                autoPlay
+                loop
+                muted={isMuted}
+                playsInline
+                onTimeUpdate={handleTimeUpdate}
+                className="w-full h-full object-contain bg-black"
+              />
+              
+              <VideoControls isModal />
+
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-6 right-6 z-30 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -1421,148 +1480,149 @@ export default function App() {
           </p>
         </div>
 
-        {/* Dashboard Navigation Grid & Technical Sheet */}
-        <div className="space-y-12">
-          {/* Dashboard Navigation Grid */}
-          <div ref={strengthNavRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Strengths List with Modal Technical Sheets */}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {STRENGTHS.map((s) => (
               <button
                 key={s.id}
                 onClick={() => {
                   playClickSound();
-                  if (activeStrength.id === s.id && isStrengthHovered) {
-                    setIsStrengthHovered(false);
-                  } else {
-                    setActiveStrength(s);
-                    setIsStrengthHovered(true);
-                  }
+                  setActiveStrength(s);
+                  setIsStrengthHovered(true);
                 }}
-                className={`relative group p-4 md:p-5 rounded-2xl md:rounded-3xl transition-all duration-500 flex flex-col items-center text-center gap-3 md:gap-4 overflow-hidden min-h-[140px] md:min-h-[180px] justify-center ${
-                  activeStrength.id === s.id && isStrengthHovered
-                    ? 'bg-[#3b82f6] text-white shadow-[0_20px_40px_rgba(59,130,246,0.3)] scale-[1.02] z-10' 
-                    : 'glass border-white/5 text-white/60 hover:bg-white/5 hover:text-white hover:-translate-y-1'
-                }`}
+                className="group relative glass p-6 rounded-2xl border border-white/5 hover:border-[#3b82f6]/30 transition-all duration-500 flex items-center gap-5 text-left hover:bg-white/[0.02] hover:-translate-y-1"
               >
-                <div className={`p-2 md:p-3 rounded-xl md:rounded-2xl transition-colors duration-500 ${activeStrength.id === s.id && isStrengthHovered ? 'bg-white/20' : 'bg-white/5 group-hover:bg-[#3b82f6]/20'}`}>
-                  {s.icon}
+                <div className="p-3 rounded-xl bg-[#3b82f6]/10 text-[#3b82f6] group-hover:bg-[#3b82f6] group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.4)]">
+                  {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6' })}
                 </div>
-                <span className="font-bold text-[10px] md:text-xs uppercase tracking-wider leading-tight max-w-full break-words px-1">{s.title}</span>
-                {activeStrength.id === s.id && isStrengthHovered && (
-                  <motion.div 
-                    layoutId="activeGlow"
-                    className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"
-                  />
-                )}
+                <div className="flex-1">
+                  <h3 className="text-xs md:text-sm font-black text-white uppercase tracking-widest leading-tight group-hover:text-[#3b82f6] transition-colors">
+                    {s.title}
+                  </h3>
+                </div>
+                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
+                  <ArrowRight className="w-4 h-4 text-[#3b82f6]" />
+                </div>
               </button>
             ))}
           </div>
+        </div>
 
-          {/* Technical Sheet Area */}
-          <AnimatePresence>
-            {isStrengthHovered && (
+        {/* Technical Sheet Modal */}
+        <AnimatePresence>
+          {isStrengthHovered && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-8"
+            >
+              <div 
+                className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-md"
+                onClick={() => setIsStrengthHovered(false)}
+              />
+              
               <motion.div
-                ref={strengthSheetRef}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="glass rounded-[3rem] border-white/10 overflow-hidden shadow-2xl relative z-20"
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className="relative w-full max-w-5xl glass rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col"
               >
                 {/* Close Button */}
-                <motion.button 
-                  whileTap={{ scale: 0.9 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsStrengthHovered(false);
-                  }}
+                <button 
+                  onClick={() => setIsStrengthHovered(false)}
                   className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
-                  title="Cerrar Ficha Técnica"
                 >
-                  <X className="w-6 h-6 transition-transform group-hover/close:scale-110" />
-                </motion.button>
+                  <X className="w-6 h-6" />
+                </button>
 
-                <motion.div 
-                  key={activeStrength.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="grid grid-cols-1 lg:grid-cols-2"
-                >
-                  {/* Image Side */}
-                  <div className="relative h-64 md:h-80 lg:h-[500px] overflow-hidden">
-                    <img 
-                      src={activeStrength.image} 
-                      alt={activeStrength.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent hidden lg:block" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
-                    
-                    {/* Floating Badge */}
-                    <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
-                      <div className="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse" />
-                      <span className="text-sm font-black uppercase tracking-widest text-white">Ficha Técnica</span>
-                    </div>
-                  </div>
-
-                  {/* Content Side */}
-                  <div className="p-6 md:p-12 space-y-6 md:space-y-8">
-                    <div className="space-y-3">
-                      <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-none">
-                        {activeStrength.title}
-                      </h3>
-                      <div className="w-20 h-1.5 bg-[#3b82f6] rounded-full" />
+                <div className="flex-1 overflow-y-auto custom-scrollbar">
+                  <div className="grid grid-cols-1 lg:grid-cols-2">
+                    {/* Image Side */}
+                    <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
+                      <img 
+                        src={activeStrength.image} 
+                        alt={activeStrength.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent hidden lg:block" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
+                      
+                      <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
+                        <div className="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
+                      </div>
                     </div>
 
-                    <p className="text-lg md:text-xl leading-relaxed text-white/90 font-normal italic border-l-4 border-[#3b82f6] pl-6">
-                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
-                    </p>
+                    {/* Content Side */}
+                    <div className="p-8 md:p-12 space-y-8">
+                      <div className="space-y-4">
+                        <div className="inline-block px-3 py-1 rounded-lg bg-[#3b82f6]/10 border border-[#3b82f6]/20">
+                          <span className="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">Fortaleza MCI</span>
+                        </div>
+                        <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-tight">
+                          {activeStrength.title}
+                        </h3>
+                        <div className="w-20 h-1.5 bg-[#3b82f6] rounded-full" />
+                      </div>
 
-                    <div className="grid grid-cols-1 gap-4">
-                      {activeStrength.items.map((item, i) => (
-                        <div key={i} className="space-y-3">
-                          {typeof item === 'string' ? (
-                            <div className="flex gap-4 group/item">
-                              <div className="mt-1 w-6 h-6 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center flex-shrink-0 group-hover/item:bg-[#3b82f6]/20 transition-all duration-300">
-                                <ArrowRight className="w-3 h-3 text-[#3b82f6]" />
-                              </div>
-                              <p className="text-[#D1D5DB] text-lg leading-relaxed font-normal">
-                                <HighlightText text={item} keywords={activeStrength.keywords} />
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
-                              <div className="flex gap-4 items-center">
-                                <div className="w-8 h-8 rounded-xl bg-[#3b82f6]/20 flex items-center justify-center flex-shrink-0">
-                                  <ArrowRight className="w-4 h-4 text-[#3b82f6]" />
-                                </div>
-                                <p className="text-[#3b82f6] font-black text-base uppercase tracking-[0.2em]">
-                                  <HighlightText text={item.label} keywords={activeStrength.keywords} />
+                      <p className="text-base md:text-lg leading-relaxed text-white/80 font-normal italic border-l-4 border-[#3b82f6] pl-6">
+                        <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
+                      </p>
+
+                      <div className="space-y-5">
+                        {activeStrength.items.map((item, i) => (
+                          <div key={i} className="group/item">
+                            {typeof item === 'string' ? (
+                              <div className="flex gap-4">
+                                <div className="mt-1.5 w-2 h-2 rounded-full bg-[#3b82f6] flex-shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                <p className="text-[#D1D5DB] text-sm md:text-base leading-relaxed">
+                                  <HighlightText text={item} keywords={activeStrength.keywords} />
                                 </p>
                               </div>
-                              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-4">
-                                {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-2 items-start">
-                                    <div className="w-1 h-1 bg-[#3b82f6]/40 rounded-full mt-2 flex-shrink-0" />
-                                    <p className="text-[#A0AAB2] text-sm leading-relaxed font-normal">
-                                      <HighlightText text={sub} keywords={activeStrength.keywords} />
-                                    </p>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                            ) : (
+                              <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-1.5 h-6 bg-[#3b82f6] rounded-full" />
+                                  <p className="text-[#3b82f6] font-black text-xs uppercase tracking-widest">
+                                    {item.label}
+                                  </p>
+                                </div>
+                                <ul className="grid grid-cols-1 gap-3 pl-4">
+                                  {item.subItems.map((sub, j) => (
+                                    <li key={j} className="flex gap-3 items-start text-xs text-white/60 leading-relaxed">
+                                      <div className="w-1 h-1 bg-[#3b82f6]/40 rounded-full mt-1.5 flex-shrink-0" />
+                                      {sub}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* CTA in Modal */}
+                      <div className="pt-8 border-t border-white/10">
+                        <a 
+                          href="https://wa.me/525561500317" 
+                          target="_blank"
+                          className="inline-flex items-center gap-3 bg-[#3b82f6] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#2563eb] transition-all hover:scale-105 shadow-xl"
+                        >
+                          Solicitar Cotización
+                          <ArrowRight className="w-4 h-4" />
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* Before/After Section */}
