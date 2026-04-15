@@ -13,11 +13,18 @@
 }
 
 @layer base {
+  html {
+    font-size: 16px;
+    @media (min-width: 1024px) {
+      font-size: 17px;
+    }
+  }
+
   body {
     @apply bg-[#0a192f] text-[#E8ECEF]/90 antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight text-white;
+    @apply font-display font-black tracking-tight text-white;
   }
 }
 
