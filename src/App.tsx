@@ -822,6 +822,7 @@ export default function App() {
   const [userInput, setUserInput] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [botExpression, setBotExpression] = useState<'idle' | 'happy' | 'thinking'>('idle');
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Click outside to close chat
@@ -985,6 +986,7 @@ export default function App() {
     }]);
     
     setIsTyping(true);
+    setBotExpression('thinking');
 
     try {
       const parts: any[] = [];
@@ -1016,6 +1018,8 @@ export default function App() {
           text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525561500317" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
         }
       ]);
+      setBotExpression('happy');
+      setTimeout(() => setBotExpression('idle'), 3000);
     } catch (error) {
       console.error("AI Error Details:", error);
       setChatMessages(prev => [...prev, { type: 'bot', text: "Hubo un error al conectar con el asistente. Por favor, intenta de nuevo o contáctanos por WhatsApp." }]);
@@ -1027,9 +1031,12 @@ export default function App() {
   const handleChatOption = (option: string, response: string) => {
     setChatMessages(prev => [...prev, { type: 'user', text: option }]);
     setIsTyping(true);
+    setBotExpression('thinking');
     setTimeout(() => {
       setIsTyping(false);
       setChatMessages(prev => [...prev, { type: 'bot', text: response }]);
+      setBotExpression('happy');
+      setTimeout(() => setBotExpression('idle'), 3000);
     }, 1000);
   };
 
@@ -2119,19 +2126,25 @@ export default function App() {
       </footer>
 
       {/* Floating Chat Widget */}
-      <div className="fixed bottom-8 left-8 z-[9999]" ref={chatContainerRef}>
+      <div className="fixed bottom-8 left-8 z-[100000]" ref={chatContainerRef}>
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className="relative w-14 h-14 flex items-center justify-center group"
+          className="relative w-16 h-16 flex items-center justify-center group"
         >
           {/* Astrobot Body/Head */}
           <motion.div 
-            className="absolute inset-0 bg-white rounded-full shadow-[0_10px_30px_rgba(255,255,255,0.2)] border-b-4 border-gray-200"
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 bg-white rounded-full shadow-[0_15px_40px_rgba(255,255,255,0.3)] border-b-4 border-gray-200"
+            animate={{ 
+              y: [0, -6, 0],
+              rotate: isChatOpen ? 0 : [0, -2, 2, 0]
+            }}
+            transition={{ 
+              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+            }}
           >
             {/* Visor - Astrobot Style */}
-            <div className="absolute top-1/4 left-1.5 right-1.5 h-1/3 bg-[#0a192f] rounded-full flex items-center justify-center gap-2 overflow-hidden border border-white/10">
+            <div className="absolute top-1/4 left-2 right-2 h-[40%] bg-[#0a192f] rounded-full flex items-center justify-center gap-2 overflow-hidden border border-white/10 shadow-inner">
               <AnimatePresence mode="wait">
                 {isChatOpen ? (
                   <motion.div 
@@ -2139,7 +2152,7 @@ export default function App() {
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
-                    className="text-[#00f2ff] font-black text-lg"
+                    className="text-[#00f2ff] font-black text-2xl"
                   >
                     ×
                   </motion.div>
@@ -2149,51 +2162,55 @@ export default function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="flex gap-2"
+                    className="flex gap-2.5"
                   >
+                    {/* Eyes with Expressions */}
                     <motion.div 
-                      className="w-2 h-2 bg-[#00f2ff] rounded-full shadow-[0_0_8px_#00f2ff]"
-                      animate={{ 
-                        scaleY: [1, 0.1, 1],
-                        filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"]
-                      }}
-                      transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }}
+                      className="w-2.5 h-2.5 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
+                      animate={
+                        botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                        botExpression === 'thinking' ? { x: [-2, 2, -2] } :
+                        { scaleY: [1, 0.1, 1] }
+                      }
+                      transition={
+                        botExpression === 'thinking' ? { duration: 1, repeat: Infinity } :
+                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }
+                      }
                     />
                     <motion.div 
-                      className="w-2 h-2 bg-[#00f2ff] rounded-full shadow-[0_0_8px_#00f2ff]"
-                      animate={{ 
-                        scaleY: [1, 0.1, 1],
-                        filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"]
-                      }}
-                      transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }}
+                      className="w-2.5 h-2.5 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
+                      animate={
+                        botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                        botExpression === 'thinking' ? { x: [-2, 2, -2] } :
+                        { scaleY: [1, 0.1, 1] }
+                      }
+                      transition={
+                        botExpression === 'thinking' ? { duration: 1, repeat: Infinity } :
+                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }
+                      }
                     />
                   </motion.div>
                 )}
               </AnimatePresence>
               {/* Scanning line */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00f2ff]/20 to-transparent h-1/3 w-full"
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00f2ff]/30 to-transparent h-1/3 w-full"
                 animate={{ top: ['-100%', '100%'] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
             </div>
             {/* Blue LED Strip */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-[#00f2ff] rounded-full blur-[1px] opacity-50" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00f2ff] rounded-full blur-[2px] opacity-60" />
           </motion.div>
 
           {/* Floating Ring */}
-          <div className="absolute -inset-4 border border-dashed border-[#3b82f6]/20 rounded-full animate-[spin_30s_linear_infinite] pointer-events-none" />
+          <div className="absolute -inset-6 border border-dashed border-[#3b82f6]/30 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none" />
           
-          {/* Notification Badge */}
-          {!isChatOpen && (
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-2 -right-2 w-6 h-6 bg-[#3b82f6] text-white text-xs font-black rounded-full flex items-center justify-center shadow-lg z-10"
-            >
-              1
-            </motion.div>
-          )}
+          {/* Neon Green Online Indicator */}
+          <div className="absolute -top-1 -right-1 flex items-center justify-center z-10">
+            <span className="absolute w-5 h-5 bg-[#39ff14] rounded-full animate-ping opacity-40" />
+            <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border-2 border-[#0a192f] shadow-[0_0_10px_#39ff14]" />
+          </div>
         </button>
 
         <AnimatePresence>
@@ -2202,59 +2219,99 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[350px] max-w-[calc(100vw-40px)] max-h-[calc(100vh-140px)] glass rounded-[3rem] border-white/10 shadow-[0_30px_100px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden backdrop-blur-md"
+              className="absolute bottom-24 left-0 w-[420px] max-w-[calc(100vw-40px)] max-h-[calc(100vh-140px)] bg-[#0a192f]/90 glass rounded-[3rem] border-white/10 shadow-[0_40px_120px_rgba(0,0,0,0.7)] flex flex-col overflow-hidden backdrop-blur-2xl"
             >
-              <div className="bg-white/[0.05] p-8 border-b border-white/5 flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center relative overflow-hidden shadow-inner">
-                    <div className="absolute inset-1 bg-[#0a192f] rounded-xl flex items-center justify-center gap-1.5">
-                      <div className="w-1.5 h-1.5 bg-[#00f2ff] rounded-full shadow-[0_0_5px_#00f2ff]" />
-                      <div className="w-1.5 h-1.5 bg-[#00f2ff] rounded-full shadow-[0_0_5px_#00f2ff]" />
+              <div className="bg-[#0a192f] p-8 border-b border-white/5 flex justify-between items-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/10 to-transparent pointer-events-none" />
+                <div className="flex items-center gap-5 relative z-10">
+                  <div className="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center relative overflow-hidden shadow-2xl border-b-4 border-gray-200">
+                    <div className="absolute inset-1.5 bg-[#0a192f] rounded-[1rem] flex items-center justify-center gap-2 shadow-inner">
+                      <AnimatePresence mode="wait">
+                        <motion.div 
+                          key={botExpression}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex gap-1.5"
+                        >
+                          <motion.div 
+                            className="w-2 h-2 bg-[#00f2ff] rounded-full shadow-[0_0_8px_#00f2ff]"
+                            animate={
+                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                              botExpression === 'thinking' ? { x: [-1, 1, -1] } :
+                              { scaleY: [1, 0.1, 1] }
+                            }
+                            transition={{ duration: 3, repeat: Infinity }}
+                          />
+                          <motion.div 
+                            className="w-2 h-2 bg-[#00f2ff] rounded-full shadow-[0_0_8px_#00f2ff]"
+                            animate={
+                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                              botExpression === 'thinking' ? { x: [-1, 1, -1] } :
+                              { scaleY: [1, 0.1, 1] }
+                            }
+                            transition={{ duration: 3, repeat: Infinity }}
+                          />
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#25D366] border-2 border-[#0a192f] rounded-full" />
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#39ff14] border-4 border-[#0a192f] rounded-full shadow-[0_0_10px_#39ff14]" />
                   </div>
                   <div>
-                    <h4 className="text-white font-black text-sm tracking-[0.2em] uppercase">MCI Astrobot</h4>
-                    <p className="text-[#25D366] text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-[#25D366] rounded-full animate-pulse" />
-                      Soporte Activo
-                    </p>
+                    <h4 className="text-white font-black text-base tracking-[0.2em] uppercase">MCI Astrobot</h4>
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 bg-[#39ff14] rounded-full animate-pulse shadow-[0_0_5px_#39ff14]" />
+                      <p className="text-[#39ff14] text-[10px] font-black uppercase tracking-[0.2em]">En línea y listo</p>
+                    </div>
                   </div>
                 </div>
+                <button 
+                  onClick={() => setIsChatOpen(false)}
+                  className="p-3 rounded-2xl glass border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
-              <div className="flex-1 p-6 overflow-y-auto space-y-4 custom-scrollbar">
+              <div className="flex-1 p-8 overflow-y-auto space-y-6 custom-scrollbar min-h-[400px]">
                 {chatMessages.map((msg, i) => (
-                  <div key={i} className={`max-w-[85%] p-4 rounded-2xl text-xs leading-relaxed font-medium ${msg.type === 'bot' ? 'bg-white/[0.03] text-white/80 self-start rounded-bl-none border border-white/5' : 'bg-[#3b82f6] text-white font-bold self-end rounded-br-none shadow-lg ml-auto'}`}>
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, x: msg.type === 'bot' ? -10 : 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className={`max-w-[90%] p-5 rounded-3xl text-sm leading-relaxed font-medium ${msg.type === 'bot' ? 'bg-white/[0.04] text-white/90 self-start rounded-bl-none border border-white/5 shadow-xl' : 'bg-[#3b82f6] text-white font-bold self-end rounded-br-none shadow-[0_10px_30px_rgba(59,130,246,0.3)] ml-auto'}`}
+                  >
                     {msg.image && (
-                      <img src={msg.image} alt="User upload" className="w-full h-32 object-cover rounded-xl mb-3 border border-white/10" />
+                      <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
                     )}
                     <div dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
-                  </div>
+                  </motion.div>
                 ))}
                 {isTyping && (
-                  <div className="bg-white/[0.03] p-4 rounded-2xl rounded-bl-none border border-white/5 self-start flex gap-1">
-                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-bounce" />
-                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-bounce delay-100" />
-                    <div className="w-1 h-1 bg-[#3b82f6] rounded-full animate-bounce delay-200" />
+                  <div className="bg-white/[0.04] p-5 rounded-3xl rounded-bl-none border border-white/5 self-start flex gap-1.5 shadow-xl">
+                    <motion.div className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity }} />
+                    <motion.div className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                    <motion.div className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
                   </div>
                 )}
                 <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-4 bg-white/[0.02] border-t border-white/5 space-y-3">
+              <form onSubmit={handleSendMessage} className="p-6 bg-white/[0.03] border-t border-white/5 space-y-4">
                 {selectedFile && (
-                  <div className="flex items-center gap-2 bg-white/5 p-2 rounded-xl border border-[#3b82f6]/30">
-                    <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-[#3b82f6]/40 shadow-inner">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 shadow-lg">
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
                     </div>
-                    <span className="text-[10px] text-white/60 truncate flex-1">{selectedFile.name}</span>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="text-white/40 hover:text-red-400">
-                      <X className="w-3 h-3" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] text-white/80 font-bold truncate">{selectedFile.name}</p>
+                      <p className="text-[9px] text-white/40 uppercase tracking-widest">Imagen lista para análisis</p>
+                    </div>
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-2 text-white/40 hover:text-red-400 transition-colors">
+                      <X className="w-4 h-4" />
                     </button>
                   </div>
                 )}
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <input 
                     type="file"
                     accept="image/*"
@@ -2265,27 +2322,27 @@ export default function App() {
                   <button 
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="p-2 glass border-white/10 text-white/60 rounded-xl hover:text-[#3b82f6] transition-colors"
+                    className="p-3.5 glass border-white/10 text-white/60 rounded-2xl hover:text-[#3b82f6] hover:bg-white/5 transition-all shadow-lg"
                   >
-                    <Camera className="w-4 h-4" />
+                    <Camera className="w-5 h-5" />
                   </button>
                   <input 
                     type="text"
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escribe tu duda técnica..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-[#3b82f6]/50 transition-colors"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#3b82f6]/50 transition-all shadow-inner"
                   />
                   <button 
                     type="submit"
                     disabled={isTyping || (!userInput.trim() && !selectedFile)}
                     onClick={() => playClickSound()}
-                    className="p-2 bg-[#3b82f6] text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2563eb] transition-colors"
+                    className="p-3.5 bg-[#3b82f6] text-white rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#2563eb] transition-all shadow-[0_10px_20px_rgba(59,130,246,0.3)] hover:scale-105 active:scale-95"
                   >
-                    <Send className="w-4 h-4" />
+                    <Send className="w-5 h-5" />
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-2 justify-center">
+                <div className="flex flex-wrap gap-2 justify-center pt-2">
                   {[
                     { q: 'Cobertura', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
                     { q: 'Normas', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
@@ -2298,7 +2355,7 @@ export default function App() {
                         playClickSound();
                         handleChatOption(opt.q, opt.a);
                       }}
-                      className="text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full border border-white/10 text-white/50 hover:bg-[#3b82f6]/20 hover:text-white hover:border-[#3b82f6]/40 transition-all"
+                      className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-xl border border-white/10 text-white/40 hover:bg-[#3b82f6]/20 hover:text-white hover:border-[#3b82f6]/40 transition-all shadow-sm"
                     >
                       {opt.q}
                     </button>
