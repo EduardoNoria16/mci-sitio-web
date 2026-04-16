@@ -4,9 +4,10 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import { createPortal } from 'react-dom';
 import { logoBase64 } from './logoBase64';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { 
   Phone, 
   Mail, 
@@ -34,7 +35,9 @@ import {
   Volume2,
   VolumeX,
   Star,
+  Loader2,
   Quote,
+  Headphones,
   Camera,
   Play,
   Pause,
@@ -54,12 +57,48 @@ const CustomVideoPlayer = memo(() => {
   const [isMuted, setIsMuted] = useState(true); 
   const [progress, setProgress] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [quality, setQuality] = useState<'HD' | '4K'>('4K');
+  const [isBuffering, setIsBuffering] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const videoRef = useRef<HTMLVideoElement>(null);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const videoUrl = "https://i.imgur.com/LoeTAM6.mp4";
   const ambientMusicUrl = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73456.mp3?filename=technology-background-106514.mp3";
+
+  const speeds = [1, 1.5, 2];
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = playbackSpeed;
+    if (modalVideoRef.current) modalVideoRef.current.playbackRate = playbackSpeed;
+  }, [playbackSpeed, isModalOpen]);
+
+  const togglePlaybackSpeed = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    playClickSound();
+    const currentIndex = speeds.indexOf(playbackSpeed);
+    const nextIndex = (currentIndex + 1) % speeds.length;
+    setPlaybackSpeed(speeds[nextIndex]);
+  }, [playbackSpeed]);
+
+  // Sincronizar tiempo cuando se abre el modal
+  useEffect(() => {
+    if (isModalOpen && videoRef.current && modalVideoRef.current) {
+      modalVideoRef.current.currentTime = videoRef.current.currentTime;
+    }
+  }, [isModalOpen]);
+
+  const toggleQuality = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    playClickSound();
+    setIsBuffering(true);
+    setTimeout(() => {
+      setQuality(prev => prev === 'HD' ? '4K' : 'HD');
+      setIsBuffering(false);
+    }, 600);
+  }, []);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -151,19 +190,34 @@ const CustomVideoPlayer = memo(() => {
           </div>
           
           <div className="flex items-center gap-4">
+            <button 
+              onClick={togglePlaybackSpeed}
+              className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-1 cursor-pointer min-w-[45px] justify-center"
+              title="Velocidad de reproducción"
+            >
+              <span className="text-[10px] font-black tracking-widest">{playbackSpeed}x</span>
+            </button>
             {!isModal && (
               <button 
-                onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
-                className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-2"
-                title="Ver en grande"
-              >
-                <Maximize2 className="w-5 h-5" />
-                <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">Expandir</span>
-              </button>
+              onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
+              className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-2 cursor-pointer"
+              title="Ver en grande"
+            >
+              <Maximize2 className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">Expandir</span>
+            </button>
+          )}
+          <button 
+            onClick={toggleQuality}
+            disabled={isBuffering}
+            className={`px-3 py-1 rounded-full glass border-white/10 hover:border-brand-orange/40 transition-all flex items-center gap-2 cursor-pointer min-w-[65px] justify-center ${isBuffering ? 'opacity-50' : ''}`}
+          >
+            {isBuffering ? (
+              <Loader2 className="w-3 h-3 animate-spin text-brand-orange" />
+            ) : (
+              <span className="text-[10px] font-black text-white/90 tracking-widest uppercase">{quality}</span>
             )}
-            <div className="px-3 py-1 rounded-full glass border-white/10">
-              <span className="text-[10px] font-black text-white/90 tracking-widest uppercase">HD 4K</span>
-            </div>
+          </button>
           </div>
         </div>
       </div>
@@ -172,60 +226,88 @@ const CustomVideoPlayer = memo(() => {
 
   return (
     <>
-      <div 
-        className="relative w-full h-full overflow-hidden rounded-3xl group"
-        onClick={() => setIsModalOpen(true)}
-      >
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          onTimeUpdate={handleTimeUpdate}
-          className="absolute inset-0 w-full h-full object-contain bg-black z-0"
-        />
-
-        <audio 
-          ref={audioRef}
-          src={ambientMusicUrl}
-          loop
-        />
-
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500 z-10" />
-        
-        <VideoControls />
-
-        {/* Play Overlay */}
-        {!isPlaying && (
-          <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-            <div className="w-20 h-20 rounded-full glass border-white/20 flex items-center justify-center animate-pulse">
-              <Play className="w-8 h-8 text-white fill-current ml-1" />
-            </div>
+      {!isVisible ? (
+        <div 
+          className="w-full h-full bg-[#0a192f]/50 flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-500 group"
+          onClick={() => setIsVisible(true)}
+        >
+          <div className="w-16 h-16 rounded-full glass border-white/20 flex items-center justify-center group-hover:scale-110 group-hover:border-brand-orange/50 transition-all duration-500 shadow-lg">
+            <Play className="w-6 h-6 text-brand-orange fill-current ml-1" />
           </div>
-        )}
-      </div>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 group-hover:text-white transition-colors">Video Corporativo</span>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-brand-blue-bright">Click para mostrar</span>
+          </div>
+        </div>
+      ) : (
+        <div 
+          className="relative w-full h-full overflow-hidden rounded-3xl group"
+          onClick={() => setIsModalOpen(true)}
+        >
+          <video
+            ref={videoRef}
+            src={videoUrl}
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            onTimeUpdate={handleTimeUpdate}
+            className="absolute inset-0 w-full h-full object-contain bg-black z-0"
+          />
 
-      {/* Modal Video Player */}
-      <AnimatePresence>
-        {isModalOpen && (
+          <audio 
+            ref={audioRef}
+            src={ambientMusicUrl}
+            loop
+          />
+
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500 z-10" />
+          
+          <button 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              playClickSound();
+              setIsVisible(false); 
+            }}
+            className="absolute top-3 right-3 z-50 p-3 rounded-full glass border-white/20 text-white hover:text-brand-orange hover:bg-white/10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-all duration-300 shadow-xl cursor-pointer"
+            title="Ocultar video"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          <VideoControls />
+
+          {/* Play Overlay */}
+          {!isPlaying && (
+            <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+              <div className="w-20 h-20 rounded-full glass border-white/20 flex items-center justify-center animate-pulse">
+                <Play className="w-8 h-8 text-white fill-current ml-1" />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Modal Video Player utilizando Portal para evitar recortes del contenedor */}
+      {isModalOpen && createPortal(
+        <AnimatePresence mode="wait">
           <motion.div
+            key="modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-12"
+            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 md:p-12 overflow-hidden"
           >
             <div 
-              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-lg"
+              className="absolute inset-0 bg-[#0a192f]/95 backdrop-blur-2xl"
               onClick={() => setIsModalOpen(false)}
             />
             
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full max-w-6xl aspect-video glass rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl z-10"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-6xl aspect-video glass rounded-[2rem] overflow-hidden border border-white/20 shadow-[0_0_100px_rgba(0,0,0,0.8)] z-10"
             >
               <video
                 ref={modalVideoRef}
@@ -235,21 +317,31 @@ const CustomVideoPlayer = memo(() => {
                 muted={isMuted}
                 playsInline
                 onTimeUpdate={handleTimeUpdate}
-                className="w-full h-full object-contain bg-black"
+                className={`w-full h-full object-contain bg-black transition-all duration-700 ${quality === 'HD' ? 'blur-[2px] scale-105' : 'blur-0 scale-100'}`}
               />
               
               <VideoControls isModal />
 
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 z-30 p-3 rounded-full glass border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="absolute top-6 right-6 z-30 p-3 rounded-full glass border-white/20 text-white hover:text-brand-orange hover:bg-white/10 transition-all duration-300 shadow-xl"
               >
                 <X className="w-6 h-6" />
               </button>
+
+              {isBuffering && (
+                <div className="absolute inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="w-12 h-12 text-brand-orange animate-spin" />
+                    <span className="text-white font-black uppercase tracking-[0.4em] text-xs">Optimizando {quality}...</span>
+                  </div>
+                </div>
+              )}
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 });
@@ -825,6 +917,7 @@ export default function App() {
   const [activeSector, setActiveSector] = useState<string | null>(null);
   const [activeHeroTab, setActiveHeroTab] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [userInput, setUserInput] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -901,79 +994,135 @@ export default function App() {
 
   const [isTyping, setIsTyping] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [currentReadingId, setCurrentReadingId] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const readSectionsRef = useRef<Set<string>>(new Set());
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 500);
+  const extractSectionText = useCallback((el: HTMLElement): string => {
+    const elements = el.querySelectorAll('h1, h2, h3, h4, p, li');
+    let textParts: string[] = [];
+    
+    elements.forEach(subEl => {
+      const htmlEl = subEl as HTMLElement;
+      const content = htmlEl.innerText?.trim();
+      if (content && 
+          content.length > 3 && 
+          !htmlEl.closest('button') && 
+          !htmlEl.closest('nav') && 
+          !htmlEl.closest('form')) {
+        textParts.push(content);
+      }
+    });
+
+    return textParts.join(". ");
+  }, []);
+
+  const speakText = useCallback((text: string, id: string) => {
+    if (!text || readSectionsRef.current.has(id)) return;
+
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+    const mxVoice = voices.find(v => v.lang === 'es-MX' && v.name.includes('Google')) || 
+                    voices.find(v => v.lang === 'es-MX') ||
+                    voices.find(v => v.lang.includes('es-MX')) ||
+                    voices.find(v => v.lang.includes('es'));
+    
+    if (mxVoice) utterance.voice = mxVoice;
+    utterance.lang = 'es-MX';
+    utterance.rate = 0.95;
+    
+    utterance.onstart = () => {
+      setCurrentReadingId(id);
+      readSectionsRef.current.add(id);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    utterance.onend = () => {
+      setCurrentReadingId(null);
+    };
+
+    utterance.onerror = () => {
+      setCurrentReadingId(null);
+    };
+
+    window.speechSynthesis.speak(utterance);
   }, []);
 
   const toggleSpeech = useCallback(() => {
     if (isSpeaking) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
+      setCurrentReadingId(null);
+      readSectionsRef.current.clear();
     } else {
-      // Función para extraer texto relevante del DOM respetando lo que se ve
-      const getPageContent = () => {
-        const sections = document.querySelectorAll('section, footer, header');
-        let textParts: string[] = [];
-        
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-          // Detectar si la sección está siendo mostrada al usuario
-          const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-          
-          if (isVisible) {
-            // Extraer encabezados y cuerpos de texto ignorando controles de UI
-            const elements = section.querySelectorAll('h1, h2, h3, h4, p, li');
-            
-            elements.forEach(el => {
-              const htmlEl = el as HTMLElement;
-              const content = htmlEl.innerText?.trim();
-              
-              // Evitar duplicados, textos vacíos o controles interactivos
-              if (content && 
-                  content.length > 3 && 
-                  !textParts.includes(content) &&
-                  !el.closest('button') && 
-                  !el.closest('nav') && 
-                  !el.closest('form')) {
-                textParts.push(content);
-              }
-            });
-          }
-        });
-        
-        // Unir todo con pausas (puntos)
-        const finalContent = textParts.join(". ");
-        return finalContent || "MCI Soluciones Poliméricas: Ingeniería en recubrimientos y protección industrial.";
-      };
-
-      const textToRead = getPageContent();
-      
-      const utterance = new SpeechSynthesisUtterance(textToRead);
-      const voices = window.speechSynthesis.getVoices();
-      const mxVoice = voices.find(v => v.lang === 'es-MX' && v.name.includes('Google')) || 
-                      voices.find(v => v.lang === 'es-MX') ||
-                      voices.find(v => v.lang.includes('es-MX')) ||
-                      voices.find(v => v.lang.includes('es'));
-      
-      if (mxVoice) utterance.voice = mxVoice;
-      utterance.lang = 'es-MX';
-      utterance.rate = 0.9;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-      
-      window.speechSynthesis.speak(utterance);
       setIsSpeaking(true);
+      readSectionsRef.current.clear();
+      
+      // Leer lo que está visible actualmente primero
+      const sections = document.querySelectorAll('section, header, footer');
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          const text = extractSectionText(section as HTMLElement);
+          const id = section.id || (section as HTMLElement).innerText.substring(0, 20);
+          speakText(text, id);
+          break;
+        }
+      }
     }
-  }, [isSpeaking]);
+  }, [isSpeaking, speakText, extractSectionText]);
+
+  // Observer para lectura adaptativa mientras se navega
+  useEffect(() => {
+    if (!isSpeaking) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+          const section = entry.target as HTMLElement;
+          const sectionId = section.id || section.innerText.substring(0, 20);
+          
+          if (!readSectionsRef.current.has(sectionId)) {
+            const text = extractSectionText(section);
+            if (text.length > 20) {
+              speakText(text, sectionId);
+            }
+          }
+        }
+      });
+    }, { threshold: 0.4 });
+
+    const sections = document.querySelectorAll('section, footer');
+    sections.forEach(s => observer.observe(s));
+
+    return () => {
+      observer.disconnect();
+      window.speechSynthesis.cancel();
+    };
+  }, [isSpeaking, speakText, extractSectionText]);
+
+  // Scroll listener for sticky header and back to top
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 500);
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Efecto visual para resaltar la sección narrada
+  useEffect(() => {
+    if (currentReadingId) {
+      const el = document.getElementById(currentReadingId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('reading-active');
+        return () => el.classList.remove('reading-active');
+      }
+    }
+  }, [currentReadingId]);
 
   const handleSendMessage = useCallback(async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -1007,11 +1156,12 @@ export default function App() {
       }
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-3.1-flash-lite-preview",
         contents: { parts },
         config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
+          systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa para minimizar latencia.",
           temperature: 0.4,
+          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL }
         }
       });
 
@@ -1052,6 +1202,7 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (selectedImage || isStrengthHovered || isMenuOpen) {
@@ -1077,6 +1228,11 @@ export default function App() {
   // Click outside to close mobile menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Si el click es en el botón de menú, dejar que el onClick del botón lo maneje
+      if (menuButtonRef.current && menuButtonRef.current.contains(event.target as Node)) {
+        return;
+      }
+      
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
@@ -1109,8 +1265,18 @@ export default function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-4 group flex-shrink-0 mr-12">
-            <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500">
+          <a 
+            href="#inicio" 
+            className="flex items-center gap-4 group flex-shrink-0 mr-12 cursor-pointer"
+            onClick={(e) => {
+              playClickSound();
+              if (window.location.hash === '#inicio') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
+            <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
@@ -1121,7 +1287,7 @@ export default function App() {
               <span className="text-xl font-black tracking-tighter text-brand-orange leading-none">MCI</span>
               <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-blue">Soluciones</span>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
@@ -1146,34 +1312,37 @@ export default function App() {
           </nav>
 
           <button 
-            className="md:hidden p-2 text-brand-orange hover:text-white transition-colors flex items-center justify-center w-10 h-10"
-            onClick={() => {
+            ref={menuButtonRef}
+            className="md:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-14 h-14 active:scale-90 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
               playClickSound();
-              setIsMenuOpen(!isMenuOpen);
+              setIsMenuOpen(prev => !prev);
             }}
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
           >
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {isMenuOpen ? (
                 <motion.div
                   key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
                   transition={{ duration: 0.2 }}
-                  className="text-brand-blue-bright"
+                  className="text-brand-blue-bright pointer-events-none"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-7 h-7" />
                 </motion.div>
               ) : (
                 <motion.div
                   key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
+                  initial={{ rotate: 90, opacity: 0, scale: 0.5 }}
                   animate={{ 
                     rotate: 0, 
                     opacity: 1,
                     scale: [1, 1.15, 1],
                   }}
-                  exit={{ rotate: -90, opacity: 0 }}
+                  exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
                   transition={{ 
                     scale: {
                       duration: 2,
@@ -1182,8 +1351,9 @@ export default function App() {
                     },
                     default: { duration: 0.2 }
                   }}
+                  className="pointer-events-none"
                 >
-                  <Menu className="w-6 h-6" />
+                  <Menu className="w-7 h-7" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -2097,13 +2267,31 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-6 rounded-2xl border-white/5 hover:border-brand-orange/20 transition-all group"
+              onClick={() => {
+                playClickSound();
+                setActiveFaq(activeFaq === i ? null : i);
+              }}
+              className={`glass p-6 rounded-2xl border-white/5 hover:border-brand-orange/20 transition-all group cursor-pointer ${activeFaq === i ? 'bg-white/5 border-brand-orange/30 shadow-[0_10px_30px_rgba(245,130,32,0.05)]' : ''}`}
             >
-              <h3 className="text-white font-bold text-lg mb-2 group-hover:text-brand-orange transition-colors flex items-start gap-3">
-                <span className="text-brand-orange/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
-                {faq.q}
-              </h3>
-              <p className="text-white/80 font-medium text-sm leading-relaxed pl-8">{faq.a}</p>
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="text-white font-bold text-base md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                  <span className="text-brand-orange/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
+                  {faq.q}
+                </h3>
+                <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
+              </div>
+              <AnimatePresence>
+                {activeFaq === i && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                    animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="text-white/80 font-medium text-sm leading-relaxed pl-8 border-l-2 border-brand-orange/20">{faq.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
@@ -2132,16 +2320,22 @@ export default function App() {
                 <h3 className="text-brand-blue font-black uppercase tracking-[0.3em] text-xs">Contacto Directo</h3>
                 <div className="space-y-4">
                   {[
-                    { icon: <Phone className="w-4 h-4" />, text: '55 1297 9217' },
-                    { icon: <Mail className="w-4 h-4" />, text: 'mci.spolimericas@polycovers.mx' },
-                    { icon: <MapPin className="w-4 h-4" />, text: 'Ciudad de México, México' }
+                    { icon: <Phone className="w-4 h-4" />, text: '55 1297 9217', href: 'tel:5512979217' },
+                    { icon: <Mail className="w-4 h-4" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' },
+                    { icon: <MapPin className="w-4 h-4" />, text: 'Ciudad de México, México', href: 'https://maps.google.com/?q=Ciudad+de+Mexico' }
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 group cursor-pointer">
+                    <a 
+                      key={i} 
+                      href={item.href}
+                      target={item.href.startsWith('http') ? '_blank' : undefined}
+                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="flex items-center gap-4 group cursor-pointer"
+                    >
                       <div className="p-3 glass rounded-xl border-white/5 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
                         {item.icon}
                       </div>
                       <span className="text-white/80 group-hover:text-white transition-colors text-sm font-medium tracking-wide">{item.text}</span>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -2339,10 +2533,15 @@ export default function App() {
                   </div>
                 </div>
                 <button 
-                  onClick={() => setIsChatOpen(false)}
-                  className="p-2 rounded-full hover:bg-white/10 text-brand-blue-bright transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playClickSound();
+                    setIsChatOpen(false);
+                  }}
+                  className="p-3 rounded-full hover:bg-white/20 text-brand-blue-bright transition-all cursor-pointer active:scale-95"
+                  aria-label="Cerrar chat"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
@@ -2471,12 +2670,24 @@ export default function App() {
             playClickSound();
             toggleSpeech();
           }}
-          className={`relative w-14 h-14 glass border-brand-orange/40 text-brand-orange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange' : ''}`}
+          className={`relative w-14 h-14 glass border-brand-orange/40 text-brand-orange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : ''}`}
+          aria-label={isSpeaking ? 'Detener lectura' : 'Escuchar página'}
         >
           <div className="absolute -top-10 right-0 glass border-brand-orange/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-            {isSpeaking ? 'Detener lectura' : 'Lectura asistida'}
+            {isSpeaking ? 'Detener lectura' : 'Escuchar página'}
           </div>
-          {isSpeaking ? <VolumeX className="w-6 h-6 animate-pulse" /> : <Volume2 className="w-6 h-6" />}
+          {isSpeaking ? (
+            <div className="relative flex items-center justify-center">
+              <VolumeX className="w-6 h-6" />
+              <motion.div 
+                className="absolute inset-0 border-2 border-brand-orange rounded-full"
+                animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+            </div>
+          ) : (
+            <Headphones className="w-6 h-6" />
+          )}
         </button>
       </div>
     </div>
