@@ -4,12 +4,8 @@
 @theme {
   --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", sans-serif;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html, body, a, button, input, textarea, [role="button"] {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23000080' stroke='white' stroke-width='1'%3E%3Cpath d='M5.5 3.21V20.8c0 .45.54.67.85.35l4.83-4.83 3.06 7.22c.14.33.52.49.85.35l2.43-1.02c.33-.14.49-.52.35-.85l-3.03-7.14 6.5-.24c.45-.02.66-.56.33-.87L6.35 2.86c-.31-.31-.85-.1-.85.35z'/%3E%3C/svg%3E"), auto !important;
-  }
+  --color-brand-orange: #f58220;
+  --color-brand-blue: #004b87;
 }
 
 @layer base {
@@ -29,7 +25,7 @@
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#3b82f6] via-[#00f2ff] to-[#ffffff];
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-brand-blue via-brand-blue to-brand-orange;
 }
 
 .glass {
@@ -37,7 +33,7 @@
 }
 
 .glass-hover {
-  @apply hover:bg-white/[0.08] hover:border-[#3b82f6]/40 transition-all duration-500 shadow-2xl;
+  @apply hover:bg-white/[0.08] hover:border-brand-orange/40 transition-all duration-500 shadow-2xl;
 }
 
 /* Custom scrollbar for the strengths section */
@@ -48,10 +44,10 @@
   @apply bg-white/5;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-[#3b82f6]/30 rounded-full hover:bg-[#3b82f6]/50 transition-colors;
+  @apply bg-brand-blue/30 rounded-full hover:bg-brand-blue/50 transition-colors;
 }
 
 /* Highlight style */
 .hl {
-  @apply text-[#3b82f6] font-bold;
+  @apply text-brand-blue font-bold;
 }

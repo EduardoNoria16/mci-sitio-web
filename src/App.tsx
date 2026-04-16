@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import logo from './logo.png';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -45,6 +46,63 @@ const playClickSound = () => {
   const audio = new Audio('https://assets.mixkit.io/active_storage/sfx/2571/2571-preview.mp3');
   audio.volume = 0.1;
   audio.play().catch(() => {});
+};
+
+// --- Custom Cursor Component ---
+const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      const target = e.target as HTMLElement;
+      const isClickable = window.getComputedStyle(target).cursor === 'pointer' || 
+                         target.tagName === 'A' || 
+                         target.tagName === 'BUTTON' ||
+                         target.closest('button') ||
+                         target.closest('a');
+      setIsHovering(!!isClickable);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[999999] hidden md:block">
+      {/* Outer Ring */}
+      <motion.div
+        className="absolute w-8 h-8 border-2 border-cyan-400/50 rounded-full"
+        style={{
+          x: mousePosition.x - 16,
+          y: mousePosition.y - 16,
+        }}
+        animate={{
+          scale: isHovering ? 1.5 : 1,
+          borderColor: isHovering ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.3)'
+        }}
+        transition={{
+          duration: 0.2
+        }}
+      />
+      {/* Inner Dot */}
+      <motion.div
+        className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"
+        style={{
+          x: mousePosition.x - 3,
+          y: mousePosition.y - 3,
+        }}
+        animate={{
+          scale: isHovering ? 0 : 1
+        }}
+        transition={{
+          duration: 0.2
+        }}
+      />
+    </div>
+  );
 };
 
 // --- Custom Video Player Component ---
@@ -124,7 +182,7 @@ const CustomVideoPlayer = memo(() => {
           onClick={handleSeek}
         >
           <motion.div 
-            className="absolute top-0 left-0 h-full bg-[#3b82f6] shadow-[0_0_10px_rgba(59,130,246,0.8)]"
+            className="absolute top-0 left-0 h-full bg-brand-orange shadow-[0_0_10px_rgba(245,130,32,0.8)]"
             style={{ width: `${progress}%` }}
           />
           <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover/progress:opacity-100 bg-white/10 transition-opacity" />
@@ -134,13 +192,13 @@ const CustomVideoPlayer = memo(() => {
           <div className="flex items-center gap-4 md:gap-6">
             <button 
               onClick={togglePlay}
-              className="text-white hover:text-[#3b82f6] transition-colors p-1"
+              className="text-white hover:text-brand-orange transition-colors p-1"
             >
               {isPlaying ? <Pause className="w-5 h-5 md:w-6 md:h-6 fill-current" /> : <Play className="w-5 h-5 md:w-6 md:h-6 fill-current" />}
             </button>
             <button 
               onClick={toggleMute}
-              className="text-white hover:text-[#3b82f6] transition-colors p-1 flex items-center gap-2"
+              className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-2"
             >
               {isMuted ? <VolumeX className="w-5 h-5 md:w-6 md:h-6" /> : <Volume2 className="w-5 h-5 md:w-6 md:h-6" />}
               <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">
@@ -153,7 +211,7 @@ const CustomVideoPlayer = memo(() => {
             {!isModal && (
               <button 
                 onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
-                className="text-white hover:text-[#3b82f6] transition-colors p-1 flex items-center gap-2"
+                className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-2"
                 title="Ver en grande"
               >
                 <Maximize2 className="w-5 h-5" />
@@ -334,7 +392,7 @@ const BeforeAfterSlider = memo(() => {
       </div>
       {/* Labels */}
       <div className="absolute top-6 left-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-white/60">Antes</div>
-      <div className="absolute top-6 right-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-[#3b82f6]">Después</div>
+      <div className="absolute top-6 right-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-brand-orange">Después</div>
     </div>
   );
 });
@@ -722,7 +780,7 @@ const SECTORS: Sector[] = [
 
 const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string; keywords: string[]; isIntro?: boolean }) => {
   if (isIntro) {
-    return <span className="text-[#3b82f6] font-bold">{text}</span>;
+    return <span className="text-brand-orange font-bold">{text}</span>;
   }
 
   let parts = [text];
@@ -745,7 +803,7 @@ const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string;
       {parts.map((part, i) => {
         const isKeyword = keywords.some(k => k.toLowerCase() === part.toLowerCase());
         return isKeyword ? (
-          <span key={i} className="text-[#3b82f6] font-bold">{part}</span>
+          <span key={i} className="text-brand-orange font-bold">{part}</span>
         ) : (
           <span key={i}>{part}</span>
         );
@@ -1063,7 +1121,8 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen cursor-none">
+      <CustomCursor />
       
       {/* Header / Navigation */}
       <header 
@@ -1074,13 +1133,21 @@ export default function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className={`w-10 h-10 bg-[#3b82f6] rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-transform duration-500 group-hover:scale-110`}>
-              <ShieldCheck className="w-6 h-6 text-white" />
+          <div className="flex items-center gap-4 group flex-shrink-0 mr-12">
+            <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500">
+              <img 
+                src={logo} 
+                alt="Logo MCI" 
+                className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=48&q=80";
+                }}
+              />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-xl font-black tracking-tighter text-white leading-none">MCI</span>
-              <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#3b82f6]">Soluciones</span>
+              <span className="text-xl font-black tracking-tighter text-brand-orange leading-none">MCI</span>
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-blue">Soluciones</span>
             </div>
           </div>
 
@@ -1090,16 +1157,16 @@ export default function App() {
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 hover:text-[#3b82f6] transition-all relative group/nav"
+                className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 hover:text-brand-blue transition-all relative group/nav"
                 onClick={playClickSound}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#3b82f6] transition-all duration-300 group-hover/nav:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover/nav:w-full" />
               </a>
             ))}
             <a 
               href="#contacto-footer"
-              className="bg-[#3b82f6] text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(59,130,246,0.2)] hover:shadow-[0_15px_30px_rgba(59,130,246,0.4)] transition-all hover:-translate-y-0.5"
+              className="bg-brand-blue text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
               onClick={playClickSound}
             >
               Cotizar
@@ -1139,10 +1206,10 @@ export default function App() {
                       setIsMenuOpen(false);
                     }}
                   >
-                    <span className="text-sm font-black uppercase tracking-[0.2em] text-white group-hover:text-[#3b82f6] transition-colors">
+                    <span className="text-sm font-black uppercase tracking-[0.2em] text-white group-hover:text-brand-orange transition-colors">
                       {link.name}
                     </span>
-                    <ChevronRight className="w-4 h-4 text-[#3b82f6] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                    <ChevronRight className="w-4 h-4 text-brand-orange opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   </a>
                 ))}
                 
@@ -1150,13 +1217,13 @@ export default function App() {
                   <div className="flex flex-col gap-4">
                     <a href="tel:5512979217" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                        <Phone className="w-5 h-5 text-[#3b82f6]" />
+                        <Phone className="w-5 h-5 text-brand-orange" />
                       </div>
                       <span className="text-xs font-bold tracking-wider">55 1297 9217</span>
                     </a>
                     <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                        <Mail className="w-5 h-5 text-[#3b82f6]" />
+                        <Mail className="w-5 h-5 text-brand-orange" />
                       </div>
                       <span className="text-xs font-bold tracking-wider">mci.spolimericas@polycovers.mx</span>
                     </a>
@@ -1164,7 +1231,7 @@ export default function App() {
 
                   <a 
                     href="#contacto-footer"
-                    className="flex items-center justify-center gap-3 bg-[#3b82f6] text-white px-6 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(59,130,246,0.3)]"
+                    className="flex items-center justify-center gap-3 bg-brand-orange text-white px-6 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(245,130,32,0.3)]"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <Zap className="w-4 h-4" />
@@ -1179,13 +1246,13 @@ export default function App() {
       
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#3b82f6] via-[#00f2ff] to-[#3b82f6] z-[10001] origin-left"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-orange via-brand-orange to-brand-blue z-[10001] origin-left"
         style={{ scaleX }}
       />
 
       {/* Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-[#3b82f6]/5 blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/5 blur-[120px] rounded-full will-change-transform" />
         <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-[#60a5fa]/5 blur-[120px] rounded-full will-change-transform" />
       </div>
 
@@ -1214,8 +1281,8 @@ export default function App() {
               className="space-y-2"
             >
               <div className="flex items-baseline gap-2 md:gap-4 flex-wrap">
-                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-[0.9] notranslate" translate="no">MCI</h1>
-                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">Soluciones</h2>
+                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-brand-orange leading-[0.9] notranslate" translate="no">MCI</h1>
+                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-brand-blue uppercase">Soluciones</h2>
               </div>
               <span className="block text-lg md:text-xl font-black tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
             </motion.div>
@@ -1268,8 +1335,8 @@ export default function App() {
                     if (window.innerWidth > 768) setActiveHeroTab(null);
                   }}
                 >
-                  <div className={`glass p-6 rounded-2xl border-white/5 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-[#3b82f6]/40 bg-[#3b82f6]/10 -translate-y-2 shadow-[0_10px_30px_rgba(59,130,246,0.1)]' : 'hover:border-white/10'}`}>
-                <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-[#3b82f6]'}`}>{tab.label}</h3>
+                  <div className={`glass p-6 rounded-2xl border-white/5 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/40 bg-brand-blue/10 -translate-y-2 shadow-[0_10px_30px_rgba(0,75,135,0.1)]' : 'hover:border-white/10'}`}>
+                <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-brand-blue'}`}>{tab.label}</h3>
                     <AnimatePresence mode="wait">
                       {activeHeroTab === i && (
                         <motion.p 
@@ -1287,7 +1354,7 @@ export default function App() {
                       <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="w-1 h-1 bg-[#3b82f6] rounded-full mt-2 animate-pulse"
+                        className="w-1 h-1 bg-brand-blue rounded-full mt-2 animate-pulse"
                       />
                     )}
                   </div>
@@ -1305,7 +1372,7 @@ export default function App() {
             className="lg:col-span-4"
           >
             <div className="relative group max-w-md mx-auto lg:mx-0">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative glass rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl aspect-video flex items-center justify-center">
                 <CustomVideoPlayer />
               </div>
@@ -1318,7 +1385,7 @@ export default function App() {
                   playClickSound();
                   setIsResultsOpen(!isResultsOpen);
                 }}
-                className="w-full group flex items-center justify-between px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white font-black uppercase tracking-widest rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className="w-full group flex items-center justify-between px-8 py-4 bg-gradient-to-r from-brand-blue to-brand-blue text-white font-black uppercase tracking-widest rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Así Garantizamos Resultados
                 <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isResultsOpen ? 'rotate-180' : ''}`} />
@@ -1340,12 +1407,12 @@ export default function App() {
                         { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
                         { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
                       ].map((step, i) => (
-                        <div key={i} className="glass p-4 rounded-xl border-white/5 flex items-center gap-4 group hover:border-[#3b82f6]/30 transition-colors">
-                          <div className="w-8 h-8 rounded-full bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] font-black text-xs">
+                        <div key={i} className="glass p-4 rounded-xl border-white/5 flex items-center gap-4 group hover:border-brand-orange/30 transition-colors">
+                          <div className="w-8 h-8 rounded-full bg-brand-orange/10 flex items-center justify-center text-brand-orange font-black text-xs">
                             {step.num}
                           </div>
                           <div>
-                            <h4 className="text-white font-bold text-sm uppercase tracking-wider group-hover:text-[#3b82f6] transition-colors">{step.title}</h4>
+                            <h4 className="text-white font-bold text-sm uppercase tracking-wider group-hover:text-brand-orange transition-colors">{step.title}</h4>
                             <p className="text-[#A0AAB2] text-xs leading-relaxed font-medium">{step.text}</p>
                           </div>
                         </div>
@@ -1368,13 +1435,13 @@ export default function App() {
             { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
             { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
           ].map((stat, i) => (
-            <div key={i} className="glass p-8 rounded-3xl text-center space-y-2 border-white/5 hover:border-[#3b82f6]/20 transition-colors group will-change-transform">
-              <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-[#3b82f6] mb-4 group-hover:scale-110 transition-transform">
+            <div key={i} className="glass p-8 rounded-3xl text-center space-y-2 border-white/5 hover:border-brand-orange/20 transition-colors group will-change-transform">
+              <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
               <div className="text-4xl md:text-6xl font-black text-white tracking-tighter">
                 {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
-                <span className="text-[#3b82f6]">{stat.suffix}</span>
+                <span className="text-brand-orange">{stat.suffix}</span>
               </div>
               <div className="text-sm font-bold text-[#A0AAB2] uppercase tracking-[0.3em]">{stat.label}</div>
             </div>
@@ -1386,9 +1453,9 @@ export default function App() {
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 will-change-transform">
         <div className="text-center mb-20 space-y-6">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
-            Sectores que <span className="text-[#3b82f6]">Atendemos</span>
+            Sectores que <span className="text-brand-blue">Atendemos</span>
           </h2>
-          <div className="w-32 h-2 bg-[#3b82f6] mx-auto rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]" />
+          <div className="w-32 h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           <p className="text-[#A0AAB2] max-w-3xl mx-auto text-lg md:text-xl font-normal leading-relaxed">
             Soluciones especializadas para cada entorno de alta exigencia, garantizando durabilidad y cumplimiento normativo.
           </p>
@@ -1416,17 +1483,17 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`glass p-8 rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'ring-1 ring-[#3b82f6]/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(59,130,246,0.05)]' : 'hover:bg-white/[0.01]'}`}
+              className={`glass p-8 rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'ring-1 ring-brand-orange/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(245,130,32,0.05)]' : 'hover:bg-white/[0.01]'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-2xl glass border-white/10 text-[#3b82f6] transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]' : ''}`}>
+                <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
                 </div>
-                <h3 className={`text-base md:text-lg font-black uppercase tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-[#3b82f6]' : 'text-white'}`}>{sector.title}</h3>
+                <h3 className={`text-base md:text-lg font-black uppercase tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-blue' : 'text-white'}`}>{sector.title}</h3>
               </div>
               <p className="text-sm text-[#A0AAB2] leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
               
@@ -1440,18 +1507,18 @@ export default function App() {
                     className="pt-6 border-t border-white/5 space-y-5 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"
                   >
                     {sector.details?.intro && (
-                      <p className="text-sm text-[#3b82f6] font-bold italic tracking-wide bg-[#3b82f6]/5 p-2 rounded-lg">{sector.details.intro}</p>
+                      <p className="text-sm text-brand-orange font-bold italic tracking-wide bg-brand-orange/5 p-2 rounded-lg">{sector.details.intro}</p>
                     )}
                     {sector.details?.groups.map((group, i) => (
                       <div key={i} className="space-y-3">
                         <h4 className="text-sm font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
-                          <div className="w-1 h-1 bg-[#3b82f6] rounded-full" />
+                          <div className="w-1 h-1 bg-brand-orange rounded-full" />
                           {group.title}
                         </h4>
                         <ul className="grid grid-cols-1 gap-2.5">
                           {group.items.map((item, j) => (
                             <li key={j} className="flex items-start gap-3 text-sm text-[#A0AAB2] font-medium leading-relaxed">
-                              <ArrowRight className="w-2.5 h-2.5 text-[#3b82f6]/40 mt-0.5 flex-shrink-0" />
+                              <ArrowRight className="w-2.5 h-2.5 text-brand-orange/40 mt-0.5 flex-shrink-0" />
                               {item}
                             </li>
                           ))}
@@ -1462,7 +1529,7 @@ export default function App() {
                 )}
               </AnimatePresence>
               
-              <div className="absolute bottom-6 right-8 text-[#3b82f6] opacity-20 group-hover:opacity-100 transition-all duration-500">
+              <div className="absolute bottom-6 right-8 text-brand-orange opacity-20 group-hover:opacity-100 transition-all duration-500">
                 <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeSector === sector.id ? 'rotate-180' : ''}`} />
               </div>
             </motion.div>
@@ -1474,9 +1541,9 @@ export default function App() {
       <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 will-change-transform">
         <div className="text-center mb-20 space-y-6">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
-            Nuestras <span className="text-[#3b82f6]">Fortalezas</span>
+            Nuestras <span className="text-brand-blue">Fortalezas</span>
           </h2>
-          <div className="w-32 h-2 bg-[#3b82f6] mx-auto rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]" />
+          <div className="w-32 h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           <p className="text-lg md:text-xl text-[#A0AAB2] max-w-4xl mx-auto leading-relaxed font-normal">
             Selecciona una especialidad para ver su ficha técnica detallada y conocer por qué somos líderes en el mercado.
           </p>
@@ -1493,18 +1560,18 @@ export default function App() {
                   setActiveStrength(s);
                   setIsStrengthHovered(true);
                 }}
-                className="group relative glass p-6 rounded-2xl border border-white/5 hover:border-[#3b82f6]/30 transition-all duration-500 flex items-center gap-5 text-left hover:bg-white/[0.02] hover:-translate-y-1"
+                className="group relative glass p-6 rounded-2xl border border-white/5 hover:border-brand-orange/30 transition-all duration-500 flex items-center gap-5 text-left hover:bg-white/[0.02] hover:-translate-y-1"
               >
-                <div className="p-3 rounded-xl bg-[#3b82f6]/10 text-[#3b82f6] group-hover:bg-[#3b82f6] group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(59,130,246,0.1)] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.4)]">
+                <div className="p-3 rounded-xl bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(0,75,135,0.1)] group-hover:shadow-[0_0_25px_rgba(0,75,135,0.4)]">
                   {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6' })}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xs md:text-sm font-black text-white uppercase tracking-widest leading-tight group-hover:text-[#3b82f6] transition-colors">
+                  <h3 className="text-xs md:text-sm font-black text-white uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
                     {s.title}
                   </h3>
                 </div>
                 <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
-                  <ArrowRight className="w-4 h-4 text-[#3b82f6]" />
+                  <ArrowRight className="w-4 h-4 text-brand-orange" />
                 </div>
               </button>
             ))}
@@ -1544,7 +1611,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-xs font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
             >
               <Paintbrush className="w-3 h-3" />
               Portafolio Visual en Movimiento
@@ -1656,7 +1723,7 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
           >
             <Star className="w-3 h-3" />
             Casos de Éxito
@@ -1683,16 +1750,16 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-8 rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-[#3b82f6]/30 transition-all duration-500"
+              className="glass p-8 rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
             >
               <div className="space-y-6">
                 <div className="flex gap-1">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-[#3b82f6] text-[#3b82f6]" />
+                    <Star key={i} className="w-3 h-3 fill-brand-orange text-brand-orange" />
                   ))}
                 </div>
                 <div className="relative">
-                  <Quote className="absolute -top-4 -left-4 w-8 h-8 text-[#3b82f6]/10" />
+                  <Quote className="absolute -top-4 -left-4 w-8 h-8 text-brand-orange/10" />
                   <p className="text-white/80 text-sm leading-relaxed font-medium italic relative z-10">
                     "{t.text}"
                   </p>
@@ -1700,7 +1767,7 @@ export default function App() {
               </div>
               <div className="mt-8 pt-6 border-t border-white/5">
                 <p className="text-white font-black text-xs uppercase tracking-widest">{t.name}</p>
-                <p className="text-[#3b82f6] text-xs font-bold uppercase tracking-widest mt-1">{t.company}</p>
+                <p className="text-brand-blue text-xs font-bold uppercase tracking-widest mt-1">{t.company}</p>
               </div>
             </motion.div>
           ))}
@@ -1709,7 +1776,7 @@ export default function App() {
 
       {/* Commitment Section */}
       <section className="relative z-10 py-10 md:py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-[#3b82f6]/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-brand-orange/5 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6">
           <div className="glass rounded-[3rem] md:rounded-[4rem] border-white/10 overflow-hidden shadow-2xl">
             <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -1719,7 +1786,7 @@ export default function App() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass border-[#3b82f6]/40 text-[#3b82f6] text-xs font-black uppercase tracking-[0.4em] shadow-[0_0_20px_rgba(59,130,246,0.1)]"
+                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass border-brand-orange/40 text-brand-orange text-xs font-black uppercase tracking-[0.4em] shadow-[0_0_20px_rgba(245,130,32,0.1)]"
                   >
                     <ShieldCheck className="w-4 h-4" />
                     Excelencia en Ingeniería
@@ -1733,7 +1800,7 @@ export default function App() {
                     Nosotros nos <br />
                     <span className="text-gradient">encargamos</span>
                   </motion.h2>
-                  <div className="h-1.5 w-32 bg-gradient-to-r from-[#3b82f6] to-transparent rounded-full" />
+                  <div className="h-1.5 w-32 bg-gradient-to-r from-brand-orange to-transparent rounded-full" />
                   <p className="text-xl md:text-2xl text-white/90 font-black uppercase tracking-tighter italic">
                     "Soluciones que trascienden"
                   </p>
@@ -1748,13 +1815,13 @@ export default function App() {
                     <div className="text-3xl md:text-5xl font-black text-white tracking-tighter">
                       <Counter target={30} />+
                     </div>
-                    <p className="text-[#3b82f6] text-xs uppercase tracking-widest font-black">Años de Confianza</p>
+                    <p className="text-brand-orange text-xs uppercase tracking-widest font-black">Años de Confianza</p>
                   </div>
                   <div className="space-y-2">
                     <div className="text-3xl md:text-5xl font-black text-white tracking-tighter">
                       <Counter target={500} />+
                     </div>
-                    <p className="text-[#3b82f6] text-xs uppercase tracking-widest font-black">Casos de Éxito</p>
+                    <p className="text-brand-orange text-xs uppercase tracking-widest font-black">Casos de Éxito</p>
                   </div>
                 </div>
               </div>
@@ -1772,12 +1839,12 @@ export default function App() {
                 {/* Floating Badge */}
                 <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 glass p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/10 backdrop-blur-xl hidden md:block shadow-2xl">
                   <div className="flex items-center gap-6">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#2563eb] flex items-center justify-center text-white shadow-[0_0_30px_rgba(59,130,246,0.4)]">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-brand-blue flex items-center justify-center text-white shadow-[0_0_30px_rgba(245,130,32,0.4)]">
                       <HardHat className="w-8 h-8" />
                     </div>
                     <div>
                       <p className="text-white font-black text-sm uppercase tracking-[0.2em]">Equipo Certificado</p>
-                      <p className="text-[#3b82f6] text-xs font-bold uppercase tracking-widest mt-1">Calidad MCI</p>
+                      <p className="text-brand-orange text-xs font-bold uppercase tracking-widest mt-1">Calidad MCI</p>
                     </div>
                   </div>
                 </div>
@@ -1872,7 +1939,7 @@ export default function App() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
                     
                     <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
-                      <div className="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse" />
+                      <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse" />
                       <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
                     </div>
                   </div>
@@ -1880,16 +1947,16 @@ export default function App() {
                   {/* Content Side */}
                   <div className="p-8 md:p-12 space-y-8">
                     <div className="space-y-4">
-                      <div className="inline-block px-3 py-1 rounded-lg bg-[#3b82f6]/10 border border-[#3b82f6]/20">
-                        <span className="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">Fortaleza MCI</span>
+                      <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
+                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
                       </div>
                       <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-tight">
                         {activeStrength.title}
                       </h3>
-                      <div className="w-20 h-1.5 bg-[#3b82f6] rounded-full" />
+                      <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
                     </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-white/80 font-normal italic border-l-4 border-[#3b82f6] pl-6">
+                    <p className="text-base md:text-lg leading-relaxed text-white/80 font-normal italic border-l-4 border-brand-blue pl-6">
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
@@ -1898,7 +1965,7 @@ export default function App() {
                         <div key={i} className="group/item">
                           {typeof item === 'string' ? (
                             <div className="flex gap-4">
-                              <div className="mt-1.5 w-2 h-2 rounded-full bg-[#3b82f6] flex-shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                              <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
                               <p className="text-[#D1D5DB] text-sm md:text-base leading-relaxed">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
@@ -1906,15 +1973,15 @@ export default function App() {
                           ) : (
                             <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
                               <div className="flex items-center gap-3">
-                                <div className="w-1.5 h-6 bg-[#3b82f6] rounded-full" />
-                                <p className="text-[#3b82f6] font-black text-xs uppercase tracking-widest">
+                                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
+                                <p className="text-brand-orange font-black text-xs uppercase tracking-widest">
                                   {item.label}
                                 </p>
                               </div>
                               <ul className="grid grid-cols-1 gap-3 pl-4">
                                 {item.subItems.map((sub, j) => (
                                   <li key={j} className="flex gap-3 items-start text-xs text-white/60 leading-relaxed">
-                                    <div className="w-1 h-1 bg-[#3b82f6]/40 rounded-full mt-1.5 flex-shrink-0" />
+                                    <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
                                     {sub}
                                   </li>
                                 ))}
@@ -1930,7 +1997,7 @@ export default function App() {
                       <a 
                         href="https://wa.me/525512979217" 
                         target="_blank"
-                        className="inline-flex items-center gap-3 bg-[#3b82f6] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#2563eb] transition-all hover:scale-105 shadow-xl"
+                        className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-xl"
                       >
                         Solicitar Cotización
                         <ArrowRight className="w-4 h-4" />
@@ -1978,9 +2045,9 @@ export default function App() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className="glass p-6 rounded-3xl border-white/5 hover:border-[#3b82f6]/30 transition-all group"
+                    className="glass p-6 rounded-3xl border-white/5 hover:border-brand-orange/30 transition-all group"
                   >
-                    <p className="text-[#3b82f6] text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
+                    <p className="text-brand-orange text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
                     <p className="text-white font-black text-2xl tracking-tighter">{stat.value}</p>
                   </motion.div>
                 ))}
@@ -1997,7 +2064,7 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#3b82f6]/30 text-[#3b82f6] text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
           >
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
@@ -2020,10 +2087,10 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-6 rounded-2xl border-white/5 hover:border-[#3b82f6]/20 transition-all group"
+              className="glass p-6 rounded-2xl border-white/5 hover:border-brand-orange/20 transition-all group"
             >
-              <h3 className="text-white font-bold text-lg mb-2 group-hover:text-[#3b82f6] transition-colors flex items-start gap-3">
-                <span className="text-[#3b82f6]/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
+              <h3 className="text-white font-bold text-lg mb-2 group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                <span className="text-brand-orange/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
                 {faq.q}
               </h3>
               <p className="text-[#A0AAB2] font-medium text-sm leading-relaxed pl-8">{faq.a}</p>
@@ -2045,12 +2112,14 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4 space-y-12">
               <div className="space-y-6">
-                <h3 className="text-[#3b82f6] font-black uppercase tracking-[0.3em] text-xs notranslate" translate="no">MCI Soluciones Poliméricas</h3>
+                <h3 className="font-black uppercase tracking-[0.3em] text-xs notranslate" translate="no">
+                  <span className="text-brand-orange">MCI</span> <span className="text-brand-blue">Soluciones Poliméricas</span>
+                </h3>
                 <p className="text-[#A0AAB2] leading-relaxed text-sm font-medium">Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.</p>
               </div>
 
               <div className="space-y-6">
-                <h3 className="text-[#3b82f6] font-black uppercase tracking-[0.3em] text-xs">Contacto Directo</h3>
+                <h3 className="text-brand-blue font-black uppercase tracking-[0.3em] text-xs">Contacto Directo</h3>
                 <div className="space-y-4">
                   {[
                     { icon: <Phone className="w-4 h-4" />, text: '55 1297 9217' },
@@ -2058,7 +2127,7 @@ export default function App() {
                     { icon: <MapPin className="w-4 h-4" />, text: 'Ciudad de México, México' }
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4 group cursor-pointer">
-                      <div className="p-3 glass rounded-xl border-white/5 group-hover:border-[#3b82f6]/50 group-hover:bg-[#3b82f6]/10 transition-all duration-300 text-[#3b82f6]">
+                      <div className="p-3 glass rounded-xl border-white/5 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
                         {item.icon}
                       </div>
                       <span className="text-[#A0AAB2] group-hover:text-white transition-colors text-sm font-medium tracking-wide">{item.text}</span>
@@ -2079,37 +2148,37 @@ export default function App() {
 
             <div className="lg:col-span-8">
               <div className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#3b82f6]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32" />
                 
                 <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" onSubmit={(e) => { e.preventDefault(); alert('Solicitud de cotización recibida. Hemos enviado una copia a mci.spolimericas@polycovers.mx y un ingeniero se pondrá en contacto pronto.'); }}>
                   <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
                     <div className="md:col-span-1 space-y-1.5 md:space-y-2">
                       <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Cargo</label>
-                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Ing." />
+                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all" placeholder="Ej. Ing." />
                     </div>
                     <div className="md:col-span-3 space-y-1.5 md:space-y-2">
                       <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Nombre Completo</label>
-                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Roberto Silva" />
+                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all" placeholder="Ej. Roberto Silva" />
                     </div>
                   </div>
                   <div className="space-y-1.5 md:space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Empresa / Planta</label>
-                    <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="Ej. Planta Industrial Norte" />
+                    <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all" placeholder="Ej. Planta Industrial Norte" />
                   </div>
                   <div className="space-y-1.5 md:space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Correo Corporativo</label>
-                    <input type="email" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="rsilva@empresa.com" />
+                    <input type="email" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all" placeholder="rsilva@empresa.com" />
                   </div>
                   <div className="space-y-1.5 md:space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Teléfono de Contacto</label>
-                    <input type="tel" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all" placeholder="55 0000 0000" />
+                    <input type="tel" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all" placeholder="55 0000 0000" />
                   </div>
                   <div className="md:col-span-2 space-y-1.5 md:space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Detalles del Proyecto</label>
-                    <textarea required rows={4} className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-[#3b82f6]/50 transition-all resize-none" placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."></textarea>
+                    <textarea required rows={4} className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all resize-none" placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."></textarea>
                   </div>
                   <div className="md:col-span-2 pt-2 md:pt-4">
-                    <button type="submit" className="w-full py-4 md:py-5 bg-[#3b82f6] text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(59,130,246,0.2)] hover:shadow-[0_25px_50px_rgba(59,130,246,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98]">
+                    <button type="submit" className="w-full py-4 md:py-5 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(0,75,135,0.2)] hover:shadow-[0_25px_50px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98]">
                       Solicitar una Cotización
                     </button>
                   </div>
@@ -2203,7 +2272,7 @@ export default function App() {
           </motion.div>
 
           {/* Floating Ring */}
-          <div className="absolute -inset-6 border border-dashed border-[#3b82f6]/30 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none" />
+          <div className="absolute -inset-6 border border-dashed border-brand-orange/30 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none" />
           
           {/* Neon Green Online Indicator */}
           <div className="absolute -top-1 -right-1 flex items-center justify-center z-10">
@@ -2220,7 +2289,7 @@ export default function App() {
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               className="absolute bottom-24 left-0 w-[360px] max-w-[calc(100vw-40px)] h-[600px] max-h-[calc(100vh-120px)] bg-[#0a192f] rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
-              <div className="bg-[#3b82f6] p-4 flex justify-between items-center relative shrink-0">
+              <div className="bg-brand-orange p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10">
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center relative overflow-hidden shadow-lg">
                     <div className="absolute inset-0.5 bg-[#0a192f] rounded-full flex items-center justify-center gap-1 shadow-inner">
@@ -2275,7 +2344,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-white text-gray-800 self-start rounded-tl-none shadow-sm border border-gray-100' : 'bg-[#3b82f6] text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-white text-gray-800 self-start rounded-tl-none shadow-sm border border-gray-100' : 'bg-brand-orange text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
                       )}
@@ -2287,12 +2356,12 @@ export default function App() {
                         {[
                           { q: 'Cobertura MCI', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
                           { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
-                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
+                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-brand-orange text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
                         ].map((opt, idx) => (
                           <button
                             key={idx}
                             onClick={() => handleChatOption(opt.q, opt.a)}
-                            className="text-left p-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-[#3b82f6] transition-all shadow-sm flex justify-between items-center group"
+                            className="text-left p-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-brand-orange transition-all shadow-sm flex justify-between items-center group"
                           >
                             {opt.q}
                             <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -2304,9 +2373,9 @@ export default function App() {
                 ))}
                 {isTyping && (
                   <div className="bg-white/[0.04] p-5 rounded-3xl rounded-bl-none border border-white/5 self-start flex gap-1.5 shadow-xl">
-                    <motion.div className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity }} />
-                    <motion.div className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
-                    <motion.div className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                    <motion.div className="w-1.5 h-1.5 bg-brand-blue rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity }} />
+                    <motion.div className="w-1.5 h-1.5 bg-brand-blue rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                    <motion.div className="w-1.5 h-1.5 bg-brand-blue rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
                   </div>
                 )}
                 <div ref={chatEndRef} />
@@ -2337,7 +2406,7 @@ export default function App() {
                   <button 
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="p-2.5 text-gray-400 hover:text-[#3b82f6] transition-colors"
+                    className="p-2.5 text-gray-400 hover:text-brand-orange transition-colors"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2346,13 +2415,13 @@ export default function App() {
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escribe tu mensaje..."
-                    className="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#3b82f6] transition-all"
+                    className="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-brand-orange transition-all"
                   />
                   <button 
                     type="submit"
                     disabled={isTyping || (!userInput.trim() && !selectedFile)}
                     onClick={() => playClickSound()}
-                    className="p-2.5 bg-[#3b82f6] text-white rounded-full disabled:opacity-50 hover:bg-[#2563eb] transition-all shadow-sm"
+                    className="p-2.5 bg-brand-orange text-white rounded-full disabled:opacity-50 hover:bg-brand-orange/80 transition-all shadow-sm"
                   >
                     <Send className="w-5 h-5" />
                   </button>
@@ -2392,9 +2461,9 @@ export default function App() {
             playClickSound();
             toggleSpeech();
           }}
-          className={`relative w-14 h-14 glass border-[#3b82f6]/40 text-[#3b82f6] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group pointer-events-auto ${isSpeaking ? 'bg-[#3b82f6]/20 border-[#3b82f6]' : ''}`}
+          className={`relative w-14 h-14 glass border-brand-orange/40 text-brand-orange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange' : ''}`}
         >
-          <div className="absolute -top-10 right-0 glass border-[#3b82f6]/30 text-[#3b82f6] px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute -top-10 right-0 glass border-brand-orange/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
             {isSpeaking ? 'Detener lectura' : 'Lectura asistida'}
           </div>
           {isSpeaking ? <VolumeX className="w-6 h-6 animate-pulse" /> : <Volume2 className="w-6 h-6" />}
