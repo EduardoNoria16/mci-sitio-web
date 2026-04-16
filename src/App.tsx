@@ -1078,11 +1078,12 @@ export default function App() {
           <div className="flex items-center gap-4 group flex-shrink-0 mr-12">
             <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500">
               <img 
-                src="/logo.png" 
+                src={logo} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  e.currentTarget.src = logo;
+                  e.currentTarget.onerror = null; // Prevent looping
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=64&q=80";
                 }}
               />
             </div>
