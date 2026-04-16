@@ -334,7 +334,7 @@ const BeforeAfterSlider = memo(() => {
         </div>
       </div>
       {/* Labels */}
-      <div className="absolute top-6 left-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-white/60">Antes</div>
+      <div className="absolute top-6 left-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-white/80">Antes</div>
       <div className="absolute top-6 right-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-brand-orange">Después</div>
     </div>
   );
@@ -1225,14 +1225,14 @@ export default function App() {
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-brand-orange leading-[0.9] notranslate" translate="no">MCI</h1>
                 <h2 className="text-3xl md:text-4xl font-black tracking-tight text-brand-blue uppercase">Soluciones</h2>
               </div>
-              <span className="block text-lg md:text-xl font-black tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
+              <span className="block text-lg md:text-xl font-black tracking-[0.4em] text-white/90 uppercase">Poliméricas</span>
             </motion.div>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-lg md:text-xl text-[#A0AAB2] leading-relaxed max-w-2xl font-normal"
+              className="text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl font-medium"
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> ofreciendo <span className="hl">soluciones duraderas</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a daños físicos o químicos.
             </motion.p>
@@ -1354,7 +1354,7 @@ export default function App() {
                           </div>
                           <div>
                             <h4 className="text-white font-bold text-sm uppercase tracking-wider group-hover:text-brand-orange transition-colors">{step.title}</h4>
-                            <p className="text-[#A0AAB2] text-xs leading-relaxed font-medium">{step.text}</p>
+                            <p className="text-white/80 text-xs leading-relaxed font-semibold">{step.text}</p>
                           </div>
                         </div>
                       ))}
@@ -1436,7 +1436,7 @@ export default function App() {
                 </div>
                 <h3 className={`text-base md:text-lg font-black uppercase tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-blue' : 'text-white'}`}>{sector.title}</h3>
               </div>
-              <p className="text-sm text-[#A0AAB2] leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
+              <p className="text-sm text-white/80 leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
               
               <AnimatePresence mode="popLayout">
                 {activeSector === sector.id && (
@@ -1909,7 +1909,7 @@ export default function App() {
                           {typeof item === 'string' ? (
                             <div className="flex gap-4">
                               <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-[#D1D5DB] text-sm md:text-base leading-relaxed">
+                              <p className="text-white/90 text-sm md:text-base leading-relaxed">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
                             </div>
@@ -1923,7 +1923,7 @@ export default function App() {
                               </div>
                               <ul className="grid grid-cols-1 gap-3 pl-4">
                                 {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-xs text-white/60 leading-relaxed">
+                                  <li key={j} className="flex gap-3 items-start text-xs text-white/80 leading-relaxed">
                                     <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
                                     {sub}
                                   </li>
@@ -2036,7 +2036,7 @@ export default function App() {
                 <span className="text-brand-orange/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
                 {faq.q}
               </h3>
-              <p className="text-[#A0AAB2] font-medium text-sm leading-relaxed pl-8">{faq.a}</p>
+              <p className="text-white/80 font-medium text-sm leading-relaxed pl-8">{faq.a}</p>
             </motion.div>
           ))}
         </div>
@@ -2049,7 +2049,7 @@ export default function App() {
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
             </h2>
-            <p className="text-base md:text-lg text-[#A0AAB2] font-medium">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
+            <p className="text-base md:text-lg text-white/80 font-medium">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -2058,7 +2058,7 @@ export default function App() {
                 <h3 className="font-black uppercase tracking-[0.3em] text-xs notranslate" translate="no">
                   <span className="text-brand-orange">MCI</span> <span className="text-brand-blue">Soluciones Poliméricas</span>
                 </h3>
-                <p className="text-[#A0AAB2] leading-relaxed text-sm font-medium">Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.</p>
+                <p className="text-white/80 leading-relaxed text-sm font-medium">Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.</p>
               </div>
 
               <div className="space-y-6">
@@ -2073,7 +2073,7 @@ export default function App() {
                       <div className="p-3 glass rounded-xl border-white/5 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
                         {item.icon}
                       </div>
-                      <span className="text-[#A0AAB2] group-hover:text-white transition-colors text-sm font-medium tracking-wide">{item.text}</span>
+                      <span className="text-white/80 group-hover:text-white transition-colors text-sm font-medium tracking-wide">{item.text}</span>
                     </div>
                   ))}
                 </div>
