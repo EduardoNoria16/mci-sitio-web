@@ -242,7 +242,7 @@ const CustomVideoPlayer = memo(() => {
 
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 z-30 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="absolute top-6 right-6 z-30 p-3 rounded-full glass border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -1145,15 +1145,48 @@ export default function App() {
             </a>
           </nav>
 
-          {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden p-2 text-white/60 hover:text-white transition-colors"
+            className="md:hidden p-2 text-brand-orange hover:text-white transition-colors flex items-center justify-center w-10 h-10"
             onClick={() => {
               playClickSound();
               setIsMenuOpen(!isMenuOpen);
             }}
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <AnimatePresence mode="wait">
+              {isMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-brand-blue-bright"
+                >
+                  <X className="w-6 h-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ 
+                    rotate: 0, 
+                    opacity: 1,
+                    scale: [1, 1.15, 1],
+                  }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ 
+                    scale: {
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    },
+                    default: { duration: 0.2 }
+                  }}
+                >
+                  <Menu className="w-6 h-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
         </div>
 
@@ -1858,7 +1891,7 @@ export default function App() {
               
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 md:-right-12 p-3 text-white/60 hover:text-white transition-all hover:rotate-90 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
+                className="absolute -top-12 right-0 md:-right-12 p-3 text-brand-blue-bright hover:text-white transition-all hover:rotate-90 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
               >
                 <X className="w-8 h-8" />
               </button>
@@ -1896,7 +1929,7 @@ export default function App() {
               {/* Close Button */}
               <button 
                 onClick={() => setIsStrengthHovered(false)}
-                className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+                className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -2307,7 +2340,7 @@ export default function App() {
                 </div>
                 <button 
                   onClick={() => setIsChatOpen(false)}
-                  className="p-2 rounded-full hover:bg-white/10 text-white transition-colors"
+                  className="p-2 rounded-full hover:bg-white/10 text-brand-blue-bright transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -2367,7 +2400,7 @@ export default function App() {
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] text-gray-600 font-bold truncate">{selectedFile.name}</p>
                     </div>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-gray-400 hover:text-red-500">
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-brand-blue-bright hover:text-red-500">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
