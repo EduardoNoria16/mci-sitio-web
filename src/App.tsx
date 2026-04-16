@@ -74,7 +74,7 @@ const CustomCursor = () => {
     <div className="fixed inset-0 pointer-events-none z-[999999] hidden md:block">
       {/* Outer Ring */}
       <motion.div
-        className="absolute w-8 h-8 border-2 border-cyan-400/50 rounded-full"
+        className="absolute w-8 h-8 border-2 border-cyan-400/50 rounded-full will-change-transform"
         style={{
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,
@@ -84,12 +84,12 @@ const CustomCursor = () => {
           borderColor: isHovering ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.3)'
         }}
         transition={{
-          duration: 0.2
+          duration: 0.1
         }}
       />
       {/* Inner Dot */}
       <motion.div
-        className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)]"
+        className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)] will-change-transform"
         style={{
           x: mousePosition.x - 3,
           y: mousePosition.y - 3,
@@ -98,7 +98,7 @@ const CustomCursor = () => {
           scale: isHovering ? 0 : 1
         }}
         transition={{
-          duration: 0.2
+          duration: 0.1
         }}
       />
     </div>
@@ -1266,9 +1266,12 @@ export default function App() {
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
+            width="1920"
+            height="1080"
+            fetchPriority="high"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
-            loading="lazy"
+            loading="eager"
           />
         </motion.div>
         
@@ -1703,6 +1706,8 @@ export default function App() {
                 <img
                   src={img.url}
                   alt={img.title}
+                  width="320"
+                  height="180"
                   referrerPolicy="no-referrer"
                   loading="lazy"
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
