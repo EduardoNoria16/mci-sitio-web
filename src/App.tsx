@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
-import logo from './logo.png';
+import logo from './logo.png?url';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -1081,10 +1081,6 @@ export default function App() {
                 src={logo} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
-                onError={(e) => {
-                  e.currentTarget.onerror = null; // Prevent looping
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=64&q=80";
-                }}
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
