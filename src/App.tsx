@@ -48,63 +48,6 @@ const playClickSound = () => {
   audio.play().catch(() => {});
 };
 
-// --- Custom Cursor Component ---
-const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      const target = e.target as HTMLElement;
-      const isClickable = window.getComputedStyle(target).cursor === 'pointer' || 
-                         target.tagName === 'A' || 
-                         target.tagName === 'BUTTON' ||
-                         target.closest('button') ||
-                         target.closest('a');
-      setIsHovering(!!isClickable);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  return (
-    <div className="fixed inset-0 pointer-events-none z-[999999] hidden md:block">
-      {/* Outer Ring */}
-      <motion.div
-        className="absolute w-8 h-8 border-2 border-cyan-400/50 rounded-full will-change-transform"
-        style={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-        }}
-        animate={{
-          scale: isHovering ? 1.5 : 1,
-          borderColor: isHovering ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.3)'
-        }}
-        transition={{
-          duration: 0.1
-        }}
-      />
-      {/* Inner Dot */}
-      <motion.div
-        className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.8)] will-change-transform"
-        style={{
-          x: mousePosition.x - 3,
-          y: mousePosition.y - 3,
-        }}
-        animate={{
-          scale: isHovering ? 0 : 1
-        }}
-        transition={{
-          duration: 0.1
-        }}
-      />
-    </div>
-  );
-};
-
 // --- Custom Video Player Component ---
 const CustomVideoPlayer = memo(() => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -1121,8 +1064,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen cursor-none">
-      <CustomCursor />
+    <div className="min-h-screen">
       
       {/* Header / Navigation */}
       <header 
@@ -1136,12 +1078,11 @@ export default function App() {
           <div className="flex items-center gap-4 group flex-shrink-0 mr-12">
             <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500">
               <img 
-                src={logo} 
+                src="/logo.png" 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
-                referrerPolicy="no-referrer"
                 onError={(e) => {
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=48&q=80";
+                  e.currentTarget.src = logo;
                 }}
               />
             </div>
