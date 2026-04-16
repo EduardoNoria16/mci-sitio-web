@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
-import logo from './logo.png?url';
+import { logoBase64 } from './logoBase64';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -1078,7 +1078,7 @@ export default function App() {
           <div className="flex items-center gap-4 group flex-shrink-0 mr-12">
             <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500">
               <img 
-                src={logo} 
+                src={logoBase64} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
               />
