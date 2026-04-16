@@ -1277,7 +1277,7 @@ export default function App() {
                   }}
                 >
                   <div className={`glass p-6 rounded-2xl border-white/5 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/40 bg-brand-blue/10 -translate-y-2 shadow-[0_10px_30px_rgba(0,75,135,0.1)]' : 'hover:border-white/10'}`}>
-                <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-brand-blue'}`}>{tab.label}</h3>
+                <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-brand-blue-bright'}`}>{tab.label}</h3>
                     <AnimatePresence mode="wait">
                       {activeHeroTab === i && (
                         <motion.p 
