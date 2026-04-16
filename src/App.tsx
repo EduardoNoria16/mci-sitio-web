@@ -908,17 +908,43 @@ export default function App() {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
     } else {
-      const textToRead = `
-        MCI Soluciones Poliméricas. Ingeniería líder en recubrimientos y protección de activos industriales en México.
-        Con más de 30 años de experiencia, ofrecemos soluciones de alta gama.
-        Nuestros servicios principales incluyen: 
-        Pisos para uso comercial e industrial con altos niveles de calidad y seguridad.
-        Pisos Epóxicos de Valor para la industria alimenticia y de salud, cumpliendo normas F D A y U S D A.
-        Acabados de Alta Gama para residencias y comercios.
-        Reparación de Concreto, Impermeabilización técnica, y Sistemas Cortafuego certificados.
-        Atendemos sectores clave como la Industria Alimenticia, Sector Salud, Construcción, Comercio, e Industria Pesada en toda la República Mexicana.
-        MCI Soluciones: Protegemos tu inversión con precisión y durabilidad extrema.
-      `;
+      // Función para extraer texto relevante del DOM respetando lo que se ve
+      const getPageContent = () => {
+        const sections = document.querySelectorAll('section, footer, header');
+        let textParts: string[] = [];
+        
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          // Detectar si la sección está siendo mostrada al usuario
+          const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+          
+          if (isVisible) {
+            // Extraer encabezados y cuerpos de texto ignorando controles de UI
+            const elements = section.querySelectorAll('h1, h2, h3, h4, p, li');
+            
+            elements.forEach(el => {
+              const htmlEl = el as HTMLElement;
+              const content = htmlEl.innerText?.trim();
+              
+              // Evitar duplicados, textos vacíos o controles interactivos
+              if (content && 
+                  content.length > 3 && 
+                  !textParts.includes(content) &&
+                  !el.closest('button') && 
+                  !el.closest('nav') && 
+                  !el.closest('form')) {
+                textParts.push(content);
+              }
+            });
+          }
+        });
+        
+        // Unir todo con pausas (puntos)
+        const finalContent = textParts.join(". ");
+        return finalContent || "MCI Soluciones Poliméricas: Ingeniería en recubrimientos y protección industrial.";
+      };
+
+      const textToRead = getPageContent();
       
       const utterance = new SpeechSynthesisUtterance(textToRead);
       const voices = window.speechSynthesis.getVoices();
