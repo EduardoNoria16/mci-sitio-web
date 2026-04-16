@@ -802,6 +802,14 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // --- Main App Component ---
 
 export default function App() {
+  // Reiniciar scroll al inicio en cada actualización
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
