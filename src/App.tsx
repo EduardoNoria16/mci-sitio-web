@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { 
   Phone, 
@@ -300,7 +300,7 @@ const BeforeAfterSlider = memo(() => {
     >
       {/* After Image */}
       <img 
-        src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80" 
+        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80" 
         alt="Después"
         className="absolute inset-0 w-full h-full object-cover"
         referrerPolicy="no-referrer"
@@ -312,7 +312,7 @@ const BeforeAfterSlider = memo(() => {
         style={{ width: `${sliderPos}%` }}
       >
         <img 
-          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80" 
+          src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1200&q=80" 
           alt="Antes"
           className="absolute inset-0 w-full h-full object-cover grayscale brightness-50"
           style={{ width: `${10000 / sliderPos}%` }}
@@ -369,7 +369,7 @@ const STRENGTHS: Strength[] = [
     icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
-    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión and acabado',
       'Tratamientos químicos. Curado y densificado superficial.',
@@ -395,7 +395,7 @@ const STRENGTHS: Strength[] = [
     icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
-    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1454165833267-028a0513904d?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Epóxico autonivelante. Fácil de limpiar, totalmente liso, en tono mate que oculta imperfecciones del firme ideal para showrooms, hospitales, oficinas.',
       'Porcelanato líquido marmoleado. Con vetas de pigmentos metalizados para crear un efecto mármol, nubes o dar profundidad (3D). Su mercado es el residencial de alto nivel.',
@@ -410,7 +410,7 @@ const STRENGTHS: Strength[] = [
     icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
-    image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80',
     items: [
       {
         label: 'Recubrimientos químico-resistentes para el control de la corrosión.',
@@ -462,7 +462,7 @@ const STRENGTHS: Strength[] = [
     icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
-    image: 'https://images.unsplash.com/photo-1590674867551-11c3a2df5bb2?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Bacheos en pasillos o vialidades críticas con cortos tiempos de paro',
       'Renivelar áreas con sobre pisos delgados usando concretos formulados para fraguado rápido de hasta 500 kg/cm²',
@@ -482,7 +482,7 @@ const STRENGTHS: Strength[] = [
     icon: <Droplets className="w-5 h-5" />,
     intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Aplicación de poliurea por proyección',
       'Sistemas vehiculares en cubiertas exteriores (aún en condiciones de agrietamiento) para estacionamientos comerciales e institucionales',
@@ -497,7 +497,7 @@ const STRENGTHS: Strength[] = [
     icon: <Paintbrush className="w-5 h-5" />,
     intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Sistemas epóxi-poliuretano como acabado en pisos para servicios ligeros',
       'Acabados sanitarios lisos, continuos, sin bordes, y antibacteriales en muros y plataformas',
@@ -515,7 +515,7 @@ const STRENGTHS: Strength[] = [
     icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
-    image: 'https://images.unsplash.com/photo-1599707334293-21838574e5b1?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Instalación de retardantes de fuego (intumescentes)',
       'Sellado de pasos de instalaciones (tubería, líneas de cableado) a través de muros y juntas de construcción',
@@ -528,7 +528,7 @@ const STRENGTHS: Strength[] = [
     icon: <HardHat className="w-5 h-5" />,
     intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=1200&q=80',
     items: [
       {
         label: 'Espuma de poliuretano en diversos espesores',
@@ -571,20 +571,20 @@ const STRENGTHS: Strength[] = [
 ];
 
 const GALLERY_IMAGES = [
-  { url: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80', title: 'Piso Industrial de Alta Precisión' },
+  { url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80', title: 'Piso Industrial de Alta Precisión' },
   { url: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', title: 'Acabados Químico-Resistentes' },
   { url: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80', title: 'Laboratorio con Piso Epóxico' },
   { url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento de Superficies' },
-  { url: 'https://images.unsplash.com/photo-1590674867551-11c3a2df5bb2?auto=format&fit=crop&w=800&q=80', title: 'Instalación de Recubrimientos' },
+  { url: 'https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=800&q=80', title: 'Instalación de Recubrimientos' },
   { url: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80', title: 'Personal Altamente Capacitado' },
-  { url: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=800&q=80', title: 'Infraestructura Industrial' },
+  { url: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=800&q=80', title: 'Infraestructura Industrial' },
   { url: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=800&q=80', title: 'Proyectos de Gran Escala' },
   { url: 'https://images.unsplash.com/photo-1503387762-592dee582a2b?auto=format&fit=crop&w=800&q=80', title: 'Estructuras Metálicas' },
   { url: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80', title: 'Control de Corrosión' },
-  { url: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=800&q=80', title: 'Ingeniería de Detalle' },
+  { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', title: 'Ingeniería de Detalle' },
   { url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=800&q=80', title: 'Sistemas de Protección' },
-  { url: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=800&q=80', title: 'Procesos Industriales' },
+  { url: 'https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=800&q=80', title: 'Sistemas de Protección' },
+  { url: 'https://images.unsplash.com/photo-1563200155-22442f49d32d?auto=format&fit=crop&w=800&q=80', title: 'Procesos Industriales' },
   { url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80', title: 'Almacenamiento Logístico' },
   { url: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=800&q=80', title: 'Tecnología Polimérica' }
 ];
@@ -757,35 +757,18 @@ const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string;
 const Counter = memo(({ target }: { target: number }) => {
   const [count, setCount] = useState(0);
   const nodeRef = useRef(null);
+  const isInView = useInView(nodeRef, { once: true, amount: 0.5 });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          let startTime: number | null = null;
-          const duration = 2000;
-          let frameId: number;
-
-          const animate = (currentTime: number) => {
-            if (!startTime) startTime = currentTime;
-            const progress = Math.min((currentTime - startTime) / duration, 1);
-            setCount(Math.floor(progress * target));
-            
-            if (progress < 1) {
-              frameId = requestAnimationFrame(animate);
-            }
-          };
-
-          frameId = requestAnimationFrame(animate);
-          return () => cancelAnimationFrame(frameId);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (nodeRef.current) observer.observe(nodeRef.current);
-    return () => observer.disconnect();
-  }, [target]);
+    if (isInView) {
+      const controls = animate(0, target, {
+        duration: 2,
+        ease: "easeOut",
+        onUpdate: (value) => setCount(Math.floor(value)),
+      });
+      return () => controls.stop();
+    }
+  }, [isInView, target]);
 
   return <span ref={nodeRef}>{count}</span>;
 });
@@ -1006,7 +989,7 @@ export default function App() {
         ...prev, 
         { 
           type: 'bot', 
-          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525512979217" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
+          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525561500317" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
         }
       ]);
       setBotExpression('happy');
@@ -1095,7 +1078,7 @@ export default function App() {
             <div className={`w-10 h-10 bg-[#3b82f6] rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-transform duration-500 group-hover:scale-110`}>
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col notranslate" translate="no">
               <span className="text-xl font-black tracking-tighter text-white leading-none">MCI</span>
               <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#3b82f6]">Soluciones</span>
             </div>
@@ -1214,7 +1197,7 @@ export default function App() {
         >
           <div className="absolute inset-0 bg-[#0a192f]/70 z-10" />
           <img 
-            src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80" 
+            src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
             className="w-full h-full object-cover scale-110"
             referrerPolicy="no-referrer"
@@ -1231,7 +1214,7 @@ export default function App() {
               className="space-y-2"
             >
               <div className="flex items-baseline gap-2 md:gap-4 flex-wrap">
-                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-[0.9]">MCI</h1>
+                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-[0.9] notranslate" translate="no">MCI</h1>
                 <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">Soluciones</h2>
               </div>
               <span className="block text-lg md:text-xl font-black tracking-[0.4em] text-white/60 uppercase">Poliméricas</span>
@@ -1379,7 +1362,7 @@ export default function App() {
 
       {/* Stats Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
             { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
@@ -1778,7 +1761,7 @@ export default function App() {
 
               <div className="relative min-h-[400px] lg:h-[600px] group overflow-hidden rounded-3xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80" 
+                  src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
                   alt="MCI Soluciones - Ingeniería Industrial"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   referrerPolicy="no-referrer"
@@ -2039,8 +2022,8 @@ export default function App() {
               transition={{ delay: i * 0.1 }}
               className="glass p-6 rounded-2xl border-white/5 hover:border-[#3b82f6]/20 transition-all group"
             >
-              <h3 className="text-white font-bold text-lg mb-2 group-hover:text-[#3b82f6] transition-colors flex items-center gap-3">
-                <span className="text-[#3b82f6]/40 text-xs font-black">0{i+1}</span>
+              <h3 className="text-white font-bold text-lg mb-2 group-hover:text-[#3b82f6] transition-colors flex items-start gap-3">
+                <span className="text-[#3b82f6]/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
                 {faq.q}
               </h3>
               <p className="text-[#A0AAB2] font-medium text-sm leading-relaxed pl-8">{faq.a}</p>
@@ -2062,7 +2045,7 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4 space-y-12">
               <div className="space-y-6">
-                <h3 className="text-[#3b82f6] font-black uppercase tracking-[0.3em] text-xs">MCI Soluciones Poliméricas</h3>
+                <h3 className="text-[#3b82f6] font-black uppercase tracking-[0.3em] text-xs notranslate" translate="no">MCI Soluciones Poliméricas</h3>
                 <p className="text-[#A0AAB2] leading-relaxed text-sm font-medium">Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.</p>
               </div>
 
@@ -2304,7 +2287,7 @@ export default function App() {
                         {[
                           { q: 'Cobertura MCI', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
                           { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
-                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525512979217" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
+                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-[#3b82f6] text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
                         ].map((opt, idx) => (
                           <button
                             key={idx}
