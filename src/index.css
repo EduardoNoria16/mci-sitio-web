@@ -50,7 +50,7 @@
 
 /* Highlight style */
 .hl {
-  @apply text-brand-blue-bright font-black drop-shadow-[0_0_10px_rgba(59,130,246,0.2)];
+  @apply text-brand-orange font-black drop-shadow-[0_0_10px_rgba(245,130,32,0.2)];
 }
 
 /* Ensure all interactive elements show the pointer cursor */
