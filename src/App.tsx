@@ -1293,12 +1293,12 @@ export default function App() {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 hover:text-brand-blue transition-all relative group/nav"
+                className="text-[11px] lg:text-sm font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em] text-white/60 hover:text-brand-blue transition-all relative group/nav"
                 onClick={playClickSound}
               >
                 {link.name}
@@ -1307,7 +1307,7 @@ export default function App() {
             ))}
             <a 
               href="#contacto-footer"
-              className="bg-brand-blue text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
+              className="bg-brand-blue text-white px-5 lg:px-6 py-2 lg:py-2.5 rounded-full text-[10px] lg:text-xs font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
               onClick={playClickSound}
             >
               Cotizar
@@ -1316,7 +1316,7 @@ export default function App() {
 
           <button 
             ref={menuButtonRef}
-            className="md:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-14 h-14 active:scale-90 cursor-pointer"
+            className="lg:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               playClickSound();
@@ -1370,10 +1370,10 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden absolute top-full left-0 right-0 bg-[#0a192f] border-b border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999]"
+              className="md:hidden absolute top-full left-0 right-0 lg:hidden bg-[#0a192f] border-b border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999]"
               ref={menuRef}
             >
-              <nav className="flex flex-col p-8 gap-2">
+              <nav className="flex lg:hidden flex-col p-8 gap-2">
                 {navLinks.map((link) => (
                   <a 
                     key={link.name}
@@ -1453,15 +1453,15 @@ export default function App() {
           />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8 space-y-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16 mt-8 md:mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="md:col-span-1 lg:col-span-8 space-y-8">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3"
             >
-              <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
                 <span className="text-white">¿Quiénes</span>{' '}
                 <span className="text-brand-blue">Somos</span>
                 <span className="text-white">?</span>
@@ -1473,7 +1473,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl font-medium"
+              className="text-lg lg:text-xl text-white/90 leading-relaxed max-w-3xl font-medium"
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
             </motion.p>
@@ -1492,7 +1492,7 @@ export default function App() {
                   }
                 }
               }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             >
               {[
                 { label: 'Misión', content: 'Diseñar e implementar soluciones poliméricas especializadas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico, materiales de alto desempeño y ejecución confiable.' },
@@ -1573,7 +1573,7 @@ export default function App() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="lg:col-span-4"
+            className="md:col-span-1 lg:col-span-4"
           >
             <div className="relative group max-w-md mx-auto lg:mx-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
@@ -1623,22 +1623,22 @@ export default function App() {
     </section>
 
       {/* Stats Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {[
             { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
             { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
             { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
           ].map((stat, i) => (
-            <div key={i} className="glass p-8 rounded-3xl text-center space-y-2 border-white/5 hover:border-brand-orange/20 transition-colors group will-change-transform">
+            <div key={i} className="glass p-6 md:p-10 rounded-3xl text-center space-y-2 border-white/5 hover:border-brand-orange/20 transition-colors group will-change-transform">
               <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
-              <div className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+              <div className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tighter">
                 {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
                 <span className="text-brand-orange">{stat.suffix}</span>
               </div>
-              <div className="text-sm font-bold text-[#A0AAB2] uppercase tracking-[0.3em]">{stat.label}</div>
+              <div className="text-[10px] md:text-sm font-bold text-[#A0AAB2] uppercase tracking-[0.3em]">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -1837,7 +1837,7 @@ export default function App() {
           <motion.div 
             className="flex gap-4 py-4"
             animate={{
-              x: [0, -2000],
+              x: ["0%", "-50%"],
             }}
             transition={{
               x: {
@@ -1876,7 +1876,7 @@ export default function App() {
           <motion.div 
             className="flex gap-4 py-4"
             animate={{
-              x: [-2000, 0],
+              x: ["-50%", "0%"],
             }}
             transition={{
               x: {
@@ -1939,7 +1939,7 @@ export default function App() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {TESTIMONIALS.map((t, i) => (
             <motion.div
               key={i}
