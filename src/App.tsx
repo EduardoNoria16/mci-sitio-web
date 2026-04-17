@@ -769,7 +769,7 @@ const SECTORS: Sector[] = [
   },
   {
     id: 's4',
-    title: 'Industria de Bienes y Consumo',
+    title: 'Industria de Bienes de Consumo',
     description: 'Protección de activos de producción para garantizar una rápida rotación.',
     icon: <Truck className="w-6 h-6" />,
     details: {
@@ -1006,7 +1006,7 @@ export default function App() {
       const htmlEl = subEl as HTMLElement;
       const content = htmlEl.innerText?.trim();
       if (content && 
-          content.length > 3 && 
+          content.length >= 3 && 
           !htmlEl.closest('button') && 
           !htmlEl.closest('nav') && 
           !htmlEl.closest('form')) {
@@ -1284,8 +1284,11 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-xl font-black tracking-tighter text-brand-orange leading-none">MCI</span>
-              <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-blue">Soluciones</span>
+              <span className="text-xl font-black tracking-tighter leading-none flex gap-1">
+                <span className="text-brand-orange">MCI</span>
+                <span className="text-brand-blue">Soluciones Poliméricas</span>
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-1">Ingeniería en Recubrimientos</span>
             </div>
           </a>
 
@@ -1556,8 +1559,24 @@ export default function App() {
               </div>
             </div>
 
+            {/* ¿Quiénes Somos? Section */}
+            <div className="mt-12 space-y-6">
+              <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
+                ¿Quiénes <span className="text-gradient">Somos?</span>
+              </h2>
+              <div className="h-1.5 w-24 bg-brand-orange rounded-full" />
+              <div className="space-y-4">
+                <h3 className="font-black uppercase tracking-[0.3em] text-sm notranslate" translate="no">
+                  <span className="text-brand-orange">MCI</span> <span className="text-brand-blue">Soluciones Poliméricas</span>
+                </h3>
+                <p className="text-white/80 leading-relaxed text-base font-medium">
+                  Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.
+                </p>
+              </div>
+            </div>
+
             {/* Results Accordion Section */}
-            <div className="mt-8">
+            <div className="mt-12">
               <button 
                 onClick={() => {
                   playClickSound();
@@ -1744,7 +1763,7 @@ export default function App() {
                   {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6' })}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xs md:text-sm font-black text-white uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
+                  <h3 className="text-sm md:text-base font-black text-white uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
                     {s.title}
                   </h3>
                 </div>
@@ -1954,85 +1973,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Commitment Section */}
-      <section className="relative z-10 py-10 md:py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-brand-orange/5 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="glass rounded-[3rem] md:rounded-[4rem] border-white/10 overflow-hidden shadow-2xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="p-6 md:p-20 space-y-8 md:space-y-10">
-                <div className="space-y-6">
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass border-brand-orange/40 text-brand-orange text-xs font-black uppercase tracking-[0.4em] shadow-[0_0_20px_rgba(245,130,32,0.1)]"
-                  >
-                    <ShieldCheck className="w-4 h-4" />
-                    Excelencia en Ingeniería
-                  </motion.div>
-                  <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] py-2"
-                  >
-                    Nosotros nos <br />
-                    <span className="text-gradient">encargamos</span>
-                  </motion.h2>
-                  <div className="h-1.5 w-32 bg-gradient-to-r from-brand-orange to-transparent rounded-full" />
-                  <p className="text-xl md:text-2xl text-white/90 font-black uppercase tracking-tighter italic">
-                    "Soluciones que trascienden"
-                  </p>
-                </div>
 
-                <p className="text-[#A0AAB2] text-base md:text-lg font-medium leading-relaxed max-w-xl">
-                  Nuestro equipo de ingenieros certificados supervisa cada detalle técnico, asegurando que tu inversión esté protegida con los más altos estándares de la industria. Brindamos confianza a través de la precisión.
-                </p>
-
-                <div className="grid grid-cols-2 gap-8 pt-4">
-                  <div className="space-y-2">
-                    <div className="text-3xl md:text-5xl font-black text-white tracking-tighter">
-                      <Counter target={30} />+
-                    </div>
-                    <p className="text-brand-orange text-xs uppercase tracking-widest font-black">Años de Confianza</p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-3xl md:text-5xl font-black text-white tracking-tighter">
-                      <Counter target={500} />+
-                    </div>
-                    <p className="text-brand-orange text-xs uppercase tracking-widest font-black">Casos de Éxito</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative min-h-[400px] lg:h-[600px] group overflow-hidden rounded-3xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
-                  alt="MCI Soluciones - Ingeniería Industrial"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent lg:block hidden" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden block" />
-                
-                {/* Floating Badge */}
-                <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 glass p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/10 backdrop-blur-xl hidden md:block shadow-2xl">
-                  <div className="flex items-center gap-6">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-brand-blue flex items-center justify-center text-white shadow-[0_0_30px_rgba(245,130,32,0.4)]">
-                      <HardHat className="w-8 h-8" />
-                    </div>
-                    <div>
-                      <p className="text-white font-black text-sm uppercase tracking-[0.2em]">Equipo Certificado</p>
-                      <p className="text-brand-orange text-xs font-bold uppercase tracking-widest mt-1">Calidad MCI</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Lightbox Modal */}
       <AnimatePresence>
@@ -2140,13 +2081,13 @@ export default function App() {
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
-                    <div className="space-y-5">
+                    <div className="space-y-5 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
                       {activeStrength.items.map((item, i) => (
                         <div key={i} className="group/item">
                           {typeof item === 'string' ? (
                             <div className="flex gap-4">
                               <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-white/90 text-sm md:text-base leading-relaxed">
+                              <p className="text-white/90 text-sm md:text-lg leading-relaxed">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
                             </div>
@@ -2154,13 +2095,13 @@ export default function App() {
                             <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
                               <div className="flex items-center gap-3">
                                 <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
-                                <p className="text-brand-orange font-black text-xs uppercase tracking-widest">
+                                <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
                                   {item.label}
                                 </p>
                               </div>
                               <ul className="grid grid-cols-1 gap-3 pl-4">
                                 {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-xs text-white/80 leading-relaxed">
+                                  <li key={j} className="flex gap-3 items-start text-sm text-white/80 leading-relaxed">
                                     <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
                                     {sub}
                                   </li>
@@ -2191,51 +2132,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Coverage Section */}
-      <section className="relative z-10 py-8 md:py-12 overflow-hidden">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="space-y-12">
-            <div className="space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#39ff14]/30 text-[#39ff14] text-xs font-bold uppercase tracking-widest"
-              >
-                <MapPin className="w-3 h-3" />
-                Presencia en Todo México
-              </motion.div>
-              <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none">
-                Sin <span className="text-gradient">Fronteras</span> <br />
-                Técnicas
-              </h2>
-              <p className="text-[#A0AAB2] text-xl font-medium leading-relaxed max-w-2xl mx-auto">
-                Nuestra infraestructura logística nos permite movilizar equipos especializados y materiales de alta gama a cualquier punto de la República Mexicana. No importa la ubicación, la calidad MCI llega a tu planta.
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
-                {[
-                  { label: 'Movilidad', value: 'Total' },
-                  { label: 'Soporte', value: '24/7' },
-                  { label: 'Garantía', value: 'Nacional' },
-                  { label: 'Proyectos', value: 'Integrales' }
-                ].map((stat, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="glass p-6 rounded-3xl border-white/5 hover:border-brand-orange/30 transition-all group"
-                  >
-                    <p className="text-brand-orange text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
-                    <p className="text-white font-black text-2xl tracking-tighter">{stat.value}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* FAQ Section */}
       <section className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -2309,13 +2206,6 @@ export default function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4 space-y-12">
-              <div className="space-y-6">
-                <h3 className="font-black uppercase tracking-[0.3em] text-xs notranslate" translate="no">
-                  <span className="text-brand-orange">MCI</span> <span className="text-brand-blue">Soluciones Poliméricas</span>
-                </h3>
-                <p className="text-white/80 leading-relaxed text-sm font-medium">Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.</p>
-              </div>
-
               <div className="space-y-6">
                 <h3 className="text-brand-blue font-black uppercase tracking-[0.3em] text-xs">Contacto Directo</h3>
                 <div className="space-y-4">
