@@ -41,7 +41,10 @@ import {
   Camera,
   Play,
   Pause,
-  Maximize2
+  Maximize2,
+  Sun,
+  Moon,
+  CheckCircle2
 } from 'lucide-react';
 
 // --- Sound Effects ---
@@ -939,6 +942,70 @@ export default function App() {
     };
   }, [isChatOpen]);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    cargo: '',
+    nombre: '',
+    empresa: '',
+    email: '',
+    telefono: '',
+    detalles: ''
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
+  }, [isDarkMode]);
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+    if (!formData.nombre.trim()) errors.nombre = 'El nombre es obligatorio';
+    if (!formData.email.trim()) {
+      errors.email = 'El correo es obligatorio';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Correo inválido';
+    }
+    if (!formData.telefono.trim()) {
+      errors.telefono = 'El teléfono es obligatorio';
+    } else if (!/^\d{10}$/.test(formData.telefono.replace(/\D/g, ''))) {
+      errors.telefono = 'Debe ser de 10 dígitos';
+    }
+    if (!formData.empresa.trim()) errors.empresa = 'La empresa es obligatoria';
+    if (!formData.detalles.trim()) errors.detalles = 'Los detalles son obligatorios';
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    // Simular envío
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsFormSubmitted(true);
+    
+    setFormData({
+      cargo: '',
+      nombre: '',
+      empresa: '',
+      email: '',
+      telefono: '',
+      detalles: ''
+    });
+  };
+
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
     { type: 'bot', text: '¡Hola! Soy tu asistente de MCI Soluciones Poliméricas. ¿En qué puedo ayudarte hoy?' }
   ]);
@@ -1155,28 +1222,43 @@ export default function App() {
         parts.push(await fileToGenerativePart(currentFile));
       }
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3.1-flash-lite-preview",
-        contents: { parts },
+      // Usar streaming para no bloquear y mejorar UX
+      const stream = await ai.models.generateContentStream({ 
+        model: "gemini-1.5-flash-preview-0514",
+        contents: [{ role: 'user', parts }],
         config: {
-          systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa para minimizar latencia.",
-          temperature: 0.4,
-          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL }
+          systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
         }
       });
 
-      const botText = response.text || "Lo siento, no pude procesar tu solicitud en este momento.";
+      let botText = "";
+      // Agregar mensaje vacío del bot para ir actualizando
+      setChatMessages(prev => [...prev, { type: 'bot', text: '' }]);
+
+      for await (const chunk of stream) {
+        const chunkText = chunk.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (chunkText) {
+          botText += chunkText;
+          setChatMessages(prev => {
+            const newMsg = [...prev];
+            newMsg[newMsg.length - 1].text = botText;
+            return newMsg;
+          });
+        }
+      }
+
       const needsWhatsApp = botText.toLowerCase().includes('whatsapp') || 
                           botText.toLowerCase().includes('ceo') || 
                           botText.toLowerCase().includes('contacto directo');
 
-      setChatMessages(prev => [
-        ...prev, 
-        { 
-          type: 'bot', 
-          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525512979217" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
-        }
-      ]);
+      if (needsWhatsApp) {
+        setChatMessages(prev => {
+          const newMsg = [...prev];
+          newMsg[newMsg.length - 1].text += '<br/><br/><a href="https://wa.me/525512979217" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>';
+          return newMsg;
+        });
+      }
+      
       setBotExpression('happy');
       setTimeout(() => setBotExpression('idle'), 3000);
     } catch (error) {
@@ -1267,7 +1349,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-4 group flex-shrink-0 mr-12 cursor-pointer"
+            className="flex items-center gap-3 lg:gap-4 group flex-shrink-0 mr-4 lg:mr-8 cursor-pointer"
             onClick={(e) => {
               playClickSound();
               if (window.location.hash === '#inicio') {
@@ -1293,12 +1375,19 @@ export default function App() {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
+          <nav className="hidden xl:flex items-center gap-6 xl:gap-8">
+            <button 
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="p-2 rounded-full glass border-white/10 text-white hover:text-brand-orange transition-all"
+              title={isDarkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             {navLinks.map((link) => (
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-[11px] lg:text-sm font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em] text-white/60 hover:text-brand-blue transition-all relative group/nav"
+                className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 hover:text-brand-blue transition-all relative group/nav"
                 onClick={playClickSound}
               >
                 {link.name}
@@ -1307,7 +1396,7 @@ export default function App() {
             ))}
             <a 
               href="#contacto-footer"
-              className="bg-brand-blue text-white px-5 lg:px-6 py-2 lg:py-2.5 rounded-full text-[10px] lg:text-xs font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
+              className="bg-brand-blue text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
               onClick={playClickSound}
             >
               Cotizar
@@ -1316,7 +1405,7 @@ export default function App() {
 
           <button 
             ref={menuButtonRef}
-            className="lg:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
+            className="xl:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               playClickSound();
@@ -1370,10 +1459,10 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden absolute top-full left-0 right-0 lg:hidden bg-[#0a192f] border-b border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999]"
+              className="xl:hidden absolute top-full left-0 right-0 bg-[#0a192f] border-b border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999]"
               ref={menuRef}
             >
-              <nav className="flex lg:hidden flex-col p-8 gap-2">
+              <nav className="flex xl:hidden flex-col p-8 gap-2">
                 {navLinks.map((link) => (
                   <a 
                     key={link.name}
@@ -1453,9 +1542,9 @@ export default function App() {
           />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16 mt-8 md:mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <div className="md:col-span-1 lg:col-span-8 space-y-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-12 py-8 md:py-16 mt-8 md:mt-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+          <div className="lg:col-span-7 xl:col-span-8 space-y-6 md:space-y-8">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1573,7 +1662,7 @@ export default function App() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="md:col-span-1 lg:col-span-4"
+            className="lg:col-span-5 xl:col-span-4"
           >
             <div className="relative group max-w-md mx-auto lg:mx-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
@@ -2239,42 +2328,130 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-8">
-              <div className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden">
+              <div className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden h-full flex flex-col justify-center">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32" />
                 
-                <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" onSubmit={(e) => { e.preventDefault(); alert('Solicitud de cotización recibida. Hemos enviado una copia a mci.spolimericas@polycovers.mx y un ingeniero se pondrá en contacto pronto.'); }}>
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-                    <div className="md:col-span-1 space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Cargo</label>
-                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all" placeholder="Ej. Ing." />
+                {isFormSubmitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="relative z-10 text-center py-12 md:py-20 space-y-6"
+                  >
+                    <div className="w-20 h-20 bg-brand-orange/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-brand-orange/30">
+                      <CheckCircle2 className="w-10 h-10 text-brand-orange" />
                     </div>
-                    <div className="md:col-span-3 space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Nombre Completo</label>
-                      <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all" placeholder="Ej. Roberto Silva" />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5 md:space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Empresa / Planta</label>
-                    <input type="text" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all" placeholder="Ej. Planta Industrial Norte" />
-                  </div>
-                  <div className="space-y-1.5 md:space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Correo Corporativo</label>
-                    <input type="email" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all" placeholder="rsilva@empresa.com" />
-                  </div>
-                  <div className="space-y-1.5 md:space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Teléfono de Contacto</label>
-                    <input type="tel" required className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all" placeholder="55 0000 0000" />
-                  </div>
-                  <div className="md:col-span-2 space-y-1.5 md:space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4">Detalles del Proyecto</label>
-                    <textarea required rows={4} className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all resize-none" placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."></textarea>
-                  </div>
-                  <div className="md:col-span-2 pt-2 md:pt-4">
-                    <button type="submit" className="w-full py-4 md:py-5 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(0,75,135,0.2)] hover:shadow-[0_25px_50px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98]">
-                      Solicitar una Cotización
+                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">¡Gracias por contactarnos!</h3>
+                    <p className="text-white/70 text-lg md:text-xl font-medium max-w-md mx-auto leading-relaxed">
+                      Hemos recibido tu solicitud y un ingeniero especializado se pondrá en contacto pronto para asesorarte en tu proyecto.
+                    </p>
+                    <button 
+                      onClick={() => setIsFormSubmitted(false)}
+                      className="mt-8 text-brand-orange font-black uppercase tracking-[0.2em] text-xs hover:text-white transition-colors flex items-center gap-2 mx-auto group"
+                    >
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rotate-180" />
+                      Enviar otro mensaje
                     </button>
-                  </div>
-                </form>
+                  </motion.div>
+                ) : (
+                  <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" onSubmit={handleFormSubmit}>
+                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+                      <div className="md:col-span-1 space-y-1.5 md:space-y-2">
+                        <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">Cargo</label>
+                        <input 
+                          type="text" 
+                          value={formData.cargo}
+                          onChange={(e) => setFormData({...formData, cargo: e.target.value})}
+                          className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-white/20" 
+                          placeholder="Ej. Ing." 
+                        />
+                      </div>
+                      <div className="md:col-span-3 space-y-1.5 md:space-y-2">
+                        <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                          Nombre Completo <span className="text-brand-orange">*</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          value={formData.nombre}
+                          onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+                          className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-white/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                          placeholder="Ej. Roberto Silva" 
+                        />
+                        {formErrors.nombre && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                          {formErrors.nombre}
+                        </p>}
+                      </div>
+                    </div>
+                    <div className="space-y-1.5 md:space-y-2">
+                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                        Empresa / Planta <span className="text-brand-orange">*</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        value={formData.empresa}
+                        onChange={(e) => setFormData({...formData, empresa: e.target.value})}
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-white/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        placeholder="Ej. Planta Industrial Norte" 
+                      />
+                      {formErrors.empresa && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                        {formErrors.empresa}
+                      </p>}
+                    </div>
+                    <div className="space-y-1.5 md:space-y-2">
+                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                        Correo Corporativo <span className="text-brand-orange">*</span>
+                      </label>
+                      <input 
+                        type="email" 
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-white/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        placeholder="rsilva@empresa.com" 
+                      />
+                      {formErrors.email && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                        {formErrors.email}
+                      </p>}
+                    </div>
+                    <div className="space-y-1.5 md:space-y-2">
+                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                        Teléfono de Contacto <span className="text-brand-orange">*</span>
+                      </label>
+                      <input 
+                        type="tel" 
+                        value={formData.telefono}
+                        onChange={(e) => setFormData({...formData, telefono: e.target.value})}
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-white/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        placeholder="55 0000 0000" 
+                      />
+                      {formErrors.telefono && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                        {formErrors.telefono}
+                      </p>}
+                    </div>
+                    <div className="md:col-span-2 space-y-1.5 md:space-y-2">
+                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                        Detalles del Proyecto <span className="text-brand-orange">*</span>
+                      </label>
+                      <textarea 
+                        rows={4} 
+                        value={formData.detalles}
+                        onChange={(e) => setFormData({...formData, detalles: e.target.value})}
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-white/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
+                      ></textarea>
+                      {formErrors.detalles && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                        {formErrors.detalles}
+                      </p>}
+                    </div>
+                    <div className="md:col-span-2 pt-2 md:pt-4">
+                      <button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="w-full py-4 md:py-5 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(0,75,135,0.2)] hover:shadow-[0_25px_50px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? 'Enviando...' : 'Solicitar una Cotización'}
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -2478,9 +2655,9 @@ export default function App() {
                 <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 space-y-3 shrink-0">
+              <form onSubmit={handleSendMessage} className="p-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-white/10 space-y-3 shrink-0">
                 {selectedFile && (
-                  <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-200">
+                  <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/5 p-2 rounded-xl border border-gray-200 dark:border-white/10">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
                     </div>

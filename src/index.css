@@ -10,6 +10,24 @@
 }
 
 @layer base {
+  :root {
+    --bg-primary: #f8fafc;
+    --text-primary: #334155;
+    --text-secondary: #64748b;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 75, 135, 0.1);
+    --card-bg: rgba(0, 75, 135, 0.1);
+  }
+
+  .dark {
+    --bg-primary: #0a192f;
+    --text-primary: #E8ECEF;
+    --text-secondary: #A0AAB2;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(0, 75, 135, 0.4);
+  }
+
   html {
     font-size: 16px;
     @media (min-width: 1024px) {
@@ -18,10 +36,14 @@
   }
 
   body {
-    @apply bg-[#0a192f] text-[#E8ECEF]/90 antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed overflow-x-hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed overflow-x-hidden transition-colors duration-500;
   }
+  
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-black tracking-tight text-white;
+    @apply font-display font-black tracking-tight;
+    color: var(--text-primary);
   }
 }
 
@@ -30,7 +52,9 @@
 }
 
 .glass {
-  @apply bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  background-color: var(--glass-bg);
+  border-color: var(--glass-border);
+  @apply backdrop-blur-md border shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-500;
 }
 
 .glass-hover {
@@ -77,9 +101,9 @@
   flex-shrink: 0;
   width: 350px;
   height: 120px;
-  background: rgba(0, 75, 135, 0.4); /* Blue glass - brand blue with transparency */
+  background-color: var(--card-bg);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(245, 130, 32, 0.3); /* Orange border as requested */
+  border: 1px solid rgba(245, 130, 32, 0.3);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -117,7 +141,7 @@
 
 .marquee-desc {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   line-height: 1.4;
   font-weight: 500;
 }
