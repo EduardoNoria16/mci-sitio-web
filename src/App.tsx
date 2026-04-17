@@ -1581,43 +1581,43 @@ export default function App() {
                 <CustomVideoPlayer />
               </div>
             </div>
-
-            {/* Infinite Horizontal Marquee Section */}
-            <div className="mt-12 overflow-hidden w-full">
-              <div className="marquee-container">
-                <div className="marquee-content">
-                  {/* Original Items */}
-                  {[
-                    { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
-                    { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
-                    { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
-                    { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
-                    { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
-                  ].map((step, i) => (
-                    <div key={i} className="marquee-card">
-                      <div className="marquee-num">{step.num}</div>
-                      <h4 className="marquee-title">{step.title}</h4>
-                      <p className="marquee-desc">{step.text}</p>
-                    </div>
-                  ))}
-                  {/* Duplicated Items for Seamless Loop */}
-                  {[
-                    { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
-                    { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
-                    { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
-                    { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
-                    { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
-                  ].map((step, i) => (
-                    <div key={`dup-${i}`} className="marquee-card">
-                      <div className="marquee-num">{step.num}</div>
-                      <h4 className="marquee-title">{step.title}</h4>
-                      <p className="marquee-desc">{step.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </motion.div>
+        </div>
+
+        {/* Infinite Horizontal Marquee Section */}
+        <div className="mt-16 overflow-hidden w-full relative z-10">
+          <div className="marquee-container">
+            <div className="marquee-content">
+              {/* Original Items */}
+              {[
+                { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
+                { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
+                { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
+                { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
+                { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
+              ].map((step, i) => (
+                <div key={i} className="marquee-card">
+                  <div className="marquee-num">{step.num}</div>
+                  <h4 className="marquee-title">{step.title}</h4>
+                  <p className="marquee-desc">{step.text}</p>
+                </div>
+              ))}
+              {/* Duplicated Items for Seamless Loop */}
+              {[
+                { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
+                { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
+                { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
+                { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
+                { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
+              ].map((step, i) => (
+                <div key={`dup-${i}`} className="marquee-card">
+                  <div className="marquee-num">{step.num}</div>
+                  <h4 className="marquee-title">{step.title}</h4>
+                  <p className="marquee-desc">{step.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
