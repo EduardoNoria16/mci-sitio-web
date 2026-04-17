@@ -53,6 +53,80 @@
   @apply text-brand-orange font-black drop-shadow-[0_0_10px_rgba(245,130,32,0.2)];
 }
 
+/* Marquee Styles */
+.marquee-container {
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  gap: 40px;
+  animation: marquee-scroll 30s linear infinite;
+  padding: 20px 40px 20px 0; /* Extra gap at the end for seamless loop */
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+.marquee-card {
+  flex-shrink: 0;
+  width: 350px;
+  height: 120px;
+  background: rgba(0, 75, 135, 0.4); /* Blue glass - brand blue with transparency */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 130, 32, 0.3); /* Orange border as requested */
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.marquee-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(245, 130, 32, 0.4);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.marquee-num {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #ff8c00;
+  margin-bottom: 4px;
+  letter-spacing: 0.1em;
+}
+
+.marquee-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #ff8c00; /* Highlighted in brand orange */
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(245, 130, 32, 0.2);
+}
+
+.marquee-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); } /* Perfect half-width scroll for doubled items */
+}
+
 /* Ensure all interactive elements show the pointer cursor */
 a, 
 button, 

@@ -1174,7 +1174,7 @@ export default function App() {
         ...prev, 
         { 
           type: 'bot', 
-          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525561500317" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
+          text: botText + (needsWhatsApp ? '<br/><br/><a href="https://wa.me/525512979217" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg font-bold text-[10px] mt-2">Quiero asistencia personalizada</a>' : '')
         }
       ]);
       setBotExpression('happy');
@@ -1459,22 +1459,23 @@ export default function App() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-2"
+              className="space-y-3"
             >
-              <div className="flex items-baseline gap-2 md:gap-4 flex-wrap">
-                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-brand-orange leading-[0.9] notranslate" translate="no">MCI</h1>
-                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-brand-blue uppercase">Soluciones</h2>
-              </div>
-              <span className="block text-lg md:text-xl font-black tracking-[0.4em] text-white/90 uppercase">Poliméricas</span>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
+                <span className="text-white">¿Quiénes</span>{' '}
+                <span className="text-brand-blue">Somos</span>
+                <span className="text-white">?</span>
+              </h1>
+              <div className="h-1.5 w-32 bg-brand-orange/80 rounded-full" />
             </motion.div>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl font-medium"
+              className="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl font-medium"
             >
-              Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> ofreciendo <span className="hl">soluciones duraderas</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a daños físicos o químicos.
+              Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
             </motion.p>
 
             {/* Misión/Visión/Propuesta Tabs */}
@@ -1496,7 +1497,18 @@ export default function App() {
               {[
                 { label: 'Misión', content: 'Diseñar e implementar soluciones poliméricas especializadas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico, materiales de alto desempeño y ejecución confiable.' },
                 { label: 'Visión', content: 'Ser una empresa referente en soluciones de protección industrial, reconocida por la confiabilidad de nuestros sistemas, la solidez técnica y la capacidad de resolver entornos de alta exigencia.' },
-                { label: 'Propuesta de Valor', content: 'Ofrecemos soluciones integrales: Rigor técnico, Calidad comprobable, Respuesta inmediata 24/7, Responsabilidad operativa y Protección a largo plazo.' }
+                { 
+                  label: 'Propuesta de Valor', 
+                  list: [
+                    'Más de 30 años de experiencia',
+                    'Respuesta inmediata 24/7',
+                    'Rigor técnico',
+                    'Soluciones integrales a la medida',
+                    'Calidad total demostrada',
+                    'Responsabilidad operativa',
+                    'Protección a largo plazo'
+                  ] 
+                }
               ].map((tab, i) => (
                 <motion.div 
                   key={i} 
@@ -1520,15 +1532,26 @@ export default function App() {
                 <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-brand-blue-bright'}`}>{tab.label}</h3>
                     <AnimatePresence mode="wait">
                       {activeHeroTab === i && (
-                        <motion.p 
+                        <motion.div 
                           initial={{ opacity: 0, height: 0, y: 10 }}
                           animate={{ opacity: 1, height: 'auto', y: 0 }}
                           exit={{ opacity: 0, height: 0, y: 10 }}
                           transition={{ duration: 0.3, ease: "easeOut" }}
-                          className="text-sm text-white/70 leading-relaxed overflow-hidden font-medium tracking-wide mt-2"
+                          className="text-sm text-white/70 leading-relaxed overflow-hidden font-medium tracking-wide mt-2 w-full"
                         >
-                          {tab.content}
-                        </motion.p>
+                          {'content' in tab ? (
+                            <p>{tab.content}</p>
+                          ) : (
+                            <ul className="space-y-1 text-left inline-block">
+                              {tab.list?.map((item, idx) => (
+                                <li key={idx} className="flex items-center gap-2">
+                                  <div className="w-1 h-1 bg-brand-orange rounded-full flex-shrink-0" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </motion.div>
                       )}
                     </AnimatePresence>
                     {!activeHeroTab && activeHeroTab !== 0 && (
@@ -1559,65 +1582,40 @@ export default function App() {
               </div>
             </div>
 
-            {/* ¿Quiénes Somos? Section */}
-            <div className="mt-12 space-y-6">
-              <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
-                ¿Quiénes <span className="text-gradient">Somos?</span>
-              </h2>
-              <div className="h-1.5 w-24 bg-brand-orange rounded-full" />
-              <div className="space-y-4">
-                <h3 className="font-black uppercase tracking-[0.3em] text-sm notranslate" translate="no">
-                  <span className="text-brand-orange">MCI</span> <span className="text-brand-blue">Soluciones Poliméricas</span>
-                </h3>
-                <p className="text-white/80 leading-relaxed text-base font-medium">
-                  Ingeniería en recubrimientos industriales y acabados de alta gama. Protegemos tu inversión con tecnología, precisión y durabilidad extrema.
-                </p>
-              </div>
-            </div>
-
-            {/* Results Accordion Section */}
-            <div className="mt-12">
-              <button 
-                onClick={() => {
-                  playClickSound();
-                  setIsResultsOpen(!isResultsOpen);
-                }}
-                className="w-full group flex items-center justify-between px-8 py-4 bg-gradient-to-r from-brand-blue to-brand-blue text-white font-black uppercase tracking-widest rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                Así Garantizamos Resultados
-                <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isResultsOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              <AnimatePresence>
-                {isResultsOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-4 space-y-3">
-                      {[
-                        { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
-                        { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
-                        { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
-                        { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
-                        { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
-                      ].map((step, i) => (
-                        <div key={i} className="glass p-4 rounded-xl border-white/5 flex items-center gap-4 group hover:border-brand-orange/30 transition-colors">
-                          <div className="w-8 h-8 rounded-full bg-brand-orange/10 flex items-center justify-center text-brand-orange font-black text-xs">
-                            {step.num}
-                          </div>
-                          <div>
-                            <h4 className="text-white font-bold text-sm uppercase tracking-wider group-hover:text-brand-orange transition-colors">{step.title}</h4>
-                            <p className="text-white/80 text-xs leading-relaxed font-semibold">{step.text}</p>
-                          </div>
-                        </div>
-                      ))}
+            {/* Infinite Horizontal Marquee Section */}
+            <div className="mt-12 overflow-hidden w-full">
+              <div className="marquee-container">
+                <div className="marquee-content">
+                  {/* Original Items */}
+                  {[
+                    { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
+                    { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
+                    { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
+                    { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
+                    { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
+                  ].map((step, i) => (
+                    <div key={i} className="marquee-card">
+                      <div className="marquee-num">{step.num}</div>
+                      <h4 className="marquee-title">{step.title}</h4>
+                      <p className="marquee-desc">{step.text}</p>
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  ))}
+                  {/* Duplicated Items for Seamless Loop */}
+                  {[
+                    { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
+                    { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
+                    { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
+                    { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
+                    { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
+                  ].map((step, i) => (
+                    <div key={`dup-${i}`} className="marquee-card">
+                      <div className="marquee-num">{step.num}</div>
+                      <h4 className="marquee-title">{step.title}</h4>
+                      <p className="marquee-desc">{step.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -2455,7 +2453,7 @@ export default function App() {
                         {[
                           { q: 'Cobertura MCI', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
                           { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
-                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525561500317" target="_blank" class="inline-block mt-2 bg-brand-orange text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
+                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525512979217" target="_blank" class="inline-block mt-2 bg-brand-orange text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
                         ].map((opt, idx) => (
                           <button
                             key={idx}
