@@ -942,7 +942,15 @@ export default function App() {
     };
   }, [isChatOpen]);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved === 'dark';
+      // Default to dark for this high-end industrial look
+      return true;
+    }
+    return true;
+  });
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -960,9 +968,11 @@ export default function App() {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
       document.documentElement.classList.add('light');
+      localStorage.setItem('theme', 'light');
     }
   }, [isDarkMode]);
 
@@ -1336,7 +1346,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-surface text-on-surface transition-colors duration-500">
       
       {/* Header / Navigation */}
       <header 
@@ -1366,11 +1376,12 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-xl font-black tracking-tighter leading-none flex gap-1">
+              <span className="text-xl font-black tracking-tighter leading-none flex gap-1 items-baseline">
                 <span className="text-brand-orange">MCI</span>
-                <span className="text-brand-blue">Soluciones Poliméricas</span>
+                <span className="text-brand-blue-bright md:text-brand-blue dark:md:text-brand-blue-bright transition-colors">Soluciones</span>
+                <span className="hidden sm:inline text-brand-blue-bright md:text-brand-blue dark:md:text-brand-blue-bright transition-colors">Poliméricas</span>
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-1">Ingeniería en Recubrimientos</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-1 transition-colors">Ingeniería en Recubrimientos</span>
             </div>
           </a>
 
@@ -1387,7 +1398,7 @@ export default function App() {
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 hover:text-brand-blue transition-all relative group/nav"
+                className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/60 hover:text-brand-blue dark:hover:text-brand-blue-bright transition-all relative group/nav"
                 onClick={playClickSound}
               >
                 {link.name}
@@ -1459,10 +1470,19 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="xl:hidden absolute top-full left-0 right-0 bg-[#0a192f] border-b border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999]"
+              className="xl:hidden absolute top-full left-0 right-0 bg-surface border-b border-glass-border overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999] transition-colors duration-500"
               ref={menuRef}
             >
               <nav className="flex xl:hidden flex-col p-8 gap-2">
+                <div className="flex items-center justify-between py-4 border-b border-white/5">
+                  <span className="text-xs font-black uppercase tracking-[0.2em] text-on-surface/60">Tema</span>
+                  <button 
+                    onClick={() => setIsDarkMode(!isDarkMode)}
+                    className="p-3 rounded-full glass border-white/10 text-on-surface hover:text-brand-orange transition-all"
+                  >
+                    {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                  </button>
+                </div>
                 {navLinks.map((link) => (
                   <a 
                     key={link.name}
@@ -1473,7 +1493,7 @@ export default function App() {
                       setIsMenuOpen(false);
                     }}
                   >
-                    <span className="text-sm font-black uppercase tracking-[0.2em] text-white group-hover:text-brand-orange transition-colors">
+                    <span className="text-sm font-black uppercase tracking-[0.2em] text-on-surface hover:text-brand-orange transition-colors">
                       {link.name}
                     </span>
                     <ChevronRight className="w-4 h-4 text-brand-orange opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
@@ -1482,13 +1502,13 @@ export default function App() {
                 
                 <div className="mt-6 pt-6 border-t border-white/10 space-y-6">
                   <div className="flex flex-col gap-4">
-                    <a href="tel:5512979217" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
+                    <a href="tel:5512979217" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                         <Phone className="w-5 h-5 text-brand-orange" />
                       </div>
                       <span className="text-xs font-bold tracking-wider">55 1297 9217</span>
                     </a>
-                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
+                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors">
                       <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                         <Mail className="w-5 h-5 text-brand-orange" />
                       </div>
@@ -1524,12 +1544,12 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden will-change-transform">
+      <section id="inicio" className="relative md:min-h-screen flex items-center pt-24 md:pt-32 pb-12 md:pb-20 overflow-hidden will-change-transform">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-[#0a192f]/70 z-10" />
+          <div className="absolute inset-0 bg-[#0a192f]/80 sm:bg-[#0a192f]/70 z-10" />
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
@@ -1550,19 +1570,19 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-3"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
                 <span className="text-white">¿Quiénes</span>{' '}
-                <span className="text-brand-blue">Somos</span>
+                <span className="text-brand-blue-bright transition-colors">Somos</span>
                 <span className="text-white">?</span>
               </h1>
-              <div className="h-1.5 w-32 bg-brand-orange/80 rounded-full" />
+              <div className="h-1.5 w-24 sm:w-32 bg-brand-orange/80 rounded-full" />
             </motion.div>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-lg lg:text-xl text-white/90 leading-relaxed max-w-3xl font-medium"
+              className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed max-w-3xl font-medium"
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
             </motion.p>
@@ -1617,8 +1637,8 @@ export default function App() {
                     if (window.innerWidth > 768) setActiveHeroTab(null);
                   }}
                 >
-                  <div className={`glass p-6 rounded-2xl border-white/5 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/40 bg-brand-blue/10 -translate-y-2 shadow-[0_10px_30px_rgba(0,75,135,0.1)]' : 'hover:border-white/10'}`}>
-                <h3 className={`font-black uppercase tracking-[0.4em] mb-2 text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-white' : 'text-brand-blue-bright'}`}>{tab.label}</h3>
+                  <div className={`glass p-6 rounded-2xl border-white/20 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/60 bg-brand-blue/30 -translate-y-2 shadow-[0_15px_40px_rgba(0,0,0,0.5)]' : 'hover:border-white/30'}`}>
+                <h3 className={`font-black uppercase tracking-[0.2em] mb-2 text-[10px] sm:text-xs md:text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-brand-orange' : 'text-white'}`}>{tab.label}</h3>
                     <AnimatePresence mode="wait">
                       {activeHeroTab === i && (
                         <motion.div 
@@ -1626,7 +1646,7 @@ export default function App() {
                           animate={{ opacity: 1, height: 'auto', y: 0 }}
                           exit={{ opacity: 0, height: 0, y: 10 }}
                           transition={{ duration: 0.3, ease: "easeOut" }}
-                          className="text-sm text-white/70 leading-relaxed overflow-hidden font-medium tracking-wide mt-2 w-full"
+                          className="text-sm text-white/90 leading-relaxed overflow-hidden font-medium tracking-wide mt-2 w-full"
                         >
                           {'content' in tab ? (
                             <p>{tab.content}</p>
@@ -1674,7 +1694,13 @@ export default function App() {
         </div>
 
         {/* Infinite Horizontal Marquee Section */}
-        <div className="mt-16 overflow-hidden w-full relative z-10">
+        <div className="mt-16 md:mt-24 overflow-hidden w-full relative z-10">
+          <div className="text-center mb-8">
+            <h3 className="text-brand-orange text-xs md:text-sm font-black uppercase tracking-[0.4em] mb-4">
+              Así Garantizamos Resultados
+            </h3>
+            <div className="w-12 h-0.5 bg-brand-orange/30 mx-auto rounded-full" />
+          </div>
           <div className="marquee-container">
             <div className="marquee-content">
               {/* Original Items */}
@@ -1723,24 +1749,24 @@ export default function App() {
               <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
-              <div className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tighter">
+              <div className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface tracking-tighter transition-colors">
                 {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
                 <span className="text-brand-orange">{stat.suffix}</span>
               </div>
-              <div className="text-[10px] md:text-sm font-bold text-[#A0AAB2] uppercase tracking-[0.3em]">{stat.label}</div>
+              <div className="text-[10px] md:text-sm font-bold text-on-surface-subtle uppercase tracking-[0.3em] transition-colors">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Sectors Section */}
-      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 will-change-transform">
-        <div className="text-center mb-20 space-y-6">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
-            Sectores que <span className="text-brand-blue">Atendemos</span>
+      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 will-change-transform">
+        <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
+            Sectores que <span className="text-brand-blue dark:text-brand-blue-bright transition-colors">Atendemos</span>
           </h2>
-          <div className="w-32 h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
-          <p className="text-[#A0AAB2] max-w-3xl mx-auto text-lg md:text-xl font-normal leading-relaxed">
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
+          <p className="text-on-surface-subtle max-w-3xl mx-auto text-base md:text-xl font-normal leading-relaxed">
             Soluciones especializadas para cada entorno de alta exigencia, garantizando durabilidad y cumplimiento normativo.
           </p>
         </div>
@@ -1758,7 +1784,7 @@ export default function App() {
               }
             }
           }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
         >
           {SECTORS.map((sector) => (
             <motion.div 
@@ -1767,19 +1793,19 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`glass p-8 rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'ring-1 ring-brand-orange/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(245,130,32,0.05)]' : 'hover:bg-white/[0.01]'}`}
+              className={`glass p-6 md:p-8 rounded-2xl md:rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'ring-1 ring-brand-orange/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(245,130,32,0.05)]' : 'hover:bg-white/[0.01]'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
+                <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue dark:text-brand-blue-bright transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
                 </div>
-                <h3 className={`text-base md:text-lg font-black uppercase tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-blue' : 'text-white'}`}>{sector.title}</h3>
+                <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
               </div>
-              <p className="text-sm text-white/80 leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
+              <p className="text-sm text-on-surface-subtle leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
               
               <AnimatePresence mode="popLayout">
                 {activeSector === sector.id && (
@@ -1795,13 +1821,13 @@ export default function App() {
                     )}
                     {sector.details?.groups.map((group, i) => (
                       <div key={i} className="space-y-3">
-                        <h4 className="text-sm font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                        <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] flex items-center gap-2">
                           <div className="w-1 h-1 bg-brand-orange rounded-full" />
                           {group.title}
                         </h4>
                         <ul className="grid grid-cols-1 gap-2.5">
                           {group.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-sm text-[#A0AAB2] font-medium leading-relaxed">
+                            <li key={j} className="flex items-start gap-3 text-sm text-on-surface-subtle font-medium leading-relaxed">
                               <ArrowRight className="w-2.5 h-2.5 text-brand-orange/40 mt-0.5 flex-shrink-0" />
                               {item}
                             </li>
@@ -1822,20 +1848,20 @@ export default function App() {
       </section>
 
       {/* Strengths Section */}
-      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 will-change-transform">
-        <div className="text-center mb-20 space-y-6">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white">
-            Nuestras <span className="text-brand-blue">Fortalezas</span>
+      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 will-change-transform">
+        <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
+            Nuestras <span className="text-brand-blue dark:text-brand-blue-bright transition-colors">Fortalezas</span>
           </h2>
-          <div className="w-32 h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
-          <p className="text-lg md:text-xl text-[#A0AAB2] max-w-4xl mx-auto leading-relaxed font-normal">
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
+          <p className="text-base md:text-xl text-on-surface-subtle max-w-4xl mx-auto leading-relaxed font-normal">
             Selecciona una especialidad para ver su ficha técnica detallada y conocer por qué somos líderes en el mercado.
           </p>
         </div>
 
         {/* Strengths List with Modal Technical Sheets */}
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {STRENGTHS.map((s) => (
               <button
                 key={s.id}
@@ -1844,13 +1870,13 @@ export default function App() {
                   setActiveStrength(s);
                   setIsStrengthHovered(true);
                 }}
-                className="group relative glass p-6 rounded-2xl border border-white/5 hover:border-brand-orange/30 transition-all duration-500 flex items-center gap-5 text-left hover:bg-white/[0.02] hover:-translate-y-1"
+                className="group relative glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-white/5 hover:border-brand-orange/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white/[0.02] hover:-translate-y-1"
               >
                 <div className="p-3 rounded-xl bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(0,75,135,0.1)] group-hover:shadow-[0_0_25px_rgba(0,75,135,0.4)]">
                   {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6' })}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm md:text-base font-black text-white uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
+                  <h3 className="text-sm md:text-base font-black text-on-surface uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
                     {s.title}
                   </h3>
                 </div>
@@ -1876,10 +1902,10 @@ export default function App() {
               <Zap className="w-3 h-3" />
               Transformación Radical
             </motion.div>
-            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
+            <h2 className="text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
               El Poder del <span className="text-gradient">Cambio</span>
             </h2>
-            <p className="text-[#A0AAB2] max-w-2xl mx-auto font-medium">
+            <p className="text-on-surface-subtle max-w-2xl mx-auto font-medium">
               Desliza para ver la diferencia técnica entre una superficie deteriorada y una intervención profesional de MCI.
             </p>
           </div>
@@ -1905,7 +1931,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter"
             >
               Nuestra <span className="text-gradient">Galería</span>
             </motion.h2>
@@ -1914,7 +1940,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-[#A0AAB2] max-w-2xl mx-auto font-medium"
+              className="text-on-surface-subtle max-w-2xl mx-auto font-medium text-sm md:text-base"
             >
               Explora nuestra trayectoria a través de este recorrido visual automático. Haz clic en cualquier imagen para ampliarla.
             </motion.p>
@@ -2019,16 +2045,16 @@ export default function App() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter"
+            className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter"
           >
             Clientes <span className="text-gradient">Satisfechos</span>
           </motion.h2>
-          <p className="text-[#A0AAB2] max-w-2xl mx-auto font-light">
+          <p className="text-on-surface-subtle max-w-2xl mx-auto font-light text-sm md:text-base">
             La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {TESTIMONIALS.map((t, i) => (
             <motion.div
               key={i}
@@ -2036,7 +2062,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-8 rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
+              className="glass p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
             >
               <div className="space-y-6">
                 <div className="flex gap-1">
@@ -2046,14 +2072,14 @@ export default function App() {
                 </div>
                 <div className="relative">
                   <Quote className="absolute -top-4 -left-4 w-8 h-8 text-brand-orange/10" />
-                  <p className="text-white/80 text-sm leading-relaxed font-medium italic relative z-10">
+                  <p className="text-on-surface/80 text-sm leading-relaxed font-medium italic relative z-10">
                     "{t.text}"
                   </p>
                 </div>
               </div>
-              <div className="mt-8 pt-6 border-t border-white/5">
-                <p className="text-white font-black text-xs uppercase tracking-widest">{t.name}</p>
-                <p className="text-brand-blue text-xs font-bold uppercase tracking-widest mt-1">{t.company}</p>
+              <div className="mt-8 pt-6 border-t border-glass-border">
+                <p className="text-on-surface font-black text-xs uppercase tracking-widest">{t.name}</p>
+                <p className="text-brand-blue dark:text-brand-blue-bright text-xs font-bold uppercase tracking-widest mt-1 transition-colors">{t.company}</p>
               </div>
             </motion.div>
           ))}
@@ -2233,12 +2259,12 @@ export default function App() {
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
             Preguntas <span className="text-gradient">Frecuentes</span>
           </h2>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           {[
             { q: '¿Cuánto tiempo tarda en secar un piso epóxico?', a: 'Dependiendo del sistema, el tráfico peatonal puede permitirse en 24 horas y el tráfico pesado en 48-72 horas.' },
             { q: '¿Tienen cobertura fuera de la CDMX?', a: 'Sí, contamos con infraestructura logística para ejecutar proyectos en cualquier estado de la República Mexicana.' },
@@ -2255,11 +2281,11 @@ export default function App() {
                 playClickSound();
                 setActiveFaq(activeFaq === i ? null : i);
               }}
-              className={`glass p-6 rounded-2xl border-white/5 hover:border-brand-orange/20 transition-all group cursor-pointer ${activeFaq === i ? 'bg-white/5 border-brand-orange/30 shadow-[0_10px_30px_rgba(245,130,32,0.05)]' : ''}`}
+              className={`glass p-5 md:p-6 rounded-2xl border-white/5 hover:border-brand-orange/20 transition-all group cursor-pointer ${activeFaq === i ? 'bg-surface border-brand-orange/30 shadow-[0_10px_30px_rgba(245,130,32,0.05)]' : ''}`}
             >
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-white font-bold text-base md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
-                  <span className="text-brand-orange/40 text-xs font-black mt-1.5 whitespace-nowrap">0{i+1}</span>
+                <h3 className="text-on-surface font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                  <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
                   {faq.q}
                 </h3>
                 <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
@@ -2272,7 +2298,7 @@ export default function App() {
                     exit={{ opacity: 0, height: 0, marginTop: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-white/80 font-medium text-sm leading-relaxed pl-8 border-l-2 border-brand-orange/20">{faq.a}</p>
+                    <p className="text-on-surface-subtle font-medium text-xs md:text-sm leading-relaxed pl-6 md:pl-8 border-l-2 border-brand-orange/20">{faq.a}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -2282,13 +2308,13 @@ export default function App() {
       </section>
 
       {/* Footer Section */}
-      <footer id="contacto-footer" className="relative z-10 bg-white/[0.02] backdrop-blur-3xl border-t border-white/10 mt-8 md:mt-12">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12">
-          <div className="text-center mb-20 space-y-4">
-            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
+      <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20">
+          <div className="text-center mb-16 md:mb-20 space-y-4">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
             </h2>
-            <p className="text-base md:text-lg text-white/80 font-medium">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
+            <p className="text-base md:text-lg text-on-surface-subtle font-medium">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -2308,10 +2334,10 @@ export default function App() {
                       rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                       className="flex items-center gap-4 group cursor-pointer"
                     >
-                      <div className="p-3 glass rounded-xl border-white/5 group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
+                      <div className="p-3 glass rounded-xl border-glass-border group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
                         {item.icon}
                       </div>
-                      <span className="text-white/80 group-hover:text-white transition-colors text-sm font-medium tracking-wide">{item.text}</span>
+                      <span className="text-on-surface-subtle group-hover:text-brand-orange transition-colors text-sm font-bold tracking-wide">{item.text}</span>
                     </a>
                   ))}
                 </div>
@@ -2340,13 +2366,13 @@ export default function App() {
                     <div className="w-20 h-20 bg-brand-orange/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-brand-orange/30">
                       <CheckCircle2 className="w-10 h-10 text-brand-orange" />
                     </div>
-                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">¡Gracias por contactarnos!</h3>
-                    <p className="text-white/70 text-lg md:text-xl font-medium max-w-md mx-auto leading-relaxed">
+                    <h3 className="text-3xl md:text-4xl font-black text-on-surface uppercase tracking-tighter">¡Gracias por contactarnos!</h3>
+                    <p className="text-on-surface-subtle text-lg md:text-xl font-medium max-w-md mx-auto leading-relaxed">
                       Hemos recibido tu solicitud y un ingeniero especializado se pondrá en contacto pronto para asesorarte en tu proyecto.
                     </p>
                     <button 
                       onClick={() => setIsFormSubmitted(false)}
-                      className="mt-8 text-brand-orange font-black uppercase tracking-[0.2em] text-xs hover:text-white transition-colors flex items-center gap-2 mx-auto group"
+                      className="mt-8 text-brand-orange font-black uppercase tracking-[0.2em] text-xs hover:text-brand-blue transition-colors flex items-center gap-2 mx-auto group"
                     >
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rotate-180" />
                       Enviar otro mensaje
@@ -2356,88 +2382,88 @@ export default function App() {
                   <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" onSubmit={handleFormSubmit}>
                     <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
                       <div className="md:col-span-1 space-y-1.5 md:space-y-2">
-                        <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">Cargo</label>
+                        <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">Cargo</label>
                         <input 
                           type="text" 
                           value={formData.cargo}
                           onChange={(e) => setFormData({...formData, cargo: e.target.value})}
-                          className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-white/20" 
+                          className="w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20" 
                           placeholder="Ej. Ing." 
                         />
                       </div>
                       <div className="md:col-span-3 space-y-1.5 md:space-y-2">
-                        <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                        <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
                           Nombre Completo <span className="text-brand-orange">*</span>
                         </label>
                         <input 
                           type="text" 
                           value={formData.nombre}
                           onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                          className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-white/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                          className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                           placeholder="Ej. Roberto Silva" 
                         />
-                        {formErrors.nombre && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                        {formErrors.nombre && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
                           {formErrors.nombre}
                         </p>}
                       </div>
                     </div>
                     <div className="space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
                         Empresa / Planta <span className="text-brand-orange">*</span>
                       </label>
                       <input 
                         type="text" 
                         value={formData.empresa}
                         onChange={(e) => setFormData({...formData, empresa: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-white/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Ej. Planta Industrial Norte" 
                       />
-                      {formErrors.empresa && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                      {formErrors.empresa && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
                         {formErrors.empresa}
                       </p>}
                     </div>
                     <div className="space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
                         Correo Corporativo <span className="text-brand-orange">*</span>
                       </label>
                       <input 
                         type="email" 
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-white/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="rsilva@empresa.com" 
                       />
-                      {formErrors.email && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                      {formErrors.email && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
                         {formErrors.email}
                       </p>}
                     </div>
                     <div className="space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
                         Teléfono de Contacto <span className="text-brand-orange">*</span>
                       </label>
                       <input 
                         type="tel" 
                         value={formData.telefono}
                         onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-white/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="55 0000 0000" 
                       />
-                      {formErrors.telefono && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                      {formErrors.telefono && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
                         {formErrors.telefono}
                       </p>}
                     </div>
                     <div className="md:col-span-2 space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-white/40 ml-4 flex items-center gap-1">
+                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
                         Detalles del Proyecto <span className="text-brand-orange">*</span>
                       </label>
                       <textarea 
                         rows={4} 
                         value={formData.detalles}
                         onChange={(e) => setFormData({...formData, detalles: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-white focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-white/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-on-surface-subtle/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
                       ></textarea>
-                      {formErrors.detalles && <p className="text-[10px] text-red-400 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
+                      {formErrors.detalles && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
                         {formErrors.detalles}
                       </p>}
                     </div>
@@ -2456,8 +2482,8 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-20 pt-8 border-t border-white/5 text-center">
-            <p className="text-white/20 text-xs uppercase tracking-[0.4em] font-medium">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
+          <div className="mt-20 pt-8 border-t border-glass-border/30 text-center">
+            <p className="text-on-surface-subtle/30 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold transition-colors animate-fade-in">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
           </div>
         </div>
       </footer>
@@ -2618,7 +2644,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-white text-gray-800 self-start rounded-tl-none shadow-sm border border-gray-100' : 'bg-brand-orange text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-surface dark:bg-white/10 text-on-surface self-start rounded-tl-none shadow-sm border border-glass-border' : 'bg-brand-orange text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
                       )}
