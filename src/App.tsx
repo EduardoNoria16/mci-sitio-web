@@ -1351,7 +1351,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-[#020617] text-white transition-colors duration-500 overflow-x-hidden">
+    <div className="min-h-screen w-full max-w-[100vw] bg-[#020617] text-white transition-colors duration-500 overflow-x-hidden relative">
       
       {/* Header / Navigation */}
       <header 
@@ -1364,10 +1364,10 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-2 group flex-shrink-0 cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 group flex-shrink-0 cursor-pointer min-w-0"
             onClick={(e) => handleSmoothScroll(e, '#inicio')}
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+            <div className="w-7 h-7 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 flex-shrink-0">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
@@ -1375,11 +1375,11 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate min-w-0" translate="no">
-              <span className="text-base sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex flex-wrap gap-x-1 items-baseline lg:whitespace-nowrap">
+              <span className="text-xs sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex flex-wrap gap-x-1 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
                 <span className="text-on-surface transition-colors">Soluciones</span>
               </span>
-              <span className="text-[0.4rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-[0.05em] md:tracking-[0.2em] text-on-surface mt-0.5 md:mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.3rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-tight sm:tracking-[0.05em] md:tracking-[0.2em] text-on-surface mt-0 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1543,28 +1543,28 @@ export default function App() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-10 md:py-16 mt-12 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          <div className="lg:col-span-7 xl:col-span-8 space-y-8 md:space-y-10">
+          <div className="lg:col-span-7 xl:col-span-8 space-y-8 md:space-y-12">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4 max-w-full"
             >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-snug md:leading-[0.95] text-on-surface break-words">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface">
                 <span>¿Quiénes</span>{' '}
-                <span className="text-brand-blue-bright transition-colors">Somos</span>
+                <span className="text-brand-blue-bright">Somos</span>
                 <span>?</span>
               </h1>
-              <div className="h-1.5 w-20 sm:w-32 bg-brand-orange/80 rounded-full" />
+              <div className="h-1 w-16 sm:w-24 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.3)]" />
             </motion.div>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg lg:text-xl text-on-surface-subtle leading-relaxed font-medium block w-full md:max-w-3xl overflow-hidden break-words text-left md:text-justify"
-              style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
+              className="text-base sm:text-xl lg:text-2xl text-on-surface-subtle leading-relaxed font-semibold max-w-4xl text-left md:text-justify px-0.5"
+              style={{ overflowWrap: 'break-word' }}
             >
-              Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
+              Empresa con más de <span className="hl text-brand-orange-bright">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
             </motion.p>
 
             {/* Misión/Visión/Propuesta Accordions */}
@@ -1581,30 +1581,27 @@ export default function App() {
                   }
                 }
               }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6"
             >
               {[
                 { 
                   label: 'Misión', 
                   icon: <Target className="w-5 h-5" />, 
-                  content: 'Diseñar e implementar soluciones poliméricas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico y ejecución confiable.' 
+                  content: 'Soluciones poliméricas que protegen superficies en condiciones extremas.' 
                 },
                 { 
                   label: 'Visión', 
                   icon: <Eye className="w-5 h-5" />, 
-                  content: 'Ser la empresa referente en protección industrial, reconocida por la confianza de nuestros sistemas y la capacidad de resolver entornos de alta exigencia.' 
+                  content: 'Líder en protección industrial y sistemas de alta exigencia técnica.' 
                 },
                 { 
-                  label: 'Propuesta de Valor', 
+                  label: 'Valores', 
                   icon: <Award className="w-5 h-5" />, 
+                  span: 'col-span-2 md:col-span-1',
                   list: [
-                    'Más de 30 años de experiencia',
-                    'Respuesta Inmediata 24/7',
-                    'Rigor técnico',
-                    'Soluciones Integradas a la Medida',
-                    'Calidad Total Demostrada',
-                    'Responsabilidad Operativa',
-                    'Protección a Largo Plazo'
+                    'Rigor Técnico',
+                    'Calidad Total',
+                    'Compromiso 24/7'
                   ] 
                 }
               ].map((item, i) => (
@@ -1614,16 +1611,16 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col space-y-4 cursor-pointer relative overflow-hidden ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl -translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
+                  className={`glass p-4 md:p-5 rounded-2xl border-glass-border transition-all duration-500 group flex flex-col items-center md:items-start text-center md:text-left gap-3 cursor-pointer relative overflow-hidden ${item.span || ''} ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-              <div className={`w-12 h-12 glass rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-brand-orange/40' : 'text-brand-orange group-hover:bg-brand-orange group-hover:text-white'}`}>
+                  <div className={`w-10 h-10 md:w-12 md:h-12 glass rounded-xl flex items-center justify-center transition-all duration-500 shadow-sm ${activeHeroAcc === i ? 'bg-brand-orange text-white' : 'text-brand-orange bg-brand-orange/5 group-hover:bg-brand-orange group-hover:text-white'}`}>
                     {item.icon}
                   </div>
-                  <div>
-                    <h3 className={`text-sm font-black uppercase tracking-[0.2em] mb-3 transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
+                  <div className="flex-1 w-full">
+                    <h3 className={`text-[10px] md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
@@ -1634,32 +1631,32 @@ export default function App() {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
+                          className="overflow-hidden mt-2"
                         >
                           {item.content ? (
-                            <p className="text-xs sm:text-sm text-on-surface-subtle leading-relaxed font-medium">
+                            <p className="text-[10px] md:text-xs text-on-surface-subtle leading-snug font-medium">
                               {item.content}
                             </p>
                           ) : (
-                            <ul className="space-y-2">
+                            <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:flex-col md:space-y-1.5">
                               {item.list?.map((li, idx) => (
-                                <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-on-surface-subtle font-medium">
-                                  <div className="w-1 h-1 bg-brand-orange rounded-full flex-shrink-0" />
+                                <div key={idx} className="flex items-center gap-1.5 text-[9px] md:text-xs text-on-surface-subtle font-bold px-2 py-0.5 rounded-full bg-brand-orange/5 md:bg-transparent">
+                                  <div className="w-1 h-1 bg-brand-orange rounded-full hidden md:block" />
                                   {li}
-                                </li>
+                                </div>
                               ))}
-                            </ul>
+                            </div>
                           )}
                         </motion.div>
                       )}
                     </AnimatePresence>
 
                     {/* Hint for mobile */}
-                    <div className="md:hidden mt-2">
-                      <p className="text-[10px] text-on-surface-subtle/40 font-bold uppercase tracking-widest">
-                        {activeHeroAcc === i ? 'Cerrar' : 'Ver detalle'}
-                      </p>
-                    </div>
+                    {activeHeroAcc !== i && (
+                      <div className="md:hidden mt-1 opacity-40">
+                         <span className="text-[7px] font-black uppercase tracking-tighter text-brand-orange">+ info</span>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -2300,7 +2297,7 @@ export default function App() {
       </section>
 
       {/* Footer Section */}
-      <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16">
+      <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
             <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
@@ -2474,8 +2471,8 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-20 pt-8 border-t border-glass-border/30 text-center">
-            <p className="text-on-surface-subtle/30 text-[0.625rem] md:text-xs uppercase tracking-[0.4em] font-bold transition-colors animate-fade-in">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
+          <div className="mt-20 pt-8 border-t border-glass-border/30 text-center px-4">
+            <p className="text-on-surface-subtle/30 text-[0.625rem] md:text-xs uppercase tracking-wider md:tracking-[0.4em] font-bold transition-colors animate-fade-in break-words">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
           </div>
         </div>
       </footer>

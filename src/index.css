@@ -63,6 +63,7 @@ html {
   scroll-behavior: smooth;
   width: 100%;
   overflow-x: hidden;
+  position: relative;
   @media (max-width: 640px) {
     font-size: 14px;
   }
@@ -75,6 +76,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+  position: relative;
   hyphens: auto;
 }
   
@@ -112,7 +114,7 @@ body {
 
 /* Highlight style */
 .hl {
-  @apply text-brand-orange font-bold bg-brand-orange/5 px-1.5 py-0.5 rounded-md border-b-2 border-brand-orange/20 transition-all duration-300 hover:bg-brand-orange/10;
+  @apply text-brand-orange font-black transition-colors duration-300;
 }
 
 /* Marquee Styles */
