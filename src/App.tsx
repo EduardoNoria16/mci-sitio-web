@@ -1348,7 +1348,7 @@ export default function App() {
               }
             }}
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
@@ -1356,16 +1356,16 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-xl sm:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline whitespace-nowrap">
+              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline whitespace-nowrap">
                 <span className="text-brand-orange">POLY</span>
                 <span className="text-white transition-colors">COVERS</span>
               </span>
-              <span className="text-[0.625rem] sm:text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-1 transition-colors">Ingeniería en Recubrimientos</span>
+              <span className="text-[0.5rem] sm:text-[0.625rem] md:text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-0.5 md:mt-1 transition-colors">Ingeniería en Recubrimientos</span>
             </div>
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden xl:flex items-center gap-6 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
               <a 
                 key={link.name}
@@ -1388,7 +1388,7 @@ export default function App() {
 
           <button 
             ref={menuButtonRef}
-            className="xl:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
+            className="lg:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               playClickSound();
@@ -1442,10 +1442,10 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="xl:hidden absolute top-full left-0 right-0 bg-surface border-b border-glass-border overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999] transition-colors duration-500"
+              className="lg:hidden absolute top-full left-0 right-0 bg-surface border-b border-glass-border overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999] transition-colors duration-500"
               ref={menuRef}
             >
-              <nav className="flex xl:hidden flex-col p-8 gap-2">
+              <nav className="flex lg:hidden flex-col p-8 gap-2">
                 {navLinks.map((link) => (
                   <a 
                     key={link.name}
@@ -1463,30 +1463,33 @@ export default function App() {
                   </a>
                 ))}
                 
-                <div className="mt-6 pt-6 border-t border-white/10 space-y-6">
-                  <div className="flex flex-col gap-4">
-                    <a href="tel:5512979217" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                <div className="mt-8 pt-8 border-t border-white/10 flex flex-col items-center">
+                  <a 
+                    href="#contacto-footer"
+                    className="w-full max-w-xs flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(245,130,32,0.4)] active:scale-95 transition-all"
+                    onClick={() => {
+                      playClickSound();
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <Zap className="w-5 h-5" />
+                    Cotizar Ahora
+                  </a>
+
+                  <div className="mt-10 grid grid-cols-1 gap-6 w-full">
+                    <a href="tel:5512979217" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-white/5">
+                      <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center">
                         <Phone className="w-5 h-5 text-brand-orange" />
                       </div>
                       <span className="text-xs font-bold tracking-wider">55 1297 9217</span>
                     </a>
-                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-white/5">
+                      <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center">
                         <Mail className="w-5 h-5 text-brand-orange" />
                       </div>
-                      <span className="text-xs font-bold tracking-wider">mci.spolimericas@polycovers.mx</span>
+                      <span className="text-xs font-bold tracking-wider truncate">mci.spolimericas@polycovers.mx</span>
                     </a>
                   </div>
-
-                  <a 
-                    href="#contacto-footer"
-                    className="flex items-center justify-center gap-3 bg-brand-orange text-white px-6 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(245,130,32,0.3)]"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Zap className="w-4 h-4" />
-                    Cotizar Ahora
-                  </a>
                 </div>
               </nav>
             </motion.div>
@@ -1549,6 +1552,29 @@ export default function App() {
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="flex flex-col sm:flex-row items-center gap-5"
+            >
+              <a 
+                href="#contacto-footer"
+                className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-orange text-white px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(245,130,32,0.3)] hover:shadow-[0_25px_50px_rgba(245,130,32,0.5)] transition-all hover:-translate-y-1 active:scale-95"
+                onClick={playClickSound}
+              >
+                Cotizar Proyecto
+                <ArrowRight className="w-5 h-5" />
+              </a>
+              <a 
+                href="#sectores"
+                className="w-full sm:w-auto flex items-center justify-center gap-3 glass px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] border-white/10 hover:bg-white/5 transition-all active:scale-95"
+                onClick={playClickSound}
+              >
+                Nuestros Sectores
+              </a>
+            </motion.div>
 
             {/* Misión/Visión/Propuesta Accordions */}
             <motion.div 
@@ -2429,7 +2455,7 @@ export default function App() {
                       <button 
                         type="submit" 
                         disabled={isSubmitting}
-                        className="w-full py-4 md:py-5 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(0,75,135,0.2)] hover:shadow-[0_25px_50px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(0,75,135,0.2)] hover:shadow-[0_25px_50px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
                       >
                         {isSubmitting ? 'Enviando...' : 'Solicitar una Cotización'}
                       </button>
