@@ -1548,7 +1548,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed font-medium block w-full max-w-[90%] md:max-w-3xl overflow-hidden break-words"
+              className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed font-medium block w-full max-w-[90%] md:max-w-3xl overflow-hidden break-words text-justify"
               style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
