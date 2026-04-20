@@ -1339,7 +1339,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-2 sm:gap-3 lg:gap-4 group flex-shrink-0 mr-2 sm:mr-4 lg:mr-8 cursor-pointer"
+            className="flex items-center gap-2 group flex-shrink-0 cursor-pointer"
             onClick={(e) => {
               playClickSound();
               if (window.location.hash === '#inicio') {
@@ -1510,7 +1510,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative flex min-h-screen items-center pt-28 md:pt-32 pb-12 md:pb-20 will-change-transform">
+      <section id="inicio" className="relative flex min-h-screen items-center pt-28 md:pt-32 pb-12 md:pb-20 will-change-transform overflow-hidden">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -1534,9 +1534,9 @@ export default function App() {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-4"
+              className="space-y-4 max-w-full"
             >
-              <h1 className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight md:leading-[0.95] text-on-surface">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight md:leading-[0.95] text-on-surface break-words">
                 <span>¿Quiénes</span>{' '}
                 <span className="text-brand-blue-bright transition-colors">Somos</span>
                 <span>?</span>
@@ -1548,7 +1548,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg lg:text-xl text-on-surface-subtle leading-relaxed font-medium block w-full max-w-[90%] md:max-w-3xl overflow-hidden break-words text-justify"
+              className="text-base sm:text-lg lg:text-xl text-on-surface-subtle leading-relaxed font-medium block w-full md:max-w-3xl overflow-hidden break-words text-justify"
               style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
@@ -1601,7 +1601,7 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col space-y-4 cursor-pointer relative overflow-hidden ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl translate-y--2' : 'hover:bg-white hover:shadow-lg'}`}
+                  className={`glass p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col space-y-4 cursor-pointer relative overflow-hidden ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl -translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
