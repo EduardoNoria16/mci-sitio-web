@@ -1669,11 +1669,11 @@ export default function App() {
 
         {/* Infinite Horizontal Marquee Section */}
         <div className="mt-16 md:mt-24 overflow-hidden w-full relative z-10">
-          <div className="text-center mb-8">
-            <h3 className="text-brand-orange text-[10px] md:text-sm font-black uppercase tracking-[0.2em] md:tracking-[0.4em] mb-4">
-              Así Garantizamos Resultados
-            </h3>
-            <div className="w-12 h-0.5 bg-brand-orange/30 mx-auto rounded-full" />
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface mb-6">
+              Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
+            </h2>
+            <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           </div>
           <div className="marquee-container">
             <div className="marquee-content">

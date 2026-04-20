@@ -127,7 +127,7 @@ body {
 .marquee-content {
   display: flex;
   gap: 40px;
-  animation: marquee-scroll 30s linear infinite;
+  animation: marquee-scroll 20s linear infinite;
   padding: 20px 40px 20px 0; /* Extra gap at the end for seamless loop */
 }
 
