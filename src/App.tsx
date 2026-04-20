@@ -1326,7 +1326,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-[#020617] text-white transition-colors duration-500 px-5">
+    <div className="min-h-screen w-full bg-[#020617] text-white transition-colors duration-500 overflow-x-hidden">
       
       {/* Header / Navigation */}
       <header 
@@ -2544,10 +2544,10 @@ export default function App() {
         <AnimatePresence>
           {isChatOpen && (
             <motion.div 
-              initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-40px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
+              className="absolute bottom-24 right-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               <div className="bg-brand-orange p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10">
