@@ -1317,6 +1317,31 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
+  // Smooth scroll handler
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      playClickSound();
+      
+      if (href === '#inicio') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          const headerOffset = isScrolled ? 80 : 110;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+      if (isMenuOpen) setIsMenuOpen(false);
+    }
+  };
+
   const navLinks = useMemo(() => [
     { name: 'Inicio', href: '#inicio' },
     { name: 'Sectores', href: '#sectores' },
@@ -1340,13 +1365,7 @@ export default function App() {
           <a 
             href="#inicio" 
             className="flex items-center gap-2 group flex-shrink-0 cursor-pointer"
-            onClick={(e) => {
-              playClickSound();
-              if (window.location.hash === '#inicio') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }}
+            onClick={(e) => handleSmoothScroll(e, '#inicio')}
           >
             <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
               <img 
@@ -1371,7 +1390,7 @@ export default function App() {
                 key={link.name}
                 href={link.href}
                 className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/80 hover:text-brand-blue transition-all relative group/nav"
-                onClick={playClickSound}
+                onClick={(e) => handleSmoothScroll(e, link.href)}
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover/nav:w-full" />
@@ -1380,7 +1399,7 @@ export default function App() {
             <a 
               href="#contacto-footer"
               className="bg-brand-blue text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
-              onClick={playClickSound}
+              onClick={(e) => handleSmoothScroll(e, '#contacto-footer')}
             >
               Cotizar
             </a>
@@ -1451,10 +1470,7 @@ export default function App() {
                     key={link.name}
                     href={link.href}
                     className="flex items-center justify-between group py-4 border-b border-glass-border last:border-0 transition-all"
-                    onClick={() => {
-                      playClickSound();
-                      setIsMenuOpen(false);
-                    }}
+                    onClick={(e) => handleSmoothScroll(e, link.href)}
                   >
                     <span className="text-sm font-black uppercase tracking-[0.2em] text-on-surface hover:text-brand-orange transition-colors">
                       {link.name}
@@ -1467,10 +1483,7 @@ export default function App() {
                   <a 
                     href="#contacto-footer"
                     className="w-full max-w-xs flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(245,130,32,0.4)] active:scale-95 transition-all"
-                    onClick={() => {
-                      playClickSound();
-                      setIsMenuOpen(false);
-                    }}
+                    onClick={(e) => handleSmoothScroll(e, '#contacto-footer')}
                   >
                     <Zap className="w-5 h-5" />
                     Cotizar Ahora
@@ -1536,7 +1549,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4 max-w-full"
             >
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight md:leading-[0.95] text-on-surface break-words">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-snug md:leading-[0.95] text-on-surface break-words">
                 <span>¿Quiénes</span>{' '}
                 <span className="text-brand-blue-bright transition-colors">Somos</span>
                 <span>?</span>
@@ -1548,7 +1561,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg lg:text-xl text-on-surface-subtle leading-relaxed font-medium block w-full md:max-w-3xl overflow-hidden break-words text-justify"
+              className="text-base sm:text-lg lg:text-xl text-on-surface-subtle leading-relaxed font-medium block w-full md:max-w-3xl overflow-hidden break-words text-left md:text-justify"
               style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
@@ -1825,8 +1838,21 @@ export default function App() {
       </section>
 
       {/* Strengths Section */}
-      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
-        <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
+      <section id="fortalezas" className="relative z-10 py-16 md:py-24 overflow-hidden">
+        {/* Background Texture for Strengths */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-slate-50/90 z-10" />
+          <img 
+            src="https://images.unsplash.com/photo-1532187875956-c7306286c6a1?auto=format&fit=crop&w=1920&q=80" 
+            alt="Polymer Engineering Abstract"
+            className="w-full h-full object-cover opacity-20 grayscale brightness-125"
+            referrerPolicy="no-referrer"
+            loading="lazy"
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform">
+          <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
             Nuestras <span className="text-gradient transition-colors">Fortalezas</span>
           </h2>
@@ -1864,7 +1890,8 @@ export default function App() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Before/After Section */}
       <section className="relative z-10 py-8 md:py-12 bg-on-surface/5">
@@ -2707,8 +2734,7 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.5 }}
               onClick={(e) => {
                 e.stopPropagation();
-                playClickSound();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                handleSmoothScroll(e as any, '#inicio');
               }}
               className="w-14 h-14 glass border-glass-border text-on-surface-subtle/80 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:text-brand-blue transition-all group pointer-events-auto"
             >
