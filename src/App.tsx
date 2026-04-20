@@ -1351,7 +1351,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full max-w-[100vw] bg-[#020617] text-white transition-colors duration-500 overflow-x-hidden relative">
+    <div className="min-h-screen w-full max-w-[100vw] bg-surface text-on-surface transition-colors duration-500 overflow-x-hidden relative">
       
       {/* Header / Navigation */}
       <header 
@@ -1528,7 +1528,7 @@ export default function App() {
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-slate-100/60 sm:bg-slate-100/50 z-10 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-slate-50/80 sm:bg-slate-50/70 z-10 backdrop-blur-[1px]" />
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
@@ -1550,7 +1550,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left transition-all duration-300 drop-shadow-md">
                   <span>¿Quiénes</span>{' '}
                   <span className="text-brand-blue-bright">Somos</span>
                   <span>?</span>
@@ -1562,7 +1562,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-base sm:text-xl lg:text-2xl text-on-surface-subtle leading-relaxed font-semibold max-w-4xl text-center md:text-left lg:text-justify px-4 md:px-0"
+                className="text-base sm:text-xl lg:text-2xl text-on-surface leading-relaxed font-bold max-w-2xl lg:max-w-4xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300"
                 style={{ overflowWrap: 'break-word' }}
               >
                 Empresa con más de <span className="hl text-brand-orange-bright">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
@@ -1614,7 +1614,7 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
+                  className={`glass p-5 md:p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[240px] md:max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
@@ -1685,10 +1685,10 @@ export default function App() {
         {/* Infinite Horizontal Marquee Section */}
         <div className="mt-8 md:mt-16 overflow-hidden w-full relative z-10 border-t border-brand-blue/10 pt-10">
           <div className="text-center mb-8 md:mb-12 px-4">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm">
               Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
             </h2>
-            <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
+            <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
           </div>
           <div className="marquee-container">
             <div className="marquee-content">
@@ -1750,11 +1750,11 @@ export default function App() {
       {/* Sectors Section */}
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
             Sectores que <span className="text-gradient transition-colors">Atendemos</span>
           </h2>
-          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
-          <p className="text-on-surface-subtle max-w-3xl mx-auto text-base md:text-xl font-normal leading-relaxed">
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
+          <p className="text-on-surface max-w-3xl mx-auto text-base md:text-xl font-bold leading-relaxed transition-all duration-300 px-4">
             Soluciones especializadas para cada entorno de alta exigencia, garantizando durabilidad y cumplimiento normativo.
           </p>
         </div>
@@ -1851,11 +1851,11 @@ export default function App() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform">
           <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
             Nuestras <span className="text-gradient transition-colors">Fortalezas</span>
           </h2>
-          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
-          <p className="text-base md:text-xl text-on-surface-subtle max-w-4xl mx-auto leading-relaxed font-normal">
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
+          <p className="text-base md:text-xl text-on-surface max-w-4xl mx-auto leading-relaxed font-bold px-4 transition-all duration-300">
             Selecciona una especialidad para ver su ficha técnica detallada y conocer por qué somos líderes en el mercado.
           </p>
         </div>
@@ -1899,15 +1899,15 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#00f2ff]/30 text-[#00f2ff] text-xs font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-blue/30 text-brand-blue text-xs font-bold uppercase tracking-widest shadow-sm"
             >
               <Zap className="w-3 h-3" />
               Transformación Radical
             </motion.div>
-            <h2 className="text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
+            <h2 className="text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
               El Poder del <span className="text-gradient">Cambio</span>
             </h2>
-            <p className="text-on-surface-subtle max-w-2xl mx-auto font-medium">
+            <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
               Desliza para ver la diferencia técnica entre una superficie deteriorada y una intervención profesional de MCI.
             </p>
           </div>
@@ -1923,12 +1923,12 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest shadow-sm"
             >
               <Paintbrush className="w-3 h-3" />
               Portafolio Visual en Movimiento
             </motion.div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Nuestra <span className="text-gradient">Galería</span>
           </h2>
             <motion.p
@@ -1936,7 +1936,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-on-surface-subtle max-w-2xl mx-auto font-medium text-sm md:text-base"
+              className="text-on-surface max-w-2xl mx-auto font-bold text-base md:text-xl transition-all duration-300 px-4"
             >
               Explora nuestra trayectoria a través de este recorrido visual automático. Haz clic en cualquier imagen para ampliarla.
             </motion.p>
@@ -2036,10 +2036,10 @@ export default function App() {
             <Star className="w-3 h-3" />
             Casos de Éxito
           </motion.div>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Clientes <span className="text-gradient">Satisfechos</span>
           </h2>
-          <p className="text-on-surface-subtle max-w-2xl mx-auto font-light text-sm md:text-base">
+          <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
             La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
           </p>
         </div>
@@ -2249,7 +2249,7 @@ export default function App() {
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Preguntas <span className="text-gradient">Frecuentes</span>
           </h2>
         </div>
@@ -2301,10 +2301,10 @@ export default function App() {
       <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
-            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
+            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
             </h2>
-            <p className="text-base md:text-lg text-on-surface-subtle font-medium">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
+            <p className="text-base md:text-lg text-on-surface font-bold transition-all duration-300">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -2327,7 +2327,7 @@ export default function App() {
                       <div className="p-3 glass rounded-xl border-glass-border group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
                         {item.icon}
                       </div>
-                      <span className="text-on-surface-subtle group-hover:text-brand-orange transition-colors text-sm font-bold tracking-wide">{item.text}</span>
+                      <span className="text-on-surface group-hover:text-brand-orange transition-colors text-sm font-black tracking-wide">{item.text}</span>
                     </a>
                   ))}
                 </div>
