@@ -1505,8 +1505,8 @@ export default function App() {
 
       {/* Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/5 blur-[120px] rounded-full will-change-transform" />
-        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-brand-orange/5 blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/15 blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-brand-orange/15 blur-[120px] rounded-full will-change-transform" />
       </div>
 
       {/* Hero Section */}
@@ -1515,7 +1515,7 @@ export default function App() {
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-white/70 sm:bg-white/50 z-10" />
+          <div className="absolute inset-0 bg-slate-200/50 sm:bg-slate-200/40 z-10" />
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
@@ -1601,7 +1601,7 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-6 rounded-3xl border-white/10 transition-all duration-500 group flex flex-col space-y-4 cursor-pointer relative overflow-hidden ${activeHeroAcc === i ? 'border-brand-orange/50 bg-brand-orange/5' : 'hover:border-brand-orange/30'}`}
+                  className={`glass p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col space-y-4 cursor-pointer relative overflow-hidden ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl translate-y--2' : 'hover:bg-white hover:shadow-lg'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
@@ -1722,7 +1722,7 @@ export default function App() {
             { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
             { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
           ].map((stat, i) => (
-            <div key={i} className="glass p-6 md:p-10 rounded-3xl text-center space-y-2 border-glass-border hover:border-brand-orange/20 transition-colors group will-change-transform">
+            <div key={i} className="glass p-6 md:p-10 rounded-3xl text-center space-y-2 border-glass-border bg-white/80 hover:bg-white hover:border-brand-orange/40 shadow-xl transition-all group will-change-transform hover:-translate-y-2">
               <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
@@ -2246,7 +2246,7 @@ export default function App() {
                 playClickSound();
                 setActiveFaq(activeFaq === i ? null : i);
               }}
-              className={`glass p-5 md:p-6 rounded-2xl border-glass-border hover:border-brand-orange/40 transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange/50 shadow-xl' : 'hover:bg-brand-blue/5'}`}
+              className={`glass p-5 md:p-6 rounded-2xl border-glass-border hover:border-brand-orange/50 transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange shadow-2xl scale-[1.02]' : 'hover:bg-white hover:shadow-md'}`}
             >
               <div className="flex items-center justify-between gap-4">
                 <h3 className="text-on-surface font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
@@ -2319,7 +2319,7 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-8">
-              <div className="glass p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden h-full flex flex-col justify-center">
+              <div className="bg-[#fcfdfe] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border-2 border-slate-300 relative overflow-hidden h-full flex flex-col justify-center shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15)]">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32" />
                 
                 {isFormSubmitted ? (
@@ -2352,7 +2352,7 @@ export default function App() {
                           type="text" 
                           value={formData.cargo}
                           onChange={(e) => setFormData({...formData, cargo: e.target.value})}
-                          className="w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20" 
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40" 
                           placeholder="Ej. Ing." 
                         />
                       </div>
@@ -2364,7 +2364,7 @@ export default function App() {
                           type="text" 
                           value={formData.nombre}
                           onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                          className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                          className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                           placeholder="Ej. Roberto Silva" 
                         />
                         {formErrors.nombre && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2380,7 +2380,7 @@ export default function App() {
                         type="text" 
                         value={formData.empresa}
                         onChange={(e) => setFormData({...formData, empresa: e.target.value})}
-                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Ej. Planta Industrial Norte" 
                       />
                       {formErrors.empresa && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2395,7 +2395,7 @@ export default function App() {
                         type="email" 
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="rsilva@empresa.com" 
                       />
                       {formErrors.email && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2410,7 +2410,7 @@ export default function App() {
                         type="tel" 
                         value={formData.telefono}
                         onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="55 0000 0000" 
                       />
                       {formErrors.telefono && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2425,7 +2425,7 @@ export default function App() {
                         rows={4} 
                         value={formData.detalles}
                         onChange={(e) => setFormData({...formData, detalles: e.target.value})}
-                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-on-surface-subtle/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all resize-none placeholder:text-on-surface-subtle/40 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
                       ></textarea>
                       {formErrors.detalles && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">

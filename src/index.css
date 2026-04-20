@@ -16,12 +16,12 @@
 }
 
 :root {
-  --bg-primary: #f8fafc; /* Blanco azulado muy sutil (Premium) */
-  --text-primary: #0f172a; /* Slate 900 - Casi negro con matiz azul */
-  --text-secondary: #334155; /* Slate 700 - Gris azulado profundo */
-  --glass-bg: rgba(255, 255, 255, 0.92);
-  --glass-border: rgba(15, 23, 42, 0.12);
-  --card-bg: rgba(15, 23, 42, 0.04);
+  --bg-primary: #f1f5f9; /* Slate 100 - Más sólido que el blanco anterior */
+  --text-primary: #020617; /* Slate 950 - Máximo contraste, casi negro total */
+  --text-secondary: #1e293b; /* Slate 800 - Gris muy oscuro para legibilidad */
+  --glass-bg: rgba(255, 255, 255, 0.98); /* Prácticamente opaco */
+  --glass-border: rgba(15, 23, 42, 0.2); /* Bordes más marcados */
+  --card-bg: rgba(15, 23, 42, 0.08);
   color-scheme: light;
 }
 
