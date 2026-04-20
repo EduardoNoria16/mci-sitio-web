@@ -16,13 +16,13 @@
 }
 
 :root {
-  --bg-primary: #020617;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --glass-bg: rgba(15, 23, 42, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(255, 255, 255, 0.05);
-  color-scheme: dark;
+  --bg-primary: #f8fafc; /* Blanco azulado muy sutil (Premium) */
+  --text-primary: #0f172a; /* Slate 900 - Casi negro con matiz azul */
+  --text-secondary: #334155; /* Slate 700 - Gris azulado profundo */
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(15, 23, 42, 0.12);
+  --card-bg: rgba(15, 23, 42, 0.04);
+  color-scheme: light;
 }
 
 @layer base {
@@ -86,17 +86,17 @@ body {
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#3b82f6] via-[#60a5fa] to-brand-orange;
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#004b87] via-[#3b82f6] to-[#f58220];
 }
 
 .glass {
   background-color: var(--glass-bg);
   border-color: var(--glass-border);
-  @apply backdrop-blur-md border shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-500;
+  @apply backdrop-blur-xl border-2 shadow-[0_12px_45px_-12px_rgba(0,0,0,0.12)] transition-all duration-500;
 }
 
 .glass-hover {
-  @apply hover:bg-white/[0.08] hover:border-brand-orange/40 transition-all duration-500 shadow-2xl;
+  @apply hover:bg-white hover:border-brand-orange/50 transition-all duration-500 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)];
 }
 
 /* Custom scrollbar for the strengths section */
@@ -104,7 +104,7 @@ body {
   width: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-white/5;
+  @apply bg-brand-blue/5;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   @apply bg-brand-blue/30 rounded-full hover:bg-brand-blue/50 transition-colors;
@@ -112,7 +112,7 @@ body {
 
 /* Highlight style */
 .hl {
-  @apply text-brand-orange font-black drop-shadow-[0_0_10px_rgba(245,130,32,0.2)];
+  @apply text-brand-orange font-bold bg-brand-orange/5 px-1.5 py-0.5 rounded-md border-b-2 border-brand-orange/20 transition-all duration-300 hover:bg-brand-orange/10;
 }
 
 /* Marquee Styles */
@@ -148,9 +148,9 @@ body {
   @media (min-width: 1024px) {
     width: 22rem;
   }
-  background-color: var(--card-bg);
+  background-color: var(--glass-bg);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(245, 130, 32, 0.3);
+  border: 1px solid rgba(8, 51, 68, 0.1);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -165,10 +165,10 @@ body {
 }
 
 .marquee-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(245, 130, 32, 0.4);
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  background: white;
+  border-color: var(--color-brand-orange);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2);
 }
 
 .marquee-num {

@@ -232,7 +232,7 @@ const CustomVideoPlayer = memo(() => {
     <>
       {!isVisible ? (
         <div 
-          className="w-full h-full bg-[#0a192f]/50 flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-500 group"
+          className="w-full h-full bg-cyan-100/50 flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-500 group"
           onClick={() => setIsVisible(true)}
         >
           <div className="w-16 h-16 rounded-full glass border-white/20 flex items-center justify-center group-hover:scale-110 group-hover:border-brand-orange/50 transition-all duration-500 shadow-lg">
@@ -389,7 +389,7 @@ const BeforeAfterSlider = memo(() => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full max-w-5xl mx-auto aspect-square sm:aspect-video lg:aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden bg-[#0a192f] border-white/10 cursor-col-resize shadow-2xl will-change-transform"
+      className="relative w-full max-w-5xl mx-auto aspect-square sm:aspect-video lg:aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden bg-brand-blue/5 border-glass-border cursor-col-resize shadow-2xl will-change-transform"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
       onMouseEnter={() => setIsAuto(false)}
@@ -411,7 +411,7 @@ const BeforeAfterSlider = memo(() => {
         <img 
           src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1200&q=80" 
           alt="Antes"
-          className="absolute inset-0 w-full h-full object-cover grayscale brightness-50"
+          className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-125"
           style={{ width: `${10000 / sliderPos}%` }}
           referrerPolicy="no-referrer"
           loading="lazy"
@@ -1332,7 +1332,7 @@ export default function App() {
       <header 
         className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 ${
           isScrolled 
-            ? 'glass border-b border-white/10 py-3 shadow-2xl' 
+            ? 'glass border-b border-glass-border py-3 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)]' 
             : 'bg-transparent py-6'
         }`}
       >
@@ -1358,9 +1358,9 @@ export default function App() {
             <div className="flex flex-col notranslate" translate="no">
               <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
-                <span className="text-white transition-colors">Soluciones</span>
+                <span className="text-on-surface transition-colors">Soluciones</span>
               </span>
-              <span className="text-[0.45rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-white mt-0.5 md:mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.45rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-on-surface mt-0.5 md:mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1370,7 +1370,7 @@ export default function App() {
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/60 hover:text-brand-blue transition-all relative group/nav"
+                className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/80 hover:text-brand-blue transition-all relative group/nav"
                 onClick={playClickSound}
               >
                 {link.name}
@@ -1388,7 +1388,7 @@ export default function App() {
 
           <button 
             ref={menuButtonRef}
-            className="lg:hidden relative z-[10001] text-brand-orange hover:text-white transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
+            className="lg:hidden relative z-[10001] text-brand-orange hover:text-brand-blue transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               playClickSound();
@@ -1450,7 +1450,7 @@ export default function App() {
                   <a 
                     key={link.name}
                     href={link.href}
-                    className="flex items-center justify-between group py-4 border-b border-white/5 last:border-0 transition-all"
+                    className="flex items-center justify-between group py-4 border-b border-glass-border last:border-0 transition-all"
                     onClick={() => {
                       playClickSound();
                       setIsMenuOpen(false);
@@ -1463,7 +1463,7 @@ export default function App() {
                   </a>
                 ))}
                 
-                <div className="mt-8 pt-8 border-t border-white/10 flex flex-col items-center">
+                <div className="mt-8 pt-8 border-t border-glass-border flex flex-col items-center">
                   <a 
                     href="#contacto-footer"
                     className="w-full max-w-xs flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(245,130,32,0.4)] active:scale-95 transition-all"
@@ -1477,14 +1477,14 @@ export default function App() {
                   </a>
 
                   <div className="mt-10 grid grid-cols-1 gap-6 w-full">
-                    <a href="tel:5512979217" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-white/5">
-                      <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center">
+                    <a href="tel:5512979217" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-brand-blue/10">
+                      <div className="w-11 h-11 rounded-xl bg-brand-blue/5 flex items-center justify-center">
                         <Phone className="w-5 h-5 text-brand-orange" />
                       </div>
                       <span className="text-xs font-bold tracking-wider">55 1297 9217</span>
                     </a>
-                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-white/5">
-                      <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center">
+                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-brand-blue/10">
+                      <div className="w-11 h-11 rounded-xl bg-brand-blue/5 flex items-center justify-center">
                         <Mail className="w-5 h-5 text-brand-orange" />
                       </div>
                       <span className="text-xs font-bold tracking-wider truncate">mci.spolimericas@polycovers.mx</span>
@@ -1506,7 +1506,7 @@ export default function App() {
       {/* Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/5 blur-[120px] rounded-full will-change-transform" />
-        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-[#60a5fa]/5 blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-brand-orange/5 blur-[120px] rounded-full will-change-transform" />
       </div>
 
       {/* Hero Section */}
@@ -1515,7 +1515,7 @@ export default function App() {
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-[#020617]/90 sm:bg-[#020617]/70 z-10" />
+          <div className="absolute inset-0 bg-white/70 sm:bg-white/50 z-10" />
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
@@ -1536,10 +1536,10 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
-                <span className="text-white">¿Quiénes</span>{' '}
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95] text-on-surface">
+                <span>¿Quiénes</span>{' '}
                 <span className="text-brand-blue-bright transition-colors">Somos</span>
-                <span className="text-white">?</span>
+                <span>?</span>
               </h1>
               <div className="h-1.5 w-20 sm:w-32 bg-brand-orange/80 rounded-full" />
             </motion.div>
@@ -1548,10 +1548,10 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed font-medium block w-full max-w-[90%] md:max-w-3xl overflow-hidden break-words text-justify"
+              className="text-base sm:text-lg lg:text-xl text-on-surface-subtle leading-relaxed font-medium block w-full max-w-[90%] md:max-w-3xl overflow-hidden break-words text-justify"
               style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
             >
-              Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
+              Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
             </motion.p>
 
             {/* Misión/Visión/Propuesta Accordions */}
@@ -1585,10 +1585,13 @@ export default function App() {
                   label: 'Propuesta de Valor', 
                   icon: <Award className="w-5 h-5" />, 
                   list: [
-                    'Restauración y Mejora de instalaciones',
-                    'Protección contra daños físicos y químicos',
-                    'Maximización de la vida útil de los activos',
-                    'Preservación del valor de la inversión'
+                    'Más de 30 años de experiencia',
+                    'Respuesta Inmediata 24/7',
+                    'Rigor técnico',
+                    'Soluciones Integradas a la Medida',
+                    'Calidad Total Demostrada',
+                    'Responsabilidad Operativa',
+                    'Protección a Largo Plazo'
                   ] 
                 }
               ].map((item, i) => (
@@ -1603,11 +1606,11 @@ export default function App() {
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`w-12 h-12 glass rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl ${activeHeroAcc === i ? 'bg-brand-orange text-white' : 'text-brand-orange group-hover:bg-brand-orange group-hover:text-white'}`}>
+              <div className={`w-12 h-12 glass rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-brand-orange/40' : 'text-brand-orange group-hover:bg-brand-orange group-hover:text-white'}`}>
                     {item.icon}
                   </div>
                   <div>
-                    <h3 className={`text-sm font-black uppercase tracking-[0.2em] mb-3 transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-white group-hover:text-brand-orange'}`}>
+                    <h3 className={`text-sm font-black uppercase tracking-[0.2em] mb-3 transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
@@ -1621,13 +1624,13 @@ export default function App() {
                           className="overflow-hidden"
                         >
                           {item.content ? (
-                            <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
+                            <p className="text-xs sm:text-sm text-on-surface-subtle leading-relaxed font-medium">
                               {item.content}
                             </p>
                           ) : (
                             <ul className="space-y-2">
                               {item.list?.map((li, idx) => (
-                                <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-white/90 font-medium">
+                                <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-on-surface-subtle font-medium">
                                   <div className="w-1 h-1 bg-brand-orange rounded-full flex-shrink-0" />
                                   {li}
                                 </li>
@@ -1640,7 +1643,7 @@ export default function App() {
 
                     {/* Hint for mobile */}
                     <div className="md:hidden mt-2">
-                      <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
+                      <p className="text-[10px] text-on-surface-subtle/40 font-bold uppercase tracking-widest">
                         {activeHeroAcc === i ? 'Cerrar' : 'Ver detalle'}
                       </p>
                     </div>
@@ -1660,7 +1663,7 @@ export default function App() {
           >
             <div className="relative group max-w-md mx-auto lg:mx-0">
               <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative glass rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl aspect-video flex items-center justify-center">
+              <div className="relative glass rounded-3xl overflow-hidden border-2 border-glass-border shadow-2xl aspect-video flex items-center justify-center">
                 <CustomVideoPlayer />
               </div>
             </div>
@@ -1719,7 +1722,7 @@ export default function App() {
             { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
             { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
           ].map((stat, i) => (
-            <div key={i} className="glass p-6 md:p-10 rounded-3xl text-center space-y-2 border-white/5 hover:border-brand-orange/20 transition-colors group will-change-transform">
+            <div key={i} className="glass p-6 md:p-10 rounded-3xl text-center space-y-2 border-glass-border hover:border-brand-orange/20 transition-colors group will-change-transform">
               <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
@@ -1767,14 +1770,14 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`glass p-6 md:p-8 rounded-2xl md:rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-1 ring-brand-orange/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(245,130,32,0.05)]' : 'hover:bg-white/[0.01]'}`}
+              className={`glass p-6 md:p-8 rounded-2xl md:rounded-3xl border-glass-border transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl translate-y--2' : 'hover:bg-white hover:shadow-lg hover:-translate-y-1'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
+                <div className={`p-3 rounded-2xl glass border-glass-border text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)] border-transparent' : ''}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
                 </div>
                 <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 whitespace-normal break-words ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
@@ -1788,7 +1791,7 @@ export default function App() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="pt-6 border-t border-white/5 space-y-5"
+                    className="pt-6 border-t border-glass-border space-y-5"
                   >
                     {sector.details?.intro && (
                       <p className="text-sm text-brand-orange font-bold italic tracking-wide bg-brand-orange/5 p-2 rounded-lg">{sector.details.intro}</p>
@@ -1844,7 +1847,7 @@ export default function App() {
                   setActiveStrength(s);
                   setIsStrengthHovered(true);
                 }}
-                className="group relative glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-white/5 hover:border-brand-orange/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white/[0.02] hover:-translate-y-1"
+                className="group relative glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-glass-border hover:border-brand-orange/50 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-xl hover:-translate-y-1.5"
               >
                 <div className="p-3 rounded-xl bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(0,75,135,0.1)] group-hover:shadow-[0_0_25px_rgba(0,75,135,0.4)]">
                   {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6' })}
@@ -1854,7 +1857,7 @@ export default function App() {
                     {s.title}
                   </h3>
                 </div>
-                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
+                <div className="w-8 h-8 rounded-full border border-glass-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
                   <ArrowRight className="w-4 h-4 text-brand-orange" />
                 </div>
               </button>
@@ -1864,7 +1867,7 @@ export default function App() {
       </section>
 
       {/* Before/After Section */}
-      <section className="relative z-10 py-8 md:py-12 bg-white/[0.01]">
+      <section className="relative z-10 py-8 md:py-12 bg-on-surface/5">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 space-y-4">
             <motion.div
@@ -1937,7 +1940,7 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[220px] sm:w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
+                className="relative w-[220px] sm:w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-glass-border cursor-pointer shadow-2xl will-change-transform"
               >
                 <img
                   src={img.url}
@@ -1946,7 +1949,7 @@ export default function App() {
                   loading="lazy"
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#083344]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
                   <p className="text-white font-black text-xs uppercase tracking-widest">{img.title}</p>
                 </div>
               </motion.div>
@@ -1976,7 +1979,7 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[180px] sm:w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
+                className="relative w-[180px] sm:w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-glass-border cursor-pointer shadow-2xl will-change-transform"
               >
                 <img
                   src={img.url}
@@ -1987,7 +1990,7 @@ export default function App() {
                   loading="lazy"
                   className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#083344]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
                   <p className="text-white font-black text-xs uppercase tracking-widest">{img.title}</p>
                 </div>
               </motion.div>
@@ -2072,7 +2075,7 @@ export default function App() {
                 src={selectedImage}
                 alt="Selected Gallery"
                 referrerPolicy="no-referrer"
-                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
+                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-glass-border"
               />
               
               <button
@@ -2082,7 +2085,7 @@ export default function App() {
                 <X className="w-8 h-8" />
               </button>
 
-              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 glass px-6 py-2 rounded-full border-white/10 text-white/60 text-xs font-bold uppercase tracking-widest whitespace-nowrap">
+              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 glass px-6 py-2 rounded-full border-glass-border text-on-surface-subtle text-xs font-bold uppercase tracking-widest whitespace-nowrap">
                 Haz clic fuera para cerrar
               </div>
             </motion.div>
@@ -2101,7 +2104,7 @@ export default function App() {
             className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
           >
             <div 
-              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
+              className="absolute inset-0 bg-cyan-100/90 backdrop-blur-sm"
               onClick={() => setIsStrengthHovered(false)}
             />
             
@@ -2131,8 +2134,8 @@ export default function App() {
                       referrerPolicy="no-referrer"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a192f] via-transparent to-transparent hidden lg:block" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-transparent to-transparent lg:hidden" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-50 via-transparent to-transparent hidden lg:block" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-50 via-transparent to-transparent lg:hidden" />
                     
                     <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
                       <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse" />
@@ -2146,13 +2149,13 @@ export default function App() {
                       <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
                         <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
                       </div>
-                      <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter leading-tight">
+                      <h3 className="text-2xl md:text-4xl font-black text-on-surface uppercase tracking-tighter leading-tight">
                         {activeStrength.title}
                       </h3>
                       <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
                     </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-white/80 font-normal italic border-l-4 border-brand-blue pl-6">
+                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
@@ -2162,12 +2165,12 @@ export default function App() {
                           {typeof item === 'string' ? (
                             <div className="flex gap-4">
                               <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-white/90 text-sm md:text-lg leading-relaxed">
+                              <p className="text-on-surface text-sm md:text-lg leading-relaxed">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
                             </div>
                           ) : (
-                            <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/5">
+                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-glass-border">
                               <div className="flex items-center gap-3">
                                 <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
                                 <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
@@ -2176,7 +2179,7 @@ export default function App() {
                               </div>
                               <ul className="grid grid-cols-1 gap-3 pl-4">
                                 {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-sm text-white/80 leading-relaxed">
+                                  <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
                                     <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
                                     {sub}
                                   </li>
@@ -2243,7 +2246,7 @@ export default function App() {
                 playClickSound();
                 setActiveFaq(activeFaq === i ? null : i);
               }}
-              className={`glass p-5 md:p-6 rounded-2xl border-white/5 hover:border-brand-orange/20 transition-all group cursor-pointer ${activeFaq === i ? 'bg-surface border-brand-orange/30 shadow-[0_10px_30px_rgba(245,130,32,0.05)]' : ''}`}
+              className={`glass p-5 md:p-6 rounded-2xl border-glass-border hover:border-brand-orange/40 transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange/50 shadow-xl' : 'hover:bg-brand-blue/5'}`}
             >
               <div className="flex items-center justify-between gap-4">
                 <h3 className="text-on-surface font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
@@ -2349,7 +2352,7 @@ export default function App() {
                           type="text" 
                           value={formData.cargo}
                           onChange={(e) => setFormData({...formData, cargo: e.target.value})}
-                          className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20" 
+                          className="w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20" 
                           placeholder="Ej. Ing." 
                         />
                       </div>
@@ -2361,7 +2364,7 @@ export default function App() {
                           type="text" 
                           value={formData.nombre}
                           onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                          className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                          className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                           placeholder="Ej. Roberto Silva" 
                         />
                         {formErrors.nombre && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2377,7 +2380,7 @@ export default function App() {
                         type="text" 
                         value={formData.empresa}
                         onChange={(e) => setFormData({...formData, empresa: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Ej. Planta Industrial Norte" 
                       />
                       {formErrors.empresa && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2392,7 +2395,7 @@ export default function App() {
                         type="email" 
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="rsilva@empresa.com" 
                       />
                       {formErrors.email && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2407,7 +2410,7 @@ export default function App() {
                         type="tel" 
                         value={formData.telefono}
                         onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="55 0000 0000" 
                       />
                       {formErrors.telefono && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2422,7 +2425,7 @@ export default function App() {
                         rows={4} 
                         value={formData.detalles}
                         onChange={(e) => setFormData({...formData, detalles: e.target.value})}
-                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-on-surface-subtle/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-brand-blue/5 border-glass-border rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-on-surface-subtle/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
                       ></textarea>
                       {formErrors.detalles && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2469,7 +2472,7 @@ export default function App() {
             }}
           >
             {/* Visor - Astrobot Style */}
-            <div className="absolute top-1/4 left-2 right-2 h-[40%] bg-[#0a192f] rounded-full flex items-center justify-center gap-2 overflow-hidden border border-white/10 shadow-inner">
+            <div className="absolute top-1/4 left-2 right-2 h-[40%] bg-[#0f172a] rounded-full flex items-center justify-center gap-2 overflow-hidden border border-white/20 shadow-inner">
               <AnimatePresence mode="wait">
                 {isChatOpen ? (
                   <motion.div 
@@ -2534,7 +2537,7 @@ export default function App() {
           {/* Neon Green Online Indicator */}
           <div className="absolute -top-1 -right-1 flex items-center justify-center z-10">
             <span className="absolute w-5 h-5 bg-[#39ff14] rounded-full animate-ping opacity-40" />
-            <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border-2 border-[#0a192f] shadow-[0_0_10px_#39ff14]" />
+            <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border-2 border-[#0f172a] shadow-[0_0_10px_#39ff14]" />
           </div>
         </button>
 
@@ -2544,12 +2547,12 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-40px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-[#0a192f] rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden will-change-transform"
+              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-40px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               <div className="bg-brand-orange p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10">
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center relative overflow-hidden shadow-lg">
-                    <div className="absolute inset-0.5 bg-[#0a192f] rounded-full flex items-center justify-center gap-1 shadow-inner">
+                    <div className="absolute inset-0.5 bg-[#0f172a] rounded-full flex items-center justify-center gap-1 shadow-inner">
                       <AnimatePresence mode="wait">
                         <motion.div 
                           key={botExpression}
@@ -2578,7 +2581,7 @@ export default function App() {
                         </motion.div>
                       </AnimatePresence>
                     </div>
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#39ff14] border-2 border-[#0a192f] rounded-full shadow-sm" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#39ff14] border-2 border-[#0f172a] rounded-full shadow-sm" />
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm">Poly Bot</h4>
@@ -2707,9 +2710,9 @@ export default function App() {
                 playClickSound();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="w-14 h-14 glass border-white/10 text-white/40 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:text-white transition-all group pointer-events-auto"
+              className="w-14 h-14 glass border-glass-border text-on-surface-subtle/80 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:text-brand-blue transition-all group pointer-events-auto"
             >
-              <div className="absolute -top-10 right-0 glass border-white/10 text-white/60 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute -top-10 right-0 glass border-glass-border text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
               </div>
               <ChevronDown className="w-6 h-6 rotate-180" />
