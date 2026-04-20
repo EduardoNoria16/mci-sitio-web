@@ -1523,7 +1523,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-24 md:pt-32 pb-12 md:pb-24 will-change-transform overflow-visible">
+      <section id="inicio" className="relative pt-16 md:pt-24 pb-8 md:pb-16 will-change-transform overflow-visible">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -1541,14 +1541,14 @@ export default function App() {
           />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-10 md:py-16 mt-12 md:mt-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
             {/* 1. ¿Quiénes Somos? Text */}
-            <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-10 order-1 lg:order-1">
+            <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-8 order-1 lg:order-1">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="space-y-4 max-w-full flex flex-col items-center md:items-start"
+                className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
                 <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left">
                   <span>¿Quiénes</span>{' '}
@@ -1581,7 +1581,7 @@ export default function App() {
                   transition: { staggerChildren: 0.1 }
                 }
               }}
-              className="lg:col-span-12 order-2 lg:order-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 w-full max-w-lg md:max-w-none mx-auto mt-6 md:mt-16"
+              className="lg:col-span-12 order-2 lg:order-3 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-lg md:max-w-none mx-auto mt-6 md:mt-10"
             >
               {[
                 { 
@@ -1595,9 +1595,17 @@ export default function App() {
                   content: 'Líder en protección industrial y sistemas de alta exigencia técnica.' 
                 },
                 { 
-                  label: 'Valores', 
-                  icon: <Award className="w-5 h-5" />, 
-                  list: ['Rigor Técnico', 'Calidad Total', 'Compromiso 24/7'] 
+                  label: 'Propuesta de Valor', 
+                  icon: <ShieldCheck className="w-5 h-5" />, 
+                  list: [
+                    'Más de 30 años de experiencia',
+                    'Respuesta inmediata 24/7',
+                    'Rigor técnico',
+                    'Soluciones integrales a la medida',
+                    'Calidad total demostrada',
+                    'Responsabilidad operativa',
+                    'Protección a largo plazo'
+                  ] 
                 }
               ].map((item, i) => (
                 <motion.div 
@@ -1606,7 +1614,7 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-5 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[220px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
+                  className={`glass p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
@@ -1615,7 +1623,7 @@ export default function App() {
                     {item.icon}
                   </div>
                   <div className="flex-1 w-full">
-                    <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.2em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
+                    <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
@@ -1629,14 +1637,14 @@ export default function App() {
                           className="overflow-hidden mt-3"
                         >
                           {item.content ? (
-                            <p className="text-[10px] md:text-xs text-on-surface-subtle leading-snug font-medium">
+                            <p className="text-[10px] md:text-xs text-on-surface-subtle leading-snug font-medium text-left">
                               {item.content}
                             </p>
                           ) : (
-                            <div className="flex flex-col items-center space-y-1.5 mt-1">
+                            <div className="flex flex-col items-start space-y-2 mt-2 px-1">
                               {item.list?.map((li, idx) => (
-                                <div key={idx} className="flex items-center gap-2 text-[10px] md:text-xs text-on-surface-subtle font-bold">
-                                  <div className="w-1 h-1 bg-brand-orange rounded-full" />
+                                <div key={idx} className="flex items-start gap-2 text-[10px] md:text-xs text-on-surface-subtle font-bold text-left leading-tight">
+                                  <div className="w-1 h-1 bg-brand-orange rounded-full mt-1.5 flex-shrink-0" />
                                   {li}
                                 </div>
                               ))}
@@ -1675,9 +1683,9 @@ export default function App() {
         </div>
 
         {/* Infinite Horizontal Marquee Section */}
-        <div className="mt-12 md:mt-24 overflow-hidden w-full relative z-10 border-t border-brand-blue/10 pt-16">
-          <div className="text-center mb-10 md:mb-16 px-4">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-6 leading-tight">
+        <div className="mt-8 md:mt-16 overflow-hidden w-full relative z-10 border-t border-brand-blue/10 pt-10">
+          <div className="text-center mb-8 md:mb-12 px-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight">
               Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
             </h2>
             <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
