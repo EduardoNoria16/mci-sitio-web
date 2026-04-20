@@ -1523,12 +1523,12 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative flex min-h-screen items-center pt-28 md:pt-32 pb-12 md:pb-20 will-change-transform overflow-hidden">
+      <section id="inicio" className="relative pt-24 md:pt-32 pb-12 md:pb-24 will-change-transform overflow-visible">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-slate-200/50 sm:bg-slate-200/40 z-10" />
+          <div className="absolute inset-0 bg-slate-100/60 sm:bg-slate-100/50 z-10 backdrop-blur-[1px]" />
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
@@ -1542,32 +1542,34 @@ export default function App() {
         </motion.div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-10 md:py-16 mt-12 md:mt-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          <div className="lg:col-span-7 xl:col-span-8 space-y-8 md:space-y-12">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-4 max-w-full"
-            >
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface">
-                <span>¿Quiénes</span>{' '}
-                <span className="text-brand-blue-bright">Somos</span>
-                <span>?</span>
-              </h1>
-              <div className="h-1 w-16 sm:w-24 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.3)]" />
-            </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center w-full">
+            {/* 1. ¿Quiénes Somos? Text */}
+            <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-10 order-1 lg:order-1">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-4 max-w-full flex flex-col items-center md:items-start"
+              >
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left">
+                  <span>¿Quiénes</span>{' '}
+                  <span className="text-brand-blue-bright">Somos</span>
+                  <span>?</span>
+                </h1>
+                <div className="h-1 w-16 sm:w-24 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.3)]" />
+              </motion.div>
 
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-base sm:text-xl lg:text-2xl text-on-surface-subtle leading-relaxed font-semibold max-w-4xl text-left md:text-justify px-0.5"
-              style={{ overflowWrap: 'break-word' }}
-            >
-              Empresa con más de <span className="hl text-brand-orange-bright">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
-            </motion.p>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-base sm:text-xl lg:text-2xl text-on-surface-subtle leading-relaxed font-semibold max-w-4xl text-center md:text-left lg:text-justify px-4 md:px-0"
+                style={{ overflowWrap: 'break-word' }}
+              >
+                Empresa con más de <span className="hl text-brand-orange-bright">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
+              </motion.p>
+            </div>
 
-            {/* Misión/Visión/Propuesta Accordions */}
+            {/* 2. Misión/Visión/Propuesta Cards (Middle on mobile, Bottom on desktop) */}
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -1576,12 +1578,10 @@ export default function App() {
                 hidden: { opacity: 0 },
                 visible: {
                   opacity: 1,
-                  transition: {
-                    staggerChildren: 0.1
-                  }
+                  transition: { staggerChildren: 0.1 }
                 }
               }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6"
+              className="lg:col-span-12 order-2 lg:order-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 w-full max-w-lg md:max-w-none mx-auto mt-6 md:mt-16"
             >
               {[
                 { 
@@ -1597,12 +1597,7 @@ export default function App() {
                 { 
                   label: 'Valores', 
                   icon: <Award className="w-5 h-5" />, 
-                  span: 'col-span-2 md:col-span-1',
-                  list: [
-                    'Rigor Técnico',
-                    'Calidad Total',
-                    'Compromiso 24/7'
-                  ] 
+                  list: ['Rigor Técnico', 'Calidad Total', 'Compromiso 24/7'] 
                 }
               ].map((item, i) => (
                 <motion.div 
@@ -1611,16 +1606,16 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-4 md:p-5 rounded-2xl border-glass-border transition-all duration-500 group flex flex-col items-center md:items-start text-center md:text-left gap-3 cursor-pointer relative overflow-hidden ${item.span || ''} ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
+                  className={`glass p-5 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[220px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`w-10 h-10 md:w-12 md:h-12 glass rounded-xl flex items-center justify-center transition-all duration-500 shadow-sm ${activeHeroAcc === i ? 'bg-brand-orange text-white' : 'text-brand-orange bg-brand-orange/5 group-hover:bg-brand-orange group-hover:text-white'}`}>
+                  <div className={`w-12 h-12 glass rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm ${activeHeroAcc === i ? 'bg-brand-orange text-white' : 'text-brand-orange bg-brand-orange/5 group-hover:bg-brand-orange group-hover:text-white'}`}>
                     {item.icon}
                   </div>
                   <div className="flex-1 w-full">
-                    <h3 className={`text-[10px] md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
+                    <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.2em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
@@ -1631,17 +1626,17 @@ export default function App() {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="overflow-hidden mt-2"
+                          className="overflow-hidden mt-3"
                         >
                           {item.content ? (
                             <p className="text-[10px] md:text-xs text-on-surface-subtle leading-snug font-medium">
                               {item.content}
                             </p>
                           ) : (
-                            <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:flex-col md:space-y-1.5">
+                            <div className="flex flex-col items-center space-y-1.5 mt-1">
                               {item.list?.map((li, idx) => (
-                                <div key={idx} className="flex items-center gap-1.5 text-[9px] md:text-xs text-on-surface-subtle font-bold px-2 py-0.5 rounded-full bg-brand-orange/5 md:bg-transparent">
-                                  <div className="w-1 h-1 bg-brand-orange rounded-full hidden md:block" />
+                                <div key={idx} className="flex items-center gap-2 text-[10px] md:text-xs text-on-surface-subtle font-bold">
+                                  <div className="w-1 h-1 bg-brand-orange rounded-full" />
                                   {li}
                                 </div>
                               ))}
@@ -1653,8 +1648,8 @@ export default function App() {
 
                     {/* Hint for mobile */}
                     {activeHeroAcc !== i && (
-                      <div className="md:hidden mt-1 opacity-40">
-                         <span className="text-[7px] font-black uppercase tracking-tighter text-brand-orange">+ info</span>
+                      <div className="md:hidden mt-2 opacity-40">
+                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-orange">+ detalles</span>
                       </div>
                     )}
                   </div>
@@ -1662,31 +1657,30 @@ export default function App() {
               ))}
             </motion.div>
 
-
-          </div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-5 xl:col-span-4"
-          >
-            <div className="relative group max-w-md mx-auto lg:mx-0">
-              <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative glass rounded-3xl overflow-hidden border-2 border-glass-border shadow-2xl aspect-video flex items-center justify-center">
-                <CustomVideoPlayer />
+            {/* 3. Video (Last on mobile, Right on desktop) */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="lg:col-span-5 xl:col-span-4 order-3 lg:order-2"
+            >
+              <div className="relative group max-w-md mx-auto lg:mx-0">
+                <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative glass rounded-3xl overflow-hidden border-2 border-glass-border shadow-2xl aspect-video flex items-center justify-center">
+                  <CustomVideoPlayer />
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Infinite Horizontal Marquee Section */}
-        <div className="mt-16 md:mt-24 overflow-hidden w-full relative z-10">
-          <div className="text-center mb-12 md:mb-20">
-            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface mb-6">
+        <div className="mt-12 md:mt-24 overflow-hidden w-full relative z-10 border-t border-brand-blue/10 pt-16">
+          <div className="text-center mb-10 md:mb-16 px-4">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-6 leading-tight">
               Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
             </h2>
-            <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
+            <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           </div>
           <div className="marquee-container">
             <div className="marquee-content">
@@ -1721,8 +1715,7 @@ export default function App() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* Stats Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-16">
