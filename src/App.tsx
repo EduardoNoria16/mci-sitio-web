@@ -1355,12 +1355,12 @@ export default function App() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col notranslate" translate="no">
-              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline lg:whitespace-nowrap">
+            <div className="flex flex-col notranslate min-w-0" translate="no">
+              <span className="text-base sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex flex-wrap gap-x-1 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
                 <span className="text-on-surface transition-colors">Soluciones</span>
               </span>
-              <span className="text-[0.45rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-on-surface mt-0.5 md:mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.4rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-[0.05em] md:tracking-[0.2em] text-on-surface mt-0.5 md:mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1510,7 +1510,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative flex min-h-screen items-center pt-24 md:pt-32 pb-12 md:pb-20 will-change-transform">
+      <section id="inicio" className="relative flex min-h-screen items-center pt-28 md:pt-32 pb-12 md:pb-20 will-change-transform">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -1536,7 +1536,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95] text-on-surface">
+              <h1 className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-tight md:leading-[0.95] text-on-surface">
                 <span>¿Quiénes</span>{' '}
                 <span className="text-brand-blue-bright transition-colors">Somos</span>
                 <span>?</span>
