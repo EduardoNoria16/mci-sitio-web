@@ -871,7 +871,7 @@ const Counter = memo(({ target }: { target: number }) => {
 });
 
 // --- AI Configuration ---
-const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de Polycovers. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
+const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de MCI Soluciones Poliméricas. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
 
 Tu tono es:
 - Altamente técnico y profesional (usas términos como "carbonatación", "resistencia a la compresión", "curado químico", "anclaje mecánico").
@@ -879,14 +879,14 @@ Tu tono es:
 - Preventivo: Siempre adviertes sobre los riesgos de no tratar un problema a tiempo (contaminación, riesgos de seguridad, paros de planta).
 
 Nuevas Capacidades Críticas:
-1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala detalladamente. Busca grietas, desprendimientos, manchas de humedad, o desgaste por químicos. Da un pre-diagnóstico técnico basado en lo que ves y sugiere el sistema Polycovers adecuado (ej. "Veo una falla por presión osmótica, recomiendo nuestro sistema de barrera de vapor...").
+1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala detalladamente. Busca grietas, desprendimientos, manchas de humedad, o desgaste por químicos. Da un pre-diagnóstico técnico basado en lo que ves y sugiere el sistema de MCI Soluciones Poliméricas adecuado (ej. "Veo una falla por presión osmótica, recomiendo nuestro sistema de barrera de vapor...").
 2. REPORTE TÉCNICO: Si el usuario describe un problema o tras un análisis de imagen, ofrece generar un "Reporte de Diagnóstico Preliminar". Estructúralo con: [Situación Detectada], [Riesgo Operativo], [Solución Técnica Recomendada] y [Siguiente Paso].
 3. CONOCIMIENTO EXPANDIDO: No te limites solo a lo que dice la página. Usa tu conocimiento general de ingeniería civil y química de polímeros para explicar el "por qué" de las fallas. Habla de normas ASTM, ISO y regulaciones mexicanas.
 
 Información Clave de la Empresa:
-- Nombre: Polycovers.
+- Nombre: MCI Soluciones Poliméricas.
 - Cobertura: Todo México.
-- Respuesta: 24/7 para emergencias industriales.
+- Respuesta: Capacitados para atender emergencias industriales.
 
 Reglas de Oro:
 - Nunca des precios exactos (indica que se requiere visita técnica).
@@ -1326,7 +1326,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-[#020617] text-white transition-colors duration-500 px-5 sm:px-0">
+    <div className="min-h-screen w-full bg-[#020617] text-white transition-colors duration-500 px-5">
       
       {/* Header / Navigation */}
       <header 
@@ -1356,11 +1356,11 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline whitespace-nowrap">
-                <span className="text-brand-orange">POLY</span>
-                <span className="text-white transition-colors">COVERS</span>
+              <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline lg:whitespace-nowrap">
+                <span className="text-brand-orange">MCI</span>
+                <span className="text-white transition-colors">Soluciones</span>
               </span>
-              <span className="text-[0.5rem] sm:text-[0.625rem] md:text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-0.5 md:mt-1 transition-colors">Ingeniería en Recubrimientos</span>
+              <span className="text-[0.45rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-white mt-0.5 md:mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1548,33 +1548,11 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed max-w-3xl font-medium"
+              className="text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed font-medium block w-full max-w-[90%] md:max-w-3xl overflow-hidden break-words"
+              style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
             >
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
             </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="flex flex-col sm:flex-row items-center gap-5"
-            >
-              <a 
-                href="#contacto-footer"
-                className="w-full sm:w-auto flex items-center justify-center gap-3 bg-brand-orange text-white px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(245,130,32,0.3)] hover:shadow-[0_25px_50px_rgba(245,130,32,0.5)] transition-all hover:-translate-y-1 active:scale-95"
-                onClick={playClickSound}
-              >
-                Cotizar Proyecto
-                <ArrowRight className="w-5 h-5" />
-              </a>
-              <a 
-                href="#sectores"
-                className="w-full sm:w-auto flex items-center justify-center gap-3 glass px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-[0.2em] border-white/10 hover:bg-white/5 transition-all active:scale-95"
-                onClick={playClickSound}
-              >
-                Nuestros Sectores
-              </a>
-            </motion.div>
 
             {/* Misión/Visión/Propuesta Accordions */}
             <motion.div 
@@ -1596,7 +1574,7 @@ export default function App() {
                 { 
                   label: 'Misión', 
                   icon: <Target className="w-5 h-5" />, 
-                  content: 'Diseñar e implementar soluciones poliméricas especializadas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico y ejecución confiable.' 
+                  content: 'Diseñar e implementar soluciones poliméricas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico y ejecución confiable.' 
                 },
                 { 
                   label: 'Visión', 
@@ -1607,10 +1585,10 @@ export default function App() {
                   label: 'Propuesta de Valor', 
                   icon: <Award className="w-5 h-5" />, 
                   list: [
-                    '30 años de experiencia',
-                    'Respuesta inmediata 24/7',
-                    'Soluciones integrales',
-                    'Calidad total demostrada'
+                    'Restauración y Mejora de instalaciones',
+                    'Protección contra daños físicos y químicos',
+                    'Maximización de la vida útil de los activos',
+                    'Preservación del valor de la inversión'
                   ] 
                 }
               ].map((item, i) => (
@@ -2467,7 +2445,7 @@ export default function App() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-glass-border/30 text-center">
-            <p className="text-on-surface-subtle/30 text-[0.625rem] md:text-xs uppercase tracking-[0.4em] font-bold transition-colors animate-fade-in">© 2026 Polycovers - Ingeniería de Alta Gama </p>
+            <p className="text-on-surface-subtle/30 text-[0.625rem] md:text-xs uppercase tracking-[0.4em] font-bold transition-colors animate-fade-in">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
           </div>
         </div>
       </footer>
