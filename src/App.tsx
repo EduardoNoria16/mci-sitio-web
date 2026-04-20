@@ -42,7 +42,10 @@ import {
   Play,
   Pause,
   Maximize2,
-  CheckCircle2
+  CheckCircle2,
+  Target,
+  Eye,
+  Award
 } from 'lucide-react';
 
 // --- Sound Effects ---
@@ -687,31 +690,31 @@ const TESTIMONIALS = [
   {
     name: "Ing. Ricardo Méndez",
     company: "Planta Automotriz Bajío",
-    text: "Teníamos un problema serio de desprendimiento en los pasillos de carga. MCI no solo reparó el concreto, sino que nos dio una solución que ha aguantado el tráfico pesado por más de 2 años sin un solo bache. Se nota que saben lo que hacen.",
+    text: "Teníamos un problema serio de desprendimiento en los pasillos de carga. Polycovers no solo reparó el concreto, sino que nos dio una solución que ha aguantado el tráfico pesado por más de 2 años sin un solo bache. Se nota que saben lo que hacen.",
     rating: 5
   },
   {
     name: "Dra. Elena Vargas",
     company: "Laboratorios BioTech",
-    text: "Lo que más valoro es la limpieza y el orden con el que trabajaron. En un entorno de laboratorio, el polvo es nuestro enemigo. MCI instaló el piso epóxico con un control de contaminación increíble. ¡Altamente recomendados!",
+    text: "Lo que más valoro es la limpieza y el orden con el que trabajaron. En un entorno de laboratorio, el polvo es nuestro enemigo. Polycovers instaló el piso epóxico con un control de contaminación increíble. ¡Altamente recomendados!",
     rating: 5
   },
   {
     name: "Arq. Carlos Ruiz",
     company: "Constructora Global MX",
-    text: "He trabajado con muchos contratistas, pero pocos tienen el nivel de respuesta de MCI. Si surge un detalle en obra a las 10 de la noche, el CEO te contesta y te resuelve. Esa tranquilidad no tiene precio.",
+    text: "He trabajado con muchos contratistas, pero pocos tienen el nivel de respuesta de Polycovers. Si surge un detalle en obra a las 10 de la noche, el CEO te contesta y te resuelve. Esa tranquilidad no tiene precio.",
     rating: 5
   },
   {
     name: "Lic. Martha Solís",
     company: "Almacenes Logis-Mex",
-    text: "Nuestros pisos estaban 'llorando' humedad y nada pegaba. MCI hizo un diagnóstico profundo, aplicó una barrera de vapor y el acabado final quedó perfecto. Nos ahorraron miles de pesos en retrabajos.",
+    text: "Nuestros pisos estaban 'llorando' humedad y nada pegaba. Polycovers hizo un diagnóstico profundo, aplicó una barrera de vapor y el acabado final quedó perfecto. Nos ahorraron miles de pesos en retrabajos.",
     rating: 5
   },
   {
     name: "Ing. Javier Torres",
     company: "Refinería del Norte",
-    text: "La aplicación de poliurea en nuestros diques de contención fue un éxito. El equipo de MCI está muy bien capacitado y cumplen con todas las normas de seguridad industrial que exigimos.",
+    text: "La aplicación de poliurea en nuestros diques de contención fue un éxito. El equipo de Polycovers está muy bien capacitado y cumplen con todas las normas de seguridad industrial que exigimos.",
     rating: 5
   }
 ];
@@ -868,7 +871,7 @@ const Counter = memo(({ target }: { target: number }) => {
 });
 
 // --- AI Configuration ---
-const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de MCI Soluciones Poliméricas. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
+const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de Polycovers. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
 
 Tu tono es:
 - Altamente técnico y profesional (usas términos como "carbonatación", "resistencia a la compresión", "curado químico", "anclaje mecánico").
@@ -876,12 +879,12 @@ Tu tono es:
 - Preventivo: Siempre adviertes sobre los riesgos de no tratar un problema a tiempo (contaminación, riesgos de seguridad, paros de planta).
 
 Nuevas Capacidades Críticas:
-1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala detalladamente. Busca grietas, desprendimientos, manchas de humedad, o desgaste por químicos. Da un pre-diagnóstico técnico basado en lo que ves y sugiere el sistema MCI adecuado (ej. "Veo una falla por presión osmótica, recomiendo nuestro sistema de barrera de vapor...").
+1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala detalladamente. Busca grietas, desprendimientos, manchas de humedad, o desgaste por químicos. Da un pre-diagnóstico técnico basado en lo que ves y sugiere el sistema Polycovers adecuado (ej. "Veo una falla por presión osmótica, recomiendo nuestro sistema de barrera de vapor...").
 2. REPORTE TÉCNICO: Si el usuario describe un problema o tras un análisis de imagen, ofrece generar un "Reporte de Diagnóstico Preliminar". Estructúralo con: [Situación Detectada], [Riesgo Operativo], [Solución Técnica Recomendada] y [Siguiente Paso].
 3. CONOCIMIENTO EXPANDIDO: No te limites solo a lo que dice la página. Usa tu conocimiento general de ingeniería civil y química de polímeros para explicar el "por qué" de las fallas. Habla de normas ASTM, ISO y regulaciones mexicanas.
 
 Información Clave de la Empresa:
-- Nombre: MCI Soluciones Poliméricas.
+- Nombre: Polycovers.
 - Cobertura: Todo México.
 - Respuesta: 24/7 para emergencias industriales.
 
@@ -916,7 +919,7 @@ export default function App() {
   const [activeStrength, setActiveStrength] = useState<Strength>(STRENGTHS[0]);
   const [isStrengthHovered, setIsStrengthHovered] = useState(false);
   const [activeSector, setActiveSector] = useState<string | null>(null);
-  const [activeHeroTab, setActiveHeroTab] = useState<number | null>(null);
+  const [activeHeroAcc, setActiveHeroAcc] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [userInput, setUserInput] = useState('');
@@ -994,7 +997,7 @@ export default function App() {
   };
 
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: '¡Hola! Soy tu asistente de MCI Soluciones Poliméricas. ¿En qué puedo ayudarte hoy?' }
+    { type: 'bot', text: '¡Hola! Soy tu asistente técnico de Polycovers. ¿En qué puedo asesorarte hoy sobre tu proyecto industrial?' }
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -1323,7 +1326,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface transition-colors duration-500">
+    <div className="min-h-screen w-full bg-[#020617] text-white transition-colors duration-500 px-5 sm:px-0">
       
       {/* Header / Navigation */}
       <header 
@@ -1333,7 +1336,7 @@ export default function App() {
             : 'bg-transparent py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
             className="flex items-center gap-2 sm:gap-3 lg:gap-4 group flex-shrink-0 mr-2 sm:mr-4 lg:mr-8 cursor-pointer"
@@ -1353,12 +1356,11 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-lg sm:text-xl font-black tracking-tighter leading-none flex gap-1 items-baseline">
-                <span className="text-brand-orange">MCI</span>
-                <span className="text-brand-blue transition-colors">Soluciones</span>
-                <span className="hidden sm:inline text-brand-blue transition-colors">Poliméricas</span>
+              <span className="text-xl sm:text-2xl font-black tracking-tighter leading-none flex gap-1 items-baseline whitespace-nowrap">
+                <span className="text-brand-orange">POLY</span>
+                <span className="text-white transition-colors">COVERS</span>
               </span>
-              <span className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-[#A0AAB2] mt-0.5 sm:mt-1 transition-colors">Ingeniería en Recubrimientos</span>
+              <span className="text-[0.625rem] sm:text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-1 transition-colors">Ingeniería en Recubrimientos</span>
             </div>
           </a>
 
@@ -1505,12 +1507,12 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative md:min-h-screen flex items-center pt-24 md:pt-32 pb-12 md:pb-20 overflow-hidden will-change-transform">
+      <section id="inicio" className="relative flex min-h-screen items-center pt-24 md:pt-32 pb-12 md:pb-20 will-change-transform">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
         >
-          <div className="absolute inset-0 bg-[#0a192f]/80 sm:bg-[#0a192f]/70 z-10" />
+          <div className="absolute inset-0 bg-[#020617]/90 sm:bg-[#020617]/70 z-10" />
           <img 
             src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
             alt="Hero Background"
@@ -1523,7 +1525,7 @@ export default function App() {
           />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-10 md:py-16 mt-12 md:mt-0">
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-10 md:py-16 mt-12 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           <div className="lg:col-span-7 xl:col-span-8 space-y-8 md:space-y-10">
             <motion.div 
@@ -1548,75 +1550,82 @@ export default function App() {
               Empresa con más de <span className="hl">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, y maximizando su vida útil; <span className="hl">preservando</span> así el valor de tu <span className="hl">inversión</span>.
             </motion.p>
 
-            {/* Misión/Visión/Propuesta Tabs */}
+            {/* Misión/Visión/Propuesta Accordions */}
             <motion.div 
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={{
                 hidden: { opacity: 0 },
                 visible: {
                   opacity: 1,
                   transition: {
-                    staggerChildren: 0.1,
-                    delayChildren: 0.3
+                    staggerChildren: 0.1
                   }
                 }
               }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {[
-                { label: 'Misión', content: 'Diseñar e implementar soluciones poliméricas especializadas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico, materiales de alto desempeño y ejecución confiable.' },
-                { label: 'Visión', content: 'Ser una empresa referente en soluciones de protección industrial, reconocida por la confiabilidad de nuestros sistemas, la solidez técnica y la capacidad de resolver entornos de alta exigencia.' },
+                { 
+                  label: 'Misión', 
+                  icon: <Target className="w-5 h-5" />, 
+                  content: 'Diseñar e implementar soluciones poliméricas especializadas que protegen y prolongan la vida útil de superficies expuestas a condiciones severas mediante un enfoque técnico y ejecución confiable.' 
+                },
+                { 
+                  label: 'Visión', 
+                  icon: <Eye className="w-5 h-5" />, 
+                  content: 'Ser la empresa referente en protección industrial, reconocida por la confianza de nuestros sistemas y la capacidad de resolver entornos de alta exigencia.' 
+                },
                 { 
                   label: 'Propuesta de Valor', 
+                  icon: <Award className="w-5 h-5" />, 
                   list: [
-                    'Más de 30 años de experiencia',
+                    '30 años de experiencia',
                     'Respuesta inmediata 24/7',
-                    'Rigor técnico',
-                    'Soluciones integrales a la medida',
-                    'Calidad total demostrada',
-                    'Responsabilidad operativa',
-                    'Protección a largo plazo'
+                    'Soluciones integrales',
+                    'Calidad total demostrada'
                   ] 
                 }
-              ].map((tab, i) => (
+              ].map((item, i) => (
                 <motion.div 
                   key={i} 
                   variants={{
-                    hidden: { opacity: 0, y: 20 },
+                    hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className="group relative"
-                  onClick={() => {
-                    playClickSound();
-                    setActiveHeroTab(activeHeroTab === i ? null : i);
-                  }}
-                  onMouseEnter={() => {
-                    if (window.innerWidth > 768) setActiveHeroTab(i);
-                  }}
-                  onMouseLeave={() => {
-                    if (window.innerWidth > 768) setActiveHeroTab(null);
-                  }}
+                  className={`glass p-6 rounded-3xl border-white/10 transition-all duration-500 group flex flex-col space-y-4 cursor-pointer relative overflow-hidden ${activeHeroAcc === i ? 'border-brand-orange/50 bg-brand-orange/5' : 'hover:border-brand-orange/30'}`}
+                  onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
+                  onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
+                  onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`glass p-5 md:p-6 rounded-2xl border-white/20 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[80px] sm:min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/60 bg-brand-blue/30 -translate-y-1 sm:-translate-y-2 shadow-[0_15px_40px_rgba(0,0,0,0.5)]' : 'hover:border-white/30'}`}>
-                <h3 className={`font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] mb-1 sm:mb-2 text-xs sm:text-xs md:text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-brand-orange' : 'text-white'}`}>{tab.label}</h3>
-                    <AnimatePresence mode="wait">
-                      {activeHeroTab === i && (
-                        <motion.div 
-                          initial={{ opacity: 0, height: 0, y: 10 }}
-                          animate={{ opacity: 1, height: 'auto', y: 0 }}
-                          exit={{ opacity: 0, height: 0, y: 10 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
-                          className="text-sm text-white/90 leading-relaxed overflow-hidden font-medium tracking-wide mt-2 w-full"
+                  <div className={`w-12 h-12 glass rounded-2xl flex items-center justify-center transition-all duration-500 shadow-xl ${activeHeroAcc === i ? 'bg-brand-orange text-white' : 'text-brand-orange group-hover:bg-brand-orange group-hover:text-white'}`}>
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h3 className={`text-sm font-black uppercase tracking-[0.2em] mb-3 transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-white group-hover:text-brand-orange'}`}>
+                      {item.label}
+                    </h3>
+                    
+                    <AnimatePresence>
+                      {(activeHeroAcc === i || (typeof window !== 'undefined' && window.innerWidth > 768 && activeHeroAcc === i)) && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
                         >
-                          {'content' in tab ? (
-                            <p>{tab.content}</p>
+                          {item.content ? (
+                            <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
+                              {item.content}
+                            </p>
                           ) : (
-                            <ul className="space-y-1 text-left inline-block">
-                              {tab.list?.map((item, idx) => (
-                                <li key={idx} className="flex items-center gap-2">
+                            <ul className="space-y-2">
+                              {item.list?.map((li, idx) => (
+                                <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-white/90 font-medium">
                                   <div className="w-1 h-1 bg-brand-orange rounded-full flex-shrink-0" />
-                                  <span>{item}</span>
+                                  {li}
                                 </li>
                               ))}
                             </ul>
@@ -1624,13 +1633,13 @@ export default function App() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                    {!activeHeroTab && activeHeroTab !== 0 && (
-                      <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="w-1 h-1 bg-brand-blue rounded-full mt-2 animate-pulse"
-                      />
-                    )}
+
+                    {/* Hint for mobile */}
+                    <div className="md:hidden mt-2">
+                      <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
+                        {activeHeroAcc === i ? 'Cerrar' : 'Ver detalle'}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -1657,7 +1666,7 @@ export default function App() {
         {/* Infinite Horizontal Marquee Section */}
         <div className="mt-16 md:mt-24 overflow-hidden w-full relative z-10">
           <div className="text-center mb-8">
-            <h3 className="text-brand-orange text-xs md:text-sm font-black uppercase tracking-[0.4em] mb-4">
+            <h3 className="text-brand-orange text-[10px] md:text-sm font-black uppercase tracking-[0.2em] md:tracking-[0.4em] mb-4">
               Así Garantizamos Resultados
             </h3>
             <div className="w-12 h-0.5 bg-brand-orange/30 mx-auto rounded-full" />
@@ -1699,7 +1708,7 @@ export default function App() {
     </section>
 
       {/* Stats Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
+      <section className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {[
             { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
@@ -1721,10 +1730,10 @@ export default function App() {
       </section>
 
       {/* Sectors Section */}
-      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 will-change-transform">
+      <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
-            Sectores que <span className="text-brand-blue transition-colors">Atendemos</span>
+            Sectores que <span className="text-gradient transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           <p className="text-on-surface-subtle max-w-3xl mx-auto text-base md:text-xl font-normal leading-relaxed">
@@ -1754,7 +1763,7 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`glass p-6 md:p-8 rounded-2xl md:rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'ring-1 ring-brand-orange/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(245,130,32,0.05)]' : 'hover:bg-white/[0.01]'}`}
+              className={`glass p-6 md:p-8 rounded-2xl md:rounded-3xl border-white/5 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-1 ring-brand-orange/30 bg-white/[0.02] shadow-[0_20px_50px_rgba(245,130,32,0.05)]' : 'hover:bg-white/[0.01]'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
@@ -1764,9 +1773,9 @@ export default function App() {
                 <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
                 </div>
-                <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
+                <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 whitespace-normal break-words ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
               </div>
-              <p className="text-sm text-on-surface-subtle leading-relaxed mb-4 font-medium tracking-wide">{sector.description}</p>
+              <p className="text-sm text-on-surface-subtle leading-relaxed mb-4 font-medium tracking-wide whitespace-normal break-words">{sector.description}</p>
               
               <AnimatePresence mode="popLayout">
                 {activeSector === sector.id && (
@@ -1775,7 +1784,7 @@ export default function App() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="pt-6 border-t border-white/5 space-y-5 max-h-[400px] overflow-y-auto custom-scrollbar pr-2"
+                    className="pt-6 border-t border-white/5 space-y-5"
                   >
                     {sector.details?.intro && (
                       <p className="text-sm text-brand-orange font-bold italic tracking-wide bg-brand-orange/5 p-2 rounded-lg">{sector.details.intro}</p>
@@ -1809,10 +1818,10 @@ export default function App() {
       </section>
 
       {/* Strengths Section */}
-      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 will-change-transform">
+      <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
-            Nuestras <span className="text-brand-blue transition-colors">Fortalezas</span>
+            Nuestras <span className="text-gradient transition-colors">Fortalezas</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           <p className="text-base md:text-xl text-on-surface-subtle max-w-4xl mx-auto leading-relaxed font-normal">
@@ -1887,15 +1896,9 @@ export default function App() {
               <Paintbrush className="w-3 h-3" />
               Portafolio Visual en Movimiento
             </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter"
-            >
-              Nuestra <span className="text-gradient">Galería</span>
-            </motion.h2>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter">
+            Nuestra <span className="text-gradient">Galería</span>
+          </h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1990,7 +1993,7 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -2001,15 +2004,9 @@ export default function App() {
             <Star className="w-3 h-3" />
             Casos de Éxito
           </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter"
-          >
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
             Clientes <span className="text-gradient">Satisfechos</span>
-          </motion.h2>
+          </h2>
           <p className="text-on-surface-subtle max-w-2xl mx-auto font-light text-sm md:text-base">
             La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
           </p>
@@ -2155,7 +2152,7 @@ export default function App() {
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
-                    <div className="space-y-5 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
+                    <div className="space-y-5">
                       {activeStrength.items.map((item, i) => (
                         <div key={i} className="group/item">
                           {typeof item === 'string' ? (
@@ -2209,7 +2206,7 @@ export default function App() {
 
 
       {/* FAQ Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
+      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -2270,7 +2267,7 @@ export default function App() {
 
       {/* Footer Section */}
       <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
             <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
@@ -2444,7 +2441,7 @@ export default function App() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-glass-border/30 text-center">
-            <p className="text-on-surface-subtle/30 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold transition-colors animate-fade-in">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
+            <p className="text-on-surface-subtle/30 text-[0.625rem] md:text-xs uppercase tracking-[0.4em] font-bold transition-colors animate-fade-in">© 2026 Polycovers - Ingeniería de Alta Gama </p>
           </div>
         </div>
       </footer>
@@ -2543,7 +2540,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[360px] max-w-[calc(100vw-40px)] h-[600px] max-h-[calc(100vh-120px)] bg-[#0a192f] rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden will-change-transform"
+              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-40px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-[#0a192f] rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               <div className="bg-brand-orange p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10">
@@ -2580,7 +2577,7 @@ export default function App() {
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#39ff14] border-2 border-[#0a192f] rounded-full shadow-sm" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-sm">MCI Bot</h4>
+                    <h4 className="text-white font-bold text-sm">Poly Bot</h4>
                     <p className="text-white/80 text-[10px] font-medium">En línea</p>
                   </div>
                 </div>
@@ -2615,7 +2612,7 @@ export default function App() {
                     {i === 0 && chatMessages.length === 1 && (
                       <div className="flex flex-col gap-2 self-start w-[85%]">
                         {[
-                          { q: 'Cobertura MCI', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
+                          { q: 'Cobertura Polycovers', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
                           { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
                           { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525512979217" target="_blank" class="inline-block mt-2 bg-brand-orange text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
                         ].map((opt, idx) => (

@@ -16,35 +16,45 @@
 }
 
 :root {
-  --bg-primary: #f8fafc;
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(0, 75, 135, 0.1);
-  --card-bg: rgba(0, 75, 135, 0.05);
-  color-scheme: light;
+  --bg-primary: #020617;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  color-scheme: dark;
 }
 
 @layer base {
-  html {
-    font-size: 14px;
-    scroll-behavior: smooth;
-    @media (min-width: 640px) {
-      font-size: 15px;
-    }
-    @media (min-width: 1024px) {
-      font-size: 16px;
-    }
-    @media (min-width: 1536px) {
-      font-size: 18px;
-    }
+  img {
+    @apply max-w-full h-auto;
   }
+  
+*, *::before, *::after {
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
-  body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed overflow-x-hidden;
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
+  @media (max-width: 640px) {
+    font-size: 14px;
   }
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  hyphens: auto;
+}
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-black tracking-tight;
@@ -54,7 +64,7 @@
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-brand-blue via-brand-blue to-brand-orange;
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#3b82f6] via-[#60a5fa] to-brand-orange;
 }
 
 .glass {
@@ -105,15 +115,16 @@
 
 .marquee-card {
   flex-shrink: 0;
-  width: 240px;
-  min-height: 100px;
+  width: 15rem;
+  min-height: 6rem;
   height: auto;
   @media (min-width: 640px) {
-    width: 320px;
-    height: 120px;
+    width: 20rem;
+    min-height: 7.5rem;
+    height: auto;
   }
   @media (min-width: 1024px) {
-    width: 350px;
+    width: 22rem;
   }
   background-color: var(--card-bg);
   backdrop-filter: blur(12px);
