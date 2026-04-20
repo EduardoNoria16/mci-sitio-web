@@ -42,8 +42,6 @@ import {
   Play,
   Pause,
   Maximize2,
-  Sun,
-  Moon,
   CheckCircle2
 } from 'lucide-react';
 
@@ -388,7 +386,7 @@ const BeforeAfterSlider = memo(() => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full max-w-5xl mx-auto aspect-[4/3] md:aspect-video lg:aspect-[21/9] rounded-[2rem] overflow-hidden bg-[#0a192f] border-white/10 cursor-col-resize shadow-2xl will-change-transform"
+      className="relative w-full max-w-5xl mx-auto aspect-square sm:aspect-video lg:aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden bg-[#0a192f] border-white/10 cursor-col-resize shadow-2xl will-change-transform"
       onMouseMove={handleMove}
       onTouchMove={handleMove}
       onMouseEnter={() => setIsAuto(false)}
@@ -942,15 +940,6 @@ export default function App() {
     };
   }, [isChatOpen]);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('theme');
-      if (saved) return saved === 'dark';
-      // Default to dark for this high-end industrial look
-      return true;
-    }
-    return true;
-  });
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -963,18 +952,6 @@ export default function App() {
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDarkMode]);
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
@@ -1359,7 +1336,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-3 lg:gap-4 group flex-shrink-0 mr-4 lg:mr-8 cursor-pointer"
+            className="flex items-center gap-2 sm:gap-3 lg:gap-4 group flex-shrink-0 mr-2 sm:mr-4 lg:mr-8 cursor-pointer"
             onClick={(e) => {
               playClickSound();
               if (window.location.hash === '#inicio') {
@@ -1368,7 +1345,7 @@ export default function App() {
               }
             }}
           >
-            <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
@@ -1376,29 +1353,22 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate" translate="no">
-              <span className="text-xl font-black tracking-tighter leading-none flex gap-1 items-baseline">
+              <span className="text-lg sm:text-xl font-black tracking-tighter leading-none flex gap-1 items-baseline">
                 <span className="text-brand-orange">MCI</span>
-                <span className="text-brand-blue-bright md:text-brand-blue dark:md:text-brand-blue-bright transition-colors">Soluciones</span>
-                <span className="hidden sm:inline text-brand-blue-bright md:text-brand-blue dark:md:text-brand-blue-bright transition-colors">Poliméricas</span>
+                <span className="text-brand-blue transition-colors">Soluciones</span>
+                <span className="hidden sm:inline text-brand-blue transition-colors">Poliméricas</span>
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A0AAB2] mt-1 transition-colors">Ingeniería en Recubrimientos</span>
+              <span className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-[#A0AAB2] mt-0.5 sm:mt-1 transition-colors">Ingeniería en Recubrimientos</span>
             </div>
           </a>
 
           {/* Desktop Nav */}
           <nav className="hidden xl:flex items-center gap-6 xl:gap-8">
-            <button 
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-full glass border-white/10 text-white hover:text-brand-orange transition-all"
-              title={isDarkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-            >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
             {navLinks.map((link) => (
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/60 hover:text-brand-blue dark:hover:text-brand-blue-bright transition-all relative group/nav"
+                className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/60 hover:text-brand-blue transition-all relative group/nav"
                 onClick={playClickSound}
               >
                 {link.name}
@@ -1474,15 +1444,6 @@ export default function App() {
               ref={menuRef}
             >
               <nav className="flex xl:hidden flex-col p-8 gap-2">
-                <div className="flex items-center justify-between py-4 border-b border-white/5">
-                  <span className="text-xs font-black uppercase tracking-[0.2em] text-on-surface/60">Tema</span>
-                  <button 
-                    onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="p-3 rounded-full glass border-white/10 text-on-surface hover:text-brand-orange transition-all"
-                  >
-                    {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                  </button>
-                </div>
                 {navLinks.map((link) => (
                   <a 
                     key={link.name}
@@ -1562,20 +1523,20 @@ export default function App() {
           />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-12 py-8 md:py-16 mt-8 md:mt-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
-          <div className="lg:col-span-7 xl:col-span-8 space-y-6 md:space-y-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-10 md:py-16 mt-12 md:mt-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="lg:col-span-7 xl:col-span-8 space-y-8 md:space-y-10">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-3"
+              className="space-y-4"
             >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">
                 <span className="text-white">¿Quiénes</span>{' '}
                 <span className="text-brand-blue-bright transition-colors">Somos</span>
                 <span className="text-white">?</span>
               </h1>
-              <div className="h-1.5 w-24 sm:w-32 bg-brand-orange/80 rounded-full" />
+              <div className="h-1.5 w-20 sm:w-32 bg-brand-orange/80 rounded-full" />
             </motion.div>
 
             <motion.p 
@@ -1637,8 +1598,8 @@ export default function App() {
                     if (window.innerWidth > 768) setActiveHeroTab(null);
                   }}
                 >
-                  <div className={`glass p-6 rounded-2xl border-white/20 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/60 bg-brand-blue/30 -translate-y-2 shadow-[0_15px_40px_rgba(0,0,0,0.5)]' : 'hover:border-white/30'}`}>
-                <h3 className={`font-black uppercase tracking-[0.2em] mb-2 text-[10px] sm:text-xs md:text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-brand-orange' : 'text-white'}`}>{tab.label}</h3>
+                  <div className={`glass p-5 md:p-6 rounded-2xl border-white/20 transition-all duration-500 cursor-pointer h-full text-center flex flex-col items-center justify-center min-h-[80px] sm:min-h-[100px] ${activeHeroTab === i ? 'border-brand-blue/60 bg-brand-blue/30 -translate-y-1 sm:-translate-y-2 shadow-[0_15px_40px_rgba(0,0,0,0.5)]' : 'hover:border-white/30'}`}>
+                <h3 className={`font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] mb-1 sm:mb-2 text-xs sm:text-xs md:text-sm transition-colors duration-300 ${activeHeroTab === i ? 'text-brand-orange' : 'text-white'}`}>{tab.label}</h3>
                     <AnimatePresence mode="wait">
                       {activeHeroTab === i && (
                         <motion.div 
@@ -1749,7 +1710,7 @@ export default function App() {
               <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
                 {stat.icon}
               </div>
-              <div className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface tracking-tighter transition-colors">
+              <div className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface tracking-tighter transition-colors">
                 {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
                 <span className="text-brand-orange">{stat.suffix}</span>
               </div>
@@ -1762,8 +1723,8 @@ export default function App() {
       {/* Sectors Section */}
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
-            Sectores que <span className="text-brand-blue dark:text-brand-blue-bright transition-colors">Atendemos</span>
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
+            Sectores que <span className="text-brand-blue transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           <p className="text-on-surface-subtle max-w-3xl mx-auto text-base md:text-xl font-normal leading-relaxed">
@@ -1800,7 +1761,7 @@ export default function App() {
               }}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue dark:text-brand-blue-bright transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
+                <div className={`p-3 rounded-2xl glass border-white/10 text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)]' : ''}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
                 </div>
                 <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
@@ -1850,8 +1811,8 @@ export default function App() {
       {/* Strengths Section */}
       <section id="fortalezas" className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
-            Nuestras <span className="text-brand-blue dark:text-brand-blue-bright transition-colors">Fortalezas</span>
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface">
+            Nuestras <span className="text-brand-blue transition-colors">Fortalezas</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-blue mx-auto rounded-full shadow-[0_0_20px_rgba(0,75,135,0.5)]" />
           <p className="text-base md:text-xl text-on-surface-subtle max-w-4xl mx-auto leading-relaxed font-normal">
@@ -1931,7 +1892,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter"
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter"
             >
               Nuestra <span className="text-gradient">Galería</span>
             </motion.h2>
@@ -1969,7 +1930,7 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
+                className="relative w-[220px] sm:w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
               >
                 <img
                   src={img.url}
@@ -2008,7 +1969,7 @@ export default function App() {
                 key={i}
                 whileHover={{ scale: 1.05, zIndex: 10 }}
                 onClick={() => setSelectedImage(img.url)}
-                className="relative w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
+                className="relative w-[180px] sm:w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-white/5 cursor-pointer shadow-2xl will-change-transform"
               >
                 <img
                   src={img.url}
@@ -2045,7 +2006,7 @@ export default function App() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter"
+            className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter"
           >
             Clientes <span className="text-gradient">Satisfechos</span>
           </motion.h2>
@@ -2079,7 +2040,7 @@ export default function App() {
               </div>
               <div className="mt-8 pt-6 border-t border-glass-border">
                 <p className="text-on-surface font-black text-xs uppercase tracking-widest">{t.name}</p>
-                <p className="text-brand-blue dark:text-brand-blue-bright text-xs font-bold uppercase tracking-widest mt-1 transition-colors">{t.company}</p>
+                <p className="text-brand-blue text-xs font-bold uppercase tracking-widest mt-1 transition-colors">{t.company}</p>
               </div>
             </motion.div>
           ))}
@@ -2259,7 +2220,7 @@ export default function App() {
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
             Preguntas <span className="text-gradient">Frecuentes</span>
           </h2>
         </div>
@@ -2311,7 +2272,7 @@ export default function App() {
       <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
-            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
+            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
             </h2>
             <p className="text-base md:text-lg text-on-surface-subtle font-medium">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
@@ -2387,7 +2348,7 @@ export default function App() {
                           type="text" 
                           value={formData.cargo}
                           onChange={(e) => setFormData({...formData, cargo: e.target.value})}
-                          className="w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20" 
+                          className="w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20" 
                           placeholder="Ej. Ing." 
                         />
                       </div>
@@ -2399,7 +2360,7 @@ export default function App() {
                           type="text" 
                           value={formData.nombre}
                           onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                          className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                          className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                           placeholder="Ej. Roberto Silva" 
                         />
                         {formErrors.nombre && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2415,7 +2376,7 @@ export default function App() {
                         type="text" 
                         value={formData.empresa}
                         onChange={(e) => setFormData({...formData, empresa: e.target.value})}
-                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-orange/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Ej. Planta Industrial Norte" 
                       />
                       {formErrors.empresa && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2430,7 +2391,7 @@ export default function App() {
                         type="email" 
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="rsilva@empresa.com" 
                       />
                       {formErrors.email && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2445,7 +2406,7 @@ export default function App() {
                         type="tel" 
                         value={formData.telefono}
                         onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all placeholder:text-on-surface-subtle/20 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="55 0000 0000" 
                       />
                       {formErrors.telefono && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2460,7 +2421,7 @@ export default function App() {
                         rows={4} 
                         value={formData.detalles}
                         onChange={(e) => setFormData({...formData, detalles: e.target.value})}
-                        className={`w-full glass bg-white/5 dark:bg-white/[0.02] border-white/10 dark:border-white/5 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-on-surface-subtle/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full glass bg-white/5 border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:border-brand-blue/50 transition-all resize-none placeholder:text-on-surface-subtle/20 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
                       ></textarea>
                       {formErrors.detalles && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2644,7 +2605,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-surface dark:bg-white/10 text-on-surface self-start rounded-tl-none shadow-sm border border-glass-border' : 'bg-brand-orange text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-surface text-on-surface self-start rounded-tl-none shadow-sm border border-glass-border' : 'bg-brand-orange text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
                       )}
@@ -2681,9 +2642,9 @@ export default function App() {
                 <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-white/10 space-y-3 shrink-0">
+              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 space-y-3 shrink-0">
                 {selectedFile && (
-                  <div className="flex items-center gap-3 bg-gray-50 dark:bg-white/5 p-2 rounded-xl border border-gray-200 dark:border-white/10">
+                  <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-200">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
                     </div>

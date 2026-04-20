@@ -15,9 +15,6 @@
   --color-glass-border: var(--glass-border);
 }
 
-/* Enable class-based dark mode in Tailwind 4 */
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --bg-primary: #f8fafc;
   --text-primary: #1e293b;
@@ -26,16 +23,6 @@
   --glass-border: rgba(0, 75, 135, 0.1);
   --card-bg: rgba(0, 75, 135, 0.05);
   color-scheme: light;
-}
-
-.dark {
-  --bg-primary: #020617;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --glass-bg: rgba(15, 23, 42, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(255, 255, 255, 0.05);
-  color-scheme: dark;
 }
 
 @layer base {
@@ -56,7 +43,7 @@
   body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed overflow-x-hidden transition-colors duration-500;
+    @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed overflow-x-hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -118,8 +105,9 @@
 
 .marquee-card {
   flex-shrink: 0;
-  width: 280px;
-  height: 110px;
+  width: 240px;
+  min-height: 100px;
+  height: auto;
   @media (min-width: 640px) {
     width: 320px;
     height: 120px;
