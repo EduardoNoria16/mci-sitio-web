@@ -1118,13 +1118,12 @@ export default function App() {
     };
   }, [isSpeaking, speakText, extractSectionText]);
 
-  // Scroll listener for sticky header and back to top
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 500);
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -1252,16 +1251,6 @@ export default function App() {
     };
   }, [isMenuOpen, selectedImage, isStrengthHovered]);
 
-  // Scroll listener for sticky header and back to top
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 500);
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Click outside to close mobile menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -1316,7 +1305,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full max-w-[100vw] bg-surface text-on-surface transition-colors duration-500 overflow-x-hidden relative">
+    <div className="min-h-screen w-full bg-surface text-on-surface transition-colors duration-500 overflow-x-hidden relative">
       
       {/* Header / Navigation */}
       <header 
