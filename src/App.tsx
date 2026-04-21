@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
-import { createPortal } from 'react-dom';
 import { logoBase64 } from './logoBase64';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
@@ -41,7 +40,7 @@ import {
   Camera,
   Play,
   Pause,
-  Maximize2,
+  Maximize,
   CheckCircle2,
   Target,
   Eye,
@@ -61,7 +60,6 @@ const CustomVideoPlayer = memo(() => {
   const [isMuted, setIsMuted] = useState(true); 
   const [progress, setProgress] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [quality, setQuality] = useState<'HD' | '4K'>('4K');
   const [isBuffering, setIsBuffering] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
@@ -87,7 +85,6 @@ const CustomVideoPlayer = memo(() => {
     setPlaybackSpeed(speeds[nextIndex]);
   }, [playbackSpeed]);
 
-  // Sincronizar tiempo cuando se abre el modal
   useEffect(() => {
     if (isModalOpen && videoRef.current && modalVideoRef.current) {
       modalVideoRef.current.currentTime = videoRef.current.currentTime;
@@ -148,6 +145,7 @@ const CustomVideoPlayer = memo(() => {
   }, []);
 
   const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
     if (targetVideo) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -160,68 +158,71 @@ const CustomVideoPlayer = memo(() => {
   }, [isModalOpen]);
 
   const VideoControls = ({ isModal = false }: { isModal?: boolean }) => (
-    <div className={`absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-20 transition-opacity duration-300 ${isModal ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-      <div className="space-y-4">
+    <div className={`absolute bottom-0 left-0 right-0 p-3 md:p-5 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-40 transition-all duration-500 rounded-b-3xl ${isModal ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0'}`}>
+      <div className="space-y-3">
         {/* Progress Bar */}
         <div 
-          className="h-1.5 w-full bg-white/20 rounded-full cursor-pointer relative group/progress overflow-hidden"
+          className="h-1 w-full bg-white/20 rounded-full cursor-pointer relative group/progress transition-all hover:h-1.5 overflow-hidden"
           onClick={handleSeek}
         >
           <motion.div 
-            className="absolute top-0 left-0 h-full bg-brand-orange shadow-[0_0_10px_rgba(245,130,32,0.8)]"
+            className="absolute top-0 left-0 h-full bg-brand-orange rounded-full shadow-[0_0_10px_rgba(245,130,32,0.8)]"
             style={{ width: `${progress}%` }}
           />
-          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover/progress:opacity-100 bg-white/10 transition-opacity" />
+          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover/progress:opacity-20 bg-white transition-opacity" />
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-4 md:gap-8">
             <button 
               onClick={togglePlay}
-              className="text-white hover:text-brand-orange transition-colors p-1"
+              className="text-white hover:text-brand-orange transition-all p-1.5 md:p-2 bg-white/10 hover:bg-white/20 rounded-full border border-white/5 active:scale-95"
             >
-              {isPlaying ? <Pause className="w-5 h-5 md:w-6 md:h-6 fill-current" /> : <Play className="w-5 h-5 md:w-6 md:h-6 fill-current" />}
+              {isPlaying ? <Pause className="w-4 h-4 md:w-5 md:h-5 fill-current" /> : <Play className="w-4 h-4 md:w-5 md:h-5 fill-current ml-0.5" />}
             </button>
-            <button 
-              onClick={toggleMute}
-              className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-2"
-            >
-              {isMuted ? <VolumeX className="w-5 h-5 md:w-6 md:h-6" /> : <Volume2 className="w-5 h-5 md:w-6 md:h-6" />}
-              <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">
-                {isMuted ? 'Activar Audio' : 'Silenciar'}
-              </span>
-            </button>
+            <div className="flex items-center gap-4 group/volume">
+              <button 
+                onClick={toggleMute}
+                className="text-white hover:text-brand-orange transition-colors p-1"
+              >
+                {isMuted ? <VolumeX className="w-4 h-4 md:w-5 md:h-5" /> : <Volume2 className="w-4 h-4 md:w-5 md:h-5" />}
+              </button>
+              <div className="w-0 group-hover/volume:w-24 overflow-hidden transition-all duration-300">
+                <div className="h-1 w-24 bg-white/20 rounded-full relative ml-1">
+                  <div className={`h-full bg-brand-orange rounded-full ${isMuted ? 'w-0' : 'w-full'}`} />
+                </div>
+              </div>
+            </div>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-5">
             <button 
               onClick={togglePlaybackSpeed}
-              className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-1 cursor-pointer min-w-[45px] justify-center"
-              title="Velocidad de reproducción"
+              className="px-2 py-0.5 md:px-3 md:py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white transition-all text-[10px] font-black tracking-widest min-w-[50px] uppercase shadow-sm"
+              title="Velocidad"
             >
-              <span className="text-[10px] font-black tracking-widest">{playbackSpeed}x</span>
+              {playbackSpeed}x
             </button>
             {!isModal && (
               <button 
-              onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
-              className="text-white hover:text-brand-orange transition-colors p-1 flex items-center gap-2 cursor-pointer"
-              title="Ver en grande"
-            >
-              <Maximize2 className="w-5 h-5" />
-              <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">Expandir</span>
-            </button>
-          )}
-          <button 
-            onClick={toggleQuality}
-            disabled={isBuffering}
-            className={`px-3 py-1 rounded-full glass border-white/10 hover:border-brand-orange/40 transition-all flex items-center gap-2 cursor-pointer min-w-[65px] justify-center ${isBuffering ? 'opacity-50' : ''}`}
-          >
-            {isBuffering ? (
-              <Loader2 className="w-3 h-3 animate-spin text-brand-orange" />
-            ) : (
-              <span className="text-[10px] font-black text-white/90 tracking-widest uppercase">{quality}</span>
+                onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
+                className="text-white hover:text-brand-orange transition-all p-1.5 md:p-2 bg-white/10 hover:bg-white/20 rounded-full border border-white/5 active:scale-95"
+                title="Expandir"
+              >
+                <Maximize className="w-4 h-4 md:w-5 md:h-5" />
+              </button>
             )}
-          </button>
+            <button 
+              onClick={toggleQuality}
+              disabled={isBuffering}
+              className={`px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 transition-all min-w-[65px] ${isBuffering ? 'opacity-50' : ''}`}
+            >
+              {isBuffering ? (
+                <Loader2 className="w-3 h-3 animate-spin text-brand-orange mx-auto" />
+              ) : (
+                <span className="text-[10px] font-black text-white tracking-widest uppercase">{quality}</span>
+              )}
+            </button>
           </div>
         </div>
       </div>
@@ -230,122 +231,80 @@ const CustomVideoPlayer = memo(() => {
 
   return (
     <>
-      {!isVisible ? (
-        <div 
-          className="w-full h-full bg-cyan-100/50 flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-500 group"
-          onClick={() => setIsVisible(true)}
-        >
-          <div className="w-16 h-16 rounded-full glass border-white/20 flex items-center justify-center group-hover:scale-110 group-hover:border-brand-orange/50 transition-all duration-500 shadow-lg">
-            <Play className="w-6 h-6 text-brand-orange fill-current ml-1" />
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 group-hover:text-white transition-colors">Video Corporativo</span>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-brand-blue-bright">Click para mostrar</span>
+      <div 
+        className="relative w-full h-full overflow-hidden rounded-[2rem] group bg-black shadow-2xl ring-1 ring-white/10 cursor-pointer"
+        onClick={() => setIsModalOpen(true)}
+      >
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          className={`w-full h-full object-cover transition-all duration-1000 ${isBuffering ? 'scale-105 blur-sm brightness-50' : 'scale-100 brightness-100'}`}
+          muted={isMuted}
+          playsInline
+          autoPlay
+          loop
+          onTimeUpdate={handleTimeUpdate}
+        />
+
+        <audio ref={audioRef} src={ambientMusicUrl} loop />
+
+        <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-700 z-30 ${isPlaying ? 'opacity-0 scale-150' : 'opacity-100 scale-100'}`}>
+          <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-[0_0_50px_rgba(255,255,255,0.15)]">
+            <Play className="w-10 h-10 text-white fill-current ml-2" />
           </div>
         </div>
-      ) : (
-        <div 
-          className="relative w-full h-full overflow-hidden rounded-3xl group"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <video
-            ref={videoRef}
-            src={videoUrl}
-            autoPlay
-            loop
-            muted={isMuted}
-            playsInline
-            onTimeUpdate={handleTimeUpdate}
-            className="absolute inset-0 w-full h-full object-contain bg-black z-0"
-          />
 
-          <audio 
-            ref={audioRef}
-            src={ambientMusicUrl}
-            loop
-          />
+        <VideoControls />
+      </div>
 
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500 z-10" />
-          
-          <button 
-            onClick={(e) => { 
-              e.stopPropagation(); 
-              playClickSound();
-              setIsVisible(false); 
-            }}
-            className="absolute top-3 right-3 z-50 p-3 rounded-full glass border-white/20 text-white hover:text-brand-orange hover:bg-white/10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-all duration-300 shadow-xl cursor-pointer"
-            title="Ocultar video"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          <VideoControls />
-
-          {/* Play Overlay */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-              <div className="w-20 h-20 rounded-full glass border-white/20 flex items-center justify-center animate-pulse">
-                <Play className="w-8 h-8 text-white fill-current ml-1" />
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Modal Video Player utilizando Portal para evitar recortes del contenedor */}
-      {isModalOpen && createPortal(
-        <AnimatePresence mode="wait">
-          <motion.div
-            key="modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 md:p-12 overflow-hidden"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/98 backdrop-blur-3xl overflow-hidden"
+            onClick={() => setIsModalOpen(false)}
           >
-            <div 
-              className="absolute inset-0 bg-[#0a192f]/95 backdrop-blur-2xl"
-              onClick={() => setIsModalOpen(false)}
-            />
-            
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative w-full max-w-6xl aspect-video glass rounded-[2rem] overflow-hidden border border-white/20 shadow-[0_0_100px_rgba(0,0,0,0.8)] z-10"
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }} 
+              animate={{ scale: 1, opacity: 1 }} 
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative w-full h-full md:w-[98vw] md:h-[98vh] flex items-center justify-center bg-black overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
               <video
-                ref={modalVideoRef}
-                src={videoUrl}
-                autoPlay
-                loop
-                muted={isMuted}
-                playsInline
+                ref={modalVideoRef} 
+                src={videoUrl} 
+                className="max-w-full max-h-full object-contain transition-all duration-500"
+                muted={isMuted} 
+                autoPlay={isPlaying} 
+                loop 
                 onTimeUpdate={handleTimeUpdate}
-                className={`w-full h-full object-contain bg-black transition-all duration-700 ${quality === 'HD' ? 'blur-[2px] scale-105' : 'blur-0 scale-100'}`}
               />
               
-              <VideoControls isModal />
-
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 z-30 p-3 rounded-full glass border-white/20 text-white hover:text-brand-orange hover:bg-white/10 transition-all duration-300 shadow-xl"
+                className="absolute top-6 right-6 md:top-10 md:right-10 z-50 p-3 md:p-4 bg-white/10 hover:bg-brand-orange border border-white/20 rounded-full text-white transition-all hover:rotate-90 shadow-2xl active:scale-95 group/close"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 md:w-8 md:h-8" />
               </button>
 
+              <VideoControls isModal />
+
               {isBuffering && (
-                <div className="absolute inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-4">
-                    <Loader2 className="w-12 h-12 text-brand-orange animate-spin" />
-                    <span className="text-white font-black uppercase tracking-[0.4em] text-xs">Optimizando {quality}...</span>
+                <div className="absolute inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-6">
+                    <Loader2 className="w-16 h-16 text-brand-orange animate-spin" />
+                    <span className="text-white font-black uppercase tracking-[0.5em] text-sm animate-pulse">Optimizando Calidad</span>
                   </div>
                 </div>
               )}
             </motion.div>
           </motion.div>
-        </AnimatePresence>,
-        document.body
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 });
