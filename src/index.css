@@ -117,6 +117,15 @@ body {
   @apply text-brand-orange font-black transition-colors duration-300;
 }
 
+/* Scrollbar Hide Util for Mobile Carousels */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Marquee Styles */
 .marquee-container {
   overflow: hidden;
@@ -133,7 +142,9 @@ body {
   padding: 20px 40px 20px 0; /* Extra gap at the end for seamless loop */
 }
 
-.marquee-container:hover .marquee-content {
+.marquee-container:hover .marquee-content,
+.marquee-container:active .marquee-content,
+.marquee-container:focus-within .marquee-content {
   animation-play-state: paused;
 }
 

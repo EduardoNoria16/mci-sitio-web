@@ -1309,10 +1309,10 @@ export default function App() {
       
       {/* Header / Navigation */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b border-[#22d3ee]/30 ${
+        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b ${
           isScrolled 
-            ? 'bg-slate-950/95 py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.5)]' 
-            : 'bg-[#22d3ee]/20 backdrop-blur-xl py-5 md:py-6'
+            ? 'bg-white/95 backdrop-blur-xl py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.3)] border-[#22d3ee]/30' 
+            : 'bg-white/40 backdrop-blur-md py-5 md:py-6 border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
@@ -1415,7 +1415,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-16 md:pt-24 pb-8 md:pb-16 will-change-transform overflow-visible">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 will-change-transform overflow-visible">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 z-0"
@@ -1442,7 +1442,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left transition-all duration-300 drop-shadow-md">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left transition-all duration-300 drop-shadow-md px-2 md:px-0">
                   <span>¿Quiénes</span>{' '}
                   <span className="text-brand-blue-bright">Somos</span>
                   <span>?</span>
@@ -1582,8 +1582,8 @@ export default function App() {
             </h2>
             <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
           </div>
-          <div className="marquee-container">
-            <div className="marquee-content">
+          <div className="marquee-container overflow-x-auto overflow-y-hidden hide-scrollbar cursor-grab active:cursor-grabbing touch-pan-x">
+            <div className="marquee-content w-max">
               {/* Original Items */}
               {[
                 { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
@@ -1664,7 +1664,7 @@ export default function App() {
               }
             }
           }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+          className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 pb-6 md:pb-0 hide-scrollbar -mx-5 px-5 md:mx-0 md:px-0"
         >
           {SECTORS.map((sector) => (
             <motion.div 
@@ -1673,7 +1673,7 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`p-6 md:p-8 rounded-2xl md:rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl translate-y--2 border-transparent' : 'bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent hover:-translate-y-1'}`}
+              className={`shrink-0 w-[85vw] sm:w-auto snap-center p-6 md:p-8 rounded-2xl md:rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl translate-y--2 border-transparent' : 'bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent hover:-translate-y-1'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
@@ -1754,7 +1754,7 @@ export default function App() {
 
         {/* Strengths List with Modal Technical Sheets */}
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-6 md:pb-0 hide-scrollbar -mx-5 px-5 md:mx-0 md:px-0">
             {STRENGTHS.map((s) => (
               <button
                 key={s.id}
@@ -1763,7 +1763,7 @@ export default function App() {
                   setActiveStrength(s);
                   setIsStrengthHovered(true);
                 }}
-                className="group relative p-4 md:p-6 rounded-xl md:rounded-2xl border-2 bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-2xl hover:border-transparent hover:-translate-y-1.5"
+                className="shrink-0 w-[75vw] sm:w-[45vw] md:w-auto snap-center group relative p-4 md:p-6 rounded-xl md:rounded-2xl border-2 bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-2xl hover:border-transparent hover:-translate-y-1.5"
               >
                 <div className="p-3 rounded-xl bg-[#22d3ee] group-hover:bg-brand-orange transition-all duration-500 shadow-[0_5px_15px_rgba(34,211,238,0.2)] group-hover:shadow-[0_0_25px_rgba(245,130,32,0.4)] border border-white/20">
                   {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6 text-brand-orange group-hover:text-white transition-colors duration-300' })}
@@ -1835,10 +1835,12 @@ export default function App() {
           </div>
         </div>
 
-        {/* Infinite Marquee Slideshow */}
+        {/* Infinite Marquee Slideshow - Touch Pan Optimized */}
         <div className="relative flex overflow-hidden group">
           <motion.div 
-            className="flex gap-4 py-4"
+            className="flex gap-4 py-4 cursor-grab active:cursor-grabbing"
+            drag="x"
+            dragConstraints={{ right: 0, left: -2000 }}
             animate={{
               x: ["0%", "-50%"],
             }}
@@ -1850,6 +1852,8 @@ export default function App() {
                 ease: "linear",
               },
             }}
+            whileHover={{ animationPlayState: 'paused' }}
+            whileTap={{ animationPlayState: 'paused' }}
             style={{ width: "fit-content" }}
           >
             {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((img, i) => (
@@ -1877,7 +1881,9 @@ export default function App() {
         {/* Second row moving in opposite direction */}
         <div className="relative flex overflow-hidden group mt-4">
           <motion.div 
-            className="flex gap-4 py-4"
+            className="flex gap-4 py-4 cursor-grab active:cursor-grabbing"
+            drag="x"
+            dragConstraints={{ right: 0, left: -2000 }}
             animate={{
               x: ["-50%", "0%"],
             }}
@@ -1889,6 +1895,8 @@ export default function App() {
                 ease: "linear",
               },
             }}
+            whileHover={{ animationPlayState: 'paused' }}
+            whileTap={{ animationPlayState: 'paused' }}
             style={{ width: "fit-content" }}
           >
             {[...GALLERY_IMAGES, ...GALLERY_IMAGES].reverse().map((img, i) => (
@@ -2269,7 +2277,7 @@ export default function App() {
                           type="text" 
                           value={formData.cargo}
                           onChange={(e) => setFormData({...formData, cargo: e.target.value})}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40" 
+                          className="w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40" 
                           placeholder="Ej. Ing." 
                         />
                       </div>
@@ -2281,7 +2289,7 @@ export default function App() {
                           type="text" 
                           value={formData.nombre}
                           onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                          className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                          className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                           placeholder="Ej. Roberto Silva" 
                         />
                         {formErrors.nombre && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2297,7 +2305,7 @@ export default function App() {
                         type="text" 
                         value={formData.empresa}
                         onChange={(e) => setFormData({...formData, empresa: e.target.value})}
-                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Ej. Planta Industrial Norte" 
                       />
                       {formErrors.empresa && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2312,7 +2320,7 @@ export default function App() {
                         type="email" 
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="rsilva@empresa.com" 
                       />
                       {formErrors.email && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2327,7 +2335,7 @@ export default function App() {
                         type="tel" 
                         value={formData.telefono}
                         onChange={(e) => setFormData({...formData, telefono: e.target.value})}
-                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="55 0000 0000" 
                       />
                       {formErrors.telefono && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2342,7 +2350,7 @@ export default function App() {
                         rows={4} 
                         value={formData.detalles}
                         onChange={(e) => setFormData({...formData, detalles: e.target.value})}
-                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all resize-none placeholder:text-on-surface-subtle/40 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
+                        className={`w-full min-h-[100px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all resize-none placeholder:text-on-surface-subtle/40 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
                       ></textarea>
                       {formErrors.detalles && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
@@ -2371,7 +2379,7 @@ export default function App() {
       </footer>
 
       {/* Floating Chat Widget */}
-      <div className="fixed bottom-8 left-8 z-[100000]" ref={chatContainerRef}>
+      <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000] scale-[0.8] origin-bottom-left md:scale-100" ref={chatContainerRef}>
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="relative w-16 h-16 flex items-center justify-center group"
@@ -2629,7 +2637,7 @@ export default function App() {
       </div>
 
       {/* Accessibility Widget (TTS) */}
-      <div className="fixed bottom-8 right-8 z-[9999] flex flex-col gap-4 pointer-events-none">
+      <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[9999] flex flex-col gap-4 pointer-events-none scale-[0.85] origin-bottom-right md:scale-100">
         <AnimatePresence>
           {showBackToTop && (
             <motion.button 
@@ -2640,7 +2648,7 @@ export default function App() {
                 e.stopPropagation();
                 handleSmoothScroll(e as any, '#inicio');
               }}
-              className="w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
+              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
             >
               <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
