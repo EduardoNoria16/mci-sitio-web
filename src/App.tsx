@@ -1173,7 +1173,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-1.5-flash-preview-0514",
+        model: "gemini-1.5-flash",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -1236,15 +1236,21 @@ export default function App() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (selectedImage || isStrengthHovered || isMenuOpen) {
+    if (isMenuOpen || selectedImage || isStrengthHovered) {
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = 'var(--removed-body-scroll-bar-size, 0px)';
     } else {
-      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
-  }, [selectedImage, isStrengthHovered, isMenuOpen]);
+  }, [isMenuOpen, selectedImage, isStrengthHovered]);
 
   // Scroll listener for sticky header and back to top
   useEffect(() => {
@@ -1314,19 +1320,19 @@ export default function App() {
       
       {/* Header / Navigation */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b border-[#22d3ee]/30 ${
           isScrolled 
-            ? 'glass border-b border-glass-border py-3 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)]' 
-            : 'bg-transparent py-6'
+            ? 'bg-slate-950/95 py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.5)]' 
+            : 'bg-[#22d3ee]/20 backdrop-blur-xl py-5 md:py-6'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-1.5 sm:gap-2 group flex-shrink-0 cursor-pointer min-w-0"
+            className="flex items-center gap-2 sm:gap-3 group flex-shrink-0 cursor-pointer min-w-0"
             onClick={(e) => handleSmoothScroll(e, '#inicio')}
           >
-            <div className="w-7 h-7 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 flex-shrink-0">
+            <div className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 flex-shrink-0">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
@@ -1334,34 +1340,27 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate min-w-0" translate="no">
-              <span className="text-xs sm:text-xl md:text-2xl font-black tracking-tighter leading-none flex flex-wrap gap-x-1 items-baseline lg:whitespace-nowrap">
+              <span className="text-sm sm:text-2xl md:text-4xl font-black tracking-tighter leading-none flex flex-wrap gap-x-1 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
                 <span className="text-on-surface transition-colors">Soluciones</span>
               </span>
-              <span className="text-[0.3rem] sm:text-[0.55rem] md:text-[0.75rem] font-bold uppercase tracking-tight sm:tracking-[0.05em] md:tracking-[0.2em] text-on-surface mt-0 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.5rem] sm:text-[0.8rem] md:text-[1.1rem] font-bold uppercase tracking-tight sm:tracking-[0.05em] md:tracking-[0.2em] text-on-surface mt-0.5 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6 lg:gap-8">
+          <nav className="hidden lg:flex items-center gap-6 lg:gap-10">
             {navLinks.map((link) => (
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface/80 hover:text-brand-blue transition-all relative group/nav"
+                className="text-xs font-black uppercase tracking-[0.25em] text-on-surface/90 hover:text-brand-orange transition-all relative group/nav"
                 onClick={(e) => handleSmoothScroll(e, link.href)}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover/nav:w-full" />
+                <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_8px_rgba(245,130,32,0.6)]" />
               </a>
             ))}
-            <a 
-              href="#contacto-footer"
-              className="bg-brand-blue text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(0,75,135,0.2)] hover:shadow-[0_15px_30px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-0.5"
-              onClick={(e) => handleSmoothScroll(e, '#contacto-footer')}
-            >
-              Cotizar
-            </a>
           </nav>
 
           <button 
@@ -1412,61 +1411,6 @@ export default function App() {
             </AnimatePresence>
           </button>
         </div>
-
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden absolute top-full left-0 right-0 bg-surface border-b border-glass-border overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[9999] transition-colors duration-500"
-              ref={menuRef}
-            >
-              <nav className="flex lg:hidden flex-col p-8 gap-2">
-                {navLinks.map((link) => (
-                  <a 
-                    key={link.name}
-                    href={link.href}
-                    className="flex items-center justify-between group py-4 border-b border-glass-border last:border-0 transition-all"
-                    onClick={(e) => handleSmoothScroll(e, link.href)}
-                  >
-                    <span className="text-sm font-black uppercase tracking-[0.2em] text-on-surface hover:text-brand-orange transition-colors">
-                      {link.name}
-                    </span>
-                    <ChevronRight className="w-4 h-4 text-brand-orange opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                  </a>
-                ))}
-                
-                <div className="mt-8 pt-8 border-t border-glass-border flex flex-col items-center">
-                  <a 
-                    href="#contacto-footer"
-                    className="w-full max-w-xs flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-5 rounded-2xl text-center text-sm font-black uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(245,130,32,0.4)] active:scale-95 transition-all"
-                    onClick={(e) => handleSmoothScroll(e, '#contacto-footer')}
-                  >
-                    <Zap className="w-5 h-5" />
-                    Cotizar Ahora
-                  </a>
-
-                  <div className="mt-10 grid grid-cols-1 gap-6 w-full">
-                    <a href="tel:5512979217" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-brand-blue/10">
-                      <div className="w-11 h-11 rounded-xl bg-brand-blue/5 flex items-center justify-center">
-                        <Phone className="w-5 h-5 text-brand-orange" />
-                      </div>
-                      <span className="text-xs font-bold tracking-wider">55 1297 9217</span>
-                    </a>
-                    <a href="mailto:mci.spolimericas@polycovers.mx" className="flex items-center gap-4 text-on-surface-subtle hover:text-on-surface transition-colors p-2 rounded-xl active:bg-brand-blue/10">
-                      <div className="w-11 h-11 rounded-xl bg-brand-blue/5 flex items-center justify-center">
-                        <Mail className="w-5 h-5 text-brand-orange" />
-                      </div>
-                      <span className="text-xs font-bold tracking-wider truncate">mci.spolimericas@polycovers.mx</span>
-                    </a>
-                  </div>
-                </div>
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
       
       {/* Progress Bar */}
@@ -1573,13 +1517,13 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`glass p-5 md:p-6 rounded-3xl border-glass-border transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[240px] md:max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-2' : 'hover:bg-white hover:shadow-lg'}`}
+                  className={`p-5 md:p-6 rounded-3xl border-2 transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[240px] md:max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl md:-translate-y-2 border-transparent' : 'bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`w-12 h-12 glass rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm ${activeHeroAcc === i ? 'bg-brand-orange text-white' : 'text-brand-orange bg-brand-orange/5 group-hover:bg-brand-orange group-hover:text-white'}`}>
-                    {item.icon}
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-md border border-white/20 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-[#22d3ee] text-[#1e293b] group-hover:bg-brand-orange group-hover:text-white shadow-[0_8px_20px_rgba(34,211,238,0.4)]'}`}>
+                    {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
                   </div>
                   <div className="flex-1 w-full">
                     <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
@@ -1684,18 +1628,18 @@ export default function App() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {[
-            { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
-            { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
-            { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
-          ].map((stat, i) => (
-            <div key={i} className="glass p-6 md:p-10 rounded-3xl text-center space-y-2 border-glass-border bg-white/80 hover:bg-white hover:border-brand-orange/40 shadow-xl transition-all group will-change-transform hover:-translate-y-2">
-              <div className="mx-auto w-10 h-10 glass rounded-full flex items-center justify-center text-brand-orange mb-4 group-hover:scale-110 transition-transform">
-                {stat.icon}
-              </div>
+          {/* Stats Section */}
+          <section className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              {[
+                { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
+                { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
+                { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
+              ].map((stat, i) => (
+                <div key={i} className="p-6 md:p-10 rounded-3xl text-center space-y-2 border-2 bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-2xl hover:border-transparent shadow-xl transition-all group will-change-transform hover:-translate-y-2">
+                  <div className="mx-auto w-12 h-12 bg-[#22d3ee] rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all shadow-[0_8px_16px_rgba(34,211,238,0.3)] border border-white/20">
+                    {React.cloneElement(stat.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
+                  </div>
               <div className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface tracking-tighter transition-colors">
                 {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
                 <span className="text-brand-orange">{stat.suffix}</span>
@@ -1740,15 +1684,15 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`glass p-6 md:p-8 rounded-2xl md:rounded-3xl border-glass-border transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl translate-y--2' : 'hover:bg-white hover:shadow-lg hover:-translate-y-1'}`}
+              className={`p-6 md:p-8 rounded-2xl md:rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl translate-y--2 border-transparent' : 'bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent hover:-translate-y-1'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-2xl glass border-glass-border text-brand-blue transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)] border-transparent' : ''}`}>
-                  {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5' })}
+                <div className={`p-3 rounded-2xl border transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)] border-transparent' : 'bg-[#22d3ee] shadow-[0_5px_15px_rgba(34,211,238,0.2)] border-white/20'}`}>
+                  {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange transition-colors duration-300' })}
                 </div>
                 <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 whitespace-normal break-words ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
               </div>
@@ -1830,10 +1774,10 @@ export default function App() {
                   setActiveStrength(s);
                   setIsStrengthHovered(true);
                 }}
-                className="group relative glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-glass-border hover:border-brand-orange/50 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-xl hover:-translate-y-1.5"
+                className="group relative p-4 md:p-6 rounded-xl md:rounded-2xl border-2 bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-2xl hover:border-transparent hover:-translate-y-1.5"
               >
-                <div className="p-3 rounded-xl bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(0,75,135,0.1)] group-hover:shadow-[0_0_25px_rgba(0,75,135,0.4)]">
-                  {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6' })}
+                <div className="p-3 rounded-xl bg-[#22d3ee] group-hover:bg-brand-orange transition-all duration-500 shadow-[0_5px_15px_rgba(34,211,238,0.2)] group-hover:shadow-[0_0_25px_rgba(245,130,32,0.4)] border border-white/20">
+                  {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6 text-brand-orange group-hover:text-white transition-colors duration-300' })}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm md:text-base font-black text-on-surface uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
@@ -2443,20 +2387,23 @@ export default function App() {
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="relative w-16 h-16 flex items-center justify-center group"
         >
-          {/* Astrobot Body/Head */}
+          {/* Cyber-Bot Body/Head */}
           <motion.div 
-            className="absolute inset-0 bg-white rounded-full shadow-[0_15px_40px_rgba(255,255,255,0.3)] border-b-4 border-gray-200"
+            className="absolute inset-0 bg-slate-900 rounded-[1.25rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-b-4 border-slate-950 border-r-2 border-l-2 overflow-hidden ring-1 ring-white/10"
             animate={{ 
               y: [0, -6, 0],
-              rotate: isChatOpen ? 0 : [0, -2, 2, 0]
+              rotate: isChatOpen ? 0 : [0, -1, 1, 0]
             }}
             transition={{ 
               y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
               rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
             }}
           >
-            {/* Visor - Astrobot Style */}
-            <div className="absolute top-1/4 left-2 right-2 h-[40%] bg-[#0f172a] rounded-full flex items-center justify-center gap-2 overflow-hidden border border-white/20 shadow-inner">
+            {/* Dark Tech Texture */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+            
+            {/* Visor - Cyber Style */}
+            <div className="absolute top-1/4 left-1.5 right-1.5 h-[45%] bg-black rounded-xl flex items-center justify-center gap-2 overflow-hidden border border-brand-orange/20 shadow-[inset_0_0_15px_rgba(245,130,32,0.1)]">
               <AnimatePresence mode="wait">
                 {isChatOpen ? (
                   <motion.div 
@@ -2464,7 +2411,7 @@ export default function App() {
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
-                    className="text-[#00f2ff] font-black text-2xl"
+                    className="text-brand-orange font-black text-2xl"
                   >
                     ×
                   </motion.div>
@@ -2476,9 +2423,9 @@ export default function App() {
                     exit={{ opacity: 0 }}
                     className="flex gap-2.5"
                   >
-                    {/* Eyes with Expressions */}
+                    {/* Glowing Eyes */}
                     <motion.div 
-                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
+                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_12px_#00f2ff]"
                       animate={
                         botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
                         botExpression === 'thinking' ? { x: [-2, 2, -2] } :
@@ -2490,7 +2437,7 @@ export default function App() {
                       }
                     />
                     <motion.div 
-                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_10px_#00f2ff]"
+                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_12px_#00f2ff]"
                       animate={
                         botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
                         botExpression === 'thinking' ? { x: [-2, 2, -2] } :
@@ -2504,15 +2451,20 @@ export default function App() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              {/* Scanning line */}
+              {/* Internal HUD Scanning Grid */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00f2ff]/30 to-transparent h-1/3 w-full"
-                animate={{ top: ['-100%', '100%'] }}
+                className="absolute inset-0 bg-[linear-gradient(rgba(0,242,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,242,255,0.05)_1px,transparent_1px)] bg-[size:10px_10px]"
+                animate={{ backgroundPositionY: ['0px', '20px'] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00f2ff]/20 to-transparent h-[1px] w-full"
+                animate={{ top: ['0%', '100%'] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+              />
             </div>
-            {/* Blue LED Strip */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00f2ff] rounded-full blur-[2px] opacity-60" />
+            {/* Orange Power Indicator */}
+            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-brand-orange rounded-full blur-[1px] shadow-[0_0_5px_rgba(245,130,32,0.8)] animate-pulse" />
           </motion.div>
 
           {/* Floating Ring */}
@@ -2528,15 +2480,15 @@ export default function App() {
         <AnimatePresence>
           {isChatOpen && (
             <motion.div 
-              initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
+              initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 right-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
+              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden"
             >
-              <div className="bg-brand-orange p-4 flex justify-between items-center relative shrink-0">
-                <div className="flex items-center gap-3 relative z-10">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center relative overflow-hidden shadow-lg">
-                    <div className="absolute inset-0.5 bg-[#0f172a] rounded-full flex items-center justify-center gap-1 shadow-inner">
+              <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
+                <div className="flex items-center gap-3 relative z-10 font-sans">
+                  <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center relative overflow-hidden shadow-lg border border-white/10 ring-1 ring-white/5">
+                    <div className="absolute inset-0.5 bg-slate-900 rounded-lg flex items-center justify-center gap-1 shadow-inner">
                       <AnimatePresence mode="wait">
                         <motion.div 
                           key={botExpression}
@@ -2565,11 +2517,14 @@ export default function App() {
                         </motion.div>
                       </AnimatePresence>
                     </div>
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#39ff14] border-2 border-[#0f172a] rounded-full shadow-sm" />
+                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#39ff14] border border-black rounded-full shadow-sm" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-sm">Poly Bot</h4>
-                    <p className="text-white/80 text-[10px] font-medium">En línea</p>
+                    <h4 className="text-white font-black uppercase tracking-widest text-[10px]">MCI Tech Assistant</h4>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full animate-pulse" />
+                      <p className="text-white/60 text-[9px] font-black uppercase tracking-tighter">Status: Active</p>
+                    </div>
                   </div>
                 </div>
                 <button 
@@ -2578,10 +2533,10 @@ export default function App() {
                     playClickSound();
                     setIsChatOpen(false);
                   }}
-                  className="p-3 rounded-full hover:bg-white/20 text-brand-blue-bright transition-all cursor-pointer active:scale-95"
+                  className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
                   aria-label="Cerrar chat"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
@@ -2593,9 +2548,9 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm leading-relaxed ${msg.type === 'bot' ? 'bg-surface text-on-surface self-start rounded-tl-none shadow-sm border border-glass-border' : 'bg-brand-orange text-white font-medium self-end rounded-tr-none shadow-sm ml-auto'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-slate-50 text-slate-700 self-start rounded-tl-none shadow-sm border border-slate-200' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-xl ml-auto border border-white/5'}`}>
                       {msg.image && (
-                        <img src={msg.image} alt="User upload" className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10 shadow-lg" />
+                        <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-lg" />
                       )}
                       <div dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
                     </div>
@@ -2621,25 +2576,25 @@ export default function App() {
                   </motion.div>
                 ))}
                 {isTyping && (
-                  <div className="bg-white/[0.04] p-5 rounded-3xl rounded-bl-none border border-white/5 self-start flex gap-1.5 shadow-xl">
-                    <motion.div className="w-1.5 h-1.5 bg-brand-blue rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity }} />
-                    <motion.div className="w-1.5 h-1.5 bg-brand-blue rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
-                    <motion.div className="w-1.5 h-1.5 bg-brand-blue rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                  <div className="bg-slate-900/[0.05] p-4 rounded-2xl rounded-bl-none border border-slate-200 self-start flex gap-1.5 shadow-md">
+                    <motion.div className="w-1.5 h-1.5 bg-slate-900 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity }} />
+                    <motion.div className="w-1.5 h-1.5 bg-slate-900 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                    <motion.div className="w-1.5 h-1.5 bg-slate-900 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
                   </div>
                 )}
                 <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 space-y-3 shrink-0">
+              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-slate-100 space-y-3 shrink-0">
                 {selectedFile && (
-                  <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-200">
+                  <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-xl border border-slate-200">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-gray-600 font-bold truncate">{selectedFile.name}</p>
+                      <p className="text-[10px] text-slate-600 font-bold truncate">{selectedFile.name}</p>
                     </div>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-brand-blue-bright hover:text-red-500">
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-slate-400 hover:text-red-500 transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -2654,8 +2609,11 @@ export default function App() {
                   />
                   <button 
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="p-2.5 text-gray-400 hover:text-brand-orange transition-colors"
+                    onClick={() => {
+                      playClickSound();
+                      fileInputRef.current?.click();
+                    }}
+                    className="p-2.5 text-slate-400 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-slate-100 rounded-xl"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2663,14 +2621,14 @@ export default function App() {
                     type="text"
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
-                    placeholder="Escribe tu mensaje..."
-                    className="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-brand-orange transition-all"
+                    placeholder="Escriba su consulta técnica..."
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all"
                   />
                   <button 
                     type="submit"
                     disabled={isTyping || (!userInput.trim() && !selectedFile)}
                     onClick={() => playClickSound()}
-                    className="p-2.5 bg-brand-orange text-white rounded-full disabled:opacity-50 hover:bg-brand-orange/80 transition-all shadow-sm"
+                    className="p-2.5 bg-slate-900 text-white rounded-xl disabled:opacity-30 hover:bg-slate-800 transition-all shadow-lg active:scale-95 border border-white/5"
                   >
                     <Send className="w-5 h-5" />
                   </button>
@@ -2693,9 +2651,9 @@ export default function App() {
                 e.stopPropagation();
                 handleSmoothScroll(e as any, '#inicio');
               }}
-              className="w-14 h-14 glass border-glass-border text-on-surface-subtle/80 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:text-brand-blue transition-all group pointer-events-auto"
+              className="w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
             >
-              <div className="absolute -top-10 right-0 glass border-glass-border text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
               </div>
               <ChevronDown className="w-6 h-6 rotate-180" />
@@ -2709,10 +2667,10 @@ export default function App() {
             playClickSound();
             toggleSpeech();
           }}
-          className={`relative w-14 h-14 glass border-brand-orange/40 text-brand-orange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : ''}`}
+          className={`relative w-14 h-14 backdrop-blur-xl border-2 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:border-transparent transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : 'bg-[#22d3ee]/15 border-[#22d3ee]/30 text-brand-orange'}`}
           aria-label={isSpeaking ? 'Detener lectura' : 'Escuchar página'}
         >
-          <div className="absolute -top-10 right-0 glass border-brand-orange/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
             {isSpeaking ? 'Detener lectura' : 'Escuchar página'}
           </div>
           {isSpeaking ? (
@@ -2729,6 +2687,116 @@ export default function App() {
           )}
         </button>
       </div>
+
+      {/* Unified Mobile Menu Overlay (Premium Cyan Glass Redesign) */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            {/* Subtle light immersive backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-slate-900/10 backdrop-blur-sm z-[100001] lg:hidden touch-none"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            
+            <motion.div
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ type: "spring", damping: 45, stiffness: 400, mass: 1 }}
+              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-white/80 backdrop-blur-3xl border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
+              ref={menuRef}
+            >
+              {/* Internal Header */}
+              <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-slate-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-white shadow-sm">
+                    <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <div className="flex flex-col leading-none">
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-400">Poliméricas</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => {
+                    playClickSound();
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-10 h-10 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-white shadow-sm"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <nav className="flex-1 flex flex-col px-8 py-10">
+                <div className="flex flex-col gap-1">
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 mb-4 px-1 leading-none">Menú Principal</p>
+                  {navLinks.map((link, index) => (
+                    <motion.a 
+                      key={link.name}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.04 }}
+                      href={link.href}
+                      className="group flex items-center justify-between py-4 px-1 rounded-xl transition-all relative"
+                      onClick={(e) => {
+                        playClickSound();
+                        handleSmoothScroll(e, link.href);
+                      }}
+                    >
+                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-600 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-100 group-hover:bg-brand-orange transition-colors" />
+                        {link.name}
+                      </span>
+                      <ChevronRight className="w-4 h-4 text-slate-200 group-hover:text-brand-orange group-hover:translate-x-1 transition-all duration-300" />
+                      
+                      <div className="absolute inset-0 bg-slate-50 opacity-0 group-hover:opacity-100 -z-10 rounded-xl transition-opacity" />
+                    </motion.a>
+                  ))}
+                </div>
+                
+                {/* Refined Contact Section */}
+                <div className="mt-auto pt-8 border-t border-slate-100">
+                  <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-slate-100 shadow-sm space-y-5">
+                    <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-orange/70">Atención Directa</p>
+                    
+                    <div className="space-y-4">
+                      <a 
+                        href="tel:5512979217" 
+                        className="flex items-center gap-4 group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-md transition-all">
+                          <Phone className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col leading-tight">
+                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">Teléfono</span>
+                          <span className="text-xs font-bold text-slate-700 tracking-wide">55 1297 9217</span>
+                        </div>
+                      </a>
+
+                      <a 
+                        href="mailto:mci.spolimericas@polycovers.mx" 
+                        className="flex items-center gap-4 group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-brand-blue-bright group-hover:border-brand-blue-bright/30 group-hover:shadow-md transition-all">
+                          <Mail className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col leading-tight min-w-0">
+                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">Email Corporativo</span>
+                          <span className="text-[10px] font-bold text-slate-700 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

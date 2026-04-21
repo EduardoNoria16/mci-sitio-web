@@ -129,7 +129,7 @@ body {
 .marquee-content {
   display: flex;
   gap: 40px;
-  animation: marquee-scroll 20s linear infinite;
+  animation: marquee-scroll 15s linear infinite;
   padding: 20px 40px 20px 0; /* Extra gap at the end for seamless loop */
 }
 
@@ -150,9 +150,9 @@ body {
   @media (min-width: 1024px) {
     width: 22rem;
   }
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(8, 51, 68, 0.1);
+  background-color: rgba(34, 211, 238, 0.15);
+  backdrop-filter: blur(16px);
+  border: 2px solid rgba(34, 211, 238, 0.3);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -168,7 +168,7 @@ body {
 
 .marquee-card:hover {
   background: white;
-  border-color: var(--color-brand-orange);
+  border-color: transparent;
   transform: translateY(-12px) scale(1.02);
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2);
 }
