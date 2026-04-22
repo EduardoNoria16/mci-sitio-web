@@ -1319,20 +1319,17 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-16 md:pb-24 w-full flex-grow overflow-hidden bg-slate-50">
-        {/* Fondo fotográfico encapsulado tipo "Frame" detrás de la sección */}
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-32 md:pb-64 lg:pb-80 w-full flex-grow overflow-hidden bg-slate-900">
+        {/* Fondo fotográfico FIJO detrás de la sección */}
         <div className="absolute inset-0 z-0">
-          {/* Contenedor que reduce físicamente el área, enmarcando la foto para evitar el zoom masivo sin deformarla ni desalinear textos */}
-          <div className="absolute inset-0 md:inset-4 lg:inset-6 top-0 md:top-28 overflow-hidden rounded-b-3xl md:rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] bg-slate-900 transition-all duration-300">
-            <img 
-              src="https://i.postimg.cc/PJYpKDpr/Whats-App-Image-2026-04-21-at-17-28-50.jpg" 
-              alt="MCI Soluciones Fotografía Oficial"
-              className="absolute inset-0 w-full h-full object-cover object-[75%_center] opacity-100"
-              crossOrigin="anonymous"
-            />
-            {/* Degradado ajustado dentro de la nueva tarjeta fotográfica */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/20 via-40% to-transparent z-10" />
-          </div>
+          <img 
+            src="https://i.postimg.cc/PJYpKDpr/Whats-App-Image-2026-04-21-at-17-28-50.jpg" 
+            alt="MCI Soluciones Fotografía Oficial"
+            className="absolute inset-0 w-full h-full object-cover object-[75%_center] opacity-100"
+            crossOrigin="anonymous"
+          />
+          {/* Degradado oscurecido MUCHO más claro: permite que brille mucho más la foto de fondo */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-900/20 via-40% to-transparent z-10" />
         </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-8 md:py-16 md:mt-0">
