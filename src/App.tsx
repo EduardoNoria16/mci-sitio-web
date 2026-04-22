@@ -1319,7 +1319,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-32 md:pb-64 lg:pb-80 w-full flex-grow overflow-hidden bg-slate-900">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-48 md:pb-[400px] lg:pb-[550px] xl:pb-[700px] w-full flex-grow overflow-hidden bg-slate-900">
         {/* Fondo fotográfico FIJO detrás de la sección */}
         <div className="absolute inset-0 z-0">
           <img 
