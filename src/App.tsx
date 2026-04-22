@@ -44,8 +44,10 @@ import {
   CheckCircle2,
   Target,
   Eye,
-  Award
+  Award,
+  ArrowLeftRight
 } from 'lucide-react';
+import BeforeAfterSlider from './components/BeforeAfterSlider';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -309,92 +311,6 @@ const CustomVideoPlayer = memo(() => {
   );
 });
 
-// --- Before/After Slider Component ---
-const BeforeAfterSlider = memo(() => {
-  const [sliderPos, setSliderPos] = useState(50);
-  const [isAuto, setIsAuto] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isAuto) return;
-    let lastTime = performance.now();
-    let frameId: number;
-
-    const animate = (time: number) => {
-      const deltaTime = time - lastTime;
-      if (deltaTime >= 50) {
-        setSliderPos((prev) => {
-          const next = prev + 0.5;
-          return next > 100 ? 0 : next;
-        });
-        lastTime = time;
-      }
-      frameId = requestAnimationFrame(animate);
-    };
-
-    frameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameId);
-  }, [isAuto]);
-
-  const handleMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    setIsAuto(false);
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const position = ((x - rect.left) / rect.width) * 100;
-    setSliderPos(Math.min(Math.max(position, 0), 100));
-  }, []);
-
-  return (
-    <div 
-      ref={containerRef}
-      className="relative w-full max-w-5xl mx-auto aspect-square sm:aspect-video lg:aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden bg-brand-blue/5 border-glass-border cursor-col-resize shadow-2xl will-change-transform"
-      onMouseMove={handleMove}
-      onTouchMove={handleMove}
-      onMouseEnter={() => setIsAuto(false)}
-      onMouseLeave={() => setIsAuto(true)}
-    >
-      {/* After Image */}
-      <img 
-        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80" 
-        alt="Después"
-        className="absolute inset-0 w-full h-full object-cover"
-        referrerPolicy="no-referrer"
-        loading="lazy"
-      />
-      {/* Before Image */}
-      <div 
-        className="absolute inset-0 w-full h-full overflow-hidden"
-        style={{ width: `${sliderPos}%` }}
-      >
-        <img 
-          src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1200&q=80" 
-          alt="Antes"
-          className="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-125"
-          style={{ width: `${10000 / sliderPos}%` }}
-          referrerPolicy="no-referrer"
-          loading="lazy"
-        />
-      </div>
-      {/* Slider Line */}
-      <div 
-        className="absolute inset-y-0 w-1 bg-white shadow-[0_0_20px_rgba(255,255,255,0.5)] z-10"
-        style={{ left: `${sliderPos}%` }}
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 glass rounded-full flex items-center justify-center border-white/20">
-          <div className="flex gap-1">
-            <ChevronRight className="w-3 h-3 text-white rotate-180" />
-            <ChevronRight className="w-3 h-3 text-white" />
-          </div>
-        </div>
-      </div>
-      {/* Labels */}
-      <div className="absolute top-6 left-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-white/80">Antes</div>
-      <div className="absolute top-6 right-6 glass px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest text-brand-orange">Después</div>
-    </div>
-  );
-});
-
 // --- Types ---
 interface Strength {
   id: string;
@@ -639,7 +555,7 @@ const GALLERY_IMAGES = [
   { url: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80', title: 'Control de Corrosión' },
   { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', title: 'Ingeniería de Detalle' },
   { url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=800&q=80', title: 'Sistemas de Protección' },
+  { url: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=800&q=80', title: 'Sistemas de Protección' },
   { url: 'https://images.unsplash.com/photo-1563200155-22442f49d32d?auto=format&fit=crop&w=800&q=80', title: 'Procesos Industriales' },
   { url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80', title: 'Almacenamiento Logístico' },
   { url: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=800&q=80', title: 'Tecnología Polimérica' }
@@ -1422,8 +1338,8 @@ export default function App() {
         >
           <div className="absolute inset-0 bg-slate-50/80 sm:bg-slate-50/70 z-10 backdrop-blur-[1px]" />
           <img 
-            src="https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&w=1200&q=80" 
-            alt="Hero Background"
+            src="/hero.jpg" 
+            alt="Ingeniería y Planos"
             width="1920"
             height="1080"
             fetchPriority="high"
@@ -1783,30 +1699,6 @@ export default function App() {
       </div>
     </section>
 
-      {/* Before/After Section */}
-      <section className="relative z-10 py-8 md:py-12 bg-on-surface/5">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-blue/30 text-brand-blue text-xs font-bold uppercase tracking-widest shadow-sm"
-            >
-              <Zap className="w-3 h-3" />
-              Transformación Radical
-            </motion.div>
-            <h2 className="text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
-              El Poder del <span className="text-gradient">Cambio</span>
-            </h2>
-            <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
-              Desliza para ver la diferencia técnica entre una superficie deteriorada y una intervención profesional de MCI.
-            </p>
-          </div>
-          <BeforeAfterSlider />
-        </div>
-      </section>
-
       {/* Gallery Section */}
       <section id="galeria" className="relative z-10 py-8 md:py-12 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 mb-16">
@@ -1920,6 +1812,55 @@ export default function App() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Transformación Industrial Section */}
+      <section id="transformacion" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6 lg:pr-8"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest">
+              <ArrowLeftRight className="w-3 h-3" />
+              Ingeniería en Resultados
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm leading-tight">
+              Transformación <span className="text-gradient">Industrial</span>
+            </h2>
+            <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
+            <div className="space-y-4">
+              <p className="text-on-surface/80 text-base md:text-xl font-medium leading-relaxed font-bold">
+                Nuestra tecnología en <strong className="text-on-surface font-black">polímeros de alta gama</strong> no solo corrige desperfectos estructurales, sino que otorga una vida útil extendida a sus instalaciones.
+              </p>
+              <p className="text-on-surface/80 text-base md:text-xl font-medium leading-relaxed font-bold">
+                Observe cómo recuperamos la <strong className="text-brand-orange">integridad técnica</strong> y estética de superficies severamente degradadas.
+              </p>
+            </div>
+            <div className="mt-8">
+              <p className="text-sm font-bold text-brand-orange/80 italic">
+                * Ejemplos ilustrativos de restauración.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
+            <BeforeAfterSlider 
+              beforeImage="https://images.unsplash.com/photo-1504307651254-35680f356f12?auto=format&fit=crop&q=80&w=1200" 
+              afterImage="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1200"
+              beforeLabel="Piso Deteriorado"
+              afterLabel="Sistema MCI Aplicado"
+            />
           </motion.div>
         </div>
       </section>
