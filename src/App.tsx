@@ -1215,29 +1215,29 @@ export default function App() {
       <header 
         className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b ${
           isScrolled 
-            ? 'bg-white/95 backdrop-blur-xl py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.3)] border-[#22d3ee]/30' 
-            : 'bg-white/40 backdrop-blur-md py-5 md:py-6 border-transparent'
+            ? 'bg-white/95 backdrop-blur-xl py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
+            : 'bg-white/40 backdrop-blur-md py-4 sm:py-5 border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-2 sm:gap-3 group flex-shrink-0 cursor-pointer min-w-0"
+            className="flex items-center gap-3 sm:gap-4 group flex-shrink-0 cursor-pointer min-w-0"
             onClick={(e) => handleSmoothScroll(e, '#inicio')}
           >
-            <div className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 flex-shrink-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 flex-shrink-0 drop-shadow-md">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col notranslate min-w-0" translate="no">
-              <span className="text-sm sm:text-2xl md:text-4xl font-black tracking-tighter leading-none flex flex-wrap gap-x-1 items-baseline lg:whitespace-nowrap">
+            <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
+              <span className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-none flex flex-wrap gap-x-1.5 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
-                <span className="text-on-surface transition-colors">Soluciones</span>
+                <span className="text-slate-900 transition-colors drop-shadow-sm">Soluciones</span>
               </span>
-              <span className="text-[0.5rem] sm:text-[0.8rem] md:text-[1.1rem] font-bold uppercase tracking-tight sm:tracking-[0.05em] md:tracking-[0.2em] text-on-surface mt-0.5 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-slate-600 mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1319,20 +1319,20 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 w-full flex-grow overflow-hidden bg-slate-900">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-16 md:pb-24 w-full flex-grow overflow-hidden bg-slate-900">
         {/* Fondo fotográfico FIJO detrás de la sección */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 bg-slate-800">
           <img 
             src="https://i.postimg.cc/PJYpKDpr/Whats-App-Image-2026-04-21-at-17-28-50.jpg" 
             alt="MCI Soluciones Fotografía Oficial"
-            className="absolute inset-0 w-full h-full object-cover object-top opacity-80"
+            className="absolute inset-0 w-full h-full object-cover object-[70%_center] opacity-100"
             crossOrigin="anonymous"
           />
-          {/* Fuerte degradado oscuro desde la izquierda para contrastar la foto blanca agresivamente, pero sin taparla toda */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/20 z-10" />
+          {/* Degradado oscurecido reforzado en la zona del texto (hasta el 40% de la pantalla) y luego se desvanece suavemente para lucir la foto */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/60 via-40% to-transparent z-10" />
         </div>
         
-        <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
+        <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-8 md:py-16 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
             {/* 1. ¿Quiénes Somos? Text */}
             <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-6 order-1 lg:order-1">
@@ -1341,7 +1341,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.1] md:leading-tight text-white text-center md:text-left transition-all duration-300 drop-shadow-lg px-2 md:px-0">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.1] md:leading-tight text-white text-center md:text-left transition-all duration-300 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] px-2 md:px-0">
                   <span>¿Quiénes</span>{' '}
                   <span className="text-brand-orange">Somos</span>
                   <span>?</span>
@@ -1353,8 +1353,8 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-base md:text-lg lg:text-xl text-slate-200 leading-relaxed font-medium max-w-2xl lg:max-w-3xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300 drop-shadow-md"
-                style={{ overflowWrap: 'break-word' }}
+                className="text-base md:text-lg lg:text-xl text-slate-100 leading-relaxed font-medium max-w-2xl lg:max-w-3xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
+                style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}
               >
                 Empresa con más de <span className="hl font-bold text-brand-orange-bright drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl font-bold text-brand-blue-bright">Industrial</span> y de la <span className="hl font-bold text-brand-blue-bright">Construcción</span> en <span className="hl font-bold text-brand-blue-bright">México</span> con el único objetivo de ofrecer <span className="hl font-bold text-brand-orange-bright">soluciones duraderas</span> con <span className="hl font-bold text-white">ingeniería</span> en <span className="hl font-bold text-white">materiales poliméricos</span> de <span className="hl font-bold text-brand-orange-bright">alta gama</span> para <span className="hl font-bold text-brand-blue-bright">restaurar</span>, <span className="hl font-bold text-brand-blue-bright">mejorar</span> y <span className="hl font-bold text-brand-blue-bright">proteger</span> instalaciones expuestas a <span className="hl font-bold text-white">daños físicos</span> o <span className="hl font-bold text-white">químicos</span>, maximizando su vida útil para <span className="hl font-bold text-brand-orange-bright">preservar</span> el valor de tu <span className="hl font-bold text-brand-orange-bright">inversión</span>.
               </motion.p>
