@@ -1328,8 +1328,8 @@ export default function App() {
             className="absolute inset-0 w-full h-full object-cover object-[70%_center] opacity-100"
             crossOrigin="anonymous"
           />
-          {/* Degradado oscurecido reforzado en la zona del texto (hasta el 40% de la pantalla) y luego se desvanece suavemente para lucir la foto */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/60 via-40% to-transparent z-10" />
+          {/* Degradado oscurecido MUCHO más claro: gracias a la sombra negra del texto, podemos relajar el fondo oscuro casi a la mitad permitiendo que brille mucho más la foto de fondo */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-900/20 via-40% to-transparent z-10" />
         </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-8 md:py-16 md:mt-0">
