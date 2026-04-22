@@ -1331,19 +1331,20 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 will-change-transform overflow-visible">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 will-change-transform overflow-hidden">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 flex items-center justify-center"
         >
-          <div className="absolute inset-0 bg-slate-50/80 sm:bg-slate-50/70 z-10 backdrop-blur-[1px]" />
+          {/* Beautiful Soft Gradient & Blur Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-50/60 via-slate-50/80 to-[#f8fafc] z-10 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-50/90 via-transparent to-slate-50/90 z-10" />
+          
           <img 
             src="/hero.jpg" 
             alt="Ingeniería y Planos"
-            width="1920"
-            height="1080"
             fetchPriority="high"
-            className="w-full h-full object-cover scale-110"
+            className="w-full h-full object-cover object-center"
             referrerPolicy="no-referrer"
             loading="eager"
           />
