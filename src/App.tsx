@@ -1335,28 +1335,28 @@ export default function App() {
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
             {/* 1. ¿Quiénes Somos? Text */}
-            <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-8 order-1 lg:order-1">
+            <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-6 order-1 lg:order-1">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-white text-center md:text-left transition-all duration-300 drop-shadow-lg px-2 md:px-0">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.1] md:leading-tight text-white text-center md:text-left transition-all duration-300 drop-shadow-lg px-2 md:px-0">
                   <span>¿Quiénes</span>{' '}
                   <span className="text-brand-orange">Somos</span>
                   <span>?</span>
                 </h1>
-                <div className="h-1 w-16 sm:w-24 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.6)]" />
+                <div className="h-1 w-16 sm:w-20 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.6)]" />
               </motion.div>
 
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-base sm:text-xl lg:text-2xl text-slate-100 leading-relaxed font-bold max-w-2xl lg:max-w-4xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300 drop-shadow-md"
+                className="text-base md:text-lg lg:text-xl text-slate-200 leading-relaxed font-medium max-w-2xl lg:max-w-3xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300 drop-shadow-md"
                 style={{ overflowWrap: 'break-word' }}
               >
-                Empresa con más de <span className="hl text-brand-orange-bright drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl text-brand-blue-bright">Industrial</span> y de la <span className="hl text-brand-blue-bright">Construcción</span> en <span className="hl text-brand-blue-bright">México</span> con el único objetivo de ofrecer <span className="hl text-brand-orange-bright">soluciones duraderas</span> con <span className="hl text-white">ingeniería</span> en <span className="hl text-white">materiales poliméricos</span> de <span className="hl text-brand-orange-bright">alta gama</span> para <span className="hl text-brand-blue-bright">restaurar</span>, <span className="hl text-brand-blue-bright">mejorar</span> y <span className="hl text-brand-blue-bright">proteger</span> instalaciones expuestas a <span className="hl text-white">daños físicos</span> o <span className="hl text-white">químicos</span>, maximizando su vida útil para <span className="hl text-brand-orange-bright">preservar</span> el valor de tu <span className="hl text-brand-orange-bright">inversión</span>.
+                Empresa con más de <span className="hl font-bold text-brand-orange-bright drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl font-bold text-brand-blue-bright">Industrial</span> y de la <span className="hl font-bold text-brand-blue-bright">Construcción</span> en <span className="hl font-bold text-brand-blue-bright">México</span> con el único objetivo de ofrecer <span className="hl font-bold text-brand-orange-bright">soluciones duraderas</span> con <span className="hl font-bold text-white">ingeniería</span> en <span className="hl font-bold text-white">materiales poliméricos</span> de <span className="hl font-bold text-brand-orange-bright">alta gama</span> para <span className="hl font-bold text-brand-blue-bright">restaurar</span>, <span className="hl font-bold text-brand-blue-bright">mejorar</span> y <span className="hl font-bold text-brand-blue-bright">proteger</span> instalaciones expuestas a <span className="hl font-bold text-white">daños físicos</span> o <span className="hl font-bold text-white">químicos</span>, maximizando su vida útil para <span className="hl font-bold text-brand-orange-bright">preservar</span> el valor de tu <span className="hl font-bold text-brand-orange-bright">inversión</span>.
               </motion.p>
             </div>
 
