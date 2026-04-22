@@ -1319,17 +1319,17 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 w-full flex-grow overflow-hidden bg-slate-50">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 w-full flex-grow overflow-hidden bg-slate-900">
         {/* Fondo fotográfico FIJO detrás de la sección */}
-        <div className="absolute inset-0 z-0 bg-slate-900">
+        <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2831&auto=format&fit=crop" 
-            alt="Ingeniería y Planos"
-            className="absolute inset-0 w-full h-full object-cover object-top opacity-70"
+            src="https://i.postimg.cc/PJYpKDpr/Whats-App-Image-2026-04-21-at-17-28-50.jpg" 
+            alt="MCI Soluciones Fotografía Oficial"
+            className="absolute inset-0 w-full h-full object-cover object-top opacity-80"
             crossOrigin="anonymous"
           />
-          {/* Suave degradado para proteger el texto a la izquierda sin afectar la foto a la derecha */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+          {/* Fuerte degradado oscuro desde la izquierda para contrastar la foto blanca agresivamente, pero sin taparla toda */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/20 z-10" />
         </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
@@ -1341,22 +1341,22 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-on-surface text-center md:text-left transition-all duration-300 drop-shadow-md px-2 md:px-0">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[1.1] md:leading-[0.95] text-white text-center md:text-left transition-all duration-300 drop-shadow-lg px-2 md:px-0">
                   <span>¿Quiénes</span>{' '}
-                  <span className="text-brand-blue-bright">Somos</span>
+                  <span className="text-brand-orange">Somos</span>
                   <span>?</span>
                 </h1>
-                <div className="h-1 w-16 sm:w-24 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.3)]" />
+                <div className="h-1 w-16 sm:w-24 bg-brand-orange rounded-full shadow-[0_2px_8px_rgba(245,130,32,0.6)]" />
               </motion.div>
 
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-base sm:text-xl lg:text-2xl text-on-surface leading-relaxed font-bold max-w-2xl lg:max-w-4xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300"
+                className="text-base sm:text-xl lg:text-2xl text-slate-100 leading-relaxed font-bold max-w-2xl lg:max-w-4xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300 drop-shadow-md"
                 style={{ overflowWrap: 'break-word' }}
               >
-                Empresa con más de <span className="hl text-brand-orange-bright">30 años</span> de consolidación en los sectores <span className="hl">Industrial</span> y de la <span className="hl">Construcción</span> en <span className="hl">México</span> con el único objetivo de ofrecer <span className="hl">soluciones duraderas</span> con <span className="hl">ingeniería</span> en <span className="hl">materiales poliméricos</span> de <span className="hl">alta gama</span> para <span className="hl">restaurar</span>, <span className="hl">mejorar</span> y <span className="hl">proteger</span> instalaciones expuestas a <span className="hl">daños físicos</span> o <span className="hl">químicos</span>, maximizando su vida útil para <span className="hl">preservar</span> el valor de tu <span className="hl">inversión</span>.
+                Empresa con más de <span className="hl text-brand-orange-bright drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl text-brand-blue-bright">Industrial</span> y de la <span className="hl text-brand-blue-bright">Construcción</span> en <span className="hl text-brand-blue-bright">México</span> con el único objetivo de ofrecer <span className="hl text-brand-orange-bright">soluciones duraderas</span> con <span className="hl text-white">ingeniería</span> en <span className="hl text-white">materiales poliméricos</span> de <span className="hl text-brand-orange-bright">alta gama</span> para <span className="hl text-brand-blue-bright">restaurar</span>, <span className="hl text-brand-blue-bright">mejorar</span> y <span className="hl text-brand-blue-bright">proteger</span> instalaciones expuestas a <span className="hl text-white">daños físicos</span> o <span className="hl text-white">químicos</span>, maximizando su vida útil para <span className="hl text-brand-orange-bright">preservar</span> el valor de tu <span className="hl text-brand-orange-bright">inversión</span>.
               </motion.p>
             </div>
 
