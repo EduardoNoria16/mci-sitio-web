@@ -1319,19 +1319,19 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 w-full flex-grow overflow-hidden">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 w-full flex-grow overflow-hidden bg-slate-50">
         {/* Fondo fotográfico FIJO detrás de la sección */}
         <div className="absolute inset-0 z-0">
           <img 
             src="/hero.jpg" 
             alt="Ingeniería y Planos"
-            className="w-full h-full object-cover object-top opacity-30"
+            className="absolute inset-0 w-full h-full object-cover object-top"
           />
-          {/* Degradado superpuesto para proteger la legibilidad */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/40 to-white/90" />
+          {/* Suave degradado para proteger el texto a la izquierda sin afectar la foto a la derecha */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
+        <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
             {/* 1. ¿Quiénes Somos? Text */}
             <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-8 order-1 lg:order-1">
