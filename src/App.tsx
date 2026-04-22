@@ -56,258 +56,221 @@ const playClickSound = () => {
   audio.play().catch(() => {});
 };
 
-// --- Custom Video Player Component ---
+const formatTime = (time: number) => {
+  if (isNaN(time) || !isFinite(time)) return "0:00";
+  const m = Math.floor(time / 60);
+  const s = Math.floor(time % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+};
+
 const CustomVideoPlayer = memo(() => {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true); 
-  const [progress, setProgress] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [quality, setQuality] = useState<'HD' | '4K'>('4K');
-  const [isBuffering, setIsBuffering] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState(1);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const modalVideoRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
   const videoUrl = "https://i.imgur.com/LoeTAM6.mp4";
-  const ambientMusicUrl = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73456.mp3?filename=technology-background-106514.mp3";
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [showControls, setShowControls] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const speeds = [1, 1.5, 2];
-
-  useEffect(() => {
-    if (videoRef.current) videoRef.current.playbackRate = playbackSpeed;
-    if (modalVideoRef.current) modalVideoRef.current.playbackRate = playbackSpeed;
-  }, [playbackSpeed, isModalOpen]);
-
-  const togglePlaybackSpeed = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    playClickSound();
-    const currentIndex = speeds.indexOf(playbackSpeed);
-    const nextIndex = (currentIndex + 1) % speeds.length;
-    setPlaybackSpeed(speeds[nextIndex]);
-  }, [playbackSpeed]);
-
-  useEffect(() => {
-    if (isModalOpen && videoRef.current && modalVideoRef.current) {
-      modalVideoRef.current.currentTime = videoRef.current.currentTime;
-    }
-  }, [isModalOpen]);
-
-  const toggleQuality = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    playClickSound();
-    setIsBuffering(true);
-    setTimeout(() => {
-      setQuality(prev => prev === 'HD' ? '4K' : 'HD');
-      setIsBuffering(false);
-    }, 600);
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.2;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.muted = isMuted;
-      if (isPlaying && !isMuted) {
-        audioRef.current.play().catch(() => {});
+  const togglePlay = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (!hasInteracted) setHasInteracted(true);
+    
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
       } else {
-        audioRef.current.pause();
+        videoRef.current.pause();
+        setIsPlaying(false);
       }
     }
-  }, [isMuted, isPlaying]);
+  };
 
-  const togglePlay = useCallback((e?: React.MouseEvent) => {
+  const toggleFullscreen = async (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
-    if (targetVideo) {
-      if (isPlaying) {
-        targetVideo.pause();
+    try {
+      if (!document.fullscreenElement) {
+        if (containerRef.current?.requestFullscreen) {
+          await containerRef.current.requestFullscreen();
+        }
       } else {
-        targetVideo.play();
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
       }
-      setIsPlaying(!isPlaying);
+    } catch (err) {
+      console.error("Fullscreen API error", err);
     }
-  }, [isPlaying, isModalOpen]);
+  };
 
-  const toggleMute = useCallback((e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    setIsMuted(!isMuted);
-    if (videoRef.current) videoRef.current.muted = !isMuted;
-    if (modalVideoRef.current) modalVideoRef.current.muted = !isMuted;
-  }, [isMuted]);
-
-  const handleTimeUpdate = useCallback((e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    const currentProgress = (video.currentTime / video.duration) * 100;
-    setProgress(currentProgress);
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-  const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const toggleMute = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const targetVideo = isModalOpen ? modalVideoRef.current : videoRef.current;
-    if (targetVideo) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const newProgress = (x / rect.width) * 100;
-      const newTime = (newProgress / 100) * targetVideo.duration;
-      targetVideo.currentTime = newTime;
-      setProgress(newProgress);
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
-  }, [isModalOpen]);
+  };
 
-  const VideoControls = ({ isModal = false }: { isModal?: boolean }) => (
-    <div className={`absolute bottom-0 left-0 right-0 p-3 md:p-5 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-40 transition-all duration-500 rounded-b-3xl ${isModal ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0'}`}>
-      <div className="space-y-3">
-        {/* Progress Bar */}
-        <div 
-          className="h-1 w-full bg-white/20 rounded-full cursor-pointer relative group/progress transition-all hover:h-1.5 overflow-hidden"
-          onClick={handleSeek}
-        >
-          <motion.div 
-            className="absolute top-0 left-0 h-full bg-brand-orange rounded-full shadow-[0_0_10px_rgba(245,130,32,0.8)]"
-            style={{ width: `${progress}%` }}
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    const val = parseFloat(e.target.value);
+    setVolume(val);
+    if (videoRef.current) {
+      videoRef.current.volume = val;
+      videoRef.current.muted = val === 0;
+      setIsMuted(val === 0);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+      if (videoRef.current.duration) {
+        setProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+      }
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    const val = parseFloat(e.target.value);
+    if (videoRef.current) {
+      videoRef.current.currentTime = (videoRef.current.duration / 100) * val;
+      setProgress(val);
+    }
+  };
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+    controlsTimeoutRef.current = setTimeout(() => {
+      if (isPlaying) setShowControls(false);
+    }, 2500);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === " " && document.activeElement === containerRef.current) {
+        e.preventDefault();
+        togglePlay();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isPlaying]);
+
+  return (
+    <div 
+      ref={containerRef}
+      className={`relative w-full bg-black group flex flex-col justify-center overflow-hidden outline-none mx-auto shadow-2xl ${isFullscreen ? 'h-full rounded-none' : 'aspect-video rounded-[2rem]'}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => isPlaying && setShowControls(false)}
+      onClick={togglePlay}
+      tabIndex={0}
+    >
+      <video
+        ref={videoRef}
+        src={videoUrl}
+        className={`w-full h-full object-contain ${!isPlaying && !hasInteracted ? 'opacity-80' : 'opacity-100'} transition-opacity duration-500`}
+        preload="metadata"
+        playsInline
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
+
+      {/* Initial Clean Play Button (Disappears after first interaction) */}
+      {!hasInteracted && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-20 h-20 bg-brand-orange/90 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm group-hover:bg-brand-orange transition-colors duration-300">
+            <Play className="w-10 h-10 text-white fill-current ml-1" />
+          </div>
+        </div>
+      )}
+
+      {/* YouTube Style Controls Bar */}
+      <div 
+        className={`absolute bottom-0 left-0 right-0 px-4 pt-10 pb-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${showControls || !hasInteracted ? 'opacity-100' : 'opacity-0'} flex flex-col gap-1`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Exact YT Style Progress Line */}
+        <div className="w-full flex items-center group/scrub h-3 cursor-pointer group-hover:translate-y-0 translate-y-1 transition-transform">
+          <input 
+            type="range" 
+            min="0" 
+            max="100" 
+            step="0.1"
+            value={progress || 0} 
+            onChange={handleSeek}
+            className="w-full h-1 bg-white/30 rounded-full appearance-none cursor-pointer accent-brand-orange group-hover/scrub:h-1.5 transition-all relative z-10"
+            style={{
+              background: `linear-gradient(to right, #f58220 ${progress}%, rgba(255, 255, 255, 0.3) ${progress}%)`
+            }}
           />
-          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover/progress:opacity-20 bg-white transition-opacity" />
         </div>
 
+        {/* Bottom Controls row */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 md:gap-8">
-            <button 
-              onClick={togglePlay}
-              className="text-white hover:text-brand-orange transition-all p-1.5 md:p-2 bg-white/10 hover:bg-white/20 rounded-full border border-white/5 active:scale-95"
-            >
-              {isPlaying ? <Pause className="w-4 h-4 md:w-5 md:h-5 fill-current" /> : <Play className="w-4 h-4 md:w-5 md:h-5 fill-current ml-0.5" />}
+          <div className="flex items-center gap-4">
+            <button onClick={togglePlay} className="text-white hover:text-brand-orange transition-colors p-1" title={isPlaying ? "Pausar" : "Reproducir"}>
+              {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current ml-0.5" />}
             </button>
-            <div className="flex items-center gap-4 group/volume">
-              <button 
-                onClick={toggleMute}
-                className="text-white hover:text-brand-orange transition-colors p-1"
-              >
-                {isMuted ? <VolumeX className="w-4 h-4 md:w-5 md:h-5" /> : <Volume2 className="w-4 h-4 md:w-5 md:h-5" />}
+            
+            <div className="flex items-center gap-2 group/vol">
+              <button onClick={toggleMute} className="text-white hover:text-brand-orange transition-colors p-1" title={isMuted ? "Activar sonido" : "Silenciar"}>
+                {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
-              <div className="w-0 group-hover/volume:w-24 overflow-hidden transition-all duration-300">
-                <div className="h-1 w-24 bg-white/20 rounded-full relative ml-1">
-                  <div className={`h-full bg-brand-orange rounded-full ${isMuted ? 'w-0' : 'w-full'}`} />
-                </div>
-              </div>
+              <input 
+                type="range" 
+                min="0" 
+                max="1" 
+                step="0.05"
+                value={isMuted ? 0 : volume}
+                onChange={handleVolumeChange}
+                className="w-0 opacity-0 group-hover/vol:w-16 group-hover/vol:opacity-100 h-1 bg-white/30 rounded-full appearance-none flex cursor-pointer accent-white transition-all duration-300 origin-left"
+                style={{
+                  background: `linear-gradient(to right, white ${(isMuted ? 0 : volume) * 100}%, rgba(255, 255, 255, 0.3) ${(isMuted ? 0 : volume) * 100}%)`
+                }}
+              />
+            </div>
+
+            <div className="text-white/90 text-xs font-medium tracking-wide ml-2 select-none font-mono">
+              {formatTime(currentTime)} <span className="text-white/40 mx-1 font-sans">/</span> {formatTime(duration)}
             </div>
           </div>
-          
-          <div className="flex items-center gap-3 md:gap-5">
-            <button 
-              onClick={togglePlaybackSpeed}
-              className="px-2 py-0.5 md:px-3 md:py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white transition-all text-[10px] font-black tracking-widest min-w-[50px] uppercase shadow-sm"
-              title="Velocidad"
-            >
-              {playbackSpeed}x
-            </button>
-            {!isModal && (
-              <button 
-                onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
-                className="text-white hover:text-brand-orange transition-all p-1.5 md:p-2 bg-white/10 hover:bg-white/20 rounded-full border border-white/5 active:scale-95"
-                title="Expandir"
-              >
-                <Maximize className="w-4 h-4 md:w-5 md:h-5" />
-              </button>
-            )}
-            <button 
-              onClick={toggleQuality}
-              disabled={isBuffering}
-              className={`px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 transition-all min-w-[65px] ${isBuffering ? 'opacity-50' : ''}`}
-            >
-              {isBuffering ? (
-                <Loader2 className="w-3 h-3 animate-spin text-brand-orange mx-auto" />
-              ) : (
-                <span className="text-[10px] font-black text-white tracking-widest uppercase">{quality}</span>
-              )}
-            </button>
+
+          <div className="flex items-center gap-3 pr-2">
+             <button onClick={toggleFullscreen} className="text-white hover:text-brand-orange transition-colors p-1" title={isFullscreen ? "Salir de pantalla completa" : "Pantalla completa"}>
+               {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+             </button>
           </div>
         </div>
       </div>
     </div>
-  );
-
-  return (
-    <>
-      <div 
-        className="relative w-full h-full overflow-hidden rounded-[2rem] group bg-black shadow-2xl ring-1 ring-white/10 cursor-pointer"
-        onClick={() => setIsModalOpen(true)}
-      >
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          className={`w-full h-full object-cover transition-all duration-1000 ${isBuffering ? 'scale-105 blur-sm brightness-50' : 'scale-100 brightness-100'}`}
-          muted={isMuted}
-          playsInline
-          autoPlay
-          loop
-          onTimeUpdate={handleTimeUpdate}
-        />
-
-        <audio ref={audioRef} src={ambientMusicUrl} loop />
-
-        <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-700 z-30 ${isPlaying ? 'opacity-0 scale-150' : 'opacity-100 scale-100'}`}>
-          <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-[0_0_50px_rgba(255,255,255,0.15)]">
-            <Play className="w-10 h-10 text-white fill-current ml-2" />
-          </div>
-        </div>
-
-        <VideoControls />
-      </div>
-
-      <AnimatePresence>
-        {isModalOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/98 backdrop-blur-3xl overflow-hidden"
-            onClick={() => setIsModalOpen(false)}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
-              animate={{ scale: 1, opacity: 1 }} 
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-full h-full md:w-[98vw] md:h-[98vh] flex items-center justify-center bg-black overflow-hidden shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <video
-                ref={modalVideoRef} 
-                src={videoUrl} 
-                className="max-w-full max-h-full object-contain transition-all duration-500"
-                muted={isMuted} 
-                autoPlay={isPlaying} 
-                loop 
-                onTimeUpdate={handleTimeUpdate}
-              />
-              
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 md:top-10 md:right-10 z-50 p-3 md:p-4 bg-white/10 hover:bg-brand-orange border border-white/20 rounded-full text-white transition-all hover:rotate-90 shadow-2xl active:scale-95 group/close"
-              >
-                <X className="w-6 h-6 md:w-8 md:h-8" />
-              </button>
-
-              <VideoControls isModal />
-
-              {isBuffering && (
-                <div className="absolute inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-6">
-                    <Loader2 className="w-16 h-16 text-brand-orange animate-spin" />
-                    <span className="text-white font-black uppercase tracking-[0.5em] text-sm animate-pulse">Optimizando Calidad</span>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
   );
 });
 
@@ -1319,29 +1282,34 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-48 md:pb-[400px] lg:pb-[550px] xl:pb-[700px] w-full flex-grow overflow-hidden bg-slate-900">
-        {/* Fondo fotográfico FIJO detrás de la sección */}
-        <div className="absolute inset-0 z-0">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden bg-slate-50">
+        
+        {/* Fondo fotográfico alineado a la derecha para evitar zoom/recortes y permitir que el casco se vea */}
+        <div className="absolute inset-y-0 right-0 w-full md:w-[75%] lg:w-[65%] z-0">
           <img 
-            src="https://i.postimg.cc/PJYpKDpr/Whats-App-Image-2026-04-21-at-17-28-50.jpg" 
+            src="https://i.postimg.cc/3wK1P8Yb/imagen-hero.png" 
             alt="MCI Soluciones Fotografía Oficial"
-            className="absolute inset-0 w-full h-full object-cover object-[75%_center] opacity-100"
+            className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-100"
             crossOrigin="anonymous"
           />
-          {/* Degradado oscurecido MUCHO más claro: permite que brille mucho más la foto de fondo */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-900/20 via-40% to-transparent z-10" />
+          {/* Degradado para fundir el borde izquierdo de la foto suavemente con el fondo claro */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/70 to-transparent z-10 w-full md:w-[50%]" />
         </div>
         
+        {/* Degradado superpuesto intenso a la izquierda para el texto general del hero */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 via-[30%] to-transparent z-10 pointer-events-none" />
+        
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-8 md:py-16 md:mt-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
+          <div className="flex flex-col gap-12 lg:gap-16 items-start w-full">
+            
             {/* 1. ¿Quiénes Somos? Text */}
-            <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-6 order-1 lg:order-1">
+            <div className="flex flex-col items-center md:items-start space-y-6 w-full max-w-3xl">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.1] md:leading-tight text-white text-center md:text-left transition-all duration-300 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] px-2 md:px-0">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.1] md:leading-tight text-slate-900 text-center md:text-left transition-all duration-300 drop-shadow-sm px-2 md:px-0">
                   <span>¿Quiénes</span>{' '}
                   <span className="text-brand-orange">Somos</span>
                   <span>?</span>
@@ -1353,14 +1321,24 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-base md:text-lg lg:text-xl text-slate-100 leading-relaxed font-medium max-w-2xl lg:max-w-3xl text-center md:text-left lg:text-justify px-4 md:px-0 transition-all duration-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
-                style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}
+                className="text-base md:text-lg lg:text-xl text-slate-800 leading-relaxed font-bold max-w-2xl lg:max-w-3xl text-center md:text-left px-4 md:px-0 transition-all duration-300 drop-shadow-sm"
+                style={{ overflowWrap: 'break-word' }}
               >
-                Empresa con más de <span className="hl font-bold text-brand-orange-bright drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl font-bold text-brand-blue-bright">Industrial</span> y de la <span className="hl font-bold text-brand-blue-bright">Construcción</span> en <span className="hl font-bold text-brand-blue-bright">México</span> con el único objetivo de ofrecer <span className="hl font-bold text-brand-orange-bright">soluciones duraderas</span> con <span className="hl font-bold text-white">ingeniería</span> en <span className="hl font-bold text-white">materiales poliméricos</span> de <span className="hl font-bold text-brand-orange-bright">alta gama</span> para <span className="hl font-bold text-brand-blue-bright">restaurar</span>, <span className="hl font-bold text-brand-blue-bright">mejorar</span> y <span className="hl font-bold text-brand-blue-bright">proteger</span> instalaciones expuestas a <span className="hl font-bold text-white">daños físicos</span> o <span className="hl font-bold text-white">químicos</span>, maximizando su vida útil para <span className="hl font-bold text-brand-orange-bright">preservar</span> el valor de tu <span className="hl font-bold text-brand-orange-bright">inversión</span>.
+                Empresa con más de <span className="hl font-black text-brand-orange drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl font-black text-brand-blue">Industrial</span> y de la <span className="hl font-black text-brand-blue">Construcción</span> en <span className="hl font-black text-brand-blue">México</span> con el único objetivo de ofrecer <span className="hl font-black text-brand-orange">soluciones duraderas</span> con <span className="hl font-black text-slate-900">ingeniería</span> en <span className="hl font-black text-slate-900">materiales poliméricos</span> de <span className="hl font-black text-brand-orange">alta gama</span> para <span className="hl font-black text-brand-blue">restaurar</span>, <span className="hl font-black text-brand-blue">mejorar</span> y <span className="hl font-black text-brand-blue">proteger</span> instalaciones expuestas a <span className="hl font-black text-slate-900">daños físicos</span> o <span className="hl font-black text-slate-900">químicos</span>, maximizando su vida útil para <span className="hl font-black text-brand-orange">preservar</span> el valor de tu <span className="hl font-black text-brand-orange">inversión</span>.
               </motion.p>
             </div>
 
-            {/* 2. Misión/Visión/Propuesta Cards (Middle on mobile, Bottom on desktop) */}
+            {/* 2. Video Player - "Modo Cine" size between text and cards */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="w-full max-w-5xl mx-auto"
+            >
+              <CustomVideoPlayer />
+            </motion.div>
+
+            {/* 3. Misión/Visión/Propuesta Cards */}
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -1372,7 +1350,7 @@ export default function App() {
                   transition: { staggerChildren: 0.1 }
                 }
               }}
-              className="lg:col-span-12 order-2 lg:order-3 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-lg md:max-w-none mx-auto mt-6 md:mt-10"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-lg md:max-w-none mx-auto"
             >
               {[
                 { 
@@ -1405,16 +1383,16 @@ export default function App() {
                     hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`p-5 md:p-6 rounded-3xl border-2 transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[240px] md:max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl md:-translate-y-2 border-transparent' : 'bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent'}`}
+                  className={`p-5 md:p-6 rounded-3xl border-2 transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[240px] md:max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl md:-translate-y-2 border-transparent' : 'bg-white/80 backdrop-blur-xl border-brand-blue/10 hover:bg-white hover:shadow-xl hover:border-brand-orange/30'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-md border border-white/20 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-[#22d3ee] text-[#1e293b] group-hover:bg-brand-orange group-hover:text-white shadow-[0_8px_20px_rgba(34,211,238,0.4)]'}`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm border border-slate-100 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-slate-50 text-slate-700 group-hover:bg-brand-orange group-hover:text-white group-hover:border-transparent'}`}>
                     {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
                   </div>
                   <div className="flex-1 w-full">
-                    <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-on-surface group-hover:text-brand-orange'}`}>
+                    <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
@@ -1428,13 +1406,13 @@ export default function App() {
                           className="overflow-hidden mt-3"
                         >
                           {item.content ? (
-                            <p className="text-[10px] md:text-xs text-on-surface-subtle leading-snug font-medium text-left">
+                            <p className="text-[10px] md:text-xs text-slate-600 leading-snug font-medium text-left">
                               {item.content}
                             </p>
                           ) : (
                             <div className="flex flex-col items-start space-y-2 mt-2 px-1">
                               {item.list?.map((li, idx) => (
-                                <div key={idx} className="flex items-start gap-2 text-[10px] md:text-xs text-on-surface-subtle font-bold text-left leading-tight">
+                                <div key={idx} className="flex items-start gap-2 text-[10px] md:text-xs text-slate-600 font-bold text-left leading-tight">
                                   <div className="w-1 h-1 bg-brand-orange rounded-full mt-1.5 flex-shrink-0" />
                                   {li}
                                 </div>
@@ -1454,21 +1432,6 @@ export default function App() {
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
-
-            {/* 3. Video (Last on mobile, Right on desktop) */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="lg:col-span-5 xl:col-span-4 order-3 lg:order-2"
-            >
-              <div className="relative group max-w-md mx-auto lg:mx-0">
-                <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-brand-blue rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-                <div className="relative glass rounded-3xl overflow-hidden border-2 border-glass-border shadow-2xl aspect-video flex items-center justify-center">
-                  <CustomVideoPlayer />
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
