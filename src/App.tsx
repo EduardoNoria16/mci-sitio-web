@@ -1334,23 +1334,24 @@ export default function App() {
       <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 will-change-transform overflow-hidden">
         <motion.div 
           style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0 flex items-center justify-center"
+          className="absolute inset-0 z-0 pointer-events-none"
         >
-          {/* Beautiful Soft Gradient & Blur Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-50/60 via-slate-50/80 to-[#f8fafc] z-10 backdrop-blur-[2px]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-50/90 via-transparent to-slate-50/90 z-10" />
-          
+          {/* La imagen de base */}
           <img 
             src="/hero.jpg" 
             alt="Ingeniería y Planos"
             fetchPriority="high"
-            className="w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-cover object-center translate-y-[-5%] md:translate-y-[-10%]"
             referrerPolicy="no-referrer"
             loading="eager"
           />
+          
+          {/* Capas de difuminado y aclarado para no estorbar el texto oscuro */}
+          <div className="absolute inset-0 bg-white/50 backdrop-blur-[4px] z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/60 to-slate-50 z-10" />
         </motion.div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
+        <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
             {/* 1. ¿Quiénes Somos? Text */}
             <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center md:items-start space-y-8 order-1 lg:order-1">
