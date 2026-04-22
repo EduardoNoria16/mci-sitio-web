@@ -1331,25 +1331,21 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 will-change-transform overflow-hidden">
-        <motion.div 
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 z-0 pointer-events-none"
-        >
-          {/* La imagen de base */}
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 will-change-transform overflow-hidden bg-slate-50">
+        {/* Fondo fotográfico FIJO detrás de la sección */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
             src="/hero.jpg" 
             alt="Ingeniería y Planos"
             fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover object-center translate-y-[-5%] md:translate-y-[-10%]"
+            className="absolute inset-0 w-full h-full object-cover object-top opacity-60 mix-blend-multiply"
             referrerPolicy="no-referrer"
             loading="eager"
           />
           
-          {/* Capas de difuminado y aclarado para no estorbar el texto oscuro */}
-          <div className="absolute inset-0 bg-white/50 backdrop-blur-[4px] z-10" />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/60 to-slate-50 z-10" />
-        </motion.div>
+          {/* Suave degradado para asegurar la lectura del texto sin ocultar la foto */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/40 to-slate-50 z-10" />
+        </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-6 md:py-12 md:mt-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
