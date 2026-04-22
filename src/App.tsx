@@ -1321,11 +1321,12 @@ export default function App() {
       {/* Hero Section */}
       <section id="inicio" className="relative pt-32 md:pt-40 pb-8 md:pb-16 w-full flex-grow overflow-hidden bg-slate-50">
         {/* Fondo fotográfico FIJO detrás de la sección */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 bg-slate-900">
           <img 
-            src="/hero.jpg" 
+            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2831&auto=format&fit=crop" 
             alt="Ingeniería y Planos"
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-cover object-top opacity-70"
+            crossOrigin="anonymous"
           />
           {/* Suave degradado para proteger el texto a la izquierda sin afectar la foto a la derecha */}
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
