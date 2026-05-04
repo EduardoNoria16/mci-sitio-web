@@ -58,18 +58,22 @@ const BeforeAfterCard = ({ pair, onClick }: { pair: PhotoPair; onClick: () => vo
 export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   const [selectedPair, setSelectedPair] = useState<PhotoPair | null>(null);
 
-  // Scroll lock effect - robusto para todos los navegadores
+  // Esc key and Scroll lock effect
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedPair(null);
+    };
+
     if (selectedPair) {
-      document.body.style.setProperty('overflow', 'hidden', 'important');
-      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
     }
+    
     return () => {
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedPair]);
 
@@ -90,7 +94,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
         <motion.div 
           className="flex shrink-0"
           animate={{ x: ["0%", "-50%"] }} 
-          transition={{ ease: "linear", duration: 120, repeat: Infinity }}
+          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
         >
           {renderCardBlock('r1')}
           {renderCardBlock('r2')}
@@ -106,8 +110,10 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-0 sm:p-6 md:p-12"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-6 md:p-12 overscroll-none"
             onClick={() => setSelectedPair(null)}
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
           >
             <button 
               className="absolute top-4 right-4 sm:top-8 sm:right-8 z-[110] p-3 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 hover:scale-110 active:scale-95 text-white backdrop-blur-md transition-all duration-300 border border-white/10"
@@ -117,11 +123,11 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
             </button>
             
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10"
+              className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl max-h-[85vh] sm:max-h-[90vh] flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Titles on top inside absolute container */}

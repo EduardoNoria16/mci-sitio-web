@@ -519,7 +519,7 @@ const BEFORE_AFTER_PAIRS = [
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
     before: 'https://i.postimg.cc/vm6LcDLk/3-antes-3.jpg',
-    after: 'https://i.postimg.cc/bv2HsdHM/4-despues-4.jpg'
+    after: 'https://i.postimg.cc/QCmKCK43/4-despues-4.jpg'
   },
   {
     id: 'case3',
