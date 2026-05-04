@@ -58,15 +58,18 @@ const BeforeAfterCard = ({ pair, onClick }: { pair: PhotoPair; onClick: () => vo
 export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   const [selectedPair, setSelectedPair] = useState<PhotoPair | null>(null);
 
-  // Scroll lock effect
+  // Scroll lock effect - robusto para todos los navegadores
   useEffect(() => {
     if (selectedPair) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.setProperty('overflow', 'hidden', 'important');
+      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [selectedPair]);
 
@@ -82,27 +85,17 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   return (
     <div className={`relative w-full overflow-hidden flex flex-col gap-4 sm:gap-6 lg:gap-8 ${className}`}>
       
-      {/* Fila 1 - Movimiento Izquierda */}
-      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4">
+      {/* Cinta Única - Movimiento Izquierda */}
+      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4 mt-4">
         <motion.div 
           className="flex shrink-0"
           animate={{ x: ["0%", "-50%"] }} 
-          transition={{ ease: "linear", duration: 80, repeat: Infinity }}
+          transition={{ ease: "linear", duration: 120, repeat: Infinity }}
         >
-          {renderCardBlock('left1')}
-          {renderCardBlock('left2')}
-        </motion.div>
-      </div>
-
-      {/* Fila 2 - Movimiento Derecha */}
-      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4">
-        <motion.div 
-          className="flex shrink-0"
-          animate={{ x: ["-50%", "0%"] }} 
-          transition={{ ease: "linear", duration: 80, repeat: Infinity }}
-        >
-          {renderCardBlock('right1')}
-          {renderCardBlock('right2')}
+          {renderCardBlock('r1')}
+          {renderCardBlock('r2')}
+          {renderCardBlock('r3')}
+          {renderCardBlock('r4')}
         </motion.div>
       </div>
 
@@ -128,19 +121,19 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="relative w-full h-[100vh] sm:h-auto max-w-7xl sm:max-h-[90vh] flex flex-col md:flex-row bg-slate-900 sm:rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10"
+              className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Titles on top inside absolute container */}
-              <div className="absolute top-0 inset-x-0 p-6 sm:p-10 z-[60] bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none">
-                <h3 className="text-xl sm:text-2xl md:text-3xl xl:text-4xl font-black text-white uppercase tracking-tight drop-shadow-lg">{selectedPair.title}</h3>
-                <p className="text-white/80 font-medium text-sm md:text-lg mt-2 max-w-3xl drop-shadow">{selectedPair.description}</p>
+              <div className="absolute top-0 inset-x-0 p-4 sm:p-6 md:p-8 z-[60] bg-gradient-to-b from-black/90 via-black/60 to-transparent pointer-events-none">
+                <h3 className="text-lg sm:text-xl md:text-3xl font-black text-white uppercase tracking-tight drop-shadow-lg">{selectedPair.title}</h3>
+                <p className="text-white/80 font-medium text-xs sm:text-sm md:text-base mt-1 sm:mt-2 max-w-2xl drop-shadow">{selectedPair.description}</p>
               </div>
 
               {/* Antes Side */}
-              <div className="w-full md:w-1/2 relative h-1/2 md:h-[85vh] group pt-20 md:pt-0">
-                <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/50" />
-                <div className="absolute bottom-6 left-6 md:top-auto md:bottom-10 md:left-10 px-5 py-2.5 sm:px-6 sm:py-3 bg-black/80 backdrop-blur-md text-white font-black text-sm sm:text-base uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
+              <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group pt-16 md:pt-0">
+                <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/80" />
+                <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-black/80 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
                   Antes
                 </div>
               </div>
@@ -149,9 +142,9 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
               <div className="w-full h-1 md:w-1 md:h-full bg-brand-orange shadow-[0_0_20px_rgba(245,130,32,0.8)] z-[55] relative shrink-0" />
 
               {/* Después Side */}
-              <div className="w-full md:w-1/2 relative h-1/2 md:h-[85vh] group">
-                <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/50" />
-                <div className="absolute bottom-6 right-6 md:top-auto md:bottom-10 md:right-10 px-5 py-2.5 sm:px-6 sm:py-3 bg-brand-orange/90 backdrop-blur-md text-white font-black text-sm sm:text-base uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
+              <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group">
+                <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/80" />
+                <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-brand-orange/90 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
                   Después
                 </div>
               </div>
