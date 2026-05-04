@@ -41,7 +41,7 @@ import {
   Play,
   Pause,
   Maximize,
-  Minimize,
+  Minimize2 as Minimize,
   CheckCircle2,
   Target,
   Eye,
@@ -215,11 +215,11 @@ const CustomVideoPlayer = memo(() => {
 
       {/* YouTube Style Controls Bar */}
       <div 
-        className={`absolute bottom-0 left-0 right-0 px-4 pt-10 pb-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${showControls || !hasInteracted ? 'opacity-100' : 'opacity-0'} flex flex-col gap-1`}
+        className={`absolute bottom-0 left-0 right-0 px-4 pt-16 pb-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${(!isPlaying || showControls) ? 'opacity-100' : 'opacity-0'} flex flex-col gap-1`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Exact YT Style Progress Line */}
-        <div className="w-full flex items-center group/scrub h-3 cursor-pointer group-hover:translate-y-0 translate-y-1 transition-transform">
+        <div className="w-full relative flex items-center group/scrub h-4 cursor-pointer -mt-2">
           <input 
             type="range" 
             min="0" 
@@ -227,9 +227,9 @@ const CustomVideoPlayer = memo(() => {
             step="0.1"
             value={progress || 0} 
             onChange={handleSeek}
-            className="w-full h-1 bg-white/30 rounded-full appearance-none cursor-pointer accent-brand-orange group-hover/scrub:h-1.5 transition-all relative z-10"
+            className="w-full appearance-none bg-transparent h-[3px] group-hover/scrub:h-[5px] cursor-pointer transition-all duration-150 absolute z-10 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-0 [&::-webkit-slider-thumb]:h-0 group-hover/scrub:[&::-webkit-slider-thumb]:w-3 group-hover/scrub:[&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-brand-orange [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:transition-all [&::-moz-range-thumb]:w-0 [&::-moz-range-thumb]:h-0 group-hover/scrub:[&::-moz-range-thumb]:w-3 group-hover/scrub:[&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:bg-brand-orange [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full"
             style={{
-              background: `linear-gradient(to right, #f58220 ${progress}%, rgba(255, 255, 255, 0.3) ${progress}%)`
+              background: `linear-gradient(to right, #f58220 ${progress}%, rgba(255, 255, 255, 0.3) ${progress}%, rgba(255, 255, 255, 0.3) 100%)`
             }}
           />
         </div>
