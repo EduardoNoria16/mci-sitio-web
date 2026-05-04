@@ -49,6 +49,7 @@ import {
   ArrowLeftRight
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
+import QuickQuoteWidget from './components/QuickQuoteWidget';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -1400,6 +1401,11 @@ export default function App() {
         <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 via-[30%] to-transparent z-10 pointer-events-none" />
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-8 md:py-16 md:mt-0">
+          {/* Opción 4: Herramienta de Diagnóstico en el espacio en blanco (Desktop) */}
+          <div className="hidden lg:block absolute right-5 md:right-8 lg:right-12 top-0 md:top-8 w-[300px] xl:w-[350px] z-50">
+            <QuickQuoteWidget />
+          </div>
+
           <div className="flex flex-col gap-12 lg:gap-16 items-start w-full">
             
             {/* 1. ¿Quiénes Somos? Text */}
