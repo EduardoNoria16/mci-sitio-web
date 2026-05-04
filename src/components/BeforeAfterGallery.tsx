@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Camera, ShieldCheck, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { Camera, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PhotoPair {
   id: string;
@@ -24,18 +24,12 @@ export default function BeforeAfterGallery({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAfter, setShowAfter] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [imagesLoaded, setImagesLoaded] = useState<{ [key: string]: boolean }>({});
 
   const currentPair = pairs[currentIndex];
-
-  const handleImageLoad = (src: string) => {
-    setImagesLoaded(prev => ({ ...prev, [src]: true }));
-  };
 
   // Handle the automatic slow toggle between before and after
   useEffect(() => {
     if (isHovered) return; // Pause transition if user is hovering for closer inspection
-    if (!imagesLoaded[currentPair?.before] || (!imagesLoaded[currentPair?.after] && showAfter)) return; // Pause if images are still loading
     
     // Toggle between before and after every 2.5 seconds (so 2.5s before, 2.5s after = 5s total per pair)
     const toggleInterval = setInterval(() => {
@@ -43,7 +37,7 @@ export default function BeforeAfterGallery({
     }, 2500);
 
     return () => clearInterval(toggleInterval);
-  }, [isHovered, imagesLoaded, currentPair, showAfter]);
+  }, [isHovered, currentPair, showAfter]);
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -58,9 +52,6 @@ export default function BeforeAfterGallery({
   };
 
   if (!currentPair) return null;
-
-  const isBeforeLoaded = imagesLoaded[currentPair.before];
-  const isAfterLoaded = imagesLoaded[currentPair.after];
 
   return (
     <div 
@@ -81,19 +72,8 @@ export default function BeforeAfterGallery({
           <img 
             src={currentPair.before} 
             alt={`Antes - ${currentPair.title}`} 
-            className={`absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-500 ${isBeforeLoaded ? 'opacity-100' : 'opacity-0'}`}
-            onLoad={() => handleImageLoad(currentPair.before)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
           />
-          
-          {/* LOADER */}
-          {(!isBeforeLoaded || (showAfter && !isAfterLoaded)) && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 z-10 backdrop-blur-sm">
-              <Loader2 className="w-10 h-10 text-brand-orange animate-spin mb-4" />
-              <div className="text-white/70 text-sm font-medium uppercase tracking-widest animate-pulse">
-                Cargando Imagen...
-              </div>
-            </div>
-          )}
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 md:from-black/90 via-black/20 to-transparent z-10 pointer-events-none" />
 
@@ -110,8 +90,7 @@ export default function BeforeAfterGallery({
                 <img 
                   src={currentPair.after} 
                   alt={`Después - ${currentPair.title}`} 
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isAfterLoaded ? 'opacity-100' : 'opacity-0'}`}
-                  onLoad={() => handleImageLoad(currentPair.after)}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 md:from-black/90 via-black/20 to-transparent pointer-events-none" />
               </motion.div>

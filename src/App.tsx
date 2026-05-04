@@ -511,36 +511,36 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: '/antes_1.jpg',
-    after: '/antes_2.jpg'
+    before: './antes_1.jpg',
+    after: './antes_2.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: '/antes_3.jpg',
-    after: '/antes_4.jpg'
+    before: './antes_3.jpg',
+    after: './antes_4.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: '/antes_5.jpg',
-    after: '/antes_6.jpg'
+    before: './antes_5.jpg',
+    after: './antes_6.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: '/antes_7.jpg',
-    after: '/antes_8.jpg'
+    before: './antes_7.jpg',
+    after: './antes_8.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: '/antes_9.jpg',
-    after: '/antes_10.jpg'
+    before: './antes_9.jpg',
+    after: './antes_10.jpg'
   }
 ];
 
