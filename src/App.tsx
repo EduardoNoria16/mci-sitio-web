@@ -48,7 +48,7 @@ import {
   Award,
   ArrowLeftRight
 } from 'lucide-react';
-import BeforeAfterGallery from './components/BeforeAfterGallery';
+import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -1901,7 +1901,7 @@ export default function App() {
             className="relative w-full"
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
-            <BeforeAfterGallery pairs={BEFORE_AFTER_PAIRS} />
+            <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS} />
           </motion.div>
         </div>
       </section>
