@@ -50,17 +50,6 @@ import {
 } from 'lucide-react';
 import BeforeAfterGallery from './components/BeforeAfterGallery';
 
-import antes1 from './assets/images/antes_1.jpg';
-import antes2 from './assets/images/antes_2.jpg';
-import antes3 from './assets/images/antes_3.jpg';
-import antes4 from './assets/images/antes_4.jpg';
-import antes5 from './assets/images/antes_5.jpg';
-import antes6 from './assets/images/antes_6.jpg';
-import antes7 from './assets/images/antes_7.jpg';
-import antes8 from './assets/images/antes_8.jpg';
-import antes9 from './assets/images/antes_9.jpg';
-import antes10 from './assets/images/antes_10.jpg';
-
 // --- Sound Effects ---
 const playClickSound = () => {
   const audio = new Audio('https://assets.mixkit.io/active_storage/sfx/2571/2571-preview.mp3');
@@ -522,36 +511,36 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: antes1,
-    after: antes2
+    before: 'https://i.postimg.cc/Hsp2BYdT/1-antes-1.jpg',
+    after: 'https://i.postimg.cc/pTbQ8xqC/2-despues-2.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: antes3,
-    after: antes4
+    before: 'https://i.postimg.cc/vm6LcDLk/3-antes-3.jpg',
+    after: 'https://i.postimg.cc/bv2HsdHM/4-despues-4.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: antes5,
-    after: antes6
+    before: 'https://i.postimg.cc/XvycpXcP/5-antes-5.jpg',
+    after: 'https://i.postimg.cc/sXYY48LB/6-despues-6.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: antes7,
-    after: antes8
+    before: 'https://i.postimg.cc/qRssxYF3/7-antes-7.jpg',
+    after: 'https://i.postimg.cc/TwVVJSsp/8-despues-8.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: antes9,
-    after: antes10
+    before: 'https://i.postimg.cc/j5HH491f/9-antes-9.jpg',
+    after: 'https://i.postimg.cc/4d66QM0v/10-despues-10.jpg'
   }
 ];
 
