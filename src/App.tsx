@@ -793,24 +793,67 @@ export default function App() {
     detalles: ''
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateField = (name: string, value: string) => {
+    let error = '';
+    switch (name) {
+      case 'nombre':
+        if (!value.trim()) error = 'El nombre es obligatorio';
+        break;
+      case 'email':
+        if (!value.trim()) error = 'El correo es obligatorio';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = 'Correo inválido';
+        break;
+      case 'telefono':
+        if (!value.trim()) error = 'El teléfono es obligatorio';
+        else if (!/^\d{10}$/.test(value.replace(/\D/g, ''))) error = 'Debe ser de 10 dígitos';
+        break;
+      case 'empresa':
+        if (!value.trim()) error = 'La empresa es obligatoria';
+        break;
+      case 'detalles':
+        if (!value.trim()) error = 'Los detalles son obligatorios';
+        break;
+    }
+    return error;
+  };
+
+  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (touchedFields[name]) {
+      const error = validateField(name, value);
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
+  };
+
+  const handleFieldBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouchedFields(prev => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setFormErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
-    if (!formData.nombre.trim()) errors.nombre = 'El nombre es obligatorio';
-    if (!formData.email.trim()) {
-      errors.email = 'El correo es obligatorio';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Correo inválido';
-    }
-    if (!formData.telefono.trim()) {
-      errors.telefono = 'El teléfono es obligatorio';
-    } else if (!/^\d{10}$/.test(formData.telefono.replace(/\D/g, ''))) {
-      errors.telefono = 'Debe ser de 10 dígitos';
-    }
-    if (!formData.empresa.trim()) errors.empresa = 'La empresa es obligatoria';
-    if (!formData.detalles.trim()) errors.detalles = 'Los detalles son obligatorios';
+    const newTouched: Record<string, boolean> = {};
     
+    Object.keys(formData).forEach(key => {
+      newTouched[key] = true;
+      const error = validateField(key, formData[key as keyof typeof formData]);
+      if (error) errors[key] = error;
+    });
+    
+    setTouchedFields(newTouched);
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -2181,8 +2224,10 @@ export default function App() {
                         <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">Cargo</label>
                         <input 
                           type="text" 
+                          name="cargo"
                           value={formData.cargo}
-                          onChange={(e) => setFormData({...formData, cargo: e.target.value})}
+                          onChange={handleFieldChange}
+                          onBlur={handleFieldBlur}
                           className="w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40" 
                           placeholder="Ej. Ing." 
                         />
@@ -2193,8 +2238,10 @@ export default function App() {
                         </label>
                         <input 
                           type="text" 
+                          name="nombre"
                           value={formData.nombre}
-                          onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+                          onChange={handleFieldChange}
+                          onBlur={handleFieldBlur}
                           className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                           placeholder="Ej. Roberto Silva" 
                         />
@@ -2209,8 +2256,10 @@ export default function App() {
                       </label>
                       <input 
                         type="text" 
+                        name="empresa"
                         value={formData.empresa}
-                        onChange={(e) => setFormData({...formData, empresa: e.target.value})}
+                        onChange={handleFieldChange}
+                        onBlur={handleFieldBlur}
                         className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Ej. Planta Industrial Norte" 
                       />
@@ -2224,8 +2273,10 @@ export default function App() {
                       </label>
                       <input 
                         type="email" 
+                        name="email"
                         value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        onChange={handleFieldChange}
+                        onBlur={handleFieldBlur}
                         className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="rsilva@empresa.com" 
                       />
@@ -2239,8 +2290,10 @@ export default function App() {
                       </label>
                       <input 
                         type="tel" 
+                        name="telefono"
                         value={formData.telefono}
-                        onChange={(e) => setFormData({...formData, telefono: e.target.value})}
+                        onChange={handleFieldChange}
+                        onBlur={handleFieldBlur}
                         className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="55 0000 0000" 
                       />
@@ -2254,8 +2307,10 @@ export default function App() {
                       </label>
                       <textarea 
                         rows={4} 
+                        name="detalles"
                         value={formData.detalles}
-                        onChange={(e) => setFormData({...formData, detalles: e.target.value})}
+                        onChange={handleFieldChange}
+                        onBlur={handleFieldBlur}
                         className={`w-full min-h-[100px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all resize-none placeholder:text-on-surface-subtle/40 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
                         placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
                       ></textarea>
