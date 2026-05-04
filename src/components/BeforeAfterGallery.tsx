@@ -29,10 +29,10 @@ export default function BeforeAfterGallery({
   useEffect(() => {
     if (isHovered) return; // Pause transition if user is hovering for closer inspection
     
-    // Toggle between before and after every 4 seconds (so 4s before, 4s after = 8s total per pair)
+    // Toggle between before and after every 2.5 seconds (so 2.5s before, 2.5s after = 5s total per pair)
     const toggleInterval = setInterval(() => {
       setShowAfter(prev => !prev);
-    }, 4000);
+    }, 2500);
 
     return () => clearInterval(toggleInterval);
   }, [isHovered]);
@@ -69,13 +69,10 @@ export default function BeforeAfterGallery({
           className="absolute inset-0"
         >
           {/* BASE LAYER - ALWAYS BEFORE IMAGE */}
-          <div className="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-500 text-xs">
-            Cargando imagen...
-          </div>
           <img 
             src={currentPair.before} 
             alt={`Antes - ${currentPair.title}`} 
-            className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 sepia-[0.3] brightness-75 text-transparent z-0"
+            className="absolute inset-0 w-full h-full object-cover z-0"
             loading="lazy"
             referrerPolicy="no-referrer"
           />
@@ -88,17 +85,13 @@ export default function BeforeAfterGallery({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                // Slow transition as requested
-                transition={{ duration: 2, ease: "easeInOut" }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
                 className="absolute inset-0 z-20"
               >
-                <div className="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-500 text-xs">
-                  Cargando imagen...
-                </div>
                 <img 
                   src={currentPair.after} 
                   alt={`Después - ${currentPair.title}`} 
-                  className="absolute inset-0 w-full h-full object-cover text-transparent"
+                  className="absolute inset-0 w-full h-full object-cover"
                   loading="lazy"
                   referrerPolicy="no-referrer"
                 />
