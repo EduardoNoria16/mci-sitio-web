@@ -50,6 +50,17 @@ import {
 } from 'lucide-react';
 import BeforeAfterGallery from './components/BeforeAfterGallery';
 
+import antes1 from './assets/images/antes_1.jpg';
+import antes2 from './assets/images/antes_2.jpg';
+import antes3 from './assets/images/antes_3.jpg';
+import antes4 from './assets/images/antes_4.jpg';
+import antes5 from './assets/images/antes_5.jpg';
+import antes6 from './assets/images/antes_6.jpg';
+import antes7 from './assets/images/antes_7.jpg';
+import antes8 from './assets/images/antes_8.jpg';
+import antes9 from './assets/images/antes_9.jpg';
+import antes10 from './assets/images/antes_10.jpg';
+
 // --- Sound Effects ---
 const playClickSound = () => {
   const audio = new Audio('https://assets.mixkit.io/active_storage/sfx/2571/2571-preview.mp3');
@@ -511,36 +522,36 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: '/antes_1.jpg',
-    after: '/antes_2.jpg'
+    before: antes1,
+    after: antes2
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: '/antes_3.jpg',
-    after: '/antes_4.jpg'
+    before: antes3,
+    after: antes4
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: '/antes_5.jpg',
-    after: '/antes_6.jpg'
+    before: antes5,
+    after: antes6
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: '/antes_7.jpg',
-    after: '/antes_8.jpg'
+    before: antes7,
+    after: antes8
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: '/antes_9.jpg',
-    after: '/antes_10.jpg'
+    before: antes9,
+    after: antes10
   }
 ];
 
