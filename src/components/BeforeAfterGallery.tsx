@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Camera, ShieldCheck, ChevronLeft, ChevronRight, GripVertical, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Loader2, Sparkles } from 'lucide-react';
 
 interface PhotoPair {
   id: string;
@@ -19,54 +19,23 @@ export default function BeforeAfterGallery({
   className = "",
 }: BeforeAfterGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
+  const [showAfter, setShowAfter] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const currentPair = pairs[currentIndex];
 
-  const updateSliderPosition = (clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-    const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
-    setSliderPosition(percent);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    // Only handle primary pointer (usually left click or first touch)
-    if (e.button !== 0 && e.pointerType === 'mouse') return;
-    setIsDragging(true);
-    updateSliderPosition(e.clientX);
-  };
-
+  // Transición Mágica: alternar automáticamente cada 4.5 segundos
   useEffect(() => {
-    const handlePointerMove = (e: PointerEvent) => {
-      if (!isDragging) return;
-      updateSliderPosition(e.clientX);
-    };
+    const timer = setInterval(() => {
+      setShowAfter(prev => !prev);
+    }, 4500);
 
-    const handlePointerUp = () => {
-      setIsDragging(false);
-    };
+    return () => clearInterval(timer);
+  }, [currentIndex]); // Se reinicia el temporizador si el usuario cambia de slide
 
-    if (isDragging) {
-      window.addEventListener('pointermove', handlePointerMove);
-      window.addEventListener('pointerup', handlePointerUp);
-      window.addEventListener('pointercancel', handlePointerUp);
-    }
-
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', handlePointerUp);
-      window.removeEventListener('pointercancel', handlePointerUp);
-    };
-  }, [isDragging]);
-
-  // Reset slider position when changing slides
+  // Reiniciar estado siempre al "Antes" cuando cambia la imagen principal
   useEffect(() => {
-    setSliderPosition(50);
+    setShowAfter(false);
   }, [currentIndex]);
 
   const handleNext = (e: React.MouseEvent) => {
@@ -87,9 +56,6 @@ export default function BeforeAfterGallery({
   return (
     <div 
       className={`relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[21/9] overflow-hidden rounded-[2rem] md:rounded-[3rem] select-none border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-slate-900 group ${className}`}
-      ref={containerRef}
-      onPointerDown={handlePointerDown}
-      style={{ touchAction: 'none' }} // FORZAMOS ESTO PARA QUE NO HAYA INTERFERENCIAS
     >
       <div className="absolute inset-0">
         
@@ -103,24 +69,15 @@ export default function BeforeAfterGallery({
           onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.before]: true }))}
         />
 
-        {/* TOP LAYER - AFTER IMAGE (RIGHT SIDE) */}
-        <div 
-          className="absolute inset-0 z-20 pointer-events-none"
-          style={{
-            clipPath: `polygon(${sliderPosition}% 0, 100% 0, 100% 100%, ${sliderPosition}% 100%)`,
-            transition: isDragging ? 'none' : 'clip-path 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
-            display: 'block', visibility: 'visible'
-          }}
-        >
-          <img 
-            src={currentPair.after} 
-            alt={`Después - ${currentPair.title}`} 
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            draggable={false}
-            style={{ display: 'block', visibility: 'visible', opacity: 1 }}
-            onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.after]: true }))}
-          />
-        </div>
+        {/* TOP LAYER - AFTER IMAGE (FADES IN) */}
+        <img 
+          src={currentPair.after} 
+          alt={`Después - ${currentPair.title}`} 
+          className={`absolute inset-0 w-full h-full object-cover z-20 pointer-events-none transition-opacity duration-[2000ms] ease-in-out ${showAfter ? 'opacity-100' : 'opacity-0'}`}
+          draggable={false}
+          style={{ display: 'block', visibility: 'visible' }}
+          onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.after]: true }))}
+        />
 
         {/* INDICADOR DE CARGA (Para imágenes pesadas) */}
         {(!isBeforeLoaded || !isAfterLoaded) && (
@@ -136,34 +93,32 @@ export default function BeforeAfterGallery({
         )}
 
         {/* GRADIENTS FOR TEXT READABILITY */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 md:from-black/90 via-black/20 to-transparent z-40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 md:from-black/90 via-black/30 to-transparent z-40 pointer-events-none" />
 
-        {/* DRAGGABLE DIVIDER LINE */}
-        <div 
-          className="absolute top-0 bottom-0 z-40 w-1 bg-brand-orange/90 shadow-[0_0_10px_rgba(245,130,32,0.8)] -translate-x-1/2 flex items-center justify-center cursor-ew-resize"
-          style={{ 
-            left: `${sliderPosition}%`,
-            transition: isDragging ? 'none' : 'left 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
-          }}
-        >
-          {/* HANDLE */}
-          <div className="w-12 h-12 -ml-0.5 rounded-full bg-brand-orange border-4 border-white shadow-xl flex items-center justify-center pointer-events-auto hover:bg-brand-orange/90 hover:scale-110 active:scale-95 transition-transform">
-            <GripVertical className="w-6 h-6 text-white" />
-          </div>
-        </div>
-
-        {/* VISUAL BADGES ON EACH SIDE */}
-        <div className="absolute inset-x-4 sm:inset-x-8 top-4 sm:top-8 z-30 flex justify-between pointer-events-none opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {/* VISUAL STATUS BADGE */}
+        <div className="absolute inset-x-4 sm:inset-x-8 top-4 sm:top-8 z-50 flex justify-between items-start pointer-events-none">
+          {/* ANTES BADGE */}
           <div 
-            className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white/90 text-xs font-bold uppercase tracking-widest shadow-lg"
-            style={{ opacity: sliderPosition > 15 ? 1 : 0, transition: 'opacity 0.2s' }}
+            className="px-4 py-2 rounded-full backdrop-blur-md border border-white/20 text-white/90 text-xs font-bold uppercase tracking-widest shadow-lg flex items-center gap-2 transition-all duration-[1000ms]"
+            style={{ 
+              backgroundColor: !showAfter ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.3)',
+              opacity: !showAfter ? 1 : 0.4,
+              transform: !showAfter ? 'scale(1.05)' : 'scale(1)'
+            }}
           >
             Antes
           </div>
+          
+          {/* DESPUÉS BADGE */}
           <div 
-            className="px-4 py-2 rounded-full bg-brand-orange/90 backdrop-blur-md border border-white/20 text-white/90 text-xs font-bold uppercase tracking-widest shadow-lg"
-            style={{ opacity: sliderPosition < 85 ? 1 : 0, transition: 'opacity 0.2s' }}
+            className="px-4 py-2 rounded-full backdrop-blur-md border border-white/20 text-white/90 text-xs font-bold uppercase tracking-widest shadow-lg flex items-center gap-2 transition-all duration-[1000ms]"
+            style={{ 
+              backgroundColor: showAfter ? 'rgba(245,130,32,0.9)' : 'rgba(0,0,0,0.3)',
+              opacity: showAfter ? 1 : 0.4,
+              transform: showAfter ? 'scale(1.05)' : 'scale(1)'
+            }}
           >
+             {showAfter && <Sparkles className="w-4 h-4 text-white" />}
             Después
           </div>
         </div>
