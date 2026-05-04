@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Camera, ShieldCheck, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { Camera, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PhotoPair {
   id: string;
@@ -22,9 +22,6 @@ export default function BeforeAfterGallery({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAfter, setShowAfter] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  
-  // Track loaded state of ALL images to prevent loading spinners hanging
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   const currentPair = pairs[currentIndex];
 
@@ -37,7 +34,7 @@ export default function BeforeAfterGallery({
     }, 3500);
 
     return () => clearInterval(toggleInterval);
-  }, [isHovered, currentIndex]); // Removed dependency on currentPair to make it stable
+  }, [isHovered, currentIndex]);
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -51,23 +48,7 @@ export default function BeforeAfterGallery({
     setCurrentIndex((prev) => (prev - 1 + pairs.length) % pairs.length);
   };
 
-  // Preload current pair images to ensure fast display
-  useEffect(() => {
-    if (currentPair) {
-      const imgBefore = new Image();
-      imgBefore.src = currentPair.before;
-      imgBefore.onload = () => setLoadedImages(prev => ({ ...prev, [currentPair.before]: true }));
-
-      const imgAfter = new Image();
-      imgAfter.src = currentPair.after;
-      imgAfter.onload = () => setLoadedImages(prev => ({ ...prev, [currentPair.after]: true }));
-    }
-  }, [currentPair]);
-
   if (!currentPair) return null;
-
-  const isBeforeLoaded = loadedImages[currentPair.before];
-  const isAfterLoaded = loadedImages[currentPair.after];
 
   return (
     <div 
@@ -85,8 +66,7 @@ export default function BeforeAfterGallery({
         <img 
           src={currentPair.before} 
           alt={`Antes - ${currentPair.title}`} 
-          className={`absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${isBeforeLoaded ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.before]: true }))}
+          className="absolute inset-0 w-full h-full object-cover z-0"
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 md:from-black/90 via-black/20 to-transparent z-10 pointer-events-none" />
@@ -98,24 +78,10 @@ export default function BeforeAfterGallery({
           <img 
             src={currentPair.after} 
             alt={`Después - ${currentPair.title}`} 
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isAfterLoaded ? 'opacity-100' : 'opacity-0'}`}
-            onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.after]: true }))}
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 md:from-black/90 via-black/20 to-transparent pointer-events-none" />
         </div>
-
-        {/* LOADER - Shown only when the image that CURRENTLY should be visible hasn't loaded */}
-        {(!isBeforeLoaded || (showAfter && !isAfterLoaded)) && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 z-30 backdrop-blur-sm transition-opacity duration-300">
-             <Loader2 className="w-12 h-12 text-brand-orange animate-spin mb-4" />
-             <div className="text-white/80 text-sm font-semibold uppercase tracking-widest animate-pulse">
-               Cargando Imagen...
-             </div>
-             <div className="text-white/40 text-xs mt-2 text-center max-w-xs">
-               Estas imágenes de alta resolución pueden tardar un momento.
-             </div>
-          </div>
-        )}
 
         {/* CONTENT & DETAILS */}
         <div className="absolute inset-x-0 bottom-0 z-40 p-6 sm:p-10 flex flex-col md:flex-row items-end md:items-center justify-between gap-6 pointer-events-none">
