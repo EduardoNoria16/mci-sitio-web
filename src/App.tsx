@@ -41,6 +41,7 @@ import {
   Play,
   Pause,
   Maximize,
+  Minimize,
   CheckCircle2,
   Target,
   Eye,
@@ -1138,29 +1139,47 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
-  // Smooth scroll handler
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      playClickSound();
+  // Global Smooth Scroll interception for ALL anchor links
+  useEffect(() => {
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
       
-      if (href === '#inicio') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        const element = document.querySelector(href);
-        if (element) {
-          const headerOffset = isScrolled ? 80 : 110;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      if (!anchor) return;
+      
+      const href = anchor.getAttribute('href');
+      if (href && href.startsWith('#') && href !== '#') {
+        e.preventDefault();
+        playClickSound();
+        
+        if (href === '#inicio') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const element = document.querySelector(href);
+          if (element) {
+            const headerOffset = window.scrollY > 50 ? 80 : 110;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
         }
+        
+        setIsMenuOpen(false);
       }
-      if (isMenuOpen) setIsMenuOpen(false);
-    }
+    };
+
+    document.addEventListener('click', handleGlobalClick);
+    return () => document.removeEventListener('click', handleGlobalClick);
+  }, []);
+
+  // Inline smooth scroll handler fallback
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
+    e.preventDefault();
+    // The actual scrolling is now handled globally by the handleGlobalClick listener
   };
 
   const navLinks = useMemo(() => [
