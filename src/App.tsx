@@ -50,16 +50,16 @@ import {
 } from 'lucide-react';
 import BeforeAfterGallery from './components/BeforeAfterGallery';
 
-import antes1 from '../public/antes_1.jpg';
-import antes2 from '../public/antes_2.jpg';
-import antes3 from '../public/antes_3.jpg';
-import antes4 from '../public/antes_4.jpg';
-import antes5 from '../public/antes_5.jpg';
-import antes6 from '../public/antes_6.jpg';
-import antes7 from '../public/antes_7.jpg';
-import antes8 from '../public/antes_8.jpg';
-import antes9 from '../public/antes_9.jpg';
-import antes10 from '../public/antes_10.jpg';
+import antes1 from './assets/images/antes_1.jpg';
+import antes2 from './assets/images/antes_2.jpg';
+import antes3 from './assets/images/antes_3.jpg';
+import antes4 from './assets/images/antes_4.jpg';
+import antes5 from './assets/images/antes_5.jpg';
+import antes6 from './assets/images/antes_6.jpg';
+import antes7 from './assets/images/antes_7.jpg';
+import antes8 from './assets/images/antes_8.jpg';
+import antes9 from './assets/images/antes_9.jpg';
+import antes10 from './assets/images/antes_10.jpg';
 
 // --- Sound Effects ---
 const playClickSound = () => {
