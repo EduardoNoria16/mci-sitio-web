@@ -55,7 +55,7 @@ export default function BeforeAfterGallery({
 
   return (
     <div 
-      className={`relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[21/9] overflow-hidden rounded-[2rem] md:rounded-[3rem] select-none border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-slate-900 group ${className}`}
+      className={`relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] min-h-[400px] max-h-[800px] overflow-hidden rounded-[2rem] md:rounded-[3rem] select-none border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black group ${className}`}
     >
       <div className="absolute inset-0">
         
@@ -63,7 +63,7 @@ export default function BeforeAfterGallery({
         <img 
           src={currentPair.before} 
           alt={`Antes - ${currentPair.title}`} 
-          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+          className="absolute inset-0 w-full h-full object-contain z-0 pointer-events-none"
           draggable={false}
           style={{ display: 'block', visibility: 'visible', opacity: 1 }}
           onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.before]: true }))}
@@ -73,7 +73,7 @@ export default function BeforeAfterGallery({
         <img 
           src={currentPair.after} 
           alt={`Después - ${currentPair.title}`} 
-          className={`absolute inset-0 w-full h-full object-cover z-20 pointer-events-none transition-opacity duration-[2000ms] ease-in-out ${showAfter ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 w-full h-full object-contain z-20 pointer-events-none transition-opacity duration-[2000ms] ease-in-out ${showAfter ? 'opacity-100' : 'opacity-0'}`}
           draggable={false}
           style={{ display: 'block', visibility: 'visible' }}
           onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.after]: true }))}
