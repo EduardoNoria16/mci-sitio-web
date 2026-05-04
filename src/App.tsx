@@ -48,7 +48,7 @@ import {
   Award,
   ArrowLeftRight
 } from 'lucide-react';
-import BeforeAfterSlider from './components/BeforeAfterSlider';
+import BeforeAfterGallery from './components/BeforeAfterGallery';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -503,6 +503,44 @@ const STRENGTHS: Strength[] = [
         ]
       }
     ]
+  }
+];
+
+const BEFORE_AFTER_PAIRS = [
+  {
+    id: 'case1',
+    title: 'Caso de Éxito 1',
+    description: 'Transformación y recuperación de superficies industriales.',
+    before: '/antes_1.jpg',
+    after: '/antes_2.jpg'
+  },
+  {
+    id: 'case2',
+    title: 'Caso de Éxito 2',
+    description: 'Nivelación y acabado resistente de alto desempeño.',
+    before: '/antes_3.jpg',
+    after: '/antes_4.jpg'
+  },
+  {
+    id: 'case3',
+    title: 'Caso de Éxito 3',
+    description: 'Restauración profunda y recubrimiento protector.',
+    before: '/antes_5.jpg',
+    after: '/antes_6.jpg'
+  },
+  {
+    id: 'case4',
+    title: 'Caso de Éxito 4',
+    description: 'Soluciones duraderas para áreas de tráfico severo.',
+    before: '/antes_7.jpg',
+    after: '/antes_8.jpg'
+  },
+  {
+    id: 'case5',
+    title: 'Caso de Éxito 5',
+    description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
+    before: '/antes_9.jpg',
+    after: '/antes_10.jpg'
   }
 ];
 
@@ -1826,21 +1864,21 @@ export default function App() {
 
       {/* Transformación Industrial Section */}
       <section id="transformacion" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="flex flex-col gap-12 items-center">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="space-y-6 lg:pr-8"
+            className="space-y-6 text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto">
               <ArrowLeftRight className="w-3 h-3" />
               Ingeniería en Resultados
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm leading-tight">
               Transformación <span className="text-gradient">Industrial</span>
             </h2>
-            <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
+            <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
               <p className="text-on-surface/80 text-base md:text-xl font-medium leading-relaxed font-bold">
                 Nuestra tecnología en <strong className="text-on-surface font-black">polímeros de alta gama</strong> no solo corrige desperfectos estructurales, sino que otorga una vida útil extendida a sus instalaciones.
@@ -1860,15 +1898,10 @@ export default function App() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative"
+            className="relative w-full"
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
-            <BeforeAfterSlider 
-              beforeImage="https://images.unsplash.com/photo-1504307651254-35680f356f12?auto=format&fit=crop&q=80&w=1200" 
-              afterImage="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1200"
-              beforeLabel="Piso Deteriorado"
-              afterLabel="Sistema MCI Aplicado"
-            />
+            <BeforeAfterGallery pairs={BEFORE_AFTER_PAIRS} />
           </motion.div>
         </div>
       </section>
