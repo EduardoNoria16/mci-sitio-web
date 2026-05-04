@@ -63,7 +63,7 @@ export default function BeforeAfterGallery({
         <img 
           src={currentPair.before} 
           alt={`Antes - ${currentPair.title}`} 
-          className="absolute inset-0 w-full h-full object-contain z-0 pointer-events-none"
+          className={`absolute inset-0 w-full h-full object-contain z-0 pointer-events-none transition-opacity duration-[2000ms] ease-in-out ${showAfter ? 'opacity-0' : 'opacity-100'}`}
           draggable={false}
           style={{ display: 'block', visibility: 'visible', opacity: 1 }}
           onLoad={() => setLoadedImages(prev => ({ ...prev, [currentPair.before]: true }))}
@@ -157,20 +157,6 @@ export default function BeforeAfterGallery({
             <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-brand-orange" />
           </button>
         </>
-      )}
-
-      {/* Pagination Dots */}
-      {pairs.length > 1 && (
-        <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-black/60 backdrop-blur-md border border-white/20 pointer-events-auto shadow-xl">
-          {pairs.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
-              className={`transition-all duration-500 rounded-full ${idx === currentIndex ? 'w-10 sm:w-12 h-3 sm:h-3.5 bg-brand-orange shadow-[0_0_15px_rgba(245,130,32,0.8)]' : 'w-3 sm:w-3.5 h-3 sm:h-3.5 bg-white/40 hover:bg-white/80'}`}
-              aria-label={`Ir al caso ${idx + 1}`}
-            />
-          ))}
-        </div>
       )}
     </div>
   );
