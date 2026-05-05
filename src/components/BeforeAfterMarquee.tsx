@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Maximize2 } from 'lucide-react';
 
@@ -104,60 +105,64 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
       </div>
 
       {/* Lightbox expansivo de pantalla completa */}
-      <AnimatePresence>
-        {selectedPair && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-6 md:p-12 overscroll-none"
-            onClick={() => setSelectedPair(null)}
-            onWheel={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
-          >
-            <button 
-              className="absolute top-4 right-4 sm:top-8 sm:right-8 z-[110] p-3 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 hover:scale-110 active:scale-95 text-white backdrop-blur-md transition-all duration-300 border border-white/10"
-              onClick={() => setSelectedPair(null)}
-            >
-              <X className="w-6 h-6 sm:w-8 sm:h-8" />
-            </button>
-            
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {selectedPair && (
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl max-h-[85vh] sm:max-h-[90vh] flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 my-auto"
-              onClick={(e) => e.stopPropagation()}
+              key="lightbox"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-6 md:p-12 overscroll-none"
+              onClick={() => setSelectedPair(null)}
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
             >
-              {/* Titles on top inside absolute container */}
-              <div className="absolute top-0 inset-x-0 p-4 sm:p-6 md:p-8 z-[60] bg-gradient-to-b from-black/90 via-black/60 to-transparent pointer-events-none">
-                <h3 className="text-lg sm:text-xl md:text-3xl font-black text-white uppercase tracking-tight drop-shadow-lg">{selectedPair.title}</h3>
-                <p className="text-white/80 font-medium text-xs sm:text-sm md:text-base mt-1 sm:mt-2 max-w-2xl drop-shadow">{selectedPair.description}</p>
-              </div>
-
-              {/* Antes Side */}
-              <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group pt-16 md:pt-0">
-                <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/80" />
-                <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-black/80 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
-                  Antes
+              <button 
+                className="absolute top-4 right-4 sm:top-8 sm:right-8 z-[110] p-3 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 hover:scale-110 active:scale-95 text-white backdrop-blur-md transition-all duration-300 border border-white/10"
+                onClick={() => setSelectedPair(null)}
+              >
+                <X className="w-6 h-6 sm:w-8 sm:h-8" />
+              </button>
+              
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl max-h-[85vh] sm:max-h-[90vh] flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 my-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Titles on top inside absolute container */}
+                <div className="absolute top-0 inset-x-0 p-4 sm:p-6 md:p-8 z-[60] bg-gradient-to-b from-black/90 via-black/60 to-transparent pointer-events-none">
+                  <h3 className="text-lg sm:text-xl md:text-3xl font-black text-white uppercase tracking-tight drop-shadow-lg">{selectedPair.title}</h3>
+                  <p className="text-white/80 font-medium text-xs sm:text-sm md:text-base mt-1 sm:mt-2 max-w-2xl drop-shadow">{selectedPair.description}</p>
                 </div>
-              </div>
 
-              {/* Divisor Desktop / Mobile */}
-              <div className="w-full h-1 md:w-1 md:h-full bg-brand-orange shadow-[0_0_20px_rgba(245,130,32,0.8)] z-[55] relative shrink-0" />
-
-              {/* Después Side */}
-              <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group">
-                <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/80" />
-                <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-brand-orange/90 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
-                  Después
+                {/* Antes Side */}
+                <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group pt-16 md:pt-0">
+                  <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/80" />
+                  <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-black/80 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
+                    Antes
+                  </div>
                 </div>
-              </div>
+
+                {/* Divisor Desktop / Mobile */}
+                <div className="w-full h-1 md:w-1 md:h-full bg-brand-orange shadow-[0_0_20px_rgba(245,130,32,0.8)] z-[55] relative shrink-0" />
+
+                {/* Después Side */}
+                <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group">
+                  <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/80" />
+                  <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-brand-orange/90 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
+                    Después
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }
