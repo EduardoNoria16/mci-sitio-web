@@ -16,9 +16,9 @@ interface Props {
   className?: string;
 }
 
-const BeforeAfterCard = ({ pair, onClick }: { pair: PhotoPair; onClick: () => void }) => (
+const BeforeAfterCard: React.FC<{ pair: PhotoPair; onClick: () => void }> = ({ pair, onClick }) => (
   <div 
-    className="relative w-[75vw] sm:w-[400px] md:w-[450px] lg:w-[500px] aspect-[4/3] flex cursor-pointer group shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)] border border-white/10 transition-all duration-500"
+    className="relative w-[50vw] sm:w-[280px] md:w-[320px] lg:w-[360px] aspect-[4/3] flex cursor-pointer group shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)] border border-white/10 transition-all duration-500"
     onClick={onClick}
   >
     {/* Mitad Antes */}
@@ -50,7 +50,7 @@ const BeforeAfterCard = ({ pair, onClick }: { pair: PhotoPair; onClick: () => vo
     </div>
 
     {/* Gradient Bottom for Title */}
-    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 flex flex-col justify-end translate-y-4 group-hover:translate-y-0">
+    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-20 flex flex-col justify-end">
       <h4 className="text-white font-black text-sm sm:text-base leading-tight uppercase tracking-wider drop-shadow-lg">{pair.title}</h4>
     </div>
   </div>
@@ -78,13 +78,14 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
     };
   }, [selectedPair]);
 
-  const half = Math.ceil(pairs.length / 2);
-  const topPairs = pairs.slice(0, half);
-  const bottomPairs = pairs.slice(half);
+  // Usamos todas las fotos pero empezamos desde diferentes puntos para no repetirlas horizontalmente juntas.
+  // Sin voltear (reversed) ninguna imagen.
+  const topPairs = [...pairs];
+  const bottomPairs = [...pairs.slice(6), ...pairs.slice(0, 6)];
 
   // Bloque renderizable para la cinta (con gaps incluidos)
   const renderCardBlock = (prefix: string, items: PhotoPair[]) => (
-    <div className="flex shrink-0 gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
+    <div className="flex shrink-0 gap-3 sm:gap-4 lg:gap-6 pr-3 sm:pr-4 lg:pr-6">
       {items.map((pair, idx) => (
         <BeforeAfterCard key={`${prefix}-${idx}`} pair={pair} onClick={() => setSelectedPair(pair)} />
       ))}
