@@ -18,7 +18,7 @@ interface Props {
 
 const BeforeAfterCard: React.FC<{ pair: PhotoPair; onClick: () => void }> = ({ pair, onClick }) => (
   <div 
-    className="relative w-[50vw] sm:w-[280px] md:w-[320px] lg:w-[360px] aspect-[4/3] flex cursor-pointer group shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)] border border-white/10 transition-all duration-500"
+    className="relative w-[65vw] sm:w-[300px] md:w-[360px] lg:w-[400px] aspect-[4/3] flex cursor-pointer group shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)] border border-white/10 transition-all duration-500"
     onClick={onClick}
   >
     {/* Mitad Antes */}
@@ -50,7 +50,7 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; onClick: () => void }> = ({ p
     </div>
 
     {/* Gradient Bottom for Title */}
-    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-20 flex flex-col justify-end">
+    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 flex flex-col justify-end translate-y-4 group-hover:translate-y-0">
       <h4 className="text-white font-black text-sm sm:text-base leading-tight uppercase tracking-wider drop-shadow-lg">{pair.title}</h4>
     </div>
   </div>
@@ -100,7 +100,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
         <motion.div 
           className="flex shrink-0"
           animate={{ x: ["0%", "-50%"] }} 
-          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+          transition={{ ease: "linear", duration: 50, repeat: Infinity }}
         >
           {renderCardBlock('t1', topPairs)}
           {renderCardBlock('t2', topPairs)}
@@ -114,7 +114,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
         <motion.div 
           className="flex shrink-0"
           animate={{ x: ["-50%", "0%"] }} 
-          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+          transition={{ ease: "linear", duration: 50, repeat: Infinity }}
         >
           {renderCardBlock('b1', bottomPairs)}
           {renderCardBlock('b2', bottomPairs)}
@@ -149,11 +149,11 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl max-h-[85vh] sm:max-h-[90vh] flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 my-auto"
+                className="relative w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-5xl max-h-[85vh] sm:max-h-[90vh] flex flex-col md:flex-row bg-slate-900 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 my-auto group/lightbox"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Titles on top inside absolute container */}
-                <div className="absolute top-0 inset-x-0 p-4 sm:p-6 md:p-8 z-[60] bg-gradient-to-b from-black/90 via-black/60 to-transparent pointer-events-none">
+                <div className="absolute top-0 inset-x-0 p-4 sm:p-6 md:p-8 z-[60] bg-gradient-to-b from-black/90 via-black/60 to-transparent pointer-events-none opacity-0 group-hover/lightbox:opacity-100 transition-opacity duration-500">
                   <h3 className="text-lg sm:text-xl md:text-3xl font-black text-white uppercase tracking-tight drop-shadow-lg">{selectedPair.title}</h3>
                   <p className="text-white/80 font-medium text-xs sm:text-sm md:text-base mt-1 sm:mt-2 max-w-2xl drop-shadow">{selectedPair.description}</p>
                 </div>

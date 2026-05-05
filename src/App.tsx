@@ -512,85 +512,92 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: 'https://i.postimg.cc/Hsp2BYdT/1-antes-1.jpg',
-    after: 'https://i.postimg.cc/pTbQ8xqC/2-despues-2.jpg'
+    before: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
+    after: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: 'https://i.postimg.cc/vm6LcDLk/3-antes-3.jpg',
-    after: 'https://i.postimg.cc/QCmKCK43/4-despues-4.jpg'
+    before: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
+    after: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: 'https://i.postimg.cc/XvycpXcP/5-antes-5.jpg',
-    after: 'https://i.postimg.cc/sXYY48LB/6-despues-6.jpg'
+    before: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
+    after: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: 'https://i.postimg.cc/qRssxYF3/7-antes-7.jpg',
-    after: 'https://i.postimg.cc/TwVVJSsp/8-despues-8.jpg'
+    before: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
+    after: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: 'https://i.postimg.cc/j5HH491f/9-antes-9.jpg',
-    after: 'https://i.postimg.cc/4d66QM0v/10-despues-10.jpg'
+    before: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
+    after: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg'
   },
   {
     id: 'case6',
     title: 'Caso de Éxito 6',
     description: 'Renovación de instalaciones con acabado estético impecable.',
-    before: 'https://images2.imgbox.com/7d/8c/11CzweNC_o.jpeg',
-    after: 'https://images2.imgbox.com/86/da/yafusRh6_o.jpeg'
+    before: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
+    after: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg'
   },
   {
     id: 'case7',
     title: 'Caso de Éxito 7',
     description: 'Mantenimiento integral y durabilidad prolongada.',
-    before: 'https://images2.imgbox.com/38/18/Tx87QuK5_o.jpeg',
-    after: 'https://images2.imgbox.com/14/e8/MCULxQ13_o.jpeg'
+    before: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
+    after: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg'
   },
   {
     id: 'case8',
     title: 'Caso de Éxito 8',
     description: 'Recuperación de brillo y resistencia de superficies degradadas.',
-    before: 'https://images2.imgbox.com/b8/0c/UQ9GWU5Z_o.jpeg',
-    after: 'https://images2.imgbox.com/6e/c8/JnAlD4Yi_o.jpeg'
+    before: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
+    after: 'https://images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg'
   },
   {
     id: 'case9',
     title: 'Caso de Éxito 9',
     description: 'Protección anticorrosiva para entornos exigentes.',
-    before: 'https://images2.imgbox.com/e5/a9/0elveuO1_o.jpeg',
-    after: 'https://images2.imgbox.com/62/5c/wNqg3dc8_o.jpeg'
+    before: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg',
+    after: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg'
   },
   {
     id: 'case10',
     title: 'Caso de Éxito 10',
     description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
-    before: 'https://images2.imgbox.com/a9/8e/vdT1ol4l_o.jpeg',
-    after: 'https://images2.imgbox.com/bf/b2/lVkyVmQ5_o.jpeg'
+    before: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg',
+    after: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
   },
   {
     id: 'case11',
     title: 'Caso de Éxito 11',
     description: 'Tratamiento sellante y nivelador permanente.',
-    before: 'https://images2.imgbox.com/14/38/FkoFNa4f_o.jpeg',
-    after: 'https://images2.imgbox.com/75/0f/FGx7wPRA_o.jpeg'
+    before: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg',
+    after: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg'
   },
   {
     id: 'case12',
     title: 'Caso de Éxito 12',
     description: 'Recuperación de estética y funcionalidad total.',
-    before: 'https://images2.imgbox.com/42/5b/JbvQhLny_o.jpeg',
-    after: 'https://images2.imgbox.com/54/d1/MNhTRWgC_o.jpeg'
+    before: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
+    after: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
+  },
+  {
+    id: 'case13',
+    title: 'Caso de Éxito 13',
+    description: 'Reconstrucción y refuerzo de superficies.',
+    before: 'https://images2.imgbox.com/ba/08/wgx5qSFJ_o.jpeg',
+    after: 'https://images2.imgbox.com/96/83/pBobknIF_o.jpeg'
   }
 ];
 
