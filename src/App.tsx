@@ -542,6 +542,55 @@ const BEFORE_AFTER_PAIRS = [
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
     before: 'https://i.postimg.cc/j5HH491f/9-antes-9.jpg',
     after: 'https://i.postimg.cc/4d66QM0v/10-despues-10.jpg'
+  },
+  {
+    id: 'case6',
+    title: 'Caso de Éxito 6',
+    description: 'Renovación de instalaciones con acabado estético impecable.',
+    before: 'https://images2.imgbox.com/7d/8c/11CzweNC_o.jpeg',
+    after: 'https://images2.imgbox.com/86/da/yafusRh6_o.jpeg'
+  },
+  {
+    id: 'case7',
+    title: 'Caso de Éxito 7',
+    description: 'Mantenimiento integral y durabilidad prolongada.',
+    before: 'https://images2.imgbox.com/38/18/Tx87QuK5_o.jpeg',
+    after: 'https://images2.imgbox.com/14/e8/MCULxQ13_o.jpeg'
+  },
+  {
+    id: 'case8',
+    title: 'Caso de Éxito 8',
+    description: 'Recuperación de brillo y resistencia de superficies degradadas.',
+    before: 'https://images2.imgbox.com/b8/0c/UQ9GWU5Z_o.jpeg',
+    after: 'https://images2.imgbox.com/6e/c8/JnAlD4Yi_o.jpeg'
+  },
+  {
+    id: 'case9',
+    title: 'Caso de Éxito 9',
+    description: 'Protección anticorrosiva para entornos exigentes.',
+    before: 'https://images2.imgbox.com/e5/a9/0elveuO1_o.jpeg',
+    after: 'https://images2.imgbox.com/62/5c/wNqg3dc8_o.jpeg'
+  },
+  {
+    id: 'case10',
+    title: 'Caso de Éxito 10',
+    description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
+    before: 'https://images2.imgbox.com/a9/8e/vdT1ol4l_o.jpeg',
+    after: 'https://images2.imgbox.com/bf/b2/lVkyVmQ5_o.jpeg'
+  },
+  {
+    id: 'case11',
+    title: 'Caso de Éxito 11',
+    description: 'Tratamiento sellante y nivelador permanente.',
+    before: 'https://images2.imgbox.com/14/38/FkoFNa4f_o.jpeg',
+    after: 'https://images2.imgbox.com/75/0f/FGx7wPRA_o.jpeg'
+  },
+  {
+    id: 'case12',
+    title: 'Caso de Éxito 12',
+    description: 'Recuperación de estética y funcionalidad total.',
+    before: 'https://images2.imgbox.com/42/5b/JbvQhLny_o.jpeg',
+    after: 'https://images2.imgbox.com/54/d1/MNhTRWgC_o.jpeg'
   }
 ];
 

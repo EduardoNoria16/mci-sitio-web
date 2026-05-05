@@ -78,10 +78,14 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
     };
   }, [selectedPair]);
 
+  const half = Math.ceil(pairs.length / 2);
+  const topPairs = pairs.slice(0, half);
+  const bottomPairs = pairs.slice(half);
+
   // Bloque renderizable para la cinta (con gaps incluidos)
-  const renderCardBlock = (prefix: string) => (
+  const renderCardBlock = (prefix: string, items: PhotoPair[]) => (
     <div className="flex shrink-0 gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-      {pairs.map((pair, idx) => (
+      {items.map((pair, idx) => (
         <BeforeAfterCard key={`${prefix}-${idx}`} pair={pair} onClick={() => setSelectedPair(pair)} />
       ))}
     </div>
@@ -90,17 +94,31 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   return (
     <div className={`relative w-full overflow-hidden flex flex-col gap-4 sm:gap-6 lg:gap-8 ${className}`}>
       
-      {/* Cinta Única - Movimiento Izquierda */}
+      {/* Fila Superior - Movimiento Izquierda */}
       <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4 mt-4">
         <motion.div 
           className="flex shrink-0"
           animate={{ x: ["0%", "-50%"] }} 
           transition={{ ease: "linear", duration: 40, repeat: Infinity }}
         >
-          {renderCardBlock('r1')}
-          {renderCardBlock('r2')}
-          {renderCardBlock('r3')}
-          {renderCardBlock('r4')}
+          {renderCardBlock('t1', topPairs)}
+          {renderCardBlock('t2', topPairs)}
+          {renderCardBlock('t3', topPairs)}
+          {renderCardBlock('t4', topPairs)}
+        </motion.div>
+      </div>
+
+      {/* Fila Inferior - Movimiento Derecha */}
+      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4">
+        <motion.div 
+          className="flex shrink-0"
+          animate={{ x: ["-50%", "0%"] }} 
+          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+        >
+          {renderCardBlock('b1', bottomPairs)}
+          {renderCardBlock('b2', bottomPairs)}
+          {renderCardBlock('b3', bottomPairs)}
+          {renderCardBlock('b4', bottomPairs)}
         </motion.div>
       </div>
 
