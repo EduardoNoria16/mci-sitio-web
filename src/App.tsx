@@ -591,13 +591,6 @@ const BEFORE_AFTER_PAIRS = [
     description: 'Recuperación de estética y funcionalidad total.',
     before: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
     after: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
-  },
-  {
-    id: 'case13',
-    title: 'Caso de Éxito 13',
-    description: 'Reconstrucción y refuerzo de superficies.',
-    before: 'https://images2.imgbox.com/ba/08/wgx5qSFJ_o.jpeg',
-    after: 'https://images2.imgbox.com/96/83/pBobknIF_o.jpeg'
   }
 ];
 

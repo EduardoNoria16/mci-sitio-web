@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Maximize2 } from 'lucide-react';
@@ -77,6 +77,46 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
 
 export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   const [selectedPair, setSelectedPair] = useState<PhotoPair | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isInteracting = useRef(false);
+
+  // Auto-scroll logic
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    let animationId: number;
+
+    const scroll = () => {
+      if (!isInteracting.current && container) {
+        container.scrollLeft += 2.5; // Velocidad incrementada
+        
+        // Loop hacia adelante
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft -= container.scrollWidth / 2;
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+
+    const handleScroll = () => {
+      // Loop hacia atrás si el usuario scrollea hacia la izquierda
+      if (container.scrollLeft <= 0) {
+        container.scrollLeft += container.scrollWidth / 2;
+      } else if (container.scrollLeft >= container.scrollWidth / 2) {
+        container.scrollLeft -= container.scrollWidth / 2;
+      }
+    };
+    
+    container.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   // Esc key and Scroll lock effect
   useEffect(() => {
@@ -113,17 +153,23 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
     <div className={`relative w-full overflow-hidden flex flex-col gap-4 sm:gap-6 lg:gap-8 ${className}`}>
       
       {/* Cinta Única - Movimiento Izquierda */}
-      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4 mt-4 hover:animation-pause">
-        <motion.div 
-          className="flex shrink-0"
-          animate={{ x: ["0%", "-50%"] }} 
-          transition={{ ease: "linear", duration: 160, repeat: Infinity }}
-        >
+      <div 
+        className="flex w-full overflow-x-auto select-none py-4 sm:py-6 lg:py-8 mt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] cursor-grab active:cursor-grabbing"
+        ref={scrollRef}
+        onPointerEnter={() => isInteracting.current = true}
+        onPointerLeave={() => isInteracting.current = false}
+        onTouchStart={() => isInteracting.current = true}
+        onTouchEnd={() => {
+          // Pequena pausa antes de reanudar
+          setTimeout(() => { isInteracting.current = false; }, 1000);
+        }}
+      >
+        <div className="flex shrink-0">
           {renderCardBlock('c1', allPairs, 0)}
           {renderCardBlock('c2', allPairs, allPairs.length)}
           {renderCardBlock('c3', allPairs, allPairs.length * 2)}
           {renderCardBlock('c4', allPairs, allPairs.length * 3)}
-        </motion.div>
+        </div>
       </div>
 
       {/* Lightbox expansivo de pantalla completa */}
