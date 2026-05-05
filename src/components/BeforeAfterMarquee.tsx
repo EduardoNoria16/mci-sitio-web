@@ -16,45 +16,64 @@ interface Props {
   className?: string;
 }
 
-const BeforeAfterCard: React.FC<{ pair: PhotoPair; onClick: () => void }> = ({ pair, onClick }) => (
-  <div 
-    className="relative w-[65vw] sm:w-[300px] md:w-[360px] lg:w-[400px] aspect-[4/3] flex cursor-pointer group shrink-0 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)] border border-white/10 transition-all duration-500"
-    onClick={onClick}
-  >
-    {/* Mitad Antes */}
-    <div className="relative w-1/2 h-full overflow-hidden">
-      <img src={pair.before} alt="Antes" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110" draggable={false} />
-      <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
-      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-black/60 backdrop-blur-md text-white/90 text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] rounded-full shadow-lg border border-white/10 z-10 transition-transform duration-300 group-hover:-translate-y-1">
-        Antes
-      </div>
-    </div>
-    
-    {/* Divisor Grueso */}
-    <div className="absolute inset-y-0 left-1/2 w-0.5 sm:w-1 bg-brand-orange z-20 -translate-x-1/2 shadow-[0_0_15px_rgba(245,130,32,0.8)]" />
-    
-    {/* Mitad Después */}
-    <div className="relative w-1/2 h-full overflow-hidden">
-      <img src={pair.after} alt="Después" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110" draggable={false} />
-      <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-brand-orange/90 backdrop-blur-md text-white/90 text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] rounded-full shadow-[0_0_20px_rgba(245,130,32,0.5)] border border-white/10 z-10 transition-transform duration-300 group-hover:-translate-y-1">
-        Después
-      </div>
-    </div>
+const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () => void }> = ({ pair, index, onClick }) => {
+  const isEven = index % 2 === 0;
 
-    {/* Hover Overlay Expansion */}
-    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-30">
-      <div className="bg-black/70 p-4 sm:p-5 rounded-full backdrop-blur-sm border border-white/20 shadow-2xl scale-75 group-hover:scale-100 transition-transform duration-500 cubic-bezier(0.34, 1.56, 0.64, 1)">
-        <Maximize2 className="w-8 h-8 sm:w-10 sm:h-10 text-brand-orange" />
+  return (
+    <div 
+      className={`relative flex flex-col w-[65vw] sm:w-[280px] md:w-[320px] lg:w-[360px] shrink-0 rounded-[1.5rem] p-3 sm:p-4 backdrop-blur-xl border-2 shadow-xl transition-all duration-500 cursor-pointer group hover:-translate-y-2 ${
+        isEven 
+        ? 'bg-gradient-to-br from-surface/80 to-[#22d3ee]/10 border-[#22d3ee]/20 hover:border-[#22d3ee]/50 hover:shadow-[0_20px_50px_rgba(34,211,238,0.2)]' 
+        : 'bg-gradient-to-bl from-surface/80 to-brand-orange/10 border-brand-orange/20 hover:border-brand-orange/50 hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)]'
+      }`}
+      onClick={onClick}
+    >
+      {/* Decorative header */}
+      <div className="flex items-center gap-2 mb-3 px-2">
+        <div className={`w-2 h-2 rounded-full shadow-sm ${isEven ? 'bg-[#22d3ee]' : 'bg-brand-orange'}`} />
+        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-[#22d3ee]' : 'text-brand-orange'}`}>
+          CASO ÉXITO MCI
+        </span>
+      </div>
+
+      {/* Image container */}
+      <div className="relative flex flex-row w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-inner border border-white/10 group-hover:shadow-2xl transition-shadow duration-500">
+        {/* Mitad Antes */}
+        <div className="relative w-1/2 h-full overflow-hidden">
+          <img src={pair.before} alt="Antes" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:rotate-1" draggable={false} />
+          <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
+          <div className="absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-1 sm:px-3 sm:py-1 bg-black/60 backdrop-blur-md text-white/90 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg border border-white/10 z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
+            Antes
+          </div>
+        </div>
+        
+        {/* Divisor Grueso */}
+        <div className="absolute inset-y-0 left-1/2 w-0.5 sm:w-1 bg-white z-20 -translate-x-1/2 shadow-[0_0_15px_rgba(255,255,255,0.8)] opacity-90 group-hover:bg-brand-orange group-hover:shadow-[0_0_15px_rgba(245,130,32,0.8)] transition-colors duration-300" />
+        
+        {/* Mitad Después */}
+        <div className="relative w-1/2 h-full overflow-hidden">
+          <img src={pair.after} alt="Después" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:-rotate-1" draggable={false} />
+          <div className="absolute inset-0 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
+          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 px-2 py-1 sm:px-3 sm:py-1 bg-brand-orange/90 backdrop-blur-md text-white/90 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-[0_0_20px_rgba(245,130,32,0.5)] border border-white/10 z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
+            Después
+          </div>
+        </div>
+
+        {/* Hover Overlay Expansion Icon */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-30">
+          <div className="bg-black/70 p-3 sm:p-4 rounded-full backdrop-blur-sm border border-white/20 shadow-2xl scale-75 group-hover:scale-100 transition-transform duration-500 cubic-bezier(0.34, 1.56, 0.64, 1)">
+            <Maximize2 className="w-6 h-6 sm:w-8 sm:h-8 text-brand-orange" />
+          </div>
+        </div>
+
+        {/* Gradient Bottom for Title */}
+        <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 flex flex-col justify-end translate-y-2 group-hover:translate-y-0">
+          <h4 className="text-white font-black text-xs sm:text-sm leading-tight uppercase tracking-wider drop-shadow-lg">{pair.title}</h4>
+        </div>
       </div>
     </div>
-
-    {/* Gradient Bottom for Title */}
-    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20 flex flex-col justify-end translate-y-4 group-hover:translate-y-0">
-      <h4 className="text-white font-black text-sm sm:text-base leading-tight uppercase tracking-wider drop-shadow-lg">{pair.title}</h4>
-    </div>
-  </div>
-);
+  );
+};
 
 export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   const [selectedPair, setSelectedPair] = useState<PhotoPair | null>(null);
@@ -78,16 +97,14 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
     };
   }, [selectedPair]);
 
-  // Usamos todas las fotos pero empezamos desde diferentes puntos para no repetirlas horizontalmente juntas.
-  // Sin voltear (reversed) ninguna imagen.
-  const topPairs = [...pairs];
-  const bottomPairs = [...pairs.slice(6), ...pairs.slice(0, 6)];
+  // Usamos todas las fotos para una sola fila
+  const allPairs = [...pairs];
 
   // Bloque renderizable para la cinta (con gaps incluidos)
-  const renderCardBlock = (prefix: string, items: PhotoPair[]) => (
+  const renderCardBlock = (prefix: string, items: PhotoPair[], startIndex: number = 0) => (
     <div className="flex shrink-0 gap-3 sm:gap-4 lg:gap-6 pr-3 sm:pr-4 lg:pr-6">
       {items.map((pair, idx) => (
-        <BeforeAfterCard key={`${prefix}-${idx}`} pair={pair} onClick={() => setSelectedPair(pair)} />
+        <BeforeAfterCard key={`${prefix}-${idx}`} index={startIndex + idx} pair={pair} onClick={() => setSelectedPair(pair)} />
       ))}
     </div>
   );
@@ -95,31 +112,17 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   return (
     <div className={`relative w-full overflow-hidden flex flex-col gap-4 sm:gap-6 lg:gap-8 ${className}`}>
       
-      {/* Fila Superior - Movimiento Izquierda */}
-      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4 mt-4">
+      {/* Cinta Única - Movimiento Izquierda */}
+      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4 mt-4 hover:animation-pause">
         <motion.div 
           className="flex shrink-0"
           animate={{ x: ["0%", "-50%"] }} 
-          transition={{ ease: "linear", duration: 50, repeat: Infinity }}
+          transition={{ ease: "linear", duration: 160, repeat: Infinity }}
         >
-          {renderCardBlock('t1', topPairs)}
-          {renderCardBlock('t2', topPairs)}
-          {renderCardBlock('t3', topPairs)}
-          {renderCardBlock('t4', topPairs)}
-        </motion.div>
-      </div>
-
-      {/* Fila Inferior - Movimiento Derecha */}
-      <div className="flex w-full overflow-hidden select-none py-2 sm:py-3 lg:py-4">
-        <motion.div 
-          className="flex shrink-0"
-          animate={{ x: ["-50%", "0%"] }} 
-          transition={{ ease: "linear", duration: 50, repeat: Infinity }}
-        >
-          {renderCardBlock('b1', bottomPairs)}
-          {renderCardBlock('b2', bottomPairs)}
-          {renderCardBlock('b3', bottomPairs)}
-          {renderCardBlock('b4', bottomPairs)}
+          {renderCardBlock('c1', allPairs, 0)}
+          {renderCardBlock('c2', allPairs, allPairs.length)}
+          {renderCardBlock('c3', allPairs, allPairs.length * 2)}
+          {renderCardBlock('c4', allPairs, allPairs.length * 3)}
         </motion.div>
       </div>
 
