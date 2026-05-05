@@ -46,9 +46,11 @@ import {
   Target,
   Eye,
   Award,
-  ArrowLeftRight
+  ArrowLeftRight,
+  QrCode
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
+import QRCodeModal from './components/QRCodeModal';
 import QuickQuoteWidget from './components/QuickQuoteWidget';
 
 // --- Sound Effects ---
@@ -848,6 +850,7 @@ export default function App() {
   const [activeHeroAcc, setActiveHeroAcc] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [userInput, setUserInput] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -2277,6 +2280,13 @@ export default function App() {
                 <MessageCircle className="w-4 h-4" />
                 Chat por WhatsApp
               </a>
+              <button 
+                onClick={() => setIsQRModalOpen(true)}
+                className="mt-4 inline-flex items-center gap-3 bg-slate-900 border border-slate-700 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full justify-center lg:w-auto"
+              >
+                <QrCode className="w-4 h-4 opacity-70" />
+                Tarjeta Digital / QR
+              </button>
             </div>
 
             <div className="lg:col-span-8">
@@ -2856,6 +2866,7 @@ export default function App() {
           </>
         )}
       </AnimatePresence>
+      <QRCodeModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} url={window.location.href} />
     </div>
   );
 }
