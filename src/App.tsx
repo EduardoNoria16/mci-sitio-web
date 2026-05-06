@@ -605,8 +605,8 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case14',
     title: 'Caso de Éxito 14',
     description: 'Nivelación y protección duradera.',
-    before: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg',
-    after: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg'
+    before: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg',
+    after: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg'
   },
   {
     id: 'case15',
@@ -1535,96 +1535,122 @@ export default function App() {
                   transition: { staggerChildren: 0.1 }
                 }
               }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-lg md:max-w-none mx-auto"
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-lg md:max-w-5xl mx-auto items-start"
             >
               {[
                 { 
                   label: 'Misión', 
                   icon: <Target className="w-5 h-5" />, 
-                  content: 'Soluciones poliméricas que protegen superficies en condiciones extremas.' 
+                  content: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.' 
                 },
                 { 
                   label: 'Visión', 
                   icon: <Eye className="w-5 h-5" />, 
-                  content: 'Líder en protección industrial y sistemas de alta exigencia técnica.' 
+                  content: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.' 
                 },
                 { 
                   label: 'Propuesta de Valor', 
                   icon: <ShieldCheck className="w-5 h-5" />, 
-                  list: [
-                    'Más de 30 años de experiencia',
-                    'Respuesta inmediata 24/7',
-                    'Rigor técnico',
-                    'Soluciones integrales a la medida',
-                    'Calidad total demostrada',
-                    'Responsabilidad operativa',
-                    'Protección a largo plazo'
-                  ] 
+                  content: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.' 
                 }
               ].map((item, i) => (
                 <motion.div 
                   key={i} 
                   variants={{
-                    hidden: { opacity: 0, y: 30 },
+                    hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`p-5 md:p-6 rounded-3xl border-2 transition-all duration-500 group flex flex-col items-center text-center gap-4 cursor-pointer relative overflow-hidden w-full max-w-[240px] md:max-w-[300px] mx-auto ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl md:-translate-y-2 border-transparent' : 'bg-white/80 backdrop-blur-xl border-brand-blue/10 hover:bg-white hover:shadow-xl hover:border-brand-orange/30'}`}
+                  className={`p-4 md:p-5 rounded-2xl border transition-all duration-300 group flex flex-col items-center text-center gap-3 cursor-pointer relative overflow-hidden w-full mx-auto self-start ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-1 border-transparent' : 'bg-white/70 backdrop-blur-md border-brand-blue/10 hover:bg-white hover:shadow-lg hover:border-brand-orange/30'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-sm border border-slate-100 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-slate-50 text-slate-700 group-hover:bg-brand-orange group-hover:text-white group-hover:border-transparent'}`}>
-                    {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm border border-slate-100 shrink-0 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-slate-50 text-slate-700 group-hover:bg-brand-orange group-hover:text-white group-hover:border-transparent'}`}>
+                    {React.cloneElement(item.icon as React.ReactElement, { className: 'w-4 h-4 text-brand-orange group-hover:text-white transition-colors duration-300' })}
                   </div>
-                  <div className="flex-1 w-full">
-                    <h3 className={`text-xs md:text-sm font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-orange'}`}>
+                  <div className="flex-1 w-full flex flex-col items-center">
+                    <h3 className={`text-[10px] md:text-xs mx-auto font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
                     <AnimatePresence>
-                      {(activeHeroAcc === i || (typeof window !== 'undefined' && window.innerWidth > 768 && activeHeroAcc === i)) && (
+                      {(activeHeroAcc === i) && (
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden mt-3"
+                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                          animate={{ opacity: 1, height: 'auto', marginTop: 12 }}
+                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden w-full"
                         >
-                          {item.content ? (
-                            <p className="text-[10px] md:text-xs text-slate-600 leading-snug font-medium text-left">
-                              {item.content}
-                            </p>
-                          ) : (
-                            <div className="flex flex-col items-start space-y-2 mt-2 px-1">
-                              {item.list?.map((li, idx) => (
-                                <div key={idx} className="flex items-start gap-2 text-[10px] md:text-xs text-slate-600 font-bold text-left leading-tight">
-                                  <div className="w-1 h-1 bg-brand-orange rounded-full mt-1.5 flex-shrink-0" />
-                                  {li}
-                                </div>
-                              ))}
-                            </div>
-                          )}
+                          <p className="text-[11px] md:text-sm text-slate-600 leading-relaxed font-medium text-justify">
+                            {item.content}
+                          </p>
                         </motion.div>
                       )}
                     </AnimatePresence>
 
                     {/* Hint for mobile */}
                     {activeHeroAcc !== i && (
-                      <div className="md:hidden mt-2 opacity-40">
-                         <span className="text-[8px] font-black uppercase tracking-widest text-brand-orange">+ detalles</span>
+                      <div className="md:hidden mt-2 opacity-50">
+                         <span className="text-[9px] font-black uppercase tracking-widest text-brand-orange">Toca para ver</span>
+                      </div>
+                    )}
+                    {activeHeroAcc !== i && (
+                      <div className="hidden md:block mt-2 opacity-0 group-hover:opacity-50 transition-opacity">
+                         <span className="text-[9px] font-black uppercase tracking-widest text-brand-orange">Ver detalles</span>
                       </div>
                     )}
                   </div>
                 </motion.div>
               ))}
             </motion.div>
+
+            {/* A continuación */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: { opacity: 0, scale: 0.95 },
+                visible: { opacity: 1, scale: 1, transition: { delay: 0.3, type: "spring", stiffness: 100 } }
+              }}
+              className="mt-16 md:mt-24 px-4 w-full flex flex-col items-center relative z-20"
+            >
+              <div className="bg-gradient-to-r from-brand-orange/20 via-brand-orange/10 to-brand-orange/20 p-[1px] rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden ring-1 ring-brand-orange/30">
+                <div className="bg-surface/90 backdrop-blur-xl rounded-3xl p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden">
+                   {/* Background glow */}
+                   <div className="absolute inset-0 bg-brand-orange/5 mix-blend-overlay"></div>
+                   
+                   <motion.div 
+                     initial={{ rotate: -10 }}
+                     whileInView={{ rotate: 10 }}
+                     transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+                     className="w-16 h-16 bg-brand-orange/10 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(245,130,32,0.3)]"
+                   >
+                     <Star className="w-8 h-8 text-brand-orange fill-brand-orange/20" />
+                   </motion.div>
+                   
+                   <p className="text-lg md:text-xl text-slate-700 font-bold max-w-2xl mx-auto leading-relaxed">
+                     A continuación, te presentamos los diferenciadores que hacen a <span className="font-black text-brand-orange uppercase tracking-wider">MCI</span> la mejor decisión:
+                   </p>
+                   
+                   <motion.div 
+                     animate={{ y: [0, 8, 0] }}
+                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                     className="mt-6 text-brand-orange"
+                   >
+                     <ChevronDown className="w-8 h-8 opacity-80" />
+                   </motion.div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
 
         {/* Infinite Horizontal Marquee Section */}
-        <div className="mt-8 md:mt-16 overflow-hidden w-full relative z-10 border-t border-brand-blue/10 pt-10">
-          <div className="text-center mb-8 md:mb-12 px-4">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm">
+        <div className="mt-8 md:mt-12 overflow-hidden w-full relative z-10 pt-4">
+          <div className="text-center mb-8 md:mb-12 px-4 max-w-4xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm">
               Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
             </h2>
             <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
