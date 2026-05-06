@@ -1560,16 +1560,16 @@ export default function App() {
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0 }
                   }}
-                  className={`p-4 md:p-5 rounded-2xl border transition-all duration-300 group flex flex-col items-center text-center gap-3 cursor-pointer relative overflow-hidden w-full mx-auto self-start ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-1 border-transparent' : 'bg-white/70 backdrop-blur-md border-brand-blue/10 hover:bg-white hover:shadow-lg hover:border-brand-orange/30'}`}
+                  className={`p-5 md:p-7 rounded-3xl border transition-all duration-300 group flex flex-col items-center justify-start text-center gap-3 cursor-pointer relative overflow-hidden w-full max-w-[320px] mx-auto self-start ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-1 border-transparent' : 'bg-white/70 backdrop-blur-md border-brand-blue/10 hover:bg-white hover:shadow-lg hover:border-brand-orange/30'}`}
                   onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
                   onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
                   onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm border border-slate-100 shrink-0 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-slate-50 text-slate-700 group-hover:bg-brand-orange group-hover:text-white group-hover:border-transparent'}`}>
-                    {React.cloneElement(item.icon as React.ReactElement, { className: 'w-4 h-4 text-brand-orange group-hover:text-white transition-colors duration-300' })}
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm border border-slate-100 shrink-0 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-slate-50 text-slate-700 group-hover:bg-brand-orange group-hover:text-white group-hover:border-transparent'}`}>
+                    {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
                   </div>
-                  <div className="flex-1 w-full flex flex-col items-center">
-                    <h3 className={`text-[10px] md:text-xs mx-auto font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-orange'}`}>
+                  <div className="flex-1 w-full flex flex-col items-center h-full">
+                    <h3 className={`text-xs md:text-sm mx-auto font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-orange'}`}>
                       {item.label}
                     </h3>
                     
@@ -1580,14 +1580,15 @@ export default function App() {
                           animate={{ opacity: 1, height: 'auto', marginTop: 12 }}
                           exit={{ opacity: 0, height: 0, marginTop: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden w-full"
+                          className="overflow-hidden w-full flex-grow flex"
                         >
-                          <p className="text-[11px] md:text-sm text-slate-600 leading-relaxed font-medium text-justify">
+                          <p className="text-xs md:text-sm text-slate-600 leading-relaxed font-medium text-justify [hyphens:none] [text-justify:inter-word]">
                             {item.content}
                           </p>
                         </motion.div>
                       )}
                     </AnimatePresence>
+
 
                     {/* Hint for mobile */}
                     {activeHeroAcc !== i && (
@@ -1630,14 +1631,31 @@ export default function App() {
                      <Star className="w-8 h-8 text-brand-orange fill-brand-orange/20" />
                    </motion.div>
                    
-                   <p className="text-lg md:text-xl text-slate-700 font-bold max-w-2xl mx-auto leading-relaxed">
+                   <p className="text-lg md:text-xl text-slate-700 font-bold max-w-2xl mx-auto leading-relaxed mb-8">
                      A continuación, te presentamos los diferenciadores que hacen a <span className="font-black text-brand-orange uppercase tracking-wider">MCI</span> la mejor decisión:
                    </p>
+                   
+                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full text-left relative z-10 mb-8">
+                      {[
+                        'Más de 30 años de experiencia',
+                        'Respuesta inmediata 24/7',
+                        'Rigor técnico',
+                        'Soluciones integrales a la medida',
+                        'Calidad total demostrada',
+                        'Responsabilidad operativa',
+                        'Protección a largo plazo'
+                      ].map((texto, index) => (
+                        <div key={index} className="flex items-center gap-3 bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-brand-orange/10 shadow-sm hover:shadow-md transition-shadow hover:bg-white">
+                          <CheckCircle2 className="w-5 h-5 text-brand-orange flex-shrink-0" />
+                          <span className="text-sm text-slate-800 font-bold">{texto}</span>
+                        </div>
+                      ))}
+                   </div>
                    
                    <motion.div 
                      animate={{ y: [0, 8, 0] }}
                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                     className="mt-6 text-brand-orange"
+                     className="mt-2 text-brand-orange"
                    >
                      <ChevronDown className="w-8 h-8 opacity-80" />
                    </motion.div>
