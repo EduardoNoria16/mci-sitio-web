@@ -679,7 +679,7 @@ const SECTORS: Sector[] = [
   {
     id: 's1',
     title: 'Industria Alimenticia y Sector Salud',
-    description: 'Sistemas sanitarios de alto desempeño en cumplimiento regulatorio estricto.',
+    description: 'Materiales en cumplimiento con regulaciones de la FDA, USDA (EEUU), y COFEPRIS, SENASICA (Méx).',
     icon: <Droplets className="w-6 h-6" />,
     details: {
       intro: 'Materiales en cumplimiento con regulaciones de la FDA, USDA (EEUU), y COFEPRIS, SENASICA (Méx).',
@@ -1352,7 +1352,14 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-surface text-on-surface transition-colors duration-500 overflow-x-hidden relative">
+    <div className="min-h-screen w-full bg-gradient-to-br from-teal-50 via-blue-50 to-orange-50 text-slate-900 transition-colors duration-500 overflow-x-hidden relative">
+      
+      {/* Dynamic Background Elements for more vibrant feel */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-teal-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
+        <div className="absolute top-40 -right-40 w-96 h-96 bg-blue-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-40 left-1/2 -ml-40 w-96 h-96 bg-orange-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+      </div>
       
       {/* Header / Navigation */}
       <header 
@@ -1539,7 +1546,7 @@ export default function App() {
                        text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.',
                        theme: 'from-blue-50/80 to-white hover:from-blue-100 hover:to-blue-50 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-blue-900/90',
+                       textColor: 'text-slate-900',
                        titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
@@ -1548,7 +1555,7 @@ export default function App() {
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.',
                        theme: 'from-teal-50/80 to-white hover:from-teal-100 hover:to-teal-50 border-teal-200/60',
                        iconBg: 'bg-teal-100/50 border-teal-200 shadow-[0_0_15px_rgba(13,148,136,0.15)]',
-                       textColor: 'text-teal-900/90',
+                       textColor: 'text-slate-900',
                        titleColor: 'text-teal-950 border-teal-200'
                      },
                      {
@@ -1557,8 +1564,19 @@ export default function App() {
                        text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.',
                        theme: 'from-orange-50/80 to-white hover:from-orange-100 hover:to-orange-50 border-orange-200/60',
                        iconBg: 'bg-orange-100/50 border-orange-200 shadow-[0_0_15px_rgba(245,130,32,0.15)]',
-                       textColor: 'text-orange-900/90',
-                       titleColor: 'text-orange-950 border-brand-orange/30'
+                       textColor: 'text-slate-900 text-base md:text-lg lg:text-xl font-bold',
+                       titleColor: 'text-orange-950 border-brand-orange/30',
+                       differentiators: [
+                         'Más de 30 años de experiencia',
+                         'Respuesta inmediata 24/7',
+                         'Rigor técnico',
+                         'Soluciones integrales a la medida',
+                         'Calidad total demostrada',
+                         'Responsabilidad operativa',
+                         'Protección a largo plazo',
+                         'Sustentabilidad',
+                         'Atención post-venta'
+                       ]
                      }
                    ].map((item, idx) => (
                      <motion.div 
@@ -1567,148 +1585,46 @@ export default function App() {
                           hidden: { opacity: 0, y: 30 },
                           visible: { opacity: 1, y: 0 }
                        }}
-                       className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden group`}
+                       className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden group`}
                      >
                         {/* Subtle premium glass reflection */}
                         <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                         
-                        <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl ${item.iconBg} flex items-center justify-center shrink-0 border transition-transform duration-500 group-hover:scale-110 relative z-10`}>
-                           {item.icon}
+                        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 lg:gap-8 w-full">
+                          <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl ${item.iconBg} flex items-center justify-center shrink-0 border transition-transform duration-500 group-hover:scale-110 relative z-10`}>
+                             {item.icon}
+                          </div>
+                          <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full relative z-10 mt-2 md:mt-0">
+                             <h3 className={`text-xl md:text-2xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
+                               {item.title}
+                             </h3>
+                             <p className={`${item.textColor || 'text-sm md:text-base lg:text-lg font-medium'} leading-relaxed mt-2 md:mt-0`}>
+                               {item.text}
+                             </p>
+                          </div>
                         </div>
-                        <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full relative z-10 mt-2 md:mt-0">
-                           <h3 className={`text-xl md:text-2xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
-                             {item.title}
-                           </h3>
-                           <p className={`text-sm md:text-base lg:text-lg ${item.textColor} font-medium leading-relaxed mt-2 md:mt-0 text-justify break-words hyphens-auto`}>
-                             {item.text}
-                           </p>
-                        </div>
+
+                        {item.differentiators && (
+                          <div className="w-full mt-4 flex flex-col items-center md:items-start relative z-10">
+                            <h4 className="text-sm md:text-base font-black text-brand-orange uppercase tracking-widest mb-4">
+                              A continuación, te presentamos los diferenciadores que hacen a MCI la mejor decisión:
+                            </h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
+                              {item.differentiators.map((diff, i) => (
+                                <div key={i} className="flex items-center gap-2 bg-white/60 p-3 rounded-xl border border-orange-100 shadow-sm hover:bg-white transition-colors duration-300">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />
+                                  <span className="text-xs md:text-sm font-semibold text-slate-800">{diff}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                      </motion.div>
                    ))}
                  </div>
              </motion.div>
 
-            {/* A continuación */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={{
-                hidden: { opacity: 0, scale: 0.95 },
-                visible: { opacity: 1, scale: 1, transition: { delay: 0.3, type: "spring", stiffness: 100 } }
-              }}
-              className="mt-16 md:mt-24 px-4 w-full flex flex-col items-center relative z-20"
-            >
-              <div className="bg-gradient-to-r from-brand-orange/20 via-brand-orange/10 to-brand-orange/20 p-[1px] rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden ring-1 ring-brand-orange/30">
-                <div className="bg-surface/90 backdrop-blur-xl rounded-3xl p-8 md:p-10 flex flex-col items-center text-center relative overflow-hidden">
-                   {/* Background glow */}
-                   <div className="absolute inset-0 bg-brand-orange/5 mix-blend-overlay"></div>
-                   
-                   <motion.div 
-                     initial={{ rotate: -10 }}
-                     whileInView={{ rotate: 10 }}
-                     transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-                     className="w-16 h-16 bg-brand-orange/10 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(245,130,32,0.3)]"
-                   >
-                     <Star className="w-8 h-8 text-brand-orange fill-brand-orange/20" />
-                   </motion.div>
-                   
-                   <p className="text-lg md:text-xl text-slate-700 font-bold max-w-2xl mx-auto leading-relaxed mb-8">
-                     A continuación, te presentamos los diferenciadores que hacen a <span className="font-black text-brand-orange uppercase tracking-wider">MCI</span> la mejor decisión:
-                   </p>
-                   
-                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full text-left relative z-10 mb-8">
-                      {[
-                        'Más de 30 años de experiencia',
-                        'Respuesta inmediata 24/7',
-                        'Rigor técnico',
-                        'Soluciones integrales a la medida',
-                        'Calidad total demostrada',
-                        'Responsabilidad operativa',
-                        'Protección a largo plazo'
-                      ].map((texto, index) => (
-                        <div key={index} className="flex items-center gap-3 bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-brand-orange/10 shadow-sm hover:shadow-md transition-shadow hover:bg-white">
-                          <CheckCircle2 className="w-5 h-5 text-brand-orange flex-shrink-0" />
-                          <span className="text-sm text-slate-800 font-bold">{texto}</span>
-                        </div>
-                      ))}
-                   </div>
-                   
-                   <motion.div 
-                     animate={{ y: [0, 8, 0] }}
-                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                     className="mt-2 text-brand-orange"
-                   >
-                     <ChevronDown className="w-8 h-8 opacity-80" />
-                   </motion.div>
-                </div>
-              </div>
-            </motion.div>
           </div>
-        </div>
-
-        {/* Infinite Horizontal Marquee Section */}
-        <div className="mt-8 md:mt-12 overflow-hidden w-full relative z-10 pt-4">
-          <div className="text-center mb-8 md:mb-12 px-4 max-w-4xl mx-auto">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm">
-              Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
-            </h2>
-            <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
-          </div>
-          <div className="marquee-container overflow-x-auto overflow-y-hidden hide-scrollbar cursor-grab active:cursor-grabbing touch-pan-x">
-            <div className="marquee-content w-max">
-              {/* Original Items */}
-              {[
-                { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
-                { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
-                { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
-                { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
-                { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
-              ].map((step, i) => (
-                <div key={i} className="marquee-card">
-                  <div className="marquee-num">{step.num}</div>
-                  <h4 className="marquee-title">{step.title}</h4>
-                  <p className="marquee-desc">{step.text}</p>
-                </div>
-              ))}
-              {/* Duplicated Items for Seamless Loop */}
-              {[
-                { num: '01', title: 'Diagnóstico', text: 'Visita al sitio para identificar variables críticas.' },
-                { num: '02', title: 'Propuesta', text: 'Definimos la solución técnica más viable.' },
-                { num: '03', title: 'Ejecución', text: 'Control y supervisión permanente.' },
-                { num: '04', title: 'Sustentabilidad', text: 'Protocolos amigables al entorno.' },
-                { num: '05', title: 'Atención Post-Venta', text: 'Compromiso con nuestros clientes.' }
-              ].map((step, i) => (
-                <div key={`dup-${i}`} className="marquee-card">
-                  <div className="marquee-num">{step.num}</div>
-                  <h4 className="marquee-title">{step.title}</h4>
-                  <p className="marquee-desc">{step.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-          {/* Stats Section */}
-          <section className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {[
-                { label: 'Años de Experiencia', value: 30, suffix: '+', icon: <Clock className="w-5 h-5" /> },
-                { label: 'Calidad Total', value: 100, suffix: '%', icon: <ShieldCheck className="w-5 h-5" /> },
-                { label: 'Disponibilidad', value: '24/7', suffix: '', icon: <Zap className="w-5 h-5" /> }
-              ].map((stat, i) => (
-                <div key={i} className="p-6 md:p-10 rounded-3xl text-center space-y-2 border-2 bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-2xl hover:border-transparent shadow-xl transition-all group will-change-transform hover:-translate-y-2">
-                  <div className="mx-auto w-12 h-12 bg-[#22d3ee] rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all shadow-[0_8px_16px_rgba(34,211,238,0.3)] border border-white/20">
-                    {React.cloneElement(stat.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
-                  </div>
-              <div className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface tracking-tighter transition-colors">
-                {typeof stat.value === 'number' ? <Counter target={stat.value} /> : stat.value}
-                <span className="text-brand-orange">{stat.suffix}</span>
-              </div>
-              <div className="text-[10px] md:text-sm font-bold text-on-surface-subtle uppercase tracking-[0.3em] transition-colors">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -1719,9 +1635,6 @@ export default function App() {
             Sectores que <span className="text-gradient transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
-          <p className="text-on-surface max-w-3xl mx-auto text-base md:text-xl font-bold leading-relaxed transition-all duration-300 px-4">
-            Soluciones especializadas para cada entorno de alta exigencia, garantizando durabilidad y cumplimiento normativo.
-          </p>
         </div>
 
         <motion.div 
@@ -1821,7 +1734,7 @@ export default function App() {
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
           <p className="text-base md:text-xl text-on-surface max-w-4xl mx-auto leading-relaxed font-bold px-4 transition-all duration-300">
-            Selecciona una especialidad para ver su ficha técnica detallada y conocer por qué somos líderes en el mercado.
+            Selecciona una especialidad para ver nuestros alcances y conocer por qué somos líderes en el mercado.
           </p>
         </div>
 
