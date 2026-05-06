@@ -1513,98 +1513,65 @@ export default function App() {
               </motion.p>
             </div>
 
-            {/* 2. Video Player - "Modo Cine" size between text and cards */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="w-full max-w-5xl mx-auto"
-            >
-              <CustomVideoPlayer />
-            </motion.div>
+            {/* 2. Misión/Visión/Propuesta Vertical Stack */}
+            <motion.div
+               initial="hidden"
+               whileInView="visible"
+               viewport={{ once: true }}
+               variants={{
+                 hidden: { opacity: 0, scale: 0.95 },
+                 visible: { opacity: 1, scale: 1, transition: { delay: 0.2, type: "spring", stiffness: 100 } }
+               }}
+               className="mt-8 md:mt-12 px-4 w-full flex flex-col items-center relative z-20"
+             >
+                <div className="text-center mb-8 md:mb-12">
+                   <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm">
+                     Nuestra <span className="text-gradient transition-colors">Identidad</span>
+                   </h2>
+                   <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
+                 </div>
 
-            {/* 3. Misión/Visión/Propuesta Cards */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: { staggerChildren: 0.1 }
-                }
-              }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-lg md:max-w-5xl mx-auto items-start"
-            >
-              {[
-                { 
-                  label: 'Misión', 
-                  icon: <Target className="w-5 h-5" />, 
-                  content: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.' 
-                },
-                { 
-                  label: 'Visión', 
-                  icon: <Eye className="w-5 h-5" />, 
-                  content: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.' 
-                },
-                { 
-                  label: 'Propuesta de Valor', 
-                  icon: <ShieldCheck className="w-5 h-5" />, 
-                  content: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.' 
-                }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i} 
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0 }
-                  }}
-                  className={`p-5 md:p-7 rounded-3xl border transition-all duration-300 group flex flex-col items-center justify-start text-center gap-3 cursor-pointer relative overflow-hidden w-full max-w-[320px] mx-auto self-start ${activeHeroAcc === i ? 'ring-2 ring-brand-orange/50 bg-white shadow-xl md:-translate-y-1 border-transparent' : 'bg-white/70 backdrop-blur-md border-brand-blue/10 hover:bg-white hover:shadow-lg hover:border-brand-orange/30'}`}
-                  onMouseEnter={() => { if (window.innerWidth > 768) setActiveHeroAcc(i); }}
-                  onMouseLeave={() => { if (window.innerWidth > 768) setActiveHeroAcc(null); }}
-                  onClick={() => { if (window.innerWidth <= 768) setActiveHeroAcc(activeHeroAcc === i ? null : i); }}
-                >
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm border border-slate-100 shrink-0 ${activeHeroAcc === i ? 'bg-brand-orange text-white shadow-[0_5px_15px_rgba(245,130,32,0.4)]' : 'bg-slate-50 text-slate-700 group-hover:bg-brand-orange group-hover:text-white group-hover:border-transparent'}`}>
-                    {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300' })}
-                  </div>
-                  <div className="flex-1 w-full flex flex-col items-center h-full">
-                    <h3 className={`text-xs md:text-sm mx-auto font-black uppercase tracking-[0.15em] transition-colors ${activeHeroAcc === i ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-orange'}`}>
-                      {item.label}
-                    </h3>
-                    
-                    <AnimatePresence>
-                      {(activeHeroAcc === i) && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                          animate={{ opacity: 1, height: 'auto', marginTop: 12 }}
-                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden w-full flex-grow flex"
-                        >
-                          <p className="text-xs md:text-sm text-slate-600 leading-relaxed font-medium text-justify [hyphens:none] [text-justify:inter-word]">
-                            {item.content}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-
-                    {/* Hint for mobile */}
-                    {activeHeroAcc !== i && (
-                      <div className="md:hidden mt-2 opacity-50">
-                         <span className="text-[9px] font-black uppercase tracking-widest text-brand-orange">Toca para ver</span>
-                      </div>
-                    )}
-                    {activeHeroAcc !== i && (
-                      <div className="hidden md:block mt-2 opacity-0 group-hover:opacity-50 transition-opacity">
-                         <span className="text-[9px] font-black uppercase tracking-widest text-brand-orange">Ver detalles</span>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                 <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 md:gap-8">
+                   {[
+                     {
+                       title: 'Misión',
+                       icon: <Target className="w-6 h-6 text-brand-orange" />,
+                       text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.'
+                     },
+                     {
+                       title: 'Visión',
+                       icon: <Eye className="w-6 h-6 text-brand-orange" />,
+                       text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.'
+                     },
+                     {
+                       title: 'Propuesta de Valor',
+                       icon: <ShieldCheck className="w-6 h-6 text-brand-orange" />,
+                       text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.'
+                     }
+                   ].map((item, idx) => (
+                     <motion.div 
+                       key={idx}
+                       variants={{
+                          hidden: { opacity: 0, y: 30 },
+                          visible: { opacity: 1, y: 0 }
+                       }}
+                       className="bg-white/70 backdrop-blur-md border border-brand-blue/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 shadow-sm hover:shadow-lg transition-all"
+                     >
+                        <div className="w-16 h-16 rounded-2xl bg-brand-orange/10 flex items-center justify-center shrink-0 border border-brand-orange/20 shadow-[0_0_20px_rgba(245,130,32,0.15)]">
+                           {item.icon}
+                        </div>
+                        <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full">
+                           <h3 className="text-xl md:text-2xl font-black uppercase tracking-widest text-slate-900 border-b-2 border-brand-orange/20 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0">
+                             {item.title}
+                           </h3>
+                           <p className="text-sm md:text-base lg:text-lg text-slate-600 font-medium leading-relaxed mt-2 md:mt-0 text-justify">
+                             {item.text}
+                           </p>
+                        </div>
+                     </motion.div>
+                   ))}
+                 </div>
+             </motion.div>
 
             {/* A continuación */}
             <motion.div
@@ -1902,91 +1869,15 @@ export default function App() {
           </div>
         </div>
 
-        {/* Infinite Marquee Slideshow - Touch Pan Optimized */}
-        <div className="relative flex overflow-hidden group">
+        {/* Custom Video Player instead of Marquee */}
+        <div className="relative flex justify-center w-full px-6">
           <motion.div 
-            className="flex gap-4 py-4 cursor-grab active:cursor-grabbing"
-            drag="x"
-            dragConstraints={{ right: 0, left: -2000 }}
-            animate={{
-              x: ["0%", "-50%"],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 40,
-                ease: "linear",
-              },
-            }}
-            whileHover={{ animationPlayState: 'paused' }}
-            whileTap={{ animationPlayState: 'paused' }}
-            style={{ width: "fit-content" }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="w-full max-w-5xl mx-auto"
           >
-            {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((img, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.05, zIndex: 10 }}
-                onClick={() => setSelectedImage(img.url)}
-                className="relative w-[220px] sm:w-[280px] md:w-[380px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-glass-border cursor-pointer shadow-2xl will-change-transform"
-              >
-                <img
-                  src={img.url}
-                  alt={img.title}
-                  referrerPolicy="no-referrer"
-                  loading="lazy"
-                  className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#083344]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
-                  <p className="text-white font-black text-xs uppercase tracking-widest">{img.title}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Second row moving in opposite direction */}
-        <div className="relative flex overflow-hidden group mt-4">
-          <motion.div 
-            className="flex gap-4 py-4 cursor-grab active:cursor-grabbing"
-            drag="x"
-            dragConstraints={{ right: 0, left: -2000 }}
-            animate={{
-              x: ["-50%", "0%"],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 50,
-                ease: "linear",
-              },
-            }}
-            whileHover={{ animationPlayState: 'paused' }}
-            whileTap={{ animationPlayState: 'paused' }}
-            style={{ width: "fit-content" }}
-          >
-            {[...GALLERY_IMAGES, ...GALLERY_IMAGES].reverse().map((img, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.05, zIndex: 10 }}
-                onClick={() => setSelectedImage(img.url)}
-                className="relative w-[180px] sm:w-[240px] md:w-[320px] aspect-video flex-shrink-0 rounded-2xl overflow-hidden glass border-glass-border cursor-pointer shadow-2xl will-change-transform"
-              >
-                <img
-                  src={img.url}
-                  alt={img.title}
-                  width="320"
-                  height="180"
-                  referrerPolicy="no-referrer"
-                  loading="lazy"
-                  className="w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#083344]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
-                  <p className="text-white font-black text-xs uppercase tracking-widest">{img.title}</p>
-                </div>
-              </motion.div>
-            ))}
+            <CustomVideoPlayer />
           </motion.div>
         </div>
       </section>
