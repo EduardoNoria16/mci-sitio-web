@@ -1352,13 +1352,15 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-teal-50 via-blue-50 to-orange-50 text-slate-900 transition-colors duration-500 overflow-x-hidden relative">
+    <div className="min-h-screen w-full bg-[#f0f4f8] text-slate-900 transition-colors duration-500 overflow-x-hidden relative font-sans">
       
       {/* Dynamic Background Elements for more vibrant feel */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-teal-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
-        <div className="absolute top-40 -right-40 w-96 h-96 bg-blue-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-40 left-1/2 -ml-40 w-96 h-96 bg-orange-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000" />
+        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/10 via-[#3b82f6]/10 to-[#f58220]/10 mix-blend-overlay" />
+        <div className="absolute -top-40 -left-60 w-[50rem] h-[50rem] bg-[#00f2ff]/30 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob" />
+        <div className="absolute top-20 -right-40 w-[50rem] h-[50rem] bg-brand-blue/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-40 left-1/4 w-[50rem] h-[50rem] bg-brand-orange/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob animation-delay-4000" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
       </div>
       
       {/* Header / Navigation */}
@@ -1383,7 +1385,7 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
-              <span className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight leading-none flex flex-wrap gap-x-1.5 items-baseline lg:whitespace-nowrap">
+              <span className="text-base sm:text-lg md:text-2xl font-black tracking-tight leading-none flex flex-wrap gap-x-1.5 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
                 <span className="text-slate-900 transition-colors drop-shadow-sm">Soluciones</span>
               </span>
@@ -1469,7 +1471,7 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden bg-slate-50">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden">
         
         {/* Fondo fotográfico alineado a la derecha para evitar zoom/recortes y permitir que el casco se vea */}
         <div className="absolute inset-y-0 right-0 w-full md:w-[75%] lg:w-[65%] z-0">
@@ -1480,11 +1482,11 @@ export default function App() {
             crossOrigin="anonymous"
           />
           {/* Degradado para fundir el borde izquierdo de la foto suavemente con el fondo claro */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/70 to-transparent z-10 w-full md:w-[50%]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[rgba(255,255,255,0.7)] via-[rgba(255,255,255,0.5)] to-transparent z-10 w-full md:w-[50%]" />
         </div>
         
         {/* Degradado superpuesto intenso a la izquierda para el texto general del hero */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 via-[30%] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(255,255,255,0.85)] via-[rgba(255,255,255,0.6)] via-[30%] to-transparent z-10 pointer-events-none" />
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 py-8 md:py-16 md:mt-0">
           {/* Opción 4: Herramienta de Diagnóstico en el espacio en blanco (Desktop) */}
@@ -1501,7 +1503,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase leading-[1.1] md:leading-tight text-slate-900 text-center md:text-left transition-all duration-300 drop-shadow-sm px-2 md:px-0">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight uppercase leading-[1.1] md:leading-tight text-slate-900 text-center md:text-left transition-all duration-300 drop-shadow-sm px-2 md:px-0">
                   <span>¿Quiénes</span>{' '}
                   <span className="text-brand-orange">Somos</span>
                   <span>?</span>
@@ -1513,7 +1515,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-base md:text-lg lg:text-xl text-slate-800 leading-relaxed font-bold max-w-2xl lg:max-w-3xl text-center md:text-left px-4 md:px-0 transition-all duration-300 drop-shadow-sm"
+                className="text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold max-w-2xl lg:max-w-3xl text-center md:text-left px-4 md:px-0 transition-all duration-300 drop-shadow-sm"
                 style={{ overflowWrap: 'break-word' }}
               >
                 Empresa con más de <span className="hl font-black text-brand-orange drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="hl font-black text-brand-blue">Industrial</span> y de la <span className="hl font-black text-brand-blue">Construcción</span> en <span className="hl font-black text-brand-blue">México</span> con el único objetivo de ofrecer <span className="hl font-black text-brand-orange">soluciones duraderas</span> con <span className="hl font-black text-slate-900">ingeniería</span> en <span className="hl font-black text-slate-900">materiales poliméricos</span> de <span className="hl font-black text-brand-orange">alta gama</span> para <span className="hl font-black text-brand-blue">restaurar</span>, <span className="hl font-black text-brand-blue">mejorar</span> y <span className="hl font-black text-brand-blue">proteger</span> instalaciones expuestas a <span className="hl font-black text-slate-900">daños físicos</span> o <span className="hl font-black text-slate-900">químicos</span>, maximizando su vida útil para <span className="hl font-black text-brand-orange">preservar</span> el valor de tu <span className="hl font-black text-brand-orange">inversión</span>.
@@ -1532,7 +1534,7 @@ export default function App() {
                className="mt-8 md:mt-12 px-4 w-full flex flex-col items-center relative z-20"
              >
                 <div className="text-center mb-8 md:mb-12">
-                   <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm max-w-4xl mx-auto">
+                   <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm max-w-4xl mx-auto">
                      Misión, Visión y <span className="text-gradient transition-colors">Propuesta de Valor</span>
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -1544,7 +1546,7 @@ export default function App() {
                        title: 'Misión',
                        icon: <Target className="w-8 h-8 text-blue-600" />,
                        text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.',
-                       theme: 'from-blue-50/80 to-white hover:from-blue-100 hover:to-blue-50 border-blue-200/60',
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-slate-900',
                        titleColor: 'text-blue-950 border-blue-200'
@@ -1553,7 +1555,7 @@ export default function App() {
                        title: 'Visión',
                        icon: <Eye className="w-8 h-8 text-teal-600" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.',
-                       theme: 'from-teal-50/80 to-white hover:from-teal-100 hover:to-teal-50 border-teal-200/60',
+                       theme: 'from-teal-50/70 to-white/70 hover:from-teal-100/80 hover:to-white/90 border-teal-200/60',
                        iconBg: 'bg-teal-100/50 border-teal-200 shadow-[0_0_15px_rgba(13,148,136,0.15)]',
                        textColor: 'text-slate-900',
                        titleColor: 'text-teal-950 border-teal-200'
@@ -1562,9 +1564,9 @@ export default function App() {
                        title: 'Propuesta de Valor',
                        icon: <ShieldCheck className="w-8 h-8 text-brand-orange" />,
                        text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.',
-                       theme: 'from-orange-50/80 to-white hover:from-orange-100 hover:to-orange-50 border-orange-200/60',
+                       theme: 'from-orange-50/70 to-white/70 hover:from-orange-100/80 hover:to-white/90 border-orange-200/60',
                        iconBg: 'bg-orange-100/50 border-orange-200 shadow-[0_0_15px_rgba(245,130,32,0.15)]',
-                       textColor: 'text-slate-900 text-base md:text-lg lg:text-xl font-bold',
+                       textColor: 'text-slate-900',
                        titleColor: 'text-orange-950 border-brand-orange/30',
                        differentiators: [
                          'Más de 30 años de experiencia',
@@ -1595,10 +1597,10 @@ export default function App() {
                              {item.icon}
                           </div>
                           <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full relative z-10 mt-2 md:mt-0">
-                             <h3 className={`text-xl md:text-2xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
+                             <h3 className={`text-lg md:text-xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
                                {item.title}
                              </h3>
-                             <p className={`${item.textColor || 'text-sm md:text-base lg:text-lg font-medium'} leading-relaxed mt-2 md:mt-0`}>
+                             <p className={`${item.textColor || 'text-slate-700'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
                                {item.text}
                              </p>
                           </div>
@@ -1631,7 +1633,7 @@ export default function App() {
       {/* Sectors Section */}
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
             Sectores que <span className="text-gradient transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -1717,7 +1719,7 @@ export default function App() {
       <section id="fortalezas" className="relative z-10 py-16 md:py-24 overflow-hidden">
         {/* Background Texture for Strengths */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-slate-50/90 z-10" />
+          <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] z-10" />
           <img 
             src="https://images.unsplash.com/photo-1532187875956-c7306286c6a1?auto=format&fit=crop&w=1920&q=80" 
             alt="Polymer Engineering Abstract"
@@ -1729,7 +1731,7 @@ export default function App() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform">
           <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
             Nuestras <span className="text-gradient transition-colors">Fortalezas</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -1782,7 +1784,7 @@ export default function App() {
               <Paintbrush className="w-3 h-3" />
               Portafolio Visual en Movimiento
             </motion.div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Nuestra <span className="text-gradient">Galería</span>
           </h2>
             <motion.p
@@ -1823,15 +1825,15 @@ export default function App() {
               <ArrowLeftRight className="w-3 h-3" />
               Ingeniería en Resultados
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface drop-shadow-sm leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm leading-tight">
               Transformación <span className="text-gradient">Industrial</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
-              <p className="text-on-surface/80 text-base md:text-xl font-medium leading-relaxed font-bold">
+              <p className="text-on-surface/80 text-sm md:text-base lg:text-lg font-medium leading-relaxed font-bold text-center md:text-left mx-auto max-w-3xl">
                 Nuestra tecnología en <strong className="text-on-surface font-black">polímeros de alta gama</strong> no solo corrige desperfectos estructurales, sino que otorga una vida útil extendida a sus instalaciones.
               </p>
-              <p className="text-on-surface/80 text-base md:text-xl font-medium leading-relaxed font-bold">
+              <p className="text-on-surface/80 text-sm md:text-base lg:text-lg font-medium leading-relaxed font-bold text-center md:text-left mx-auto max-w-3xl">
                 Observe cómo recuperamos la <strong className="text-brand-orange">integridad técnica</strong> y estética de superficies severamente degradadas.
               </p>
             </div>
@@ -1866,7 +1868,7 @@ export default function App() {
             <Star className="w-3 h-3" />
             Casos de Éxito
           </motion.div>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Clientes <span className="text-gradient">Satisfechos</span>
           </h2>
           <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
@@ -2004,7 +2006,7 @@ export default function App() {
                       <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
                         <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
                       </div>
-                      <h3 className="text-2xl md:text-4xl font-black text-on-surface uppercase tracking-tighter leading-tight">
+                      <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
                         {activeStrength.title}
                       </h3>
                       <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
@@ -2079,7 +2081,7 @@ export default function App() {
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Preguntas <span className="text-gradient">Frecuentes</span>
           </h2>
         </div>
@@ -2131,7 +2133,7 @@ export default function App() {
       <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
-            <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
               Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
             </h2>
             <p className="text-base md:text-lg text-on-surface font-bold transition-all duration-300">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
@@ -2181,7 +2183,7 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-8">
-              <div className="bg-[#fcfdfe] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border-2 border-slate-300 relative overflow-hidden h-full flex flex-col justify-center shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15)]">
+              <div className="bg-white/40 backdrop-blur-xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-white/60 relative overflow-hidden h-full flex flex-col justify-center shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)]">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32" />
                 
                 {isFormSubmitted ? (
@@ -2193,7 +2195,7 @@ export default function App() {
                     <div className="w-20 h-20 bg-brand-orange/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-brand-orange/30">
                       <CheckCircle2 className="w-10 h-10 text-brand-orange" />
                     </div>
-                    <h3 className="text-3xl md:text-4xl font-black text-on-surface uppercase tracking-tighter">¡Gracias por contactarnos!</h3>
+                    <h3 className="text-2xl md:text-3xl font-black text-on-surface uppercase tracking-tighter">¡Gracias por contactarnos!</h3>
                     <p className="text-on-surface-subtle text-lg md:text-xl font-medium max-w-md mx-auto leading-relaxed">
                       Hemos recibido tu solicitud y un ingeniero especializado se pondrá en contacto pronto para asesorarte en tu proyecto.
                     </p>
@@ -2720,7 +2722,7 @@ export default function App() {
                 
                 {/* Refined Contact Section */}
                 <div className="mt-auto pt-8 border-t border-slate-100">
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-50 to-white border border-slate-100 shadow-sm space-y-5">
+                  <div className="p-6 rounded-2xl bg-white/40 backdrop-blur-md border border-white/60 shadow-sm space-y-5">
                     <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-orange/70">Atención Directa</p>
                     
                     <div className="space-y-4">

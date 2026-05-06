@@ -16,12 +16,13 @@
 }
 
 :root {
-  --bg-primary: #f1f5f9; /* Slate 100 - Más sólido que el blanco anterior */
+  --bg-primary: transparent; /* Changed out flat color so gradient rules it all */
   --text-primary: #020617; /* Slate 950 - Máximo contraste, casi negro total */
   --text-secondary: #1e293b; /* Slate 800 - Gris muy oscuro para legibilidad */
-  --glass-bg: rgba(255, 255, 255, 0.98); /* Prácticamente opaco */
-  --glass-border: rgba(15, 23, 42, 0.2); /* Bordes más marcados */
-  --card-bg: rgba(15, 23, 42, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.7); /* Slightly more transparent */
+  --glass-border: rgba(15, 23, 42, 0.1); 
+  --card-bg: rgba(255, 255, 255, 0.6);
+
   color-scheme: light;
 }
 
