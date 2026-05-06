@@ -593,6 +593,34 @@ const BEFORE_AFTER_PAIRS = [
     description: 'Recuperación de estética y funcionalidad total.',
     before: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
     after: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
+  },
+  {
+    id: 'case13',
+    title: 'Caso de Éxito 13',
+    description: 'Transformación y recuperación de superficies.',
+    before: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg',
+    after: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg'
+  },
+  {
+    id: 'case14',
+    title: 'Caso de Éxito 14',
+    description: 'Nivelación y protección duradera.',
+    before: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg',
+    after: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg'
+  },
+  {
+    id: 'case15',
+    title: 'Caso de Éxito 15',
+    description: 'Mantenimiento integral correctivo.',
+    before: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg',
+    after: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
+  },
+  {
+    id: 'case16',
+    title: 'Caso de Éxito 16',
+    description: 'Soluciones especiales para control de calidad.',
+    before: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg',
+    after: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg'
   }
 ];
 
