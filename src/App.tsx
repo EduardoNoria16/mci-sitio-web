@@ -1525,8 +1525,8 @@ export default function App() {
                className="mt-8 md:mt-12 px-4 w-full flex flex-col items-center relative z-20"
              >
                 <div className="text-center mb-8 md:mb-12">
-                   <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm">
-                     Nuestra <span className="text-gradient transition-colors">Identidad</span>
+                   <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm max-w-4xl mx-auto">
+                     Misión, Visión y <span className="text-gradient transition-colors">Propuesta de Valor</span>
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
                  </div>
@@ -1535,18 +1535,30 @@ export default function App() {
                    {[
                      {
                        title: 'Misión',
-                       icon: <Target className="w-6 h-6 text-brand-orange" />,
-                       text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.'
+                       icon: <Target className="w-8 h-8 text-blue-600" />,
+                       text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.',
+                       theme: 'from-blue-50/80 to-white hover:from-blue-100 hover:to-blue-50 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-blue-900/90',
+                       titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-6 h-6 text-brand-orange" />,
-                       text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.'
+                       icon: <Eye className="w-8 h-8 text-teal-600" />,
+                       text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.',
+                       theme: 'from-teal-50/80 to-white hover:from-teal-100 hover:to-teal-50 border-teal-200/60',
+                       iconBg: 'bg-teal-100/50 border-teal-200 shadow-[0_0_15px_rgba(13,148,136,0.15)]',
+                       textColor: 'text-teal-900/90',
+                       titleColor: 'text-teal-950 border-teal-200'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-6 h-6 text-brand-orange" />,
-                       text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.'
+                       icon: <ShieldCheck className="w-8 h-8 text-brand-orange" />,
+                       text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.',
+                       theme: 'from-orange-50/80 to-white hover:from-orange-100 hover:to-orange-50 border-orange-200/60',
+                       iconBg: 'bg-orange-100/50 border-orange-200 shadow-[0_0_15px_rgba(245,130,32,0.15)]',
+                       textColor: 'text-orange-900/90',
+                       titleColor: 'text-orange-950 border-brand-orange/30'
                      }
                    ].map((item, idx) => (
                      <motion.div 
@@ -1555,16 +1567,19 @@ export default function App() {
                           hidden: { opacity: 0, y: 30 },
                           visible: { opacity: 1, y: 0 }
                        }}
-                       className="bg-white/70 backdrop-blur-md border border-brand-blue/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 shadow-sm hover:shadow-lg transition-all"
+                       className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden group`}
                      >
-                        <div className="w-16 h-16 rounded-2xl bg-brand-orange/10 flex items-center justify-center shrink-0 border border-brand-orange/20 shadow-[0_0_20px_rgba(245,130,32,0.15)]">
+                        {/* Subtle premium glass reflection */}
+                        <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        
+                        <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl ${item.iconBg} flex items-center justify-center shrink-0 border transition-transform duration-500 group-hover:scale-110 relative z-10`}>
                            {item.icon}
                         </div>
-                        <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full">
-                           <h3 className="text-xl md:text-2xl font-black uppercase tracking-widest text-slate-900 border-b-2 border-brand-orange/20 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0">
+                        <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full relative z-10 mt-2 md:mt-0">
+                           <h3 className={`text-xl md:text-2xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
                              {item.title}
                            </h3>
-                           <p className="text-sm md:text-base lg:text-lg text-slate-600 font-medium leading-relaxed mt-2 md:mt-0 text-justify">
+                           <p className={`text-sm md:text-base lg:text-lg ${item.textColor} font-medium leading-relaxed mt-2 md:mt-0 text-justify break-words hyphens-auto`}>
                              {item.text}
                            </p>
                         </div>
