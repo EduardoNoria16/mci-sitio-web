@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import { useLocation, useNavigate, Routes, Route, Navigate } from 'react-router-dom';
 import { logoBase64 } from './logoBase64';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
@@ -854,6 +855,49 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // --- Main App Component ---
 
 export default function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Route-based smooth scrolling
+  useEffect(() => {
+    // wait a moment for DOM to be ready
+    const timeoutId = setTimeout(() => {
+      const currentPath = location.pathname;
+      if (currentPath && currentPath.length > 1) {
+        // e.g. "/sectores" -> "sectores"
+        const targetId = currentPath.substring(1);
+        const element = document.getElementById(targetId);
+        
+        if (targetId === 'inicio') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (element) {
+          const headerOffset = window.scrollY > 50 ? 80 : 110;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        } else if (targetId === 'contacto') {
+          // Special case for footer id
+          const footer = document.getElementById('contacto-footer');
+          if (footer) {
+            const headerOffset = window.scrollY > 50 ? 80 : 110;
+            const elementPosition = footer.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }
+      }
+    }, 100);
+    return () => clearTimeout(timeoutId);
+  }, [location.pathname]);
+
   // Reiniciar scroll al inicio en cada actualización
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -1300,55 +1344,19 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
-  // Global Smooth Scroll interception for ALL anchor links
-  useEffect(() => {
-    const handleGlobalClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const anchor = target.closest('a');
-      
-      if (!anchor) return;
-      
-      const href = anchor.getAttribute('href');
-      if (href && href.startsWith('#') && href !== '#') {
-        e.preventDefault();
-        playClickSound();
-        
-        if (href === '#inicio') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          const element = document.querySelector(href);
-          if (element) {
-            const headerOffset = window.scrollY > 50 ? 80 : 110;
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            });
-          }
-        }
-        
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleGlobalClick);
-    return () => document.removeEventListener('click', handleGlobalClick);
-  }, []);
-
   // Inline smooth scroll handler fallback
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     e.preventDefault();
-    // The actual scrolling is now handled globally by the handleGlobalClick listener
+    navigate(href);
+    setIsMenuOpen(false);
   };
 
   const navLinks = useMemo(() => [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Sectores', href: '#sectores' },
-    { name: 'Fortalezas', href: '#fortalezas' },
-    { name: 'Galería', href: '#galeria' },
-    { name: 'Contacto', href: '#contacto-footer' }
+    { name: 'Inicio', href: '/inicio' },
+    { name: 'Sectores', href: '/sectores' },
+    { name: 'Fortalezas', href: '/fortalezas' },
+    { name: 'Galería', href: '/galeria' },
+    { name: 'Contacto', href: '/contacto' }
   ], []);
 
   return (
@@ -1535,7 +1543,7 @@ export default function App() {
              >
                 <div className="text-center mb-8 md:mb-12">
                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm max-w-4xl mx-auto">
-                     Misión, Visión y <span className="text-gradient transition-colors">Propuesta de Valor</span>
+                     Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
                  </div>
