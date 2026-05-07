@@ -71,6 +71,7 @@ const CustomVideoPlayer = memo(() => {
   const videoUrl = "https://i.imgur.com/LoeTAM6.mp4";
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -127,19 +128,27 @@ const CustomVideoPlayer = memo(() => {
     e.stopPropagation();
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
     }
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+    }
+    setIsMuted(!isMuted);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     const val = parseFloat(e.target.value);
     setVolume(val);
+    const mutedStatus = val === 0;
     if (videoRef.current) {
-      videoRef.current.volume = val;
-      videoRef.current.muted = val === 0;
-      setIsMuted(val === 0);
+      videoRef.current.volume = 0; // Mute video original sound to prefer custom audio
+      videoRef.current.muted = true;
     }
+    if (audioRef.current) {
+      audioRef.current.volume = val;
+      audioRef.current.muted = mutedStatus;
+    }
+    setIsMuted(mutedStatus);
   };
 
   const handleTimeUpdate = () => {
@@ -147,6 +156,10 @@ const CustomVideoPlayer = memo(() => {
       setCurrentTime(videoRef.current.currentTime);
       if (videoRef.current.duration) {
         setProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+      }
+      // Audio sync (starts at 2:30 = 150s offset)
+      if (audioRef.current && Math.abs(audioRef.current.currentTime - (videoRef.current.currentTime + 150)) > 0.5) {
+        audioRef.current.currentTime = videoRef.current.currentTime + 150;
       }
     }
   };
@@ -161,8 +174,12 @@ const CustomVideoPlayer = memo(() => {
     e.stopPropagation();
     const val = parseFloat(e.target.value);
     if (videoRef.current) {
-      videoRef.current.currentTime = (videoRef.current.duration / 100) * val;
+      const newTime = (videoRef.current.duration / 100) * val;
+      videoRef.current.currentTime = newTime;
       setProgress(val);
+      if (audioRef.current) {
+        audioRef.current.currentTime = newTime + 150;
+      }
     }
   };
 
@@ -202,9 +219,27 @@ const CustomVideoPlayer = memo(() => {
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          if (audioRef.current) audioRef.current.pause();
+        }}
+        onPlay={() => {
+          setIsPlaying(true);
+          if (audioRef.current) {
+            audioRef.current.currentTime = (videoRef.current?.currentTime || 0) + 150;
+            audioRef.current.play().catch(() => {});
+          }
+        }}
+        onPause={() => {
+          setIsPlaying(false);
+          if (audioRef.current) audioRef.current.pause();
+        }}
+      />
+      <audio 
+        ref={audioRef}
+        src="/cancion.mp3"
+        preload="auto"
+        muted={isMuted}
       />
 
       {/* Initial Clean Play Button (Disappears after first interaction) */}
@@ -682,7 +717,6 @@ const SECTORS: Sector[] = [
     description: 'Materiales en cumplimiento con regulaciones de la FDA, USDA (EEUU), y COFEPRIS, SENASICA (Méx).',
     icon: <Droplets className="w-6 h-6" />,
     details: {
-      intro: 'Materiales en cumplimiento con regulaciones de la FDA, USDA (EEUU), y COFEPRIS, SENASICA (Méx).',
       groups: [
         {
           title: 'Industria alimenticia',
@@ -1364,9 +1398,9 @@ export default function App() {
       {/* Dynamic Background Elements for more vibrant feel */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/10 via-[#3b82f6]/10 to-[#f58220]/10 mix-blend-overlay" />
-        <div className="absolute -top-40 -left-60 w-[50rem] h-[50rem] bg-[#00f2ff]/30 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob" />
-        <div className="absolute top-20 -right-40 w-[50rem] h-[50rem] bg-brand-blue/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-40 left-1/4 w-[50rem] h-[50rem] bg-brand-orange/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob animation-delay-4000" />
+        <div className="absolute -top-40 -left-60 w-[50rem] h-[50rem] bg-[#00f2ff]/30 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[150px] opacity-80 md:animate-blob" />
+        <div className="hidden md:block absolute top-20 -right-40 w-[50rem] h-[50rem] bg-brand-blue/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-40 left-1/4 w-[50rem] h-[50rem] bg-brand-orange/20 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[150px] opacity-80 md:animate-blob animation-delay-4000" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
       </div>
       
@@ -1473,19 +1507,15 @@ export default function App() {
 
       {/* Background Blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/15 blur-[120px] rounded-full will-change-transform" />
-        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-brand-orange/15 blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/15 blur-[80px] md:blur-[120px] rounded-full will-change-transform" />
+        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-brand-orange/15 blur-[80px] md:blur-[120px] rounded-full will-change-transform" />
       </div>
 
       {/* Hero Section */}
       <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh] perspective-[1000px]">
         
         {/* Fondo fotográfico full width with elegant light glassmorphism overlay */}
-        <motion.div 
-          animate={{ x: ["-2%", "2%"], y: ["0%", "2%"], scale: [1.05, 1.1] }}
-          transition={{ duration: 30, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-          className="absolute inset-0 z-0"
-        >
+        <div className="absolute inset-0 z-0">
           <img 
             src="https://i.postimg.cc/3wK1P8Yb/imagen-hero.png" 
             alt="MCI Soluciones Fotografía Oficial"
@@ -1493,38 +1523,29 @@ export default function App() {
             crossOrigin="anonymous"
           />
           {/* Sofisticado degradado de fondo */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/85 to-white/70 backdrop-blur-[4px] z-10 pointer-events-none" />
-          <motion.div 
-            animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.2, 1] }}
-            transition={{ duration: 10, ease: "easeInOut", repeat: Infinity }}
-            className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-orange/10 blur-[150px] rounded-full z-10 pointer-events-none" 
-          />
-          <div className="absolute bottom-0 right-0 w-[60%] h-[60%] bg-brand-blue/10 blur-[120px] rounded-full z-10 pointer-events-none" />
-        </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/85 to-white/70 md:backdrop-blur-[4px] z-10 pointer-events-none" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] md:w-[60%] h-[80%] md:h-[60%] bg-brand-orange/10 blur-[80px] md:blur-[120px] rounded-full z-10 pointer-events-none" />
+          <div className="hidden md:block absolute bottom-0 right-0 w-[60%] h-[60%] bg-brand-blue/10 blur-[120px] rounded-full z-10 pointer-events-none" />
+        </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 flex flex-col items-center w-full">
 
           <div className="flex flex-col gap-12 lg:gap-16 items-center w-full">
             
             {/* 1. ¿Quiénes Somos? Text */}
-            <div className="w-full max-w-4xl mx-auto">
+            <div className="w-full max-w-5xl mx-auto">
               <motion.div 
-                initial={{ opacity: 0, y: 30, rotateX: 10 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                whileHover={{ scale: 1.02, rotateY: 2, rotateX: -2 }}
-                className="relative w-full flex flex-col items-center justify-center space-y-6 p-8 md:p-12 lg:p-16 rounded-3xl bg-white/70 shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-white/80 backdrop-blur-xl overflow-hidden text-center transition-all duration-700 hover:shadow-[0_30px_60px_rgba(245,130,32,0.1)]"
+                className="relative w-full flex flex-col items-center justify-center space-y-6 p-6 md:p-12 lg:p-16 rounded-3xl bg-white/70 shadow-[0_10px_30px_rgba(0,0,0,0.05)] md:shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-white/80 md:backdrop-blur-xl overflow-hidden text-center transition-all duration-700 hover:shadow-[0_20px_50px_rgba(245,130,32,0.1)]"
               >
                 {/* Decorative corner accents */}
-                <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-brand-orange/15 to-transparent rounded-tl-3xl opacity-80 z-0 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-brand-blue/15 to-transparent rounded-br-3xl opacity-80 z-0 pointer-events-none" />
+                <div className="absolute top-0 left-0 w-32 md:w-40 h-32 md:h-40 bg-gradient-to-br from-brand-orange/15 to-transparent rounded-tl-3xl opacity-80 z-0 pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-32 md:w-40 h-32 md:h-40 bg-gradient-to-tl from-brand-blue/15 to-transparent rounded-br-3xl opacity-80 z-0 pointer-events-none" />
                 
-                {/* Animated soft glow behind text */}
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-brand-orange/5 via-transparent to-brand-blue/5 z-0"
-                  animate={{ opacity: [0, 0.4, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                />
+                {/* Animated soft glow behind text (deshabilitado en mobile para rendimiento) */}
+                <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-brand-orange/5 via-transparent to-brand-blue/5 z-0" />
 
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -1547,7 +1568,7 @@ export default function App() {
                   className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-700 leading-relaxed md:leading-loose font-medium relative z-10 max-w-3xl"
                   style={{ overflowWrap: 'break-word' }}
                 >
-                  Empresa con más de <span className="font-extrabold text-brand-orange px-1 drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="font-extrabold text-brand-blue">Industrial</span> y de la <span className="font-extrabold text-brand-blue">Construcción</span> en <span className="font-extrabold text-brand-blue">México</span> con el único objetivo de ofrecer <span className="font-extrabold text-brand-orange drop-shadow-sm">soluciones duraderas</span> con <span className="font-extrabold text-slate-900">ingeniería</span> en <span className="font-extrabold text-slate-900">materiales poliméricos</span> de <span className="font-extrabold text-brand-orange">alta gama</span> para <span className="font-extrabold text-brand-blue">restaurar</span>, <span className="font-extrabold text-brand-blue">mejorar</span> y <span className="font-extrabold text-brand-blue">proteger</span> instalaciones expuestas a <span className="font-extrabold text-slate-900">daños físicos</span> o <span className="font-extrabold text-slate-900">químicos</span>, maximizando su vida útil para <span className="font-extrabold text-brand-orange drop-shadow-sm">preservar</span> el valor de tu <span className="font-extrabold text-brand-orange drop-shadow-sm">inversión</span>.
+                  Empresa con más de <span className="font-extrabold text-brand-orange px-1">30 años</span> de consolidación en los sectores <span className="font-extrabold text-brand-blue">Industrial</span> y de la <span className="font-extrabold text-brand-blue">Construcción</span> en <span className="font-extrabold text-brand-blue">México</span> con el único objetivo de ofrecer <span className="font-extrabold text-brand-orange">soluciones duraderas</span> con <span className="font-extrabold text-slate-900">ingeniería</span> en <span className="font-extrabold text-slate-900">materiales poliméricos</span> de <span className="font-extrabold text-brand-orange">alta gama</span> para <span className="font-extrabold text-brand-blue">restaurar</span>, <span className="font-extrabold text-brand-blue">mejorar</span> y <span className="font-extrabold text-brand-blue">proteger</span> instalaciones expuestas a <span className="font-extrabold text-slate-900">daños físicos</span> o <span className="font-extrabold text-slate-900">químicos</span>, maximizando su vida útil para <span className="font-extrabold text-brand-orange">preservar</span> el valor de tu <span className="font-extrabold text-brand-orange">inversión</span>.
                 </motion.p>
               </motion.div>
             </div>
@@ -1578,7 +1599,7 @@ export default function App() {
                        text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.',
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold drop-shadow-sm',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
                        titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
@@ -1587,7 +1608,7 @@ export default function App() {
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.',
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold drop-shadow-sm',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
                        titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
@@ -1596,7 +1617,7 @@ export default function App() {
                        text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.',
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold drop-shadow-sm',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
                        titleColor: 'text-blue-950 border-blue-200',
                        differentiators: [
                          'Más de 30 años de experiencia',
@@ -1691,7 +1712,7 @@ export default function App() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`shrink-0 w-[85vw] sm:w-auto snap-center p-6 md:p-8 rounded-2xl md:rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl translate-y--2 border-transparent' : 'bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent hover:-translate-y-1'}`}
+              className={`shrink-0 w-[85vw] sm:w-auto snap-center p-6 md:p-8 rounded-2xl md:rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl translate-y--2 border-transparent' : 'bg-[#22d3ee]/15 md:backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent hover:-translate-y-1'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
@@ -1778,7 +1799,7 @@ export default function App() {
                   setActiveStrength(s);
                   setIsStrengthHovered(true);
                 }}
-                className="shrink-0 w-[75vw] sm:w-[45vw] md:w-auto snap-center group relative p-4 md:p-6 rounded-xl md:rounded-2xl border-2 bg-[#22d3ee]/15 backdrop-blur-xl border-[#22d3ee]/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-2xl hover:border-transparent hover:-translate-y-1.5"
+                className="shrink-0 w-[75vw] sm:w-[45vw] md:w-auto snap-center group relative p-4 md:p-6 rounded-xl md:rounded-2xl border-2 bg-[#22d3ee]/15 md:backdrop-blur-xl border-[#22d3ee]/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-2xl hover:border-transparent hover:-translate-y-1.5"
               >
                 <div className="p-3 rounded-xl bg-[#22d3ee] group-hover:bg-brand-orange transition-all duration-500 shadow-[0_5px_15px_rgba(34,211,238,0.2)] group-hover:shadow-[0_0_25px_rgba(245,130,32,0.4)] border border-white/20">
                   {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6 text-brand-orange group-hover:text-white transition-colors duration-300' })}
@@ -2157,7 +2178,7 @@ export default function App() {
       </section>
 
       {/* Footer Section */}
-      <footer id="contacto-footer" className="relative z-10 bg-surface/50 backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16 overflow-hidden">
+      <footer id="contacto-footer" className="relative z-10 bg-surface/50 md:backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
@@ -2210,8 +2231,8 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-8">
-              <div className="bg-white/40 backdrop-blur-xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-white/60 relative overflow-hidden h-full flex flex-col justify-center shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32" />
+              <div className="bg-white/40 md:backdrop-blur-xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-white/60 relative overflow-hidden h-full flex flex-col justify-center shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)]">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[80px] md:blur-[100px] rounded-full -mr-32 -mt-32" />
                 
                 {isFormSubmitted ? (
                   <motion.div 
