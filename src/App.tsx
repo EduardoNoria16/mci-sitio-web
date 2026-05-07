@@ -1478,66 +1478,76 @@ export default function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh] perspective-[1000px]">
         
         {/* Fondo fotográfico full width with elegant light glassmorphism overlay */}
-        <div className="absolute inset-0 z-0">
+        <motion.div 
+          animate={{ x: ["-2%", "2%"], y: ["0%", "2%"], scale: [1.05, 1.1] }}
+          transition={{ duration: 30, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+          className="absolute inset-0 z-0"
+        >
           <img 
             src="https://i.postimg.cc/3wK1P8Yb/imagen-hero.png" 
             alt="MCI Soluciones Fotografía Oficial"
-            className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-60"
+            className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50"
             crossOrigin="anonymous"
           />
           {/* Sofisticado degradado de fondo */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white backdrop-blur-[2px] z-10 pointer-events-none" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-orange/5 blur-[150px] rounded-full z-10 pointer-events-none" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/85 to-white/70 backdrop-blur-[4px] z-10 pointer-events-none" />
+          <motion.div 
+            animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.2, 1] }}
+            transition={{ duration: 10, ease: "easeInOut", repeat: Infinity }}
+            className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-orange/10 blur-[150px] rounded-full z-10 pointer-events-none" 
+          />
+          <div className="absolute bottom-0 right-0 w-[60%] h-[60%] bg-brand-blue/10 blur-[120px] rounded-full z-10 pointer-events-none" />
+        </motion.div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 flex flex-col items-center w-full">
 
-          <div className="flex flex-col gap-16 lg:gap-24 items-center w-full">
+          <div className="flex flex-col gap-12 lg:gap-16 items-center w-full">
             
             {/* 1. ¿Quiénes Somos? Text */}
-            <div className="w-full max-w-5xl">
+            <div className="w-full max-w-4xl mx-auto">
               <motion.div 
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative w-full flex flex-col items-center justify-center space-y-8 p-8 md:p-14 lg:p-20 rounded-[2.5rem] bg-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.08)] border border-white/60 backdrop-blur-2xl overflow-hidden group text-center"
+                initial={{ opacity: 0, y: 30, rotateX: 10 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                whileHover={{ scale: 1.02, rotateY: 2, rotateX: -2 }}
+                className="relative w-full flex flex-col items-center justify-center space-y-6 p-8 md:p-12 lg:p-16 rounded-3xl bg-white/70 shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-white/80 backdrop-blur-xl overflow-hidden text-center transition-all duration-700 hover:shadow-[0_30px_60px_rgba(245,130,32,0.1)]"
               >
                 {/* Decorative corner accents */}
-                <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-brand-orange/20 to-transparent rounded-tl-[2.5rem] opacity-60 z-0 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-brand-blue/20 to-transparent rounded-br-[2.5rem] opacity-60 z-0 pointer-events-none" />
+                <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-brand-orange/15 to-transparent rounded-tl-3xl opacity-80 z-0 pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-brand-blue/15 to-transparent rounded-br-3xl opacity-80 z-0 pointer-events-none" />
                 
                 {/* Animated soft glow behind text */}
                 <motion.div 
                   className="absolute inset-0 bg-gradient-to-r from-brand-orange/5 via-transparent to-brand-blue/5 z-0"
-                  animate={{ opacity: [0.3, 0.6, 0.3] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  animate={{ opacity: [0, 0.4, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 />
 
                 <motion.div 
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className="space-y-6 max-w-full flex flex-col items-center relative z-10"
+                  transition={{ delay: 0.3, duration: 0.6 }}
+                  className="space-y-4 max-w-full flex flex-col items-center relative z-10"
                 >
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-widest uppercase leading-tight text-slate-900 drop-shadow-sm">
-                    <span>¿Quiénes</span>&nbsp;&nbsp;
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-widest uppercase leading-tight text-slate-900 drop-shadow-sm flex items-center justify-center gap-2">
+                    <span>¿Quiénes</span>
                     <span className="text-brand-orange">Somos</span>
                     <span>?</span>
                   </h1>
-                  <div className="h-1.5 md:h-2 w-24 sm:w-32 bg-brand-orange rounded-full shadow-[0_2px_15px_rgba(245,130,32,0.4)]" />
+                  <div className="h-1 md:h-1.5 w-16 sm:w-20 bg-brand-orange rounded-full shadow-[0_2px_10px_rgba(245,130,32,0.5)]" />
                 </motion.div>
 
                 <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="mt-8 text-base md:text-xl lg:text-2xl xl:text-[1.6rem] text-slate-800 leading-relaxed md:leading-[1.8] xl:leading-[1.9] font-bold transition-all duration-300 relative z-10 max-w-4xl"
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-700 leading-relaxed md:leading-loose font-medium relative z-10 max-w-3xl"
                   style={{ overflowWrap: 'break-word' }}
                 >
-                  Empresa con más de <span className="hl font-black text-brand-orange text-xl md:text-2xl lg:text-3xl xl:text-4xl px-1.5 drop-shadow-sm tracking-wide">30 años</span> de consolidación en los sectores <span className="hl font-black text-brand-blue">Industrial</span> y de la <span className="hl font-black text-brand-blue">Construcción</span> en <span className="hl font-black text-brand-blue">México</span> con el único objetivo de ofrecer <span className="hl font-black text-brand-orange drop-shadow-sm">soluciones duraderas</span> con <span className="hl font-black text-slate-900">ingeniería</span> en <span className="hl font-black text-slate-900">materiales poliméricos</span> de <span className="hl font-black text-brand-orange">alta gama</span> para <span className="hl font-black text-brand-blue">restaurar</span>, <span className="hl font-black text-brand-blue">mejorar</span> y <span className="hl font-black text-brand-blue">proteger</span> instalaciones expuestas a <span className="hl font-black text-slate-900">daños físicos</span> o <span className="hl font-black text-slate-900">químicos</span>, maximizando su vida útil para <span className="hl font-black text-brand-orange drop-shadow-sm">preservar</span> el valor de tu <span className="hl font-black text-brand-orange drop-shadow-sm">inversión</span>.
+                  Empresa con más de <span className="font-extrabold text-brand-orange px-1 drop-shadow-sm">30 años</span> de consolidación en los sectores <span className="font-extrabold text-brand-blue">Industrial</span> y de la <span className="font-extrabold text-brand-blue">Construcción</span> en <span className="font-extrabold text-brand-blue">México</span> con el único objetivo de ofrecer <span className="font-extrabold text-brand-orange drop-shadow-sm">soluciones duraderas</span> con <span className="font-extrabold text-slate-900">ingeniería</span> en <span className="font-extrabold text-slate-900">materiales poliméricos</span> de <span className="font-extrabold text-brand-orange">alta gama</span> para <span className="font-extrabold text-brand-blue">restaurar</span>, <span className="font-extrabold text-brand-blue">mejorar</span> y <span className="font-extrabold text-brand-blue">proteger</span> instalaciones expuestas a <span className="font-extrabold text-slate-900">daños físicos</span> o <span className="font-extrabold text-slate-900">químicos</span>, maximizando su vida útil para <span className="font-extrabold text-brand-orange drop-shadow-sm">preservar</span> el valor de tu <span className="font-extrabold text-brand-orange drop-shadow-sm">inversión</span>.
                 </motion.p>
               </motion.div>
             </div>
@@ -1704,9 +1714,6 @@ export default function App() {
                     transition={{ duration: 0.2, ease: "easeOut" }}
                     className="pt-6 border-t border-glass-border space-y-5"
                   >
-                    {sector.details?.intro && (
-                      <p className="text-sm text-brand-orange font-bold italic tracking-wide bg-brand-orange/5 p-2 rounded-lg">{sector.details.intro}</p>
-                    )}
                     {sector.details?.groups.map((group, i) => (
                       <div key={i} className="space-y-3">
                         <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] flex items-center gap-2">
