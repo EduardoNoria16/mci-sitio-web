@@ -84,8 +84,11 @@ const CustomVideoPlayer = memo(() => {
   const [hasInteracted, setHasInteracted] = useState(false);
   const controlsTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const togglePlay = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
+  const togglePlay = (e?: React.SyntheticEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     if (!hasInteracted) setHasInteracted(true);
     
     if (videoRef.current) {
@@ -214,9 +217,10 @@ const CustomVideoPlayer = memo(() => {
       <video
         ref={videoRef}
         src={videoUrl}
-        className={`w-full h-full object-contain ${!isPlaying && !hasInteracted ? 'opacity-80' : 'opacity-100'} transition-opacity duration-500`}
+        className={`w-full h-full object-contain ${!isPlaying && !hasInteracted ? 'opacity-80' : 'opacity-100'} transition-opacity duration-500 cursor-pointer`}
         preload="metadata"
         playsInline
+        onClick={togglePlay}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={() => {
@@ -242,14 +246,26 @@ const CustomVideoPlayer = memo(() => {
         muted={isMuted}
       />
 
-      {/* Initial Clean Play Button (Disappears after first interaction) */}
-      {!hasInteracted && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-20 h-20 bg-brand-orange/90 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm group-hover:bg-brand-orange transition-colors duration-300">
-            <Play className="w-10 h-10 text-white fill-current ml-1" />
-          </div>
-        </div>
-      )}
+      {/* Floating Action Button for Play/Pause - Modern Design (Centered) */}
+      <AnimatePresence>
+        {!isPlaying && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+          >
+            <button 
+              onClick={togglePlay}
+              onTouchEnd={togglePlay}
+              className="pointer-events-auto w-20 h-20 md:w-24 md:h-24 bg-white/20 backdrop-blur-md border border-white/40 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(0,0,0,0.3)] hover:bg-white/30 hover:scale-105 active:scale-95 text-white transition-all duration-300"
+            >
+              <Play className="w-8 h-8 md:w-10 md:h-10 ml-1.5 md:ml-2 fill-current" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* YouTube Style Controls Bar */}
       <div 
@@ -2653,15 +2669,15 @@ export default function App() {
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escriba su consulta técnica..."
-                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all"
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
                   />
                   <button 
                     type="submit"
                     disabled={isTyping || (!userInput.trim() && !selectedFile)}
                     onClick={() => playClickSound()}
-                    className="p-2.5 bg-slate-900 text-white rounded-xl disabled:opacity-30 hover:bg-slate-800 transition-all shadow-lg active:scale-95 border border-white/5"
+                    className="bg-slate-900 text-white rounded-xl disabled:opacity-30 hover:bg-slate-800 transition-all shadow-lg active:scale-95 border border-white/5 flex flex-shrink-0 items-center justify-center w-[44px] h-[44px]"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-5 h-5 ml-1" />
                   </button>
                 </div>
               </form>
