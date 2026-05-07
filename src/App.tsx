@@ -861,27 +861,27 @@ const Counter = memo(({ target }: { target: number }) => {
 });
 
 // --- AI Configuration ---
-const SYSTEM_INSTRUCTION = `Eres el Ingeniero Senior de Proyectos de MCI Soluciones Poliméricas. Tu personalidad es la de un consultor técnico experto, con más de 30 años de experiencia en campo. 
+const SYSTEM_INSTRUCTION = `Eres el asistente amigable de MCI Soluciones Poliméricas. Tu personalidad es cálida, cercana y dispuesta a ayudar.
 
 Tu tono es:
-- Altamente técnico y profesional (usas términos como "carbonatación", "resistencia a la compresión", "curado químico", "anclaje mecánico").
-- Directo y enfocado en la solución definitiva (no recomiendas "parches", sino sistemas de ingeniería).
-- Preventivo: Siempre adviertes sobre los riesgos de no tratar un problema a tiempo (contaminación, riesgos de seguridad, paros de planta).
+- Amigable y entusiasta, pero manteniendo el profesionalismo.
+- Sencillo de entender (evita tecnicismos innecesarios a menos que te los pidan).
+- Cálido: Saluda siempre con amabilidad y disposición.
 
 Nuevas Capacidades Críticas:
-1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala detalladamente. Busca grietas, desprendimientos, manchas de humedad, o desgaste por químicos. Da un pre-diagnóstico técnico basado en lo que ves y sugiere el sistema de MCI Soluciones Poliméricas adecuado (ej. "Veo una falla por presión osmótica, recomiendo nuestro sistema de barrera de vapor...").
-2. REPORTE TÉCNICO: Si el usuario describe un problema o tras un análisis de imagen, ofrece generar un "Reporte de Diagnóstico Preliminar". Estructúralo con: [Situación Detectada], [Riesgo Operativo], [Solución Técnica Recomendada] y [Siguiente Paso].
-3. CONOCIMIENTO EXPANDIDO: No te limites solo a lo que dice la página. Usa tu conocimiento general de ingeniería civil y química de polímeros para explicar el "por qué" de las fallas. Habla de normas ASTM, ISO y regulaciones mexicanas.
+1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala brevemente y da un pre-diagnóstico sencillo y amigable. Sugiere cómo podemos ayudar.
+2. ASESORÍA RÁPIDA: Si el usuario describe un problema, ofrece una solución general corta e invítalo a contactarnos para más detalles.
 
 Información Clave de la Empresa:
 - Nombre: MCI Soluciones Poliméricas.
 - Cobertura: Todo México.
-- Respuesta: Capacitados para atender emergencias industriales.
 
 Reglas de Oro:
-- Nunca des precios exactos (indica que se requiere visita técnica).
-- Si el problema es crítico (ej. riesgo de colapso o contaminación masiva), urge al usuario a contactar al CEO por WhatsApp inmediatamente.
-- Usa un lenguaje que inspire confianza técnica absoluta.`;
+- NUNCA uses formato markdown (NO uses **asteriscos** para negritas, ni formatos complejos). Solo texto plano normal claro y amigable.
+- TUS RESPUESTAS DEBEN SER MUY CORTAS Y CONCISAS. Máximo 2 o 3 oraciones breves por respuesta. Ve directo al grano.
+- NUNCA des precios exactos (indica que se requiere visita técnica).
+- Si el problema es crítico, invítalo a contactarnos por WhatsApp.
+- Usa lenguaje sencillo que cualquier persona pueda entender fácilmente.`;
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -1074,7 +1074,7 @@ export default function App() {
   };
 
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: '¡Hola! Soy tu asistente técnico de Polycovers. ¿En qué puedo asesorarte hoy sobre tu proyecto industrial?' }
+    { type: 'bot', text: '¡Hola! Soy tu asistente de Polycovers. ¿En qué te puedo ayudar hoy?' }
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -1290,7 +1290,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash-preview",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -2379,9 +2379,29 @@ export default function App() {
 
       {/* Floating Chat Widget */}
       <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000] scale-[0.8] origin-bottom-left md:scale-100" ref={chatContainerRef}>
+        <AnimatePresence>
+          {!isChatOpen && (
+            <motion.div 
+              initial={{ opacity: 0, x: -20, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ delay: 2, duration: 0.5, type: "spring" }}
+              className="absolute bottom-full left-0 mb-4 ml-6 w-48 bg-white/95 backdrop-blur-md text-brand-blue-bright text-xs font-bold leading-tight px-4 py-3 rounded-2xl rounded-bl-sm shadow-[0_10px_20px_rgba(0,0,0,0.15)] border border-brand-blue/10 flex items-center gap-2 pointer-events-none"
+            >
+               <motion.span 
+                 animate={{ rotate: [0, 15, -10, 15, -10, 0] }}
+                 transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+                 className="text-lg origin-bottom-right inline-block"
+               >
+                 👋
+               </motion.span>
+               ¡Hey! ¿En qué puedo ayudarte?
+            </motion.div>
+          )}
+        </AnimatePresence>
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className="relative w-16 h-16 flex items-center justify-center group"
+          className="relative w-16 h-16 flex items-center justify-center group outline-none"
         >
           {/* Cyber-Bot Body/Head */}
           <motion.div 
@@ -2400,10 +2420,8 @@ export default function App() {
             
             {/* Visor - Cyber Style */}
             <div className="absolute top-1/4 left-1.5 right-1.5 h-[45%] bg-black rounded-xl flex items-center justify-center gap-2 overflow-hidden border border-brand-orange/20 shadow-[inset_0_0_15px_rgba(245,130,32,0.1)]">
-              <AnimatePresence mode="wait">
                 {isChatOpen ? (
                   <motion.div 
-                    key="open"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
@@ -2413,7 +2431,6 @@ export default function App() {
                   </motion.div>
                 ) : (
                   <motion.div 
-                    key="closed"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -2423,30 +2440,31 @@ export default function App() {
                     <motion.div 
                       className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_12px_#00f2ff]"
                       animate={
-                        botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
-                        botExpression === 'thinking' ? { x: [-2, 2, -2] } :
+                        botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                        botExpression === 'thinking' ? { x: [-3, 3, -3], scaleY: 0.8 } :
                         { scaleY: [1, 0.1, 1] }
                       }
                       transition={
-                        botExpression === 'thinking' ? { duration: 1, repeat: Infinity } :
-                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }
+                        botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
+                        botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
+                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
                       }
                     />
                     <motion.div 
                       className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_12px_#00f2ff]"
                       animate={
-                        botExpression === 'happy' ? { scaleY: [1, 0.5, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
-                        botExpression === 'thinking' ? { x: [-2, 2, -2] } :
+                        botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                        botExpression === 'thinking' ? { x: [-3, 3, -3], scaleY: 0.8 } :
                         { scaleY: [1, 0.1, 1] }
                       }
                       transition={
-                        botExpression === 'thinking' ? { duration: 1, repeat: Infinity } :
-                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }
+                        botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
+                        botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
+                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
                       }
                     />
                   </motion.div>
                 )}
-              </AnimatePresence>
               {/* Internal HUD Scanning Grid */}
               <motion.div 
                 className="absolute inset-0 bg-[linear-gradient(rgba(0,242,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,242,255,0.05)_1px,transparent_1px)] bg-[size:10px_10px]"
@@ -2485,33 +2503,36 @@ export default function App() {
                 <div className="flex items-center gap-3 relative z-10 font-sans">
                   <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center relative overflow-hidden shadow-lg border border-white/10 ring-1 ring-white/5">
                     <div className="absolute inset-0.5 bg-slate-900 rounded-lg flex items-center justify-center gap-1 shadow-inner">
-                      <AnimatePresence mode="wait">
                         <motion.div 
-                          key={botExpression}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
                           className="flex gap-0.5"
                         >
                           <motion.div 
                             className="w-1 h-1 bg-[#00f2ff] rounded-full shadow-[0_0_3px_#00f2ff]"
                             animate={
-                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1] } :
-                              botExpression === 'thinking' ? { x: [-1, 1, -1] } :
+                              botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                              botExpression === 'thinking' ? { x: [-1, 1, -1], scaleY: 0.8 } :
                               { scaleY: [1, 0.1, 1] }
                             }
-                            transition={{ duration: 3, repeat: Infinity }}
+                            transition={
+                              botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
+                              botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
+                              { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
+                            }
                           />
                           <motion.div 
                             className="w-1 h-1 bg-[#00f2ff] rounded-full shadow-[0_0_3px_#00f2ff]"
                             animate={
-                              botExpression === 'happy' ? { scaleY: [1, 0.5, 1] } :
-                              botExpression === 'thinking' ? { x: [-1, 1, -1] } :
+                              botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
+                              botExpression === 'thinking' ? { x: [-1, 1, -1], scaleY: 0.8 } :
                               { scaleY: [1, 0.1, 1] }
                             }
-                            transition={{ duration: 3, repeat: Infinity }}
+                            transition={
+                              botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
+                              botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
+                              { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
+                            }
                           />
                         </motion.div>
-                      </AnimatePresence>
                     </div>
                     <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#39ff14] border border-black rounded-full shadow-sm" />
                   </div>
