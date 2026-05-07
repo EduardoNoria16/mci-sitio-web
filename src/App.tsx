@@ -311,7 +311,7 @@ const STRENGTHS: Strength[] = [
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
     items: [
-      'Instalación de concreto para pisos con altos estándares de precisión and acabado',
+      'Instalación de concreto para pisos con altos estándares de precisión y acabado',
       'Tratamientos químicos. Curado y densificado superficial.',
       'Desbaste, pulido y abrillantado (DPA) hasta acabado espejo con apariencia sal y pimienta',
       'Acabados químicos, concretos oxidados en variedad de colores y diseños',
@@ -331,7 +331,7 @@ const STRENGTHS: Strength[] = [
   },
   {
     id: 'pa2',
-    title: 'PISOS EPÓXICOS DE VALOR',
+    title: 'PISOS EPÓXICOS DE ALTO VALOR',
     icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
@@ -346,7 +346,7 @@ const STRENGTHS: Strength[] = [
   },
   {
     id: 'pa3',
-    title: 'ACABADOS DE ALTA GAMA',
+    title: 'ACABADOS INDUSTRIALES DE ALTA GAMA',
     icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
@@ -398,7 +398,7 @@ const STRENGTHS: Strength[] = [
   },
   {
     id: 'pa4',
-    title: 'REPARACIÓN DE CONCRETO',
+    title: 'REPARACIÓN Y MANTENIMIENTO DE CONCRETO',
     icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
@@ -440,7 +440,7 @@ const STRENGTHS: Strength[] = [
     image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80',
     items: [
       'Sistemas epóxi-poliuretano como acabado en pisos para servicios ligeros',
-      'Acabados sanitarios lisos, continuos, sin bordes, y antibacteriales en muros y plataformas',
+      'Acabados sanitarios lisos, continuos, sin bordes, y antibacteriales en muros y plafond',
       'Curvas sanitarias en uniones entre pisos, muros y plafond para espacios siempre limpios',
       'Señalizaciones fotoluminiscentes para sitios especiales',
       'Pintura sobre equipos oxidados aún con dificultad para limpieza y preparación previa',
@@ -451,7 +451,7 @@ const STRENGTHS: Strength[] = [
   },
   {
     id: 'pa7',
-    title: 'SISTEMAS CORTAFUEGO DE PROTECCIÓN PASIVA',
+    title: 'SISTEMAS CORTAFUEGO Y PROTECCIÓN PASIVA',
     icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
@@ -705,7 +705,7 @@ const SECTORS: Sector[] = [
       groups: [
         {
           title: 'Servicios',
-          items: ['Instalación de pisos de concreto', 'Reparación de concreto', 'Sello de juntas', 'Acabados decorativos', 'Impermeabilización', 'Acabados de alta gama']
+          items: ['Instalación de pisos de concreto', 'Reparación y mantenimiento de concreto', 'Sello de juntas', 'Acabados decorativos', 'Impermeabilización', 'Acabados industriales de alta gama']
         }
       ]
     }
@@ -1512,7 +1512,7 @@ export default function App() {
                 className="space-y-3 max-w-full flex flex-col items-center md:items-start"
               >
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight uppercase leading-[1.1] md:leading-tight text-slate-900 text-center md:text-left transition-all duration-300 drop-shadow-sm px-2 md:px-0">
-                  <span>¿Quiénes</span>{' '}
+                  <span>¿Quiénes</span>&nbsp;&nbsp;
                   <span className="text-brand-orange">Somos</span>
                   <span>?</span>
                 </h1>
@@ -1543,7 +1543,7 @@ export default function App() {
              >
                 <div className="text-center mb-8 md:mb-12">
                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm max-w-4xl mx-auto">
-                     Así Garantizamos <span className="text-gradient transition-colors">Resultados</span>
+                    Así&nbsp;&nbsp;Garantizamos&nbsp;&nbsp;<span className="text-gradient transition-colors">Resultados</span>
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
                  </div>
@@ -1556,26 +1556,26 @@ export default function App() {
                        text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.',
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-slate-900',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold drop-shadow-sm',
                        titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-8 h-8 text-teal-600" />,
+                       icon: <Eye className="w-8 h-8 text-blue-600" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.',
-                       theme: 'from-teal-50/70 to-white/70 hover:from-teal-100/80 hover:to-white/90 border-teal-200/60',
-                       iconBg: 'bg-teal-100/50 border-teal-200 shadow-[0_0_15px_rgba(13,148,136,0.15)]',
-                       textColor: 'text-slate-900',
-                       titleColor: 'text-teal-950 border-teal-200'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold drop-shadow-sm',
+                       titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-brand-orange" />,
+                       icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
                        text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.',
-                       theme: 'from-orange-50/70 to-white/70 hover:from-orange-100/80 hover:to-white/90 border-orange-200/60',
-                       iconBg: 'bg-orange-100/50 border-orange-200 shadow-[0_0_15px_rgba(245,130,32,0.15)]',
-                       textColor: 'text-slate-900',
-                       titleColor: 'text-orange-950 border-brand-orange/30',
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold drop-shadow-sm',
+                       titleColor: 'text-blue-950 border-blue-200',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -1642,7 +1642,7 @@ export default function App() {
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
-            Sectores que <span className="text-gradient transition-colors">Atendemos</span>
+            Sectores&nbsp;&nbsp;que&nbsp;&nbsp;<span className="text-gradient transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
         </div>
@@ -1740,7 +1740,7 @@ export default function App() {
         <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform">
           <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
-            Nuestras <span className="text-gradient transition-colors">Fortalezas</span>
+            Nuestras&nbsp;&nbsp;<span className="text-gradient transition-colors">Fortalezas</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
           <p className="text-base md:text-xl text-on-surface max-w-4xl mx-auto leading-relaxed font-bold px-4 transition-all duration-300">
@@ -1793,7 +1793,7 @@ export default function App() {
               Portafolio Visual en Movimiento
             </motion.div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-            Nuestra <span className="text-gradient">Galería</span>
+            Nuestra&nbsp;&nbsp;<span className="text-gradient">Galería</span>
           </h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -1834,7 +1834,7 @@ export default function App() {
               Ingeniería en Resultados
             </div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm leading-tight">
-              Transformación <span className="text-gradient">Industrial</span>
+              Transformación&nbsp;&nbsp;<span className="text-gradient">Industrial</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
@@ -1877,7 +1877,7 @@ export default function App() {
             Casos de Éxito
           </motion.div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-            Clientes <span className="text-gradient">Satisfechos</span>
+            Clientes&nbsp;&nbsp;<span className="text-gradient">Satisfechos</span>
           </h2>
           <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
             La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
@@ -2090,7 +2090,7 @@ export default function App() {
             Resolviendo Dudas Técnicas
           </motion.div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-            Preguntas <span className="text-gradient">Frecuentes</span>
+            Preguntas&nbsp;&nbsp;<span className="text-gradient">Frecuentes</span>
           </h2>
         </div>
 
@@ -2142,7 +2142,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
           <div className="text-center mb-16 md:mb-20 space-y-4">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-              Da el primer paso hacia la <span className="text-gradient">Calidad Total</span>
+              Da&nbsp;&nbsp;el&nbsp;&nbsp;primer&nbsp;&nbsp;paso&nbsp;&nbsp;hacia&nbsp;&nbsp;la&nbsp;&nbsp;<span className="text-gradient">Calidad Total</span>
             </h2>
             <p className="text-base md:text-lg text-on-surface font-bold transition-all duration-300">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
           </div>
