@@ -909,31 +909,19 @@ export default function App() {
 
   // Route-based smooth scrolling
   useEffect(() => {
-    // wait a moment for DOM to be ready
-    const timeoutId = setTimeout(() => {
-      const currentPath = location.pathname;
-      if (currentPath && currentPath.length > 1) {
-        // e.g. "/sectores" -> "sectores"
-        const targetId = currentPath.substring(1);
-        const element = document.getElementById(targetId);
-        
+    const currentPath = location.pathname;
+    if (currentPath && currentPath.length > 1) {
+      // e.g. "/sectores" -> "sectores"
+      const targetId = currentPath.substring(1);
+      
+      const scrollToTarget = () => {
         if (targetId === 'inicio') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (element) {
-          const headerOffset = window.scrollY > 50 ? 80 : 110;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        } else if (targetId === 'contacto') {
-          // Special case for footer id
-          const footer = document.getElementById('contacto-footer');
-          if (footer) {
-            const headerOffset = window.scrollY > 50 ? 80 : 110;
-            const elementPosition = footer.getBoundingClientRect().top;
+        } else {
+          const element = document.getElementById(targetId) || (targetId === 'contacto' ? document.getElementById('contacto-footer') : null);
+          if (element) {
+            const headerOffset = window.innerWidth < 768 ? 70 : 100;
+            const elementPosition = element.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
             window.scrollTo({
@@ -942,9 +930,12 @@ export default function App() {
             });
           }
         }
-      }
-    }, 100);
-    return () => clearTimeout(timeoutId);
+      };
+      
+      requestAnimationFrame(() => {
+        setTimeout(scrollToTarget, 50);
+      });
+    }
   }, [location.pathname]);
 
   // Reiniciar scroll al inicio en cada actualización
@@ -1090,7 +1081,7 @@ export default function App() {
   };
 
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: '¡Hola! Soy tu asistente de Polycovers. ¿En qué te puedo ayudar hoy?' }
+    { type: 'bot', text: '¡Hola! Soy tu asistente de MCI Soluciones Poliméricas.' }
   ]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -1154,7 +1145,8 @@ export default function App() {
     
     elements.forEach(subEl => {
       const htmlEl = subEl as HTMLElement;
-      const content = htmlEl.innerText?.trim();
+      // remove multiple spaces and non-standard characters
+      const content = htmlEl.innerText?.trim().replace(/\s+/g, ' ').replace(/[-\/]/g, ' ');
       if (content && 
           content.length >= 3 && 
           !htmlEl.closest('button') && 
@@ -1172,16 +1164,24 @@ export default function App() {
 
     window.speechSynthesis.cancel();
     
-    const utterance = new SpeechSynthesisUtterance(text);
+    // Replace known acronyms to sound natural
+    const sanitizedText = text
+      .replace(/\bMCI\b/g, " Eme Ce I ")
+      .replace(/\s+/g, ' ');
+
+    const utterance = new SpeechSynthesisUtterance(sanitizedText);
     const voices = window.speechSynthesis.getVoices();
+    // Prioritize natural sounding mexican or latam voices
     const mxVoice = voices.find(v => v.lang === 'es-MX' && v.name.includes('Google')) || 
                     voices.find(v => v.lang === 'es-MX') ||
-                    voices.find(v => v.lang.includes('es-MX')) ||
+                    voices.find(v => v.name.includes('Luciana') || v.name.includes('Jorge')) ||
+                    voices.find(v => v.lang.includes('es-US')) ||
                     voices.find(v => v.lang.includes('es'));
     
     if (mxVoice) utterance.voice = mxVoice;
     utterance.lang = 'es-MX';
-    utterance.rate = 0.95;
+    utterance.rate = 1.05; // Slightly faster to sound natural
+    utterance.pitch = 1.0;
     
     utterance.onstart = () => {
       setCurrentReadingId(id);
@@ -1393,11 +1393,28 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
-  // Inline smooth scroll handler fallback
+  // Inline smooth scroll handler
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     e.preventDefault();
-    navigate(href);
     setIsMenuOpen(false);
+    
+    const targetId = href.startsWith('/') ? href.substring(1) : href.replace('#', '');
+    
+    if (targetId === 'inicio' || targetId === '') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const element = document.getElementById(targetId) || (targetId === 'contacto' ? document.getElementById('contacto-footer') : null);
+      if (element) {
+        const headerOffset = window.innerWidth < 768 ? 70 : 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+    navigate(`/${targetId}`);
   };
 
   const navLinks = useMemo(() => [
@@ -1577,15 +1594,20 @@ export default function App() {
                   <div className="h-1 md:h-1.5 w-16 sm:w-20 bg-brand-orange rounded-full shadow-[0_2px_10px_rgba(245,130,32,0.5)]" />
                 </motion.div>
 
-                <motion.p 
+                <motion.div 
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
-                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-700 leading-relaxed md:leading-loose font-medium relative z-10 max-w-3xl"
+                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-700 leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
                   style={{ overflowWrap: 'break-word' }}
                 >
-                  Empresa con más de <span className="font-extrabold text-brand-orange px-1">30 años</span> de consolidación en los sectores <span className="font-extrabold text-brand-blue">Industrial</span> y de la <span className="font-extrabold text-brand-blue">Construcción</span> en <span className="font-extrabold text-brand-blue">México</span> con el único objetivo de ofrecer <span className="font-extrabold text-brand-orange">soluciones duraderas</span> con <span className="font-extrabold text-slate-900">ingeniería</span> en <span className="font-extrabold text-slate-900">materiales poliméricos</span> de <span className="font-extrabold text-brand-orange">alta gama</span> para <span className="font-extrabold text-brand-blue">restaurar</span>, <span className="font-extrabold text-brand-blue">mejorar</span> y <span className="font-extrabold text-brand-blue">proteger</span> instalaciones expuestas a <span className="font-extrabold text-slate-900">daños físicos</span> o <span className="font-extrabold text-slate-900">químicos</span>, maximizando su vida útil para <span className="font-extrabold text-brand-orange">preservar</span> el valor de tu <span className="font-extrabold text-brand-orange">inversión</span>.
-                </motion.p>
+                  <p>
+                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-blue">atención integral</span> con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México especializada en el diseño e implementación de soluciones <span className="font-extrabold text-brand-orange">con sistemas poliméricos</span> de alta gama para <span className="font-extrabold text-brand-blue">restaurar</span>, <span className="font-extrabold text-brand-orange">mejorar</span> <span className="font-extrabold text-brand-blue">y proteger instalaciones</span> expuestas a riesgos físicos o químicos, <span className="font-extrabold text-brand-blue">maximizando</span> su vida útil y preservar así <span className="font-extrabold text-brand-orange">el valor de tu inversión</span>.
+                  </p>
+                  <p className="font-black text-brand-orange text-base md:text-xl lg:text-2xl leading-snug drop-shadow-md" style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}>
+                    No fabricamos materiales, ofrecemos criterio técnico, diagnóstico, especificación correcta y ejecución especializada
+                  </p>
+                </motion.div>
               </motion.div>
             </div>
 
@@ -2115,7 +2137,7 @@ export default function App() {
                     {/* CTA in Modal */}
                     <div className="pt-8 border-t border-white/10">
                       <a 
-                        href="https://wa.me/525512979217" 
+                        href="https://wa.me/525561500317" 
                         target="_blank"
                         className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-xl"
                       >
@@ -2209,7 +2231,7 @@ export default function App() {
                 <h3 className="text-brand-blue font-black uppercase tracking-[0.3em] text-xs">Contacto Directo</h3>
                 <div className="space-y-4">
                   {[
-                    { icon: <Phone className="w-4 h-4" />, text: '55 1297 9217', href: 'tel:5512979217' },
+                    { icon: <Phone className="w-4 h-4" />, text: '55 6150 0317', href: 'tel:+525561500317' },
                     { icon: <Mail className="w-4 h-4" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' },
                     { icon: <MapPin className="w-4 h-4" />, text: 'Ciudad de México, México', href: 'https://maps.google.com/?q=Ciudad+de+Mexico' }
                   ].map((item, i) => (
@@ -2230,7 +2252,7 @@ export default function App() {
               </div>
 
               <a 
-                href="https://wa.me/525512979217?text=Hola+MCI+Soluciones+Polim%C3%A9ricas%2C+me+gustar%C3%ADa+cotizar+un+proyecto." 
+                href="https://wa.me/525561500317?text=Hola+MCI+Soluciones+Polim%C3%A9ricas%2C+me+gustar%C3%ADa+cotizar+un+proyecto." 
                 target="_blank"
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-[#25D366] to-[#1EBE55] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-[0_10px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_15px_30px_rgba(37,211,102,0.5)] transition-all duration-300 hover:-translate-y-1"
               >
@@ -2581,7 +2603,7 @@ export default function App() {
                     let formatted = text.replace(/\n/g, '<br/>');
                     // Solo reemplazamos 'whatsapp' si no está ya dentro de una etiqueta HTML
                     if (msg.type === 'bot' && !formatted.includes('href="https://wa.me')) {
-                      const waButton = `<a href="https://wa.me/525512979217" target="_blank" class="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-2 py-0.5 rounded-md font-bold text-xs mx-1 hover:bg-[#20bd5a] transition-all shadow-sm active:scale-95 no-underline whitespace-nowrap"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="14px" width="14px" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 413.6c-33.1 0-65.5-8.9-94-25.8l-6.7-4-69.8 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg> WhatsApp</a>`;
+                      const waButton = `<a href="https://wa.me/525561500317" target="_blank" class="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-2 py-0.5 rounded-md font-bold text-xs mx-1 hover:bg-[#20bd5a] transition-all shadow-sm active:scale-95 no-underline whitespace-nowrap"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="14px" width="14px" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 413.6c-33.1 0-65.5-8.9-94-25.8l-6.7-4-69.8 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg> WhatsApp</a>`;
                       formatted = formatted.replace(/\bwhatsapp\b/gi, waButton);
                     }
                     return formatted;
@@ -2604,9 +2626,10 @@ export default function App() {
                     {i === 0 && chatMessages.length === 1 && (
                       <div className="flex flex-col gap-2 self-start w-[85%]">
                         {[
-                          { q: 'Cobertura Polycovers', a: 'Tenemos <strong>capacidad de instalación en todo México</strong>.' },
-                          { q: 'Normas y Certificaciones', a: 'Cumplimos normas internacionales, incluyendo <strong>FDA y USDA</strong>.' },
-                          { q: 'Asistencia por WhatsApp', a: 'Puedes solicitar asistencia personalizada para dudas técnicas: <a href="https://wa.me/525512979217" target="_blank" class="inline-block mt-2 bg-brand-orange text-white px-4 py-2 rounded-lg font-bold">Quiero asistencia personalizada</a>' }
+                          { 
+                            q: 'Comunícate con nosotros', 
+                            a: 'Elige el medio de contacto de tu preferencia:<br/><div class="flex flex-col gap-2 mt-3"><a href="https://wa.me/525561500317" target="_blank" class="bg-[#25D366] text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766 0 1.015.265 2.008.768 2.88l-1.01 3.687 3.774-.99a5.727 5.727 0 002.236.457c3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766h-.002zM12.031 16.59c-.846 0-1.67-.227-2.392-.656l-.17-.1-1.78.467.476-1.737-.11-.176a4.423 4.423 0 01-.676-2.356c0-2.453 1.996-4.448 4.449-4.448 2.452 0 4.449 1.995 4.449 4.448 0 2.453-1.996 4.448-4.448 4.448zm2.443-3.344c-.134-.067-.793-.392-.916-.436-.123-.044-.212-.067-.301.067-.09.134-.346.437-.425.526-.078.09-.156.101-.29.034-.134-.067-.566-.208-1.077-.665-.398-.356-.667-.796-.745-.93-.078-.134-.008-.207.059-.274.06-.06.134-.157.201-.235.067-.078.09-.134.134-.224.045-.09.022-.168-.011-.235-.034-.067-.301-.727-.413-1.006-.109-.271-.22-.234-.301-.238-.078-.004-.167-.004-.257-.004-.09 0-.234.034-.357.168-.123.134-.47.459-.47 1.119 0 .66.48 1.298.548 1.388.067.09.945 1.442 2.29 2.006.32.134.568.214.762.274.321.101.614.086.845.052.261-.038.793-.324.905-.638.112-.313.112-.58.078-.638-.033-.057-.122-.09-.256-.157z"/></svg> Vía WhatsApp</a><a href="mailto:mci.spolimericas@polycovers.mx" class="bg-brand-blue text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Vía Correo</a><a href="tel:+525561500317" class="bg-brand-orange text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> Llamada Telefónica</a></div>' 
+                          }
                         ].map((opt, idx) => (
                           <button
                             key={idx}
@@ -2812,7 +2835,7 @@ export default function App() {
                     
                     <div className="space-y-4">
                       <a 
-                        href="tel:5512979217" 
+                        href="tel:+525561500317" 
                         className="flex items-center gap-4 group"
                       >
                         <div className="w-9 h-9 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-md transition-all">
@@ -2820,7 +2843,7 @@ export default function App() {
                         </div>
                         <div className="flex flex-col leading-tight">
                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">Teléfono</span>
-                          <span className="text-xs font-bold text-slate-700 tracking-wide">55 1297 9217</span>
+                          <span className="text-xs font-bold text-slate-700 tracking-wide">55 6150 0317</span>
                         </div>
                       </a>
 

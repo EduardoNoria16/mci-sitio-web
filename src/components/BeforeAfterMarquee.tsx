@@ -31,8 +31,8 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
       {/* Decorative header */}
       <div className="flex items-center gap-2 mb-3 px-2">
         <div className={`w-2 h-2 rounded-full shadow-sm ${isEven ? 'bg-[#22d3ee]' : 'bg-brand-orange'}`} />
-        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-[#22d3ee]' : 'text-brand-orange'}`}>
-          CASO ÉXITO MCI
+        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-brand-blue' : 'text-brand-orange drop-shadow-sm'}`}>
+          CASOS DE ÉXITO MCI
         </span>
       </div>
 
@@ -42,8 +42,8 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
         <div className="relative w-1/2 h-full overflow-hidden">
           <img src={pair.before} alt="Antes" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:rotate-1" draggable={false} />
           <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
-          <div className="absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-1 sm:px-3 sm:py-1 bg-black/60 backdrop-blur-md text-white/90 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg border border-white/10 z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
-            Antes
+          <div className="absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-1 sm:px-4 sm:py-1.5 bg-black/70 backdrop-blur-md text-white border-white/20 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg border z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
+            Condición inicial
           </div>
         </div>
         
@@ -54,8 +54,8 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
         <div className="relative w-1/2 h-full overflow-hidden">
           <img src={pair.after} alt="Después" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:-rotate-1" draggable={false} />
           <div className="absolute inset-0 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
-          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 px-2 py-1 sm:px-3 sm:py-1 bg-brand-orange/90 backdrop-blur-md text-white/90 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-[0_0_20px_rgba(245,130,32,0.5)] border border-white/10 z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
-            Después
+          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 px-2 py-1 sm:px-4 sm:py-1.5 bg-brand-orange/90 backdrop-blur-md text-white border-white/20 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-[0_0_20px_rgba(245,130,32,0.5)] border z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
+            Solución MCI
           </div>
         </div>
 
@@ -210,8 +210,8 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
                 {/* Antes Side */}
                 <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group pt-16 md:pt-0">
                   <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/80" />
-                  <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-black/80 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
-                    Antes
+                  <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-6 sm:py-3 bg-black/80 backdrop-blur-md text-white font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
+                    Condición inicial
                   </div>
                 </div>
 
@@ -221,8 +221,8 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
                 {/* Después Side */}
                 <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group">
                   <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/80" />
-                  <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-5 sm:py-2.5 bg-brand-orange/90 backdrop-blur-md text-white/90 font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
-                    Después
+                  <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-6 sm:py-3 bg-brand-orange/90 backdrop-blur-md text-white font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
+                    Solución MCI
                   </div>
                 </div>
               </motion.div>
