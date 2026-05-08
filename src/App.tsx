@@ -1137,7 +1137,18 @@ export default function App() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [currentReadingId, setCurrentReadingId] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const readSectionsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    const loadVoices = () => {
+      setAvailableVoices(window.speechSynthesis.getVoices());
+    };
+    loadVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
 
   const extractSectionText = useCallback((el: HTMLElement): string => {
     const elements = el.querySelectorAll('h1, h2, h3, h4, p, li');
@@ -1170,11 +1181,11 @@ export default function App() {
       .replace(/\s+/g, ' ');
 
     const utterance = new SpeechSynthesisUtterance(sanitizedText);
-    const voices = window.speechSynthesis.getVoices();
+    const voices = availableVoices.length > 0 ? availableVoices : window.speechSynthesis.getVoices();
     // Prioritize natural sounding mexican or latam voices
     const mxVoice = voices.find(v => v.lang === 'es-MX' && v.name.includes('Google')) || 
                     voices.find(v => v.lang === 'es-MX') ||
-                    voices.find(v => v.name.includes('Luciana') || v.name.includes('Jorge')) ||
+                    voices.find(v => (v.name.includes('Luciana') || v.name.includes('Jorge')) && v.lang.includes('es')) ||
                     voices.find(v => v.lang.includes('es-US')) ||
                     voices.find(v => v.lang.includes('es'));
     
@@ -1197,7 +1208,7 @@ export default function App() {
     };
 
     window.speechSynthesis.speak(utterance);
-  }, []);
+  }, [availableVoices]);
 
   const toggleSpeech = useCallback(() => {
     if (isSpeaking) {

@@ -30,8 +30,8 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
     >
       {/* Decorative header */}
       <div className="flex items-center gap-2 mb-3 px-2">
-        <div className={`w-2 h-2 rounded-full shadow-sm ${isEven ? 'bg-[#22d3ee]' : 'bg-brand-orange'}`} />
-        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-brand-blue' : 'text-brand-orange drop-shadow-sm'}`}>
+        <div className={`w-2 h-2 rounded-full shadow-sm ${isEven ? 'bg-slate-800' : 'bg-brand-orange'}`} />
+        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-slate-800' : 'text-brand-orange drop-shadow-sm'}`}>
           CASOS DE ÉXITO MCI
         </span>
       </div>
