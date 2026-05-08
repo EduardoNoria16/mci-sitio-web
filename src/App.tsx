@@ -48,7 +48,8 @@ import {
   Eye,
   Award,
   ArrowLeftRight,
-  QrCode
+  QrCode,
+  RotateCcw
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import QRCodeModal from './components/QRCodeModal';
@@ -1081,8 +1082,13 @@ export default function App() {
   };
 
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: '¡Hola! Soy tu asistente de MCI Soluciones Poliméricas.' }
+    { type: 'bot', text: 'Hola, soy el asistente virtual de MCI Soluciones Poliméricas. Te invito a consultarnos.' }
   ]);
+  const handleResetChat = useCallback(() => {
+    setChatMessages([
+      { type: 'bot', text: 'Hola, soy el asistente virtual de MCI Soluciones Poliméricas. Te invito a consultarnos.' }
+    ]);
+  }, []);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const strengthSheetRef = useRef<HTMLDivElement>(null);
@@ -1645,7 +1651,7 @@ export default function App() {
                      {
                        title: 'Misión',
                        icon: <Target className="w-8 h-8 text-blue-600" />,
-                       text: 'Preservar el valor de la inversión en activos mediante ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de los procesos productivos de nuestros clientes.',
+                       text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
@@ -1654,7 +1660,7 @@ export default function App() {
                      {
                        title: 'Visión',
                        icon: <Eye className="w-8 h-8 text-blue-600" />,
-                       text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos derivados por daños físicos o químicos a los activos de producción.',
+                       text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
@@ -1663,7 +1669,7 @@ export default function App() {
                      {
                        title: 'Propuesta de Valor',
                        icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
-                       text: 'MCI no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.',
+                       text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
@@ -2593,17 +2599,31 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playClickSound();
-                    setIsChatOpen(false);
-                  }}
-                  className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
-                  aria-label="Cerrar chat"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-1">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playClickSound();
+                      handleResetChat();
+                    }}
+                    className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
+                    aria-label="Reiniciar chat"
+                    title="Regresar al inicio"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playClickSound();
+                      setIsChatOpen(false);
+                    }}
+                    className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
+                    aria-label="Cerrar chat"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-gray-50/5">
