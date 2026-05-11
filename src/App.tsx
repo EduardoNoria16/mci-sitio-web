@@ -939,6 +939,8 @@ export default function App() {
     }
   }, [location.pathname]);
 
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
+
   // Reiniciar scroll al inicio en cada actualización
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -1619,7 +1621,7 @@ export default function App() {
                   style={{ overflowWrap: 'break-word' }}
                 >
                   <p>
-                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-blue">atención integral</span> con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México especializada en el diseño e implementación de soluciones <span className="font-extrabold text-brand-orange">con sistemas poliméricos</span> de alta gama para <span className="font-extrabold text-brand-blue">restaurar</span>, <span className="font-extrabold text-brand-orange">mejorar</span> <span className="font-extrabold text-brand-blue">y proteger instalaciones</span> expuestas a riesgos físicos o químicos, <span className="font-extrabold text-brand-blue">maximizando</span> su vida útil y preservar así <span className="font-extrabold text-brand-orange">el valor de tu inversión</span>.
+                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span> para nuestros clientes. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
                   </p>
                   <p className="font-black text-brand-orange text-base md:text-xl lg:text-2xl leading-snug drop-shadow-md" style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}>
                     No fabricamos materiales, ofrecemos criterio técnico, diagnóstico, especificación correcta y ejecución especializada
@@ -1627,7 +1629,118 @@ export default function App() {
                 </motion.div>
               </motion.div>
             </div>
+          </div>
+        </div>
+      </section>
 
+      {/* --- NUEVA ESTRUCTURA (VIDEO + FORTALEZAS) --- */}
+      <section id="video-fortalezas" className="relative z-10 py-12 md:py-16 overflow-hidden">
+        {/* Custom Video Player */}
+        <div className="relative flex flex-col justify-center w-full px-6 mb-16 z-20">
+          <div className="text-center mb-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-2 drop-shadow-sm">
+              <span className="text-slate-900 border-b-4 border-brand-orange pb-1">VIDEO</span>
+            </h2>
+          </div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="w-full max-w-5xl mx-auto"
+          >
+            <CustomVideoPlayer />
+          </motion.div>
+        </div>
+
+        {/* Strengths Section (Improved Grid Layout) */}
+        <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform mt-8">
+          <div className="text-center mb-12 md:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-block"
+            >
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] text-on-surface drop-shadow-sm mb-4">
+                Nuestras&nbsp;&nbsp;<span className="text-brand-orange">Fortalezas</span>
+              </h2>
+              <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent opacity-50" />
+            </motion.div>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {STRENGTHS.map((s, idx) => (
+                <motion.button
+                  key={s.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  onClick={() => {
+                    playClickSound();
+                    setActiveStrength(s);
+                    setIsStrengthHovered(true);
+                  }}
+                  className="group relative p-6 rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-2xl hover:shadow-brand-orange/10 hover:border-brand-orange/30 transition-all duration-500 flex flex-col items-center text-center gap-4 hover:-translate-y-2"
+                >
+                  {/* Decorative number or subtle bg icon could go here, but let's keep it clean */}
+                  <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-[0_10px_20px_rgba(245,130,32,0.3)]">
+                    {React.cloneElement(s.icon as React.ReactElement, { className: 'w-7 h-7 transition-transform duration-500 group-hover:scale-110' })}
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
+                      {s.title}
+                    </h3>
+                    <div className="w-8 h-0.5 bg-slate-200 mx-auto group-hover:w-16 group-hover:bg-brand-orange transition-all duration-500" />
+                  </div>
+
+                  <div className="mt-2 flex items-center gap-2 text-[10px] font-bold text-brand-orange opacity-0 group-hover:opacity-100 transition-opacity">
+                    VER FICHA TÉCNICA <ArrowRight className="w-3 h-3" />
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {!showMoreInfo && (
+            <div className="flex justify-center mt-12 mb-24 relative z-20">
+              <motion.button 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                onClick={() => {
+                  playClickSound();
+                  setShowMoreInfo(true);
+                }} 
+                className="group relative px-12 py-6 bg-slate-900 overflow-hidden rounded-xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(245,130,32,0.3)] hover:-translate-y-1 active:scale-95"
+              >
+                {/* Neon Border Effect */}
+                <div className="absolute inset-0 border border-white/10 rounded-xl" />
+                <div className="absolute inset-0 border border-brand-orange/0 group-hover:border-brand-orange/50 transition-colors duration-500 rounded-xl" />
+                
+                {/* Background Shine */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-brand-orange/20 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                <div className="relative z-10 flex flex-col items-center gap-2">
+                  <span className="text-white/50 text-[10px] uppercase tracking-[0.4em] font-black group-hover:text-brand-orange transition-colors">Descubre más</span>
+                  <span className="text-white text-base md:text-xl font-black uppercase tracking-widest leading-none">
+                    Para más información <span className="text-brand-orange group-hover:text-white transition-colors">te invitamos a conocernos</span>
+                  </span>
+                </div>
+
+                {/* Animated Light Sweep */}
+                <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-shine" />
+              </motion.button>
+            </div>
+      )}
+
+      {showMoreInfo && (
+        <div className="animate-fade-in">
+          <section id="inicio-part2" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12">
             {/* 2. Misión/Visión/Propuesta Vertical Stack */}
             <motion.div
                initial="hidden"
@@ -1731,9 +1844,6 @@ export default function App() {
                    ))}
                  </div>
              </motion.div>
-
-          </div>
-        </div>
       </section>
 
       {/* Sectors Section */}
@@ -1816,103 +1926,6 @@ export default function App() {
             </motion.div>
           ))}
         </motion.div>
-      </section>
-
-      {/* Strengths Section */}
-      <section id="fortalezas" className="relative z-10 py-16 md:py-24 overflow-hidden">
-        {/* Background Texture for Strengths */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1532187875956-c7306286c6a1?auto=format&fit=crop&w=1920&q=80" 
-            alt="Polymer Engineering Abstract"
-            className="w-full h-full object-cover opacity-20 grayscale brightness-125"
-            referrerPolicy="no-referrer"
-            loading="lazy"
-          />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform">
-          <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
-            Nuestras&nbsp;&nbsp;<span className="text-gradient transition-colors">Fortalezas</span>
-          </h2>
-          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
-          <p className="text-base md:text-xl text-on-surface max-w-4xl mx-auto leading-relaxed font-bold px-4 transition-all duration-300">
-            Selecciona una especialidad para ver nuestros alcances y conocer por qué somos líderes en el mercado.
-          </p>
-        </div>
-
-        {/* Strengths List with Modal Technical Sheets */}
-        <div className="max-w-5xl mx-auto">
-          <div className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pb-6 md:pb-0 hide-scrollbar -mx-5 px-5 md:mx-0 md:px-0">
-            {STRENGTHS.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => {
-                  playClickSound();
-                  setActiveStrength(s);
-                  setIsStrengthHovered(true);
-                }}
-                className="shrink-0 w-[75vw] sm:w-[45vw] md:w-auto snap-center group relative p-4 md:p-6 rounded-xl md:rounded-2xl border-2 bg-[#22d3ee]/15 md:backdrop-blur-xl border-[#22d3ee]/30 transition-all duration-500 flex flex-col sm:flex-row lg:flex-col items-center gap-3 md:gap-5 text-center sm:text-left lg:text-center hover:bg-white hover:shadow-2xl hover:border-transparent hover:-translate-y-1.5"
-              >
-                <div className="p-3 rounded-xl bg-[#22d3ee] group-hover:bg-brand-orange transition-all duration-500 shadow-[0_5px_15px_rgba(34,211,238,0.2)] group-hover:shadow-[0_0_25px_rgba(245,130,32,0.4)] border border-white/20">
-                  {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6 text-brand-orange group-hover:text-white transition-colors duration-300' })}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-sm md:text-base font-black text-on-surface uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
-                    {s.title}
-                  </h3>
-                </div>
-                <div className="w-8 h-8 rounded-full border border-glass-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
-                  <ArrowRight className="w-4 h-4 text-brand-orange" />
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-
-      {/* Gallery Section */}
-      <section id="galeria" className="relative z-10 py-8 md:py-12 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-16">
-          <div className="text-center space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest shadow-sm"
-            >
-              <Paintbrush className="w-3 h-3" />
-              Portafolio Visual en Movimiento
-            </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-            Nuestra&nbsp;&nbsp;<span className="text-gradient">Galería</span>
-          </h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-on-surface max-w-2xl mx-auto font-bold text-base md:text-xl transition-all duration-300 px-4"
-            >
-              Explora nuestra trayectoria a través de este recorrido visual automático. Haz clic en cualquier imagen para ampliarla.
-            </motion.p>
-          </div>
-        </div>
-
-        {/* Custom Video Player instead of Marquee */}
-        <div className="relative flex justify-center w-full px-6">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="w-full max-w-5xl mx-auto"
-          >
-            <CustomVideoPlayer />
-          </motion.div>
-        </div>
       </section>
 
       {/* Transformación Industrial Section */}
@@ -2432,6 +2445,9 @@ export default function App() {
         </div>
       </footer>
 
+        </div>
+      )}
+
       {/* Floating Chat Widget */}
       <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000] scale-[0.8] origin-bottom-left md:scale-100" ref={chatContainerRef}>
         <AnimatePresence>
@@ -2618,10 +2634,11 @@ export default function App() {
                       playClickSound();
                       setIsChatOpen(false);
                     }}
-                    className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
-                    aria-label="Cerrar chat"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all cursor-pointer active:scale-95 border border-white/10 text-[10px] uppercase font-bold tracking-wider"
+                    aria-label="Minimizar chat"
                   >
-                    <X className="w-5 h-5" />
+                    <Minimize className="w-3 h-3" />
+                    Regresar
                   </button>
                 </div>
               </div>
