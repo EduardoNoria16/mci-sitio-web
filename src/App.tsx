@@ -30,6 +30,7 @@ import {
   X,
   Menu,
   ArrowRight,
+  ArrowLeft,
   ArrowDown,
   Clock,
   Send,
@@ -363,7 +364,7 @@ const STRENGTHS: Strength[] = [
     icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión y acabado',
       'Tratamientos químicos. Curado y densificado superficial.',
@@ -390,7 +391,7 @@ const STRENGTHS: Strength[] = [
     icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
-    image: 'https://images.unsplash.com/photo-1454165833267-028a0513904d?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
     items: [
       'Epóxico autonivelante. Fácil de limpiar, totalmente liso, en tono mate que oculta imperfecciones del firme ideal para showrooms, hospitales, oficinas.',
       'Porcelanato líquido marmoleado. Con vetas de pigmentos metalizados para crear un efecto mármol, nubes o dar profundidad (3D). Su mercado es el residencial de alto nivel.',
@@ -406,7 +407,7 @@ const STRENGTHS: Strength[] = [
     icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
     items: [
       {
         label: 'Recubrimientos químico-resistentes para el control de la corrosión.',
@@ -459,7 +460,7 @@ const STRENGTHS: Strength[] = [
     icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
-    image: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
     items: [
       'Bacheos en pasillos o vialidades críticas con cortos tiempos de paro',
       'Renivelar áreas con sobre pisos delgados usando concretos formulados para fraguado rápido de hasta 500 kg/cm²',
@@ -480,7 +481,7 @@ const STRENGTHS: Strength[] = [
     icon: <Droplets className="w-5 h-5" />,
     intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
-    image: 'https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
     items: [
       'Aplicación de poliurea por proyección',
       'Sistemas vehiculares en cubiertas exteriores (aún en condiciones de agrietamiento) para estacionamientos comerciales e institucionales',
@@ -496,7 +497,7 @@ const STRENGTHS: Strength[] = [
     icon: <Paintbrush className="w-5 h-5" />,
     intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
-    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
     items: [
       'Sistemas epóxi-poliuretano como acabado en pisos para servicios ligeros',
       'Acabados sanitarios lisos, continuos, sin bordes, y antibacteriales en muros y plafond',
@@ -515,7 +516,7 @@ const STRENGTHS: Strength[] = [
     icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
-    image: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
     items: [
       'Instalación de retardantes de fuego (intumescentes)',
       'Sellado de pasos de instalaciones (tubería, líneas de cableado) a través de muros y juntas de construcción',
@@ -529,7 +530,7 @@ const STRENGTHS: Strength[] = [
     icon: <HardHat className="w-5 h-5" />,
     intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
-    image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
     items: [
       {
         label: 'Espuma de poliuretano en diversos espesores',
@@ -687,21 +688,21 @@ const BEFORE_AFTER_PAIRS = [
 ];
 
 const GALLERY_IMAGES = [
-  { url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento de Superficies' },
-  { url: 'https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=800&q=80', title: 'Instalación de Recubrimientos' },
-  { url: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80', title: 'Personal Altamente Capacitado' },
-  { url: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=800&q=80', title: 'Infraestructura Industrial' },
-  { url: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=800&q=80', title: 'Proyectos de Gran Escala' },
-  { url: 'https://images.unsplash.com/photo-1503387762-592dee582a2b?auto=format&fit=crop&w=800&q=80', title: 'Estructuras Metálicas' },
-  { url: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80', title: 'Control de Corrosión' },
-  { url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', title: 'Ingeniería de Detalle' },
-  { url: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images.unsplash.com/photo-1563200155-22442f49d32d?auto=format&fit=crop&w=800&q=80', title: 'Procesos Industriales' },
-  { url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80', title: 'Almacenamiento Logístico' },
-  { url: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=800&q=80', title: 'Tecnología Polimérica' }
+  { url: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg', title: 'Piso Industrial de Alta Precisión' },
+  { url: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg', title: 'Acabados Químico-Resistentes' },
+  { url: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg', title: 'Laboratorio con Piso Epóxico' },
+  { url: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg', title: 'Mantenimiento de Superficies' },
+  { url: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg', title: 'Instalación de Recubrimientos' },
+  { url: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg', title: 'Personal Altamente Capacitado' },
+  { url: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg', title: 'Infraestructura Industrial' },
+  { url: 'https://images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg', title: 'Proyectos de Gran Escala' },
+  { url: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg', title: 'Estructuras Metálicas' },
+  { url: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg', title: 'Control de Corrosión' },
+  { url: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg', title: 'Ingeniería de Detalle' },
+  { url: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg', title: 'Mantenimiento Preventivo' },
+  { url: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg', title: 'Procesos Industriales' },
+  { url: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg', title: 'Almacenamiento Logístico' },
+  { url: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' }
 ];
 
 const TESTIMONIALS = [
@@ -1446,6 +1447,7 @@ export default function App() {
     }
 
     if (targetId === 'inicio' || targetId === '') {
+      setShowMoreInfo(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       const element = document.getElementById(targetId) || (targetId === 'contacto' ? document.getElementById('contacto-footer') : null);
@@ -1518,7 +1520,10 @@ export default function App() {
           <a 
             href="#inicio" 
             className="flex items-center gap-3 sm:gap-4 group flex-shrink-0 cursor-pointer min-w-0"
-            onClick={(e) => handleSmoothScroll(e, '#inicio')}
+            onClick={(e) => {
+              setShowMoreInfo(false);
+              handleSmoothScroll(e, '#inicio');
+            }}
           >
             <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 flex-shrink-0 drop-shadow-md">
               <img 
@@ -1607,16 +1612,19 @@ export default function App() {
         style={{ scaleX }}
       />
 
-      {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
-        
-        {/* Fondo fotográfico with improved depth */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://i.postimg.cc/3wK1P8Yb/imagen-hero.png" 
-            alt="MCI Soluciones Fotografía Oficial"
-            className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
-          />
+      {/* Primary Landing Content */}
+      {!showMoreInfo && (
+        <div className="animate-fade-in pb-12">
+          {/* Hero Section */}
+          <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
+            
+            {/* Fondo fotográfico with improved depth */}
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/hero.jpg" 
+                alt="MCI Soluciones Fotografía Oficial"
+                className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
+              />
           {/* Enhanced glass overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/80 to-white/60 md:backdrop-blur-[6px] z-10 pointer-events-none" />
           <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full z-10 pointer-events-none animate-pulse" />
@@ -1746,10 +1754,9 @@ export default function App() {
         </div>
       </section>
 
-      {!showMoreInfo && (
-            <div className="flex justify-center mt-12 mb-24 relative z-20 px-5">
-              <motion.button 
-                initial={{ opacity: 0, scale: 0.95 }}
+      <div className="flex justify-center mt-12 mb-24 relative z-20 px-5">
+        <motion.button 
+          initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -1791,12 +1798,31 @@ export default function App() {
                 {/* Animated Shine */}
                 <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shine pointer-events-none" />
               </motion.button>
-            </div>
+        </div>
+      </div>
       )}
 
+      {/* Part 2 Sections */}
       {showMoreInfo && (
-        <div className="animate-fade-in">
-          <section id="inicio-part2" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12">
+        <div className="animate-fade-in pt-12 md:pt-16">
+          {/* Back Button */}
+          <div className="max-w-7xl mx-auto px-5 md:px-6 mt-8 md:mt-12 mb-4 flex justify-center md:justify-start">
+            <button
+              onClick={() => {
+                playClickSound();
+                setShowMoreInfo(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-slate-400 hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
+            >
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-200 group-hover:border-brand-orange flex items-center justify-center bg-white shadow-sm group-hover:shadow-md transition-all">
+                <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
+              </div>
+              Regresar
+            </button>
+          </div>
+
+          <section id="inicio-part2" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-4">
             {/* 2. Misión/Visión/Propuesta Vertical Stack */}
             <motion.div
                initial="hidden"
