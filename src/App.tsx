@@ -1707,7 +1707,7 @@ export default function App() {
       </section>
 
       {!showMoreInfo && (
-            <div className="flex justify-center mt-12 mb-24 relative z-20">
+            <div className="flex justify-center mt-8 mb-20 md:mt-12 md:mb-24 relative z-20 px-6">
               <motion.button 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1715,25 +1715,28 @@ export default function App() {
                 onClick={() => {
                   playClickSound();
                   setShowMoreInfo(true);
+                  // Scroll a bit down to show progress if needed, 
+                  // but React state change will render content below.
                 }} 
-                className="group relative px-12 py-6 bg-slate-900 overflow-hidden rounded-xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(245,130,32,0.3)] hover:-translate-y-1 active:scale-95"
+                className="group relative w-full max-w-2xl px-6 py-8 md:px-12 md:py-10 bg-slate-900 overflow-hidden rounded-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(245,130,32,0.3)] hover:-translate-y-1 active:scale-95 flex flex-col items-center justify-center text-center"
               >
                 {/* Neon Border Effect */}
-                <div className="absolute inset-0 border border-white/10 rounded-xl" />
-                <div className="absolute inset-0 border border-brand-orange/0 group-hover:border-brand-orange/50 transition-colors duration-500 rounded-xl" />
+                <div className="absolute inset-0 border border-white/10 rounded-2xl" />
+                <div className="absolute inset-0 border border-brand-orange/0 group-hover:border-brand-orange/50 transition-colors duration-500 rounded-2xl" />
                 
                 {/* Background Shine */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-brand-orange/20 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 
-                <div className="relative z-10 flex flex-col items-center gap-2">
-                  <span className="text-white/50 text-[10px] uppercase tracking-[0.4em] font-black group-hover:text-brand-orange transition-colors">Descubre más</span>
-                  <span className="text-white text-base md:text-xl font-black uppercase tracking-widest leading-none">
-                    Para más información <span className="text-brand-orange group-hover:text-white transition-colors">te invitamos a conocernos</span>
-                  </span>
+                <div className="relative z-10 flex flex-col items-center gap-3">
+                  <span className="text-brand-orange text-[10px] md:text-xs uppercase tracking-[0.4em] font-black opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all">CONÓCENOS</span>
+                  <p className="text-white text-lg md:text-2xl font-black uppercase tracking-tight md:tracking-widest leading-tight">
+                    Para más información <br className="md:hidden" /> <span className="text-brand-orange group-hover:text-white transition-colors">te invitamos a conocernos</span>
+                  </p>
+                  <ArrowRight className="w-5 h-5 text-brand-orange group-hover:text-white group-hover:translate-x-2 transition-all mt-2" />
                 </div>
 
                 {/* Animated Light Sweep */}
-                <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-shine" />
+                <div className="absolute top-0 h-full w-1/2 z-5 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shine pointer-events-none" />
               </motion.button>
             </div>
       )}
