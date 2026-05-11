@@ -1412,13 +1412,23 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
+  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
+
   // Inline smooth scroll handler
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
+    playClickSound();
     
     const targetId = href.startsWith('/') ? href.substring(1) : href.replace('#', '');
     
+    const part2Ids = ['sectores', 'transformacion', 'testimonios', 'contacto', 'inicio-part2'];
+    if (part2Ids.includes(targetId) && !showMoreInfo) {
+      setShowMoreInfo(true);
+      setPendingScrollId(targetId);
+      return;
+    }
+
     if (targetId === 'inicio' || targetId === '') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -1435,6 +1445,30 @@ export default function App() {
     }
     navigate(`/${targetId}`);
   };
+
+  // Effect to handle pending scroll after Section 2 is revealed
+  useEffect(() => {
+    if (showMoreInfo && pendingScrollId) {
+      const scrollToTarget = () => {
+        const element = document.getElementById(pendingScrollId) || (pendingScrollId === 'contacto' ? document.getElementById('contacto-footer') : null);
+        if (element) {
+          const headerOffset = window.innerWidth < 768 ? 70 : 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          navigate(`/${pendingScrollId}`);
+        }
+        setPendingScrollId(null);
+      };
+      
+      const timer = setTimeout(scrollToTarget, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [showMoreInfo, pendingScrollId]);
 
   const navLinks = useMemo(() => [
     { name: 'Inicio', href: '/inicio' },
@@ -1669,7 +1703,7 @@ export default function App() {
           </div>
 
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {STRENGTHS.map((s, idx) => (
                 <motion.button
                   key={s.id}
@@ -1682,22 +1716,21 @@ export default function App() {
                     setActiveStrength(s);
                     setIsStrengthHovered(true);
                   }}
-                  className="group relative p-6 rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-2xl hover:shadow-brand-orange/10 hover:border-brand-orange/30 transition-all duration-500 flex flex-col items-center text-center gap-4 hover:-translate-y-2"
+                  className="group relative p-4 md:p-6 rounded-xl md:rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-2xl hover:shadow-brand-orange/10 hover:border-brand-orange/30 transition-all duration-500 flex flex-col items-center text-center gap-3 md:gap-4 hover:-translate-y-2"
                 >
-                  {/* Decorative number or subtle bg icon could go here, but let's keep it clean */}
-                  <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-[0_10px_20px_rgba(245,130,32,0.3)]">
-                    {React.cloneElement(s.icon as React.ReactElement, { className: 'w-7 h-7 transition-transform duration-500 group-hover:scale-110' })}
+                  <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-slate-50 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-[0_10px_20px_rgba(245,130,32,0.3)]">
+                    {React.cloneElement(s.icon as React.ReactElement, { className: 'w-5 h-5 md:w-7 md:h-7 transition-transform duration-500 group-hover:scale-110' })}
                   </div>
                   
                   <div className="space-y-1">
-                    <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors">
+                    <h3 className="text-[10px] md:text-sm font-black text-slate-900 uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors min-h-[2.5em] flex items-center justify-center">
                       {s.title}
                     </h3>
-                    <div className="w-8 h-0.5 bg-slate-200 mx-auto group-hover:w-16 group-hover:bg-brand-orange transition-all duration-500" />
+                    <div className="w-6 md:w-8 h-0.5 bg-slate-200 mx-auto group-hover:w-16 group-hover:bg-brand-orange transition-all duration-500" />
                   </div>
 
-                  <div className="mt-2 flex items-center gap-2 text-[10px] font-bold text-brand-orange opacity-0 group-hover:opacity-100 transition-opacity">
-                    VER FICHA TÉCNICA <ArrowRight className="w-3 h-3" />
+                  <div className="mt-1 md:mt-2 flex items-center gap-1.5 text-[8px] md:text-[10px] font-bold text-brand-orange opacity-0 group-hover:opacity-100 transition-opacity">
+                    VER FICHA <ArrowRight className="w-2 h-2 md:w-3 md:h-3" />
                   </div>
                 </motion.button>
               ))}
@@ -1707,36 +1740,49 @@ export default function App() {
       </section>
 
       {!showMoreInfo && (
-            <div className="flex justify-center mt-8 mb-20 md:mt-12 md:mb-24 relative z-20 px-6">
+            <div className="flex justify-center mt-12 mb-24 relative z-20 px-5">
               <motion.button 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => {
                   playClickSound();
                   setShowMoreInfo(true);
-                  // Scroll a bit down to show progress if needed, 
-                  // but React state change will render content below.
+                  // Scroll to the next section slightly
+                  setTimeout(() => {
+                    const el = document.getElementById('inicio-part2');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
                 }} 
-                className="group relative w-full max-w-2xl px-6 py-8 md:px-12 md:py-10 bg-slate-900 overflow-hidden rounded-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(245,130,32,0.3)] hover:-translate-y-1 active:scale-95 flex flex-col items-center justify-center text-center"
+                className="group relative w-full max-w-2xl bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-brand-orange/20 transition-all duration-500"
               >
-                {/* Neon Border Effect */}
-                <div className="absolute inset-0 border border-white/10 rounded-2xl" />
-                <div className="absolute inset-0 border border-brand-orange/0 group-hover:border-brand-orange/50 transition-colors duration-500 rounded-2xl" />
+                {/* Visual Engineering Background */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-orange/20 to-brand-orange animate-pulse" />
                 
-                {/* Background Shine */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand-orange/20 via-transparent to-brand-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                <div className="relative z-10 flex flex-col items-center gap-3">
-                  <span className="text-brand-orange text-[10px] md:text-xs uppercase tracking-[0.4em] font-black opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all">CONÓCENOS</span>
-                  <p className="text-white text-lg md:text-2xl font-black uppercase tracking-tight md:tracking-widest leading-tight">
-                    Para más información <br className="md:hidden" /> <span className="text-brand-orange group-hover:text-white transition-colors">te invitamos a conocernos</span>
+                <div className="relative z-10 px-6 py-10 md:px-12 md:py-14 flex flex-col items-center gap-4 text-center">
+                  <div className="flex items-center gap-2 bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">
+                    <span className="w-1.5 h-1.5 bg-brand-orange rounded-full animate-ping" />
+                    <span className="text-[10px] md:text-xs font-black text-brand-orange uppercase tracking-[0.3em]">Continuar Explorando</span>
+                  </div>
+                  
+                  <h3 className="text-xl md:text-3xl lg:text-4xl font-black text-white uppercase tracking-tight md:tracking-tighter leading-tight drop-shadow-lg">
+                    PARA MÁS INFORMACIÓN <br />
+                    <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500">TE INVITAMOS A CONOCERNOS</span>
+                  </h3>
+                  
+                  <p className="text-white/60 text-xs md:text-sm font-bold uppercase tracking-widest max-w-lg">
+                    Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
                   </p>
-                  <ArrowRight className="w-5 h-5 text-brand-orange group-hover:text-white group-hover:translate-x-2 transition-all mt-2" />
+
+                  <div className="mt-4 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-white/10 group-hover:border-brand-orange group-hover:bg-brand-orange transition-all duration-500">
+                    <ArrowDown className="w-5 h-5 md:w-8 md:h-8 text-brand-orange group-hover:text-white animate-bounce" />
+                  </div>
                 </div>
 
-                {/* Animated Light Sweep */}
-                <div className="absolute top-0 h-full w-1/2 z-5 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shine pointer-events-none" />
+                {/* Animated Shine */}
+                <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shine pointer-events-none" />
               </motion.button>
             </div>
       )}
