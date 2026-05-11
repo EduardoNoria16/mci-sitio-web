@@ -30,6 +30,7 @@ import {
   X,
   Menu,
   ArrowRight,
+  ArrowDown,
   Clock,
   Send,
   Volume2,
@@ -334,6 +335,7 @@ const CustomVideoPlayer = memo(() => {
 interface Strength {
   id: string;
   title: string;
+  description: string;
   intro: string;
   items: (string | { label: string; subItems: string[] })[];
   image: string;
@@ -357,6 +359,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa1',
     title: 'Pisos para uso comercial e industrial',
+    description: 'Ingeniería aplicada para durabilidad y estética superior.',
     icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
@@ -383,6 +386,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa2',
     title: 'PISOS EPÓXICOS DE ALTO VALOR',
+    description: 'Diseños vanguardistas con resinas de alta calidad.',
     icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
@@ -398,6 +402,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa3',
     title: 'ACABADOS INDUSTRIALES DE ALTA GAMA',
+    description: 'Protección crítica para entornos químicos exigentes.',
     icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
@@ -450,6 +455,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa4',
     title: 'REPARACIÓN Y MANTENIMIENTO DE CONCRETO',
+    description: 'Restauración técnica y mantenimiento estructural.',
     icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
@@ -470,6 +476,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa5',
     title: 'IMPERMEABILIZACIÓN',
+    description: 'Sistemas avanzados contra filtraciones y humedad.',
     icon: <Droplets className="w-5 h-5" />,
     intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
@@ -485,6 +492,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa6',
     title: 'PINTURAS Y ACABADOS ESPECIALES',
+    description: 'Protección estética y funcional de alta durabilidad.',
     icon: <Paintbrush className="w-5 h-5" />,
     intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
@@ -503,6 +511,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa7',
     title: 'SISTEMAS CORTAFUEGO Y PROTECCIÓN PASIVA',
+    description: 'Contención y limitación de riesgos críticos de incendio.',
     icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
@@ -516,6 +525,7 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa8',
     title: 'ESPECIALIDADES COMPLEMENTARIAS',
+    description: 'Intervenciones técnicas de precisión para equipos especiales.',
     icon: <HardHat className="w-5 h-5" />,
     intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
@@ -1149,6 +1159,7 @@ export default function App() {
   const readSectionsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
     const loadVoices = () => {
       setAvailableVoices(window.speechSynthesis.getVoices());
     };
@@ -1180,6 +1191,7 @@ export default function App() {
 
   const speakText = useCallback((text: string, id: string) => {
     if (!text || readSectionsRef.current.has(id)) return;
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
     window.speechSynthesis.cancel();
     
@@ -1219,6 +1231,8 @@ export default function App() {
   }, [availableVoices]);
 
   const toggleSpeech = useCallback(() => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    
     if (isSpeaking) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
@@ -1267,7 +1281,9 @@ export default function App() {
 
     return () => {
       observer.disconnect();
-      window.speechSynthesis.cancel();
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
     };
   }, [isSpeaking, speakText, extractSectionText]);
 
@@ -1484,9 +1500,9 @@ export default function App() {
       {/* Dynamic Background Elements for more vibrant feel */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/10 via-[#3b82f6]/10 to-[#f58220]/10 mix-blend-overlay" />
-        <div className="absolute -top-40 -left-60 w-[50rem] h-[50rem] bg-[#00f2ff]/30 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[150px] opacity-80 md:animate-blob" />
-        <div className="hidden md:block absolute top-20 -right-40 w-[50rem] h-[50rem] bg-brand-blue/20 rounded-full mix-blend-multiply filter blur-[150px] opacity-80 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-40 left-1/4 w-[50rem] h-[50rem] bg-brand-orange/20 rounded-full mix-blend-multiply filter blur-[80px] md:blur-[150px] opacity-80 md:animate-blob animation-delay-4000" />
+        <div className="absolute -top-[20%] -left-[20%] w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.15)_0%,transparent_70%)] opacity-80 md:animate-blob mix-blend-multiply" />
+        <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] opacity-80 animate-blob animation-delay-2000 mix-blend-multiply" />
+        <div className="absolute -bottom-[20%] left-1/4 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(245,130,32,0.1)_0%,transparent_70%)] opacity-80 md:animate-blob animation-delay-4000 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
       </div>
       
@@ -1591,60 +1607,47 @@ export default function App() {
         style={{ scaleX }}
       />
 
-      {/* Background Blobs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-brand-blue/15 blur-[80px] md:blur-[120px] rounded-full will-change-transform" />
-        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-brand-orange/15 blur-[80px] md:blur-[120px] rounded-full will-change-transform" />
-      </div>
-
       {/* Hero Section */}
-      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh] perspective-[1000px]">
+      <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
         
-        {/* Fondo fotográfico full width with elegant light glassmorphism overlay */}
+        {/* Fondo fotográfico with improved depth */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://i.postimg.cc/3wK1P8Yb/imagen-hero.png" 
             alt="MCI Soluciones Fotografía Oficial"
-            className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50"
-            crossOrigin="anonymous"
+            className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
           />
-          {/* Sofisticado degradado de fondo */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/85 to-white/70 md:backdrop-blur-[4px] z-10 pointer-events-none" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] md:w-[60%] h-[80%] md:h-[60%] bg-brand-orange/10 blur-[80px] md:blur-[120px] rounded-full z-10 pointer-events-none" />
-          <div className="hidden md:block absolute bottom-0 right-0 w-[60%] h-[60%] bg-brand-blue/10 blur-[120px] rounded-full z-10 pointer-events-none" />
+          {/* Enhanced glass overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/80 to-white/60 md:backdrop-blur-[6px] z-10 pointer-events-none" />
+          <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full z-10 pointer-events-none animate-pulse" />
         </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 flex flex-col items-center w-full">
-
           <div className="flex flex-col gap-12 lg:gap-16 items-center w-full">
-            
             {/* 1. ¿Quiénes Somos? Text */}
             <div className="w-full max-w-5xl mx-auto">
               <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="relative w-full flex flex-col items-center justify-center space-y-6 p-6 md:p-12 lg:p-16 rounded-3xl bg-white/70 shadow-[0_10px_30px_rgba(0,0,0,0.05)] md:shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-white/80 md:backdrop-blur-xl overflow-hidden text-center transition-all duration-700 hover:shadow-[0_20px_50px_rgba(245,130,32,0.1)]"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative w-full flex flex-col items-center justify-center space-y-6 md:space-y-8 p-6 md:p-14 lg:p-20 rounded-[2.5rem] md:rounded-[4rem] bg-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-white/80 backdrop-blur-3xl overflow-hidden text-center transition-all duration-700 hover:shadow-brand-orange/10"
               >
-                {/* Decorative corner accents */}
-                <div className="absolute top-0 left-0 w-32 md:w-40 h-32 md:h-40 bg-gradient-to-br from-brand-orange/15 to-transparent rounded-tl-3xl opacity-80 z-0 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-32 md:w-40 h-32 md:h-40 bg-gradient-to-tl from-brand-blue/15 to-transparent rounded-br-3xl opacity-80 z-0 pointer-events-none" />
+                {/* Decorative Elements */}
+                <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full -mr-16 -mt-16 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] rounded-full -ml-12 -mb-12 pointer-events-none" />
                 
-                {/* Animated soft glow behind text (deshabilitado en mobile para rendimiento) */}
-                <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-brand-orange/5 via-transparent to-brand-blue/5 z-0" />
-
                 <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                  className="space-y-4 max-w-full flex flex-col items-center relative z-10"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-4 flex flex-col items-center"
                 >
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-widest uppercase leading-tight text-slate-900 drop-shadow-sm flex items-center justify-center gap-2">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-slate-900 flex flex-wrap items-center justify-center gap-3 md:gap-4">
                     <span>¿Quiénes</span>
-                    <span className="text-brand-orange">Somos</span>
+                    <span className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4">Somos</span>
                     <span>?</span>
                   </h1>
-                  <div className="h-1 md:h-1.5 w-16 sm:w-20 bg-brand-orange rounded-full shadow-[0_2px_10px_rgba(245,130,32,0.5)]" />
+                  <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_20px_rgba(245,130,32,0.4)]" />
                 </motion.div>
 
                 <motion.div 
@@ -1703,36 +1706,40 @@ export default function App() {
           </div>
 
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {STRENGTHS.map((s, idx) => (
-                <motion.button
+                <motion.div
                   key={s.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  onClick={() => {
-                    playClickSound();
-                    setActiveStrength(s);
-                    setIsStrengthHovered(true);
-                  }}
-                  className="group relative p-4 md:p-6 rounded-xl md:rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-2xl hover:shadow-brand-orange/10 hover:border-brand-orange/30 transition-all duration-500 flex flex-col items-center text-center gap-3 md:gap-4 hover:-translate-y-2"
+                  transition={{ delay: idx * 0.1, duration: 0.5, type: "spring" }}
+                  className="group relative p-8 rounded-[2rem] border-2 border-slate-100 bg-white shadow-sm hover:shadow-2xl hover:border-brand-orange/40 transition-all duration-500 flex flex-col items-center text-center gap-6"
                 >
-                  <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-slate-50 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-inner group-hover:shadow-[0_10px_20px_rgba(245,130,32,0.3)]">
-                    {React.cloneElement(s.icon as React.ReactElement, { className: 'w-5 h-5 md:w-7 md:h-7 transition-transform duration-500 group-hover:scale-110' })}
+                  <div className="w-20 h-20 rounded-2xl bg-slate-50 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-xl group-hover:rotate-6">
+                    {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
                   </div>
                   
-                  <div className="space-y-1">
-                    <h3 className="text-[10px] md:text-sm font-black text-slate-900 uppercase tracking-widest leading-tight group-hover:text-brand-orange transition-colors min-h-[2.5em] flex items-center justify-center">
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
                       {s.title}
                     </h3>
-                    <div className="w-6 md:w-8 h-0.5 bg-slate-200 mx-auto group-hover:w-16 group-hover:bg-brand-orange transition-all duration-500" />
+                    <p className="text-xs text-slate-500 font-bold leading-relaxed uppercase tracking-widest px-4">
+                      {s.description || 'Excelencia Operativa'}
+                    </p>
                   </div>
 
-                  <div className="mt-1 md:mt-2 flex items-center gap-1.5 text-[8px] md:text-[10px] font-bold text-brand-orange opacity-0 group-hover:opacity-100 transition-opacity">
-                    VER FICHA <ArrowRight className="w-2 h-2 md:w-3 md:h-3" />
-                  </div>
-                </motion.button>
+                  <button 
+                    onClick={() => {
+                      playClickSound();
+                      setActiveStrength(s);
+                      setIsStrengthHovered(true);
+                    }}
+                    className="mt-2 flex items-center gap-2 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all"
+                  >
+                    Detalles <ArrowRight className="w-3 h-3" />
+                  </button>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -1917,28 +1924,34 @@ export default function App() {
               }
             }
           }}
-          className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 pb-6 md:pb-0 hide-scrollbar -mx-5 px-5 md:mx-0 md:px-0"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           {SECTORS.map((sector) => (
             <motion.div 
               key={sector.id}
               variants={{
-                hidden: { opacity: 0, y: 20 },
+                hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`shrink-0 w-[85vw] sm:w-auto snap-center p-6 md:p-8 rounded-2xl md:rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-2 ring-brand-orange/50 bg-white shadow-2xl translate-y--2 border-transparent' : 'bg-[#22d3ee]/15 md:backdrop-blur-xl border-[#22d3ee]/30 hover:bg-white hover:shadow-lg hover:border-transparent hover:-translate-y-1'}`}
+              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-white shadow-2xl -translate-y-2 border-brand-orange/40' : 'bg-slate-50/50 border-slate-100 hover:bg-white hover:shadow-xl hover:border-brand-blue/20 hover:-translate-y-2'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-2xl border transition-all duration-500 group-hover:scale-110 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-[0_0_20px_rgba(0,75,135,0.3)] border-transparent' : 'bg-[#22d3ee] shadow-[0_5px_15px_rgba(34,211,238,0.2)] border-white/20'}`}>
-                  {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-5 h-5 text-brand-orange transition-colors duration-300' })}
+              <div className="flex flex-col gap-6 w-full">
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-xl' : 'bg-slate-100 text-brand-orange border border-slate-200'}`}>
+                  {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-8 h-8 transition-colors duration-300' })}
                 </div>
-                <h3 className={`text-sm sm:text-base md:text-lg font-black uppercase tracking-[0.1em] md:tracking-[0.2em] leading-tight transition-colors duration-300 whitespace-normal break-words ${activeSector === sector.id ? 'text-brand-orange' : 'text-on-surface'}`}>{sector.title}</h3>
+                <div className="space-y-3">
+                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-blue'}`}>
+                    {sector.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                    {sector.description}
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-on-surface-subtle leading-relaxed mb-4 font-medium tracking-wide whitespace-normal break-words">{sector.description}</p>
               
               <AnimatePresence mode="popLayout">
                 {activeSector === sector.id && (
@@ -2234,6 +2247,115 @@ export default function App() {
 
 
 
+      {/* Contact Section explicitly inside Part 2 */}
+      <section id="contacto" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-20 md:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="space-y-10">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 border border-brand-orange/20 rounded-full text-brand-orange text-xs font-black uppercase tracking-widest">
+                <Mail className="w-3" />
+                Ingeniería de Ventas
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+                ¿TIENES UN <br />
+                <span className="text-brand-orange">PROYECTO EN MENTE?</span>
+              </h2>
+              <p className="text-slate-600 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+                Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                { icon: <Phone className="w-5 h-5" />, text: '55 6150 0317', href: 'tel:+525561500317' },
+                { icon: <Mail className="w-5 h-5" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 group">
+                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
+                    {item.icon}
+                  </div>
+                  <a href={item.href} className="text-sm font-black text-slate-900 transition-colors">
+                    {item.text}
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a 
+                href="https://wa.me/525561500317" 
+                target="_blank"
+                className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] transition-all hover:-translate-y-1"
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp Directo
+              </a>
+              <button 
+                onClick={() => setIsQRModalOpen(true)}
+                className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition-all shadow-lg"
+              >
+                <QrCode className="w-5 h-5" />
+                Ver Tarjeta Digital
+              </button>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-6 bg-gradient-to-tr from-brand-orange/20 via-transparent to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
+            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-2xl relative overflow-hidden">
+               {isFormSubmitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-10 space-y-6"
+                  >
+                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-600 border border-green-100 shadow-inner">
+                      <CheckCircle2 className="w-10 h-10" />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 uppercase">¡Mensaje Enviado!</h3>
+                    <p className="text-slate-600 font-medium">Un experto te contactará en breve.</p>
+                    <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">Enviar otro mensaje</button>
+                  </motion.div>
+               ) : (
+                  <form className="space-y-6" onSubmit={handleFormSubmit}>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className="md:col-span-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Cargo</label>
+                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                      </div>
+                      <div className="md:col-span-3">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Nombre Completo *</label>
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Empresa / Planta *</label>
+                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Email *</label>
+                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Teléfono *</label>
+                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Detalles del Proyecto *</label>
+                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                    </div>
+                    <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
+                      {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
+                    </button>
+                  </form>
+               )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
@@ -2241,17 +2363,17 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
           >
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-            Preguntas&nbsp;&nbsp;<span className="text-gradient">Frecuentes</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 uppercase tracking-tighter">
+            Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
           </h2>
         </div>
 
-        <div className="space-y-3 md:space-y-4">
+        <div className="space-y-4">
           {[
             { q: '¿Cuánto tiempo tarda en secar un piso epóxico?', a: 'Dependiendo del sistema, el tráfico peatonal puede permitirse en 24 horas y el tráfico pesado en 48-72 horas.' },
             { q: '¿Tienen cobertura fuera de la CDMX?', a: 'Sí, contamos con infraestructura logística para ejecutar proyectos en cualquier estado de la República Mexicana.' },
@@ -2268,10 +2390,10 @@ export default function App() {
                 playClickSound();
                 setActiveFaq(activeFaq === i ? null : i);
               }}
-              className={`glass p-5 md:p-6 rounded-2xl border-glass-border hover:border-brand-orange/50 transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange shadow-2xl scale-[1.02]' : 'hover:bg-white hover:shadow-md'}`}
+              className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange shadow-2xl scale-[1.02]' : 'bg-slate-50 border-slate-100 hover:bg-white hover:shadow-md'}`}
             >
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-on-surface font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                <h3 className="text-slate-900 font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
                   <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
                   {faq.q}
                 </h3>
@@ -2280,12 +2402,14 @@ export default function App() {
               <AnimatePresence>
                 {activeFaq === i && (
                   <motion.div
-                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                    animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
-                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-on-surface-subtle font-medium text-xs md:text-sm leading-relaxed pl-6 md:pl-8 border-l-2 border-brand-orange/20">{faq.a}</p>
+                    <p className="mt-4 text-slate-600 text-sm md:text-base leading-relaxed pl-8">
+                      {faq.a}
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -2294,206 +2418,42 @@ export default function App() {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <footer id="contacto-footer" className="relative z-10 bg-surface/50 md:backdrop-blur-3xl border-t border-glass-border mt-8 md:mt-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
-          <div className="text-center mb-16 md:mb-20 space-y-4">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
-              Da&nbsp;&nbsp;el&nbsp;&nbsp;primer&nbsp;&nbsp;paso&nbsp;&nbsp;hacia&nbsp;&nbsp;la&nbsp;&nbsp;<span className="text-gradient">Calidad Total</span>
-            </h2>
-            <p className="text-base md:text-lg text-on-surface font-bold transition-all duration-300">Ponte en contacto con nuestros ingenieros y cotiza tu proyecto.</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-4 space-y-12">
-              <div className="space-y-6">
-                <h3 className="text-brand-blue font-black uppercase tracking-[0.3em] text-xs">Contacto Directo</h3>
-                <div className="space-y-4">
-                  {[
-                    { icon: <Phone className="w-4 h-4" />, text: '55 6150 0317', href: 'tel:+525561500317' },
-                    { icon: <Mail className="w-4 h-4" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' },
-                    { icon: <MapPin className="w-4 h-4" />, text: 'Ciudad de México, México', href: 'https://maps.google.com/?q=Ciudad+de+Mexico' }
-                  ].map((item, i) => (
-                    <a 
-                      key={i} 
-                      href={item.href}
-                      target={item.href.startsWith('http') ? '_blank' : undefined}
-                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="flex items-center gap-4 group cursor-pointer"
-                    >
-                      <div className="p-3 glass rounded-xl border-glass-border group-hover:border-brand-orange/50 group-hover:bg-brand-orange/10 transition-all duration-300 text-brand-orange">
-                        {item.icon}
-                      </div>
-                      <span className="text-on-surface group-hover:text-brand-orange transition-colors text-sm font-black tracking-wide">{item.text}</span>
-                    </a>
-                  ))}
+      {/* Footer Section (Minimal and Professional) */}
+      <footer id="contacto-footer" className="relative z-10 bg-slate-900 pt-20 pb-10 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-5 md:px-6 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
+            <div className="space-y-6 text-center md:text-left max-w-sm">
+              <div className="flex items-center justify-center md:justify-start gap-4">
+                <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" />
+                <div className="h-10 w-px bg-white/20" />
+                <div className="text-white">
+                  <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
+                  <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
                 </div>
               </div>
-
-              <a 
-                href="https://wa.me/525561500317?text=Hola+MCI+Soluciones+Polim%C3%A9ricas%2C+me+gustar%C3%ADa+cotizar+un+proyecto." 
-                target="_blank"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-[#25D366] to-[#1EBE55] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-[0_10px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_15px_30px_rgba(37,211,102,0.5)] transition-all duration-300 hover:-translate-y-1"
-              >
-                <MessageCircle className="w-4 h-4" />
-                Chat por WhatsApp
-              </a>
-              <button 
-                onClick={() => setIsQRModalOpen(true)}
-                className="mt-4 inline-flex items-center gap-3 bg-slate-900 border border-slate-700 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full justify-center lg:w-auto"
-              >
-                <QrCode className="w-4 h-4 opacity-70" />
-                Tarjeta Digital / QR
-              </button>
+              <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-relaxed">
+                Ingeniería aplicada en restauración y protección de activos industriales con más de 30 años de experiencia.
+              </p>
             </div>
 
-            <div className="lg:col-span-8">
-              <div className="bg-white/40 md:backdrop-blur-xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-white/60 relative overflow-hidden h-full flex flex-col justify-center shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[80px] md:blur-[100px] rounded-full -mr-32 -mt-32" />
-                
-                {isFormSubmitted ? (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="relative z-10 text-center py-12 md:py-20 space-y-6"
-                  >
-                    <div className="w-20 h-20 bg-brand-orange/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-brand-orange/30">
-                      <CheckCircle2 className="w-10 h-10 text-brand-orange" />
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-black text-on-surface uppercase tracking-tighter">¡Gracias por contactarnos!</h3>
-                    <p className="text-on-surface-subtle text-lg md:text-xl font-medium max-w-md mx-auto leading-relaxed">
-                      Hemos recibido tu solicitud y un ingeniero especializado se pondrá en contacto pronto para asesorarte en tu proyecto.
-                    </p>
-                    <button 
-                      onClick={() => setIsFormSubmitted(false)}
-                      className="mt-8 text-brand-orange font-black uppercase tracking-[0.2em] text-xs hover:text-brand-blue transition-colors flex items-center gap-2 mx-auto group"
-                    >
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rotate-180" />
-                      Enviar otro mensaje
-                    </button>
-                  </motion.div>
-                ) : (
-                  <form className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" onSubmit={handleFormSubmit}>
-                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-                      <div className="md:col-span-1 space-y-1.5 md:space-y-2">
-                        <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">Cargo</label>
-                        <input 
-                          type="text" 
-                          name="cargo"
-                          value={formData.cargo}
-                          onChange={handleFieldChange}
-                          onBlur={handleFieldBlur}
-                          className="w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40" 
-                          placeholder="Ej. Ing." 
-                        />
-                      </div>
-                      <div className="md:col-span-3 space-y-1.5 md:space-y-2">
-                        <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
-                          Nombre Completo <span className="text-brand-orange">*</span>
-                        </label>
-                        <input 
-                          type="text" 
-                          name="nombre"
-                          value={formData.nombre}
-                          onChange={handleFieldChange}
-                          onBlur={handleFieldBlur}
-                          className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.nombre ? 'border-red-500/50 bg-red-500/5' : ''}`} 
-                          placeholder="Ej. Roberto Silva" 
-                        />
-                        {formErrors.nombre && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
-                          {formErrors.nombre}
-                        </p>}
-                      </div>
-                    </div>
-                    <div className="space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
-                        Empresa / Planta <span className="text-brand-orange">*</span>
-                      </label>
-                      <input 
-                        type="text" 
-                        name="empresa"
-                        value={formData.empresa}
-                        onChange={handleFieldChange}
-                        onBlur={handleFieldBlur}
-                        className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.empresa ? 'border-red-500/50 bg-red-500/5' : ''}`} 
-                        placeholder="Ej. Planta Industrial Norte" 
-                      />
-                      {formErrors.empresa && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
-                        {formErrors.empresa}
-                      </p>}
-                    </div>
-                    <div className="space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
-                        Correo Corporativo <span className="text-brand-orange">*</span>
-                      </label>
-                      <input 
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleFieldChange}
-                        onBlur={handleFieldBlur}
-                        className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.email ? 'border-red-500/50 bg-red-500/5' : ''}`} 
-                        placeholder="rsilva@empresa.com" 
-                      />
-                      {formErrors.email && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
-                        {formErrors.email}
-                      </p>}
-                    </div>
-                    <div className="space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
-                        Teléfono de Contacto <span className="text-brand-orange">*</span>
-                      </label>
-                      <input 
-                        type="tel" 
-                        name="telefono"
-                        value={formData.telefono}
-                        onChange={handleFieldChange}
-                        onBlur={handleFieldBlur}
-                        className={`w-full min-h-[48px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all placeholder:text-on-surface-subtle/40 ${formErrors.telefono ? 'border-red-500/50 bg-red-500/5' : ''}`} 
-                        placeholder="55 0000 0000" 
-                      />
-                      {formErrors.telefono && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
-                        {formErrors.telefono}
-                      </p>}
-                    </div>
-                    <div className="md:col-span-2 space-y-1.5 md:space-y-2">
-                      <label className="text-xs font-black uppercase tracking-widest text-on-surface-subtle/50 ml-4 flex items-center gap-1">
-                        Detalles del Proyecto <span className="text-brand-orange">*</span>
-                      </label>
-                      <textarea 
-                        rows={4} 
-                        name="detalles"
-                        value={formData.detalles}
-                        onChange={handleFieldChange}
-                        onBlur={handleFieldBlur}
-                        className={`w-full min-h-[100px] bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 text-sm md:text-base text-on-surface focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue transition-all resize-none placeholder:text-on-surface-subtle/40 ${formErrors.detalles ? 'border-red-500/50 bg-red-500/5' : ''}`} 
-                        placeholder="Describa brevemente el área a intervenir y las condiciones de operación..."
-                      ></textarea>
-                      {formErrors.detalles && <p className="text-[10px] text-red-500 ml-4 font-bold uppercase tracking-widest flex items-center gap-1 animate-pulse">
-                        {formErrors.detalles}
-                      </p>}
-                    </div>
-                    <div className="md:col-span-2 pt-2 md:pt-4">
-                      <button 
-                        type="submit" 
-                        disabled={isSubmitting}
-                        className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm rounded-xl md:rounded-2xl shadow-[0_20px_40px_rgba(0,75,135,0.2)] hover:shadow-[0_25px_50px_rgba(0,75,135,0.4)] transition-all hover:-translate-y-1 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
-                      >
-                        {isSubmitting ? 'Enviando...' : 'Solicitar una Cotización'}
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </div>
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
+              <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
+              <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
+              <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Transformación</a>
+              <a href="#contacto" onClick={(e) => handleSmoothScroll(e, '#contacto')} className="hover:text-brand-orange transition-colors">Contacto</a>
             </div>
           </div>
 
-          <div className="mt-20 pt-8 border-t border-glass-border/30 text-center px-4">
-            <p className="text-on-surface-subtle/30 text-[0.625rem] md:text-xs uppercase tracking-wider md:tracking-[0.4em] font-bold transition-colors animate-fade-in break-words">© 2026 MCI Soluciones Poliméricas - Ingeniería de Alta Gama </p>
+          <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
+            <div className="flex items-center gap-6">
+              <span className="text-white/20 text-[10px] font-black uppercase tracking-widest">Ciudad de México, MX</span>
+            </div>
           </div>
         </div>
       </footer>
-
         </div>
       )}
 
