@@ -784,7 +784,7 @@ const SECTORS: Sector[] = [
   {
     id: 's3',
     title: 'Instalaciones Comerciales y Recreación',
-    description: 'Donde se busca que la imagen de la empresa impacte positivamente.',
+    description: 'Donde se busca que la imagen de la empresa impacte positivamente a clientes y visitantes.',
     icon: <ShoppingBag className="w-6 h-6" />,
     details: {
       groups: [
@@ -802,7 +802,7 @@ const SECTORS: Sector[] = [
   {
     id: 's4',
     title: 'Industria de Bienes de Consumo',
-    description: 'Protección de activos de producción para garantizar una rápida rotación.',
+    description: 'Protección de activos de producción para garantizar una rápida rotación de inventarios.',
     icon: <Truck className="w-6 h-6" />,
     details: {
       groups: [
@@ -1699,7 +1699,7 @@ export default function App() {
                   style={{ overflowWrap: 'break-word' }}
                 >
                   <p>
-                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span> para nuestros clientes. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
+                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
                   </p>
                   <p className="font-black text-brand-orange text-base md:text-xl lg:text-2xl leading-snug drop-shadow-md" style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}>
                     No fabricamos materiales, ofrecemos criterio técnico, diagnóstico, especificación correcta y ejecución especializada
@@ -1720,12 +1720,13 @@ export default function App() {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-block"
+              className="space-y-4 flex flex-col items-center"
             >
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] text-on-surface drop-shadow-sm mb-4">
-                Nuestras&nbsp;&nbsp;<span className="text-brand-orange">Fortalezas</span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none text-slate-900 flex flex-wrap items-center justify-center gap-3 md:gap-4">
+                <span>Nuestras</span>
+                <span className="text-brand-orange underline decoration-[4px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Fortalezas</span>
               </h2>
-              <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent opacity-50" />
+              <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_20px_rgba(245,130,32,0.4)]" />
             </motion.div>
           </div>
 
@@ -2038,7 +2039,7 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Transformación Industrial Section */}
+      {/* Antes / Después Section */}
       <section id="transformacion" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-24">
         <div className="flex flex-col gap-12 items-center">
           <motion.div 
@@ -2051,21 +2052,13 @@ export default function App() {
               <ArrowLeftRight className="w-3 h-3" />
               Ingeniería en Resultados
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm leading-tight">
-              Transformación&nbsp;&nbsp;<span className="text-gradient">Industrial</span>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-slate-900 drop-shadow-sm leading-tight">
+              Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
-              <p className="text-on-surface/80 text-sm md:text-base lg:text-lg font-medium leading-relaxed font-bold text-center md:text-left mx-auto max-w-3xl">
-                Nuestra tecnología en <strong className="text-on-surface font-black">polímeros de alta gama</strong> no solo corrige desperfectos estructurales, sino que otorga una vida útil extendida a sus instalaciones.
-              </p>
-              <p className="text-on-surface/80 text-sm md:text-base lg:text-lg font-medium leading-relaxed font-bold text-center md:text-left mx-auto max-w-3xl">
-                Observe cómo recuperamos la <strong className="text-brand-orange">integridad técnica</strong> y estética de superficies severamente degradadas.
-              </p>
-            </div>
-            <div className="mt-8">
-              <p className="text-sm font-bold text-brand-orange/80 italic">
-                * Ejemplos ilustrativos de restauración.
+              <p className="text-on-surface/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
+                Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-brand-blue">operativa</span>.
               </p>
             </div>
           </motion.div>
@@ -2333,7 +2326,7 @@ export default function App() {
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
               <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
               <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
-              <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Transformación</a>
+              <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Antes / Después</a>
               <a href="#contacto" onClick={(e) => handleSmoothScroll(e, '#contacto')} className="hover:text-brand-orange transition-colors">Contacto</a>
             </div>
           </div>
