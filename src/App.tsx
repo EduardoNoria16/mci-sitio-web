@@ -620,7 +620,7 @@ const BEFORE_AFTER_PAIRS = [
     title: 'Caso de Éxito 8',
     description: 'Recuperación de brillo y resistencia de superficies degradadas.',
     before: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
-    after: 'https://cdn.mci-soluciones.tech/casos-exito/caso-8-after.jpg'
+    after: 'https://i.postimg.cc/mD8zHhX3/IMG-20260316-WA0022.jpg'
   },
   {
     id: 'case9',
