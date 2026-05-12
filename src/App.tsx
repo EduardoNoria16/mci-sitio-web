@@ -339,7 +339,7 @@ interface Strength {
   description: string;
   intro: string;
   items: (string | { label: string; subItems: string[] })[];
-  image: string;
+  image?: string;
   collage?: string[];
   keywords: string[];
   icon: React.ReactNode;
@@ -365,13 +365,6 @@ const STRENGTHS: Strength[] = [
     icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
-    image: 'https://images2.imgbox.com/83/7d/HoWYHDcY_o.jpg',
-    collage: [
-      'https://images2.imgbox.com/83/7d/HoWYHDcY_o.jpg',
-      'https://images2.imgbox.com/4c/83/jYj1scAy_o.jpg',
-      'https://images2.imgbox.com/00/03/FxPKE8OU_o.jpg',
-      'https://images2.imgbox.com/d9/8c/0Jdm3yf2_o.jpg'
-    ],
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión y acabado',
       'Tratamientos químicos. Curado y densificado superficial.',
@@ -398,13 +391,6 @@ const STRENGTHS: Strength[] = [
     icon: <Zap className="w-5 h-5" />,
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
-    image: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
-    collage: [
-      'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg',
-      'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg',
-      'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg',
-      'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
-    ],
     items: [
       'Epóxico autonivelante. Fácil de limpiar, totalmente liso, en tono mate que oculta imperfecciones del firme ideal para showrooms, hospitales, oficinas.',
       'Porcelanato líquido marmoleado. Con vetas de pigmentos metalizados para crear un efecto mármol, nubes o dar profundidad (3D). Su mercado es el residencial de alto nivel.',
@@ -420,13 +406,6 @@ const STRENGTHS: Strength[] = [
     icon: <ShieldCheck className="w-5 h-5" />,
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
-    image: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
-    collage: [
-      'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg',
-      'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg',
-      'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg',
-      'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
-    ],
     items: [
       {
         label: 'Recubrimientos químico-resistentes para el control de la corrosión.',
@@ -479,7 +458,6 @@ const STRENGTHS: Strength[] = [
     icon: <Wrench className="w-5 h-5" />,
     intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
-    image: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
     items: [
       'Bacheos en pasillos o vialidades críticas con cortos tiempos de paro',
       'Renivelar áreas con sobre pisos delgados usando concretos formulados para fraguado rápido de hasta 500 kg/cm²',
@@ -500,7 +478,6 @@ const STRENGTHS: Strength[] = [
     icon: <Droplets className="w-5 h-5" />,
     intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
-    image: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
     items: [
       'Aplicación de poliurea por proyección',
       'Sistemas vehiculares en cubiertas exteriores (aún en condiciones de agrietamiento) para estacionamientos comerciales e institucionales',
@@ -516,7 +493,6 @@ const STRENGTHS: Strength[] = [
     icon: <Paintbrush className="w-5 h-5" />,
     intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
-    image: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
     items: [
       'Sistemas epóxi-poliuretano como acabado en pisos para servicios ligeros',
       'Acabados sanitarios lisos, continuos, sin bordes, y antibacteriales en muros y plafond',
@@ -535,7 +511,6 @@ const STRENGTHS: Strength[] = [
     icon: <Flame className="w-5 h-5" />,
     intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
-    image: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
     items: [
       'Instalación de retardantes de fuego (intumescentes)',
       'Sellado de pasos de instalaciones (tubería, líneas de cableado) a través de muros y juntas de construcción',
@@ -549,7 +524,6 @@ const STRENGTHS: Strength[] = [
     icon: <HardHat className="w-5 h-5" />,
     intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
-    image: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
     items: [
       {
         label: 'Espuma de poliuretano en diversos espesores',
@@ -1376,7 +1350,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-2.5-flash",
+        model: "gemini-3-flash-preview",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -1749,13 +1723,10 @@ export default function App() {
               className="inline-block"
             >
               <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] text-on-surface drop-shadow-sm mb-4">
-                Quiénes&nbsp;&nbsp;<span className="text-brand-orange">Somos</span>
+                Nuestras&nbsp;&nbsp;<span className="text-brand-orange">Fortalezas</span>
               </h2>
               <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent opacity-50" />
             </motion.div>
-            <h3 className="mt-8 text-lg sm:text-xl md:text-2xl font-bold text-on-surface/80 uppercase tracking-widest">
-              Nuestras Fortalezas
-            </h3>
           </div>
 
           <div className="max-w-6xl mx-auto">
