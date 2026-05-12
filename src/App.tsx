@@ -1429,16 +1429,35 @@ export default function App() {
 
   const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
 
+  // Keyboard controls for accessibility (Escape to close everything)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+        setIsStrengthHovered(false);
+        setSelectedImage(null);
+        setIsChatOpen(false);
+        setIsQRModalOpen(false);
+        setActiveSector(null);
+        setActiveFaq(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Inline smooth scroll handler
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
+    setIsStrengthHovered(false);
     playClickSound();
     
     const targetId = href.startsWith('/') ? href.substring(1) : href.replace('#', '');
     
-    const part1Ids = ['inicio', 'fortalezas'];
-    const part2Ids = ['sectores', 'transformacion', 'testimonios', 'contacto', 'inicio-part2'];
+    // Logic for part-based section visibility
+    const part1Ids = ['inicio', 'fortalezas', 'video-fortalezas'];
+    const part2Ids = ['sectores', 'transformacion', 'galeria', 'testimonios', 'contacto', 'inicio-part2'];
     
     if (part1Ids.includes(targetId) && showMoreInfo) {
       setShowMoreInfo(false);
@@ -1454,6 +1473,7 @@ export default function App() {
 
     const actualId = targetId === 'fortalezas' ? 'video-fortalezas' : targetId;
     const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
+    
     if (element) {
       const headerOffset = window.innerWidth < 768 ? 70 : 100;
       const elementPosition = element.getBoundingClientRect().top;
@@ -1496,7 +1516,7 @@ export default function App() {
     { name: 'Inicio', href: '/inicio' },
     { name: 'Sectores', href: '/sectores' },
     { name: 'Fortalezas', href: '/fortalezas' },
-    { name: 'Transformación', href: '/transformacion' },
+    { name: 'Galería', href: '/galeria' },
     { name: 'Contacto', href: '/contacto' }
   ], []);
 
@@ -2067,6 +2087,53 @@ export default function App() {
             <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
             <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS} />
           </motion.div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="galeria" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-16 md:py-24">
+        <div className="text-center mb-16 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
+          >
+            <Layers className="w-3" />
+            Galería MCI
+          </motion.div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter">
+            Galería&nbsp;&nbsp;de&nbsp;&nbsp;<span className="text-gradient">Proyectos</span>
+          </h2>
+          <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full" />
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {GALLERY_IMAGES.map((img, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              onClick={() => {
+                playClickSound();
+                setSelectedImage(img.url);
+              }}
+              className="relative aspect-square overflow-hidden rounded-2xl cursor-zoom-in group shadow-lg"
+            >
+              <img 
+                src={img.url} 
+                alt={img.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                referrerPolicy="no-referrer"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                <p className="text-white text-[10px] font-bold uppercase tracking-widest">{img.title}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
