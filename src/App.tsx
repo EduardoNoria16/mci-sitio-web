@@ -1111,10 +1111,8 @@ export default function App() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // If clicking inside the sheet or inside the navigation grid, don't close
-      if (strengthSheetRef.current && strengthSheetRef.current.contains(event.target as Node)) {
-        return;
-      }
-      if (strengthNavRef.current && strengthNavRef.current.contains(event.target as Node)) {
+      const modal = document.getElementById('strength-modal-content');
+      if (modal && modal.contains(event.target as Node)) {
         return;
       }
       setIsStrengthHovered(false);
@@ -1439,9 +1437,11 @@ export default function App() {
     
     const targetId = href.startsWith('/') ? href.substring(1) : href.replace('#', '');
     
-    const part2Ids = ['sectores', 'transformacion', 'testimonios', 'contacto', 'inicio-part2'];
+    const part2Ids = ['sectores', 'transformacion', 'testimonios', 'contacto', 'inicio-part2', 'fortalezas'];
     if (part2Ids.includes(targetId) && !showMoreInfo) {
-      setShowMoreInfo(true);
+      if (targetId !== 'fortalezas') {
+        setShowMoreInfo(true);
+      }
       setPendingScrollId(targetId);
       return;
     }
@@ -1450,7 +1450,8 @@ export default function App() {
       setShowMoreInfo(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      const element = document.getElementById(targetId) || (targetId === 'contacto' ? document.getElementById('contacto-footer') : null);
+      const actualId = targetId === 'fortalezas' ? 'video-fortalezas' : targetId;
+      const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
       if (element) {
         const headerOffset = window.innerWidth < 768 ? 70 : 100;
         const elementPosition = element.getBoundingClientRect().top;
@@ -1466,9 +1467,10 @@ export default function App() {
 
   // Effect to handle pending scroll after Section 2 is revealed
   useEffect(() => {
-    if (showMoreInfo && pendingScrollId) {
+    if (pendingScrollId) {
       const scrollToTarget = () => {
-        const element = document.getElementById(pendingScrollId) || (pendingScrollId === 'contacto' ? document.getElementById('contacto-footer') : null);
+        const actualId = pendingScrollId === 'fortalezas' ? 'video-fortalezas' : pendingScrollId;
+        const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
         if (element) {
           const headerOffset = window.innerWidth < 768 ? 70 : 100;
           const elementPosition = element.getBoundingClientRect().top;
@@ -1492,7 +1494,7 @@ export default function App() {
     { name: 'Inicio', href: '/inicio' },
     { name: 'Sectores', href: '/sectores' },
     { name: 'Fortalezas', href: '/fortalezas' },
-    { name: 'Galería', href: '/galeria' },
+    { name: 'Transformación', href: '/transformacion' },
     { name: 'Contacto', href: '/contacto' }
   ], []);
 
@@ -1722,7 +1724,12 @@ export default function App() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1, duration: 0.5, type: "spring" }}
-                  className="group relative p-8 rounded-[2rem] border-2 border-slate-100 bg-white shadow-sm hover:shadow-2xl hover:border-brand-orange/40 transition-all duration-500 flex flex-col items-center text-center gap-6"
+                  onClick={() => {
+                    playClickSound();
+                    setActiveStrength(s);
+                    setIsStrengthHovered(true);
+                  }}
+                  className="group relative p-8 rounded-[2rem] border-2 border-slate-100 bg-white shadow-sm hover:shadow-2xl hover:border-brand-orange/40 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
                 >
                   <div className="w-20 h-20 rounded-2xl bg-slate-50 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-xl group-hover:rotate-6">
                     {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
@@ -1738,7 +1745,8 @@ export default function App() {
                   </div>
 
                   <button 
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       playClickSound();
                       setActiveStrength(s);
                       setIsStrengthHovered(true);
@@ -2170,6 +2178,7 @@ export default function App() {
             />
             
             <motion.div
+              id="strength-modal-content"
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
