@@ -1376,7 +1376,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -1552,7 +1552,6 @@ export default function App() {
     { name: 'Inicio', href: '/inicio' },
     { name: 'Sectores', href: '/sectores' },
     { name: 'Fortalezas', href: '/fortalezas' },
-    { name: 'Galería', href: '/galeria' },
     { name: 'Contacto', href: '/contacto' }
   ], []);
 
@@ -1738,25 +1737,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- NUEVA ESTRUCTURA (VIDEO + FORTALEZAS) --- */}
+      {/* --- NUEVA ESTRUCTURA (FORTALEZAS) --- */}
       <section id="video-fortalezas" className="relative z-10 py-12 md:py-16 overflow-hidden">
-        {/* Custom Video Player */}
-        <div className="relative flex flex-col justify-center w-full px-6 mb-16 z-20">
-          <div className="text-center mb-8">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-2 drop-shadow-sm">
-              <span className="text-slate-900 border-b-4 border-brand-orange pb-1">VIDEO</span>
-            </h2>
-          </div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="w-full max-w-5xl mx-auto"
-          >
-            <CustomVideoPlayer />
-          </motion.div>
-        </div>
-
         {/* Strengths Section (Improved Grid Layout) */}
         <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform mt-8">
           <div className="text-center mb-12 md:mb-16">
@@ -1767,10 +1749,13 @@ export default function App() {
               className="inline-block"
             >
               <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-[0.2em] text-on-surface drop-shadow-sm mb-4">
-                Nuestras&nbsp;&nbsp;<span className="text-brand-orange">Fortalezas</span>
+                Quiénes&nbsp;&nbsp;<span className="text-brand-orange">Somos</span>
               </h2>
               <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-orange to-transparent opacity-50" />
             </motion.div>
+            <h3 className="mt-8 text-lg sm:text-xl md:text-2xl font-bold text-on-surface/80 uppercase tracking-widest">
+              Nuestras Fortalezas
+            </h3>
           </div>
 
           <div className="max-w-6xl mx-auto">
@@ -1835,29 +1820,29 @@ export default function App() {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 }} 
-                className="group relative w-full max-w-2xl bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-brand-orange/20 transition-all duration-500"
+                className="group relative w-full max-w-lg bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-brand-orange/20 transition-all duration-500"
               >
                 {/* Visual Engineering Background */}
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-orange/20 to-brand-orange animate-pulse" />
                 
-                <div className="relative z-10 px-6 py-10 md:px-12 md:py-14 flex flex-col items-center gap-4 text-center">
+                <div className="relative z-10 px-4 py-8 md:px-8 md:py-10 flex flex-col items-center gap-3 text-center">
                   <div className="flex items-center gap-2 bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">
                     <span className="w-1.5 h-1.5 bg-brand-orange rounded-full animate-ping" />
-                    <span className="text-[10px] md:text-xs font-black text-brand-orange uppercase tracking-[0.3em]">Continuar Explorando</span>
+                    <span className="text-[10px] md:text-[11px] font-black text-brand-orange uppercase tracking-[0.3em]">Continuar Explorando</span>
                   </div>
                   
-                  <h3 className="text-xl md:text-3xl lg:text-4xl font-black text-white uppercase tracking-tight md:tracking-tighter leading-tight drop-shadow-lg">
+                  <h3 className="text-lg md:text-2xl lg:text-3xl font-black text-white uppercase tracking-tight md:tracking-tighter leading-tight drop-shadow-lg">
                     PARA MÁS INFORMACIÓN <br />
-                    <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500">TE INVITAMOS A CONOCERNOS</span>
+                    <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
                   </h3>
                   
-                  <p className="text-white/60 text-xs md:text-sm font-bold uppercase tracking-widest max-w-lg">
+                  <p className="text-white/60 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
                     Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
                   </p>
 
-                  <div className="mt-4 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-white/10 group-hover:border-brand-orange group-hover:bg-brand-orange transition-all duration-500">
-                    <ArrowDown className="w-5 h-5 md:w-8 md:h-8 text-brand-orange group-hover:text-white animate-bounce" />
+                  <div className="mt-3 flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-white/10 group-hover:border-brand-orange group-hover:bg-brand-orange transition-all duration-500">
+                    <ArrowDown className="w-4 h-4 md:w-6 md:h-6 text-brand-orange group-hover:text-white animate-bounce" />
                   </div>
                 </div>
 
@@ -1976,7 +1961,7 @@ export default function App() {
                         {item.differentiators && (
                           <div className="w-full mt-4 flex flex-col items-center md:items-start relative z-10">
                             <h4 className="text-sm md:text-base font-black text-brand-orange uppercase tracking-widest mb-4">
-                              A continuación, te presentamos los diferenciadores que hacen a MCI la mejor decisión:
+                              Nuestros Diferenciadores:
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
                               {item.differentiators.map((diff, i) => (
@@ -2123,53 +2108,6 @@ export default function App() {
             <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
             <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS} />
           </motion.div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section id="galeria" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-16 md:py-24">
-        <div className="text-center mb-16 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
-          >
-            <Layers className="w-3" />
-            Galería MCI
-          </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter">
-            Galería&nbsp;&nbsp;de&nbsp;&nbsp;<span className="text-gradient">Proyectos</span>
-          </h2>
-          <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full" />
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {GALLERY_IMAGES.map((img, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => {
-                playClickSound();
-                setSelectedImage(img.url);
-              }}
-              className="relative aspect-square overflow-hidden rounded-2xl cursor-zoom-in group shadow-lg"
-            >
-              <img 
-                src={img.url} 
-                alt={img.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                referrerPolicy="no-referrer"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                <p className="text-white text-[10px] font-bold uppercase tracking-widest">{img.title}</p>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </section>
 
