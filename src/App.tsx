@@ -340,6 +340,7 @@ interface Strength {
   intro: string;
   items: (string | { label: string; subItems: string[] })[];
   image: string;
+  collage?: string[];
   keywords: string[];
   icon: React.ReactNode;
 }
@@ -365,6 +366,12 @@ const STRENGTHS: Strength[] = [
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
     image: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
+    collage: [
+      'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg',
+      'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg',
+      'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg',
+      'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
+    ],
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión y acabado',
       'Tratamientos químicos. Curado y densificado superficial.',
@@ -2920,7 +2927,7 @@ export default function App() {
             className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
           >
             <div 
-              className="absolute inset-0 bg-cyan-100/90 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
               onClick={() => setIsStrengthHovered(false)}
             />
             
@@ -2944,20 +2951,33 @@ export default function App() {
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* Image Side */}
                   <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
-                    <img 
-                      src={activeStrength.image} 
-                      alt={activeStrength.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-50 via-transparent to-transparent hidden lg:block" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-50 via-transparent to-transparent lg:hidden" />
+                    {activeStrength.collage ? (
+                      <div className="grid grid-cols-2 grid-rows-2 h-full gap-1 p-1 bg-slate-900/5">
+                        {activeStrength.collage.map((imgUrl, i) => (
+                          <div key={i} className="relative overflow-hidden group">
+                            <img 
+                              src={imgUrl} 
+                              alt={`${activeStrength.title} - Vista ${i + 1}`}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                              referrerPolicy="no-referrer"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <img 
+                        src={activeStrength.image} 
+                        alt={activeStrength.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                        loading="lazy"
+                      />
+                    )}
+                    {/* Gradient overlays removed to avoid washing out images */}
                     
-                    <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
-                      <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse" />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
-                    </div>
+                    <div className="absolute inset-0 bg-slate-900/10 pointer-events-none" />
                   </div>
 
                   {/* Content Side */}
