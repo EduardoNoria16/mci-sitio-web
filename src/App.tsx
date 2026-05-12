@@ -365,12 +365,12 @@ const STRENGTHS: Strength[] = [
     icon: <Layers className="w-5 h-5" />,
     intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
-    image: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
+    image: 'https://images2.imgbox.com/83/7d/HoWYHDcY_o.jpg',
     collage: [
-      'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg',
-      'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg',
-      'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg',
-      'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
+      'https://images2.imgbox.com/83/7d/HoWYHDcY_o.jpg',
+      'https://images2.imgbox.com/4c/83/jYj1scAy_o.jpg',
+      'https://images2.imgbox.com/00/03/FxPKE8OU_o.jpg',
+      'https://images2.imgbox.com/d9/8c/0Jdm3yf2_o.jpg'
     ],
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión y acabado',
@@ -399,6 +399,12 @@ const STRENGTHS: Strength[] = [
     intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
     image: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
+    collage: [
+      'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg',
+      'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg',
+      'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg',
+      'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
+    ],
     items: [
       'Epóxico autonivelante. Fácil de limpiar, totalmente liso, en tono mate que oculta imperfecciones del firme ideal para showrooms, hospitales, oficinas.',
       'Porcelanato líquido marmoleado. Con vetas de pigmentos metalizados para crear un efecto mármol, nubes o dar profundidad (3D). Su mercado es el residencial de alto nivel.',
@@ -415,6 +421,12 @@ const STRENGTHS: Strength[] = [
     intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
     image: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
+    collage: [
+      'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg',
+      'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg',
+      'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg',
+      'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
+    ],
     items: [
       {
         label: 'Recubrimientos químico-resistentes para el control de la corrosión.',
@@ -695,21 +707,38 @@ const BEFORE_AFTER_PAIRS = [
 ];
 
 const GALLERY_IMAGES = [
+  { url: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg', title: 'Piso Industrial de Alta Precisión' },
   { url: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg', title: 'Piso Industrial de Alta Precisión' },
+  { url: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg', title: 'Acabados Químico-Resistentes' },
   { url: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg', title: 'Acabados Químico-Resistentes' },
+  { url: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg', title: 'Laboratorio con Piso Epóxico' },
   { url: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg', title: 'Laboratorio con Piso Epóxico' },
+  { url: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg', title: 'Mantenimiento de Superficies' },
   { url: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg', title: 'Mantenimiento de Superficies' },
+  { url: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg', title: 'Instalación de Recubrimientos' },
   { url: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg', title: 'Instalación de Recubrimientos' },
+  { url: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg', title: 'Personal Altamente Capacitado' },
   { url: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg', title: 'Personal Altamente Capacitado' },
+  { url: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg', title: 'Infraestructura Industrial' },
   { url: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg', title: 'Infraestructura Industrial' },
+  { url: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg', title: 'Proyectos de Gran Escala' },
   { url: 'https://images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg', title: 'Proyectos de Gran Escala' },
+  { url: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg', title: 'Estructuras Metálicas' },
   { url: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg', title: 'Estructuras Metálicas' },
+  { url: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg', title: 'Control de Corrosión' },
   { url: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg', title: 'Control de Corrosión' },
+  { url: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg', title: 'Ingeniería de Detalle' },
   { url: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg', title: 'Ingeniería de Detalle' },
+  { url: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg', title: 'Mantenimiento Preventivo' },
   { url: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg', title: 'Mantenimiento Preventivo' },
+  { url: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg', title: 'Procesos Industriales' },
   { url: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg', title: 'Procesos Industriales' },
+  { url: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg', title: 'Almacenamiento Logístico' },
   { url: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' }
+  { url: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg', title: 'Tecnología Polimérica' },
+  { url: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' },
+  { url: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg', title: 'Infraestructura de Datos' },
+  { url: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg', title: 'Infraestructura de Datos' }
 ];
 
 const TESTIMONIALS = [
@@ -2948,38 +2977,7 @@ export default function App() {
               </button>
 
               <div className="flex-1 overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  {/* Image Side */}
-                  <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
-                    {activeStrength.collage ? (
-                      <div className="grid grid-cols-2 grid-rows-2 h-full gap-1 p-1 bg-slate-900/5">
-                        {activeStrength.collage.map((imgUrl, i) => (
-                          <div key={i} className="relative overflow-hidden group">
-                            <img 
-                              src={imgUrl} 
-                              alt={`${activeStrength.title} - Vista ${i + 1}`}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                              referrerPolicy="no-referrer"
-                              loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <img 
-                        src={activeStrength.image} 
-                        alt={activeStrength.title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                        loading="lazy"
-                      />
-                    )}
-                    {/* Gradient overlays removed to avoid washing out images */}
-                    
-                    <div className="absolute inset-0 bg-slate-900/10 pointer-events-none" />
-                  </div>
-
+                <div className="flex flex-col">
                   {/* Content Side */}
                   <div className="p-8 md:p-12 space-y-8">
                     <div className="space-y-4">
