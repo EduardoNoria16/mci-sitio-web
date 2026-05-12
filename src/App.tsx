@@ -1437,30 +1437,32 @@ export default function App() {
     
     const targetId = href.startsWith('/') ? href.substring(1) : href.replace('#', '');
     
-    const part2Ids = ['sectores', 'transformacion', 'testimonios', 'contacto', 'inicio-part2', 'fortalezas'];
+    const part1Ids = ['inicio', 'fortalezas'];
+    const part2Ids = ['sectores', 'transformacion', 'testimonios', 'contacto', 'inicio-part2'];
+    
+    if (part1Ids.includes(targetId) && showMoreInfo) {
+      setShowMoreInfo(false);
+      setPendingScrollId(targetId);
+      return;
+    }
+    
     if (part2Ids.includes(targetId) && !showMoreInfo) {
-      if (targetId !== 'fortalezas') {
-        setShowMoreInfo(true);
-      }
+      setShowMoreInfo(true);
       setPendingScrollId(targetId);
       return;
     }
 
-    if (targetId === 'inicio' || targetId === '') {
-      setShowMoreInfo(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const actualId = targetId === 'fortalezas' ? 'video-fortalezas' : targetId;
-      const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
-      if (element) {
-        const headerOffset = window.innerWidth < 768 ? 70 : 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
+    const actualId = targetId === 'fortalezas' ? 'video-fortalezas' : targetId;
+    const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
+    if (element) {
+      const headerOffset = window.innerWidth < 768 ? 70 : 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
     navigate(`/${targetId}`);
   };
@@ -2122,163 +2124,6 @@ export default function App() {
 
 
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-12 bg-[#0a192f]/95 backdrop-blur-3xl cursor-zoom-out"
-            onClick={() => setSelectedImage(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 40 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 40 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={selectedImage}
-                alt="Selected Gallery"
-                referrerPolicy="no-referrer"
-                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-glass-border"
-              />
-              
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 md:-right-12 p-3 text-brand-blue-bright hover:text-white transition-all hover:rotate-90 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
-              >
-                <X className="w-8 h-8" />
-              </button>
-
-              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 glass px-6 py-2 rounded-full border-glass-border text-on-surface-subtle text-xs font-bold uppercase tracking-widest whitespace-nowrap">
-                Haz clic fuera para cerrar
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Technical Sheet Modal */}
-      <AnimatePresence mode="wait">
-        {isStrengthHovered && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
-          >
-            <div 
-              className="absolute inset-0 bg-cyan-100/90 backdrop-blur-sm"
-              onClick={() => setIsStrengthHovered(false)}
-            />
-            
-            <motion.div
-              id="strength-modal-content"
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl glass rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col will-change-transform"
-            >
-              {/* Close Button */}
-              <button 
-                onClick={() => setIsStrengthHovered(false)}
-                className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              <div className="flex-1 overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  {/* Image Side */}
-                  <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
-                    <img 
-                      src={activeStrength.image} 
-                      alt={activeStrength.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-50 via-transparent to-transparent hidden lg:block" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-50 via-transparent to-transparent lg:hidden" />
-                    
-                    <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
-                      <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse" />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
-                    </div>
-                  </div>
-
-                  {/* Content Side */}
-                  <div className="p-8 md:p-12 space-y-8">
-                    <div className="space-y-4">
-                      <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
-                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
-                        {activeStrength.title}
-                      </h3>
-                      <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
-                    </div>
-
-                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
-                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
-                    </p>
-
-                    <div className="space-y-5">
-                      {activeStrength.items.map((item, i) => (
-                        <div key={i} className="group/item">
-                          {typeof item === 'string' ? (
-                            <div className="flex gap-4">
-                              <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-on-surface text-sm md:text-lg leading-relaxed">
-                                <HighlightText text={item} keywords={activeStrength.keywords} />
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-glass-border">
-                              <div className="flex items-center gap-3">
-                                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
-                                <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
-                                  {item.label}
-                                </p>
-                              </div>
-                              <ul className="grid grid-cols-1 gap-3 pl-4">
-                                {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
-                                    <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
-                                    {sub}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* CTA in Modal */}
-                    <div className="pt-8 border-t border-white/10">
-                      <a 
-                        href="https://wa.me/525561500317" 
-                        target="_blank"
-                        className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-xl"
-                      >
-                        Solicitar Cotización
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
 
 
@@ -2957,6 +2802,161 @@ export default function App() {
               </nav>
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-12 bg-[#0a192f]/95 backdrop-blur-3xl cursor-zoom-out"
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 40 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={selectedImage}
+                alt="Selected Gallery"
+                referrerPolicy="no-referrer"
+                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-glass-border"
+              />
+              
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute -top-12 right-0 md:-right-12 p-3 text-brand-blue-bright hover:text-white transition-all hover:rotate-90 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
+              >
+                <X className="w-8 h-8" />
+              </button>
+
+              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 glass px-6 py-2 rounded-full border-glass-border text-on-surface-subtle text-xs font-bold uppercase tracking-widest whitespace-nowrap">
+                Haz clic fuera para cerrar
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence mode="wait">
+        {isStrengthHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
+          >
+            <div 
+              className="absolute inset-0 bg-cyan-100/90 backdrop-blur-sm"
+              onClick={() => setIsStrengthHovered(false)}
+            />
+            
+            <motion.div
+              id="strength-modal-content"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-5xl glass rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col will-change-transform"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setIsStrengthHovered(false)}
+                className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  {/* Image Side */}
+                  <div className="relative h-64 lg:h-auto min-h-[300px] overflow-hidden">
+                    <img 
+                      src={activeStrength.image} 
+                      alt={activeStrength.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-50 via-transparent to-transparent hidden lg:block" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-50 via-transparent to-transparent lg:hidden" />
+                    
+                    <div className="absolute top-8 left-8 glass px-6 py-2 rounded-full border-white/20 flex items-center gap-3">
+                      <div className="w-2 h-2 bg-brand-orange rounded-full animate-pulse" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Especificaciones Técnicas</span>
+                    </div>
+                  </div>
+
+                  {/* Content Side */}
+                  <div className="p-8 md:p-12 space-y-8">
+                    <div className="space-y-4">
+                      <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
+                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
+                        {activeStrength.title}
+                      </h3>
+                      <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
+                    </div>
+
+                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
+                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
+                    </p>
+
+                    <div className="space-y-5">
+                      {activeStrength.items.map((item, i) => (
+                        <div key={i} className="group/item">
+                          {typeof item === 'string' ? (
+                            <div className="flex gap-4">
+                              <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
+                              <p className="text-on-surface text-sm md:text-lg leading-relaxed">
+                                <HighlightText text={item} keywords={activeStrength.keywords} />
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-glass-border">
+                              <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
+                                <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
+                                  {item.label}
+                                </p>
+                              </div>
+                              <ul className="grid grid-cols-1 gap-3 pl-4">
+                                {item.subItems.map((sub, j) => (
+                                  <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
+                                    <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
+                                    {sub}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA in Modal */}
+                    <div className="pt-8 border-t border-white/10">
+                      <a 
+                        href="https://wa.me/525561500317" 
+                        target="_blank"
+                        className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-xl"
+                      >
+                        Solicitar Cotización
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
       <QRCodeModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} url={window.location.href} />
