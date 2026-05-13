@@ -1530,7 +1530,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-[#0a192f] text-slate-100 transition-colors duration-500 overflow-x-hidden relative font-sans">
+    <div className="min-h-screen w-full bg-[#0a192f] text-white drop-shadow-sm transition-colors duration-500 overflow-x-hidden relative font-sans">
       
       {/* Dynamic Background Elements for more vibrant feel */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -1569,9 +1569,9 @@ export default function App() {
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
               <span className="text-base sm:text-lg md:text-2xl font-black tracking-tight leading-none flex flex-wrap gap-x-1.5 items-baseline lg:whitespace-nowrap">
                 <span className="text-brand-orange">MCI</span>
-                <span className="text-slate-100 transition-colors drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">Soluciones</span>
+                <span className="text-white drop-shadow-sm transition-colors drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">Soluciones</span>
               </span>
-              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-slate-100 mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-white drop-shadow-sm mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1581,7 +1581,7 @@ export default function App() {
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-xs font-black uppercase tracking-[0.25em] text-on-surface/90 hover:text-brand-orange transition-all relative group/nav"
+                className="text-xs font-black uppercase tracking-[0.25em] text-[#e0e7ff] drop-shadow-md hover:text-brand-orange transition-all relative group/nav"
                 onClick={(e) => handleSmoothScroll(e, link.href)}
               >
                 {link.name}
@@ -1725,7 +1725,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
-                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-100 leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
+                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-white drop-shadow-sm leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
                   style={{ overflowWrap: 'break-word', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}
                 >
                   <p>
@@ -1752,7 +1752,7 @@ export default function App() {
               viewport={{ once: true }}
               className="space-y-4 flex flex-col items-center"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none text-slate-100 flex flex-wrap items-center justify-center gap-3 md:gap-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-sm flex flex-wrap items-center justify-center gap-3 md:gap-4">
                 <span>Nuestras</span>
                 <span className="text-brand-orange underline decoration-[4px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Fortalezas</span>
               </h2>
@@ -1774,17 +1774,18 @@ export default function App() {
                     setActiveStrength(s);
                     setIsStrengthHovered(true);
                   }}
-                  className="group relative p-8 rounded-[2rem] border-2 border-white/10 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:border-brand-orange/40 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
+                  className="group relative p-8 rounded-[2rem] border-2 border-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] hover:from-[#112240] hover:to-[#004b87]/40 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,75,135,0.4)] hover:border-[#22d3ee]/60 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer overflow-hidden"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-[#112240]/60 backdrop-blur-sm border border-white/5 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.6)] group-hover:rotate-6">
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#22d3ee] rounded-full blur-[80px] opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
+                  <div className="relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-[#22d3ee]/10 to-[#004b87]/30 border border-[#22d3ee]/30 flex items-center justify-center text-[#22d3ee] group-hover:bg-gradient-to-br group-hover:from-brand-orange group-hover:to-brand-orange/80 group-hover:text-white group-hover:border-brand-orange transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_10px_40px_rgba(245,130,32,0.4)] group-hover:rotate-6">
                     {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
                   </div>
                   
                   <div className="space-y-4">
-                    <h3 className="text-xl font-black text-slate-100 uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
+                    <h3 className="relative z-10 text-xl font-black text-white drop-shadow-[0_2px_10px_rgba(34,211,238,0.5)] uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
                       {s.title}
                     </h3>
-                    <p className="text-xs text-slate-100 font-bold leading-relaxed uppercase tracking-widest px-4">
+                    <p className="relative z-10 text-xs text-[#a5f3fc] font-bold leading-relaxed uppercase tracking-widest px-4 drop-shadow-md group-hover:text-white transition-colors">
                       {s.description || 'Excelencia Operativa'}
                     </p>
                   </div>
@@ -1866,7 +1867,7 @@ export default function App() {
                 setShowMoreInfo(false);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-slate-100 hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
+              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-white drop-shadow-sm hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
             >
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white/10 group-hover:border-brand-orange flex items-center justify-center bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
@@ -1888,7 +1889,7 @@ export default function App() {
                className="mt-8 md:mt-12 px-4 w-full flex flex-col items-center relative z-20"
              >
                 <div className="text-center mb-8 md:mb-12">
-                   <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] max-w-4xl mx-auto">
+                   <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-[#e0e7ff] drop-shadow-md mb-4 leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] max-w-4xl mx-auto">
                     Así&nbsp;&nbsp;Garantizamos&nbsp;&nbsp;<span className="text-gradient transition-colors">Resultados</span>
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -1900,28 +1901,28 @@ export default function App() {
                        title: 'Misión',
                        icon: <Target className="w-8 h-8 text-brand-blue-bright" />,
                        text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-white/20/60',
+                       theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
                        iconBg: 'bg-blue-100/50 border-white/20 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
-                       titleColor: 'text-white drop-shadow-md border-white/20'
+                       titleColor: 'text-[#22d3ee] drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]'
                      },
                      {
                        title: 'Visión',
                        icon: <Eye className="w-8 h-8 text-brand-blue-bright" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-white/20/60',
+                       theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
                        iconBg: 'bg-blue-100/50 border-white/20 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
-                       titleColor: 'text-white drop-shadow-md border-white/20'
+                       titleColor: 'text-[#22d3ee] drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]'
                      },
                      {
                        title: 'Propuesta de Valor',
                        icon: <ShieldCheck className="w-8 h-8 text-brand-blue-bright" />,
                        text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-white/20/60',
+                       theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
                        iconBg: 'bg-blue-100/50 border-white/20 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
-                       titleColor: 'text-white drop-shadow-md border-white/20',
+                       titleColor: 'text-[#22d3ee] drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -1941,7 +1942,7 @@ export default function App() {
                           hidden: { opacity: 0, y: 30 },
                           visible: { opacity: 1, y: 0 }
                        }}
-                       className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-500 relative overflow-hidden group`}
+                       className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border border-[#22d3ee]/20 hover:border-[#22d3ee]/60 rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-[0_4px_20px_rgba(0,10,30,0.5)] hover:shadow-[0_20px_50px_rgba(0,242,255,0.2)] transition-all duration-500 relative overflow-hidden group`}
                      >
                         {/* Subtle premium glass reflection */}
                         <div className="absolute inset-0 bg-[#112240]/40 border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -1954,7 +1955,7 @@ export default function App() {
                              <h3 className={`text-lg md:text-xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
                                {item.title}
                              </h3>
-                             <p className={`${item.textColor || 'text-slate-100'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
+                             <p className={`${item.textColor || 'text-white drop-shadow-sm'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
                                {item.text}
                              </p>
                           </div>
@@ -1984,7 +1985,7 @@ export default function App() {
       {/* Sectors Section */}
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-[#e0e7ff] drop-shadow-md drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300">
             Sectores&nbsp;&nbsp;que&nbsp;&nbsp;<span className="text-gradient transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -2012,7 +2013,7 @@ export default function App() {
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.7)] -translate-y-2 border-brand-orange/40' : 'bg-slate-50/50 border-white/10 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] hover:border-brand-blue/20 hover:-translate-y-2'}`}
+              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative overflow-hidden flex flex-col justify-between ${activeSector === sector.id ? 'ring-4 ring-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/50 shadow-[0_30px_60px_rgba(0,75,135,0.4)] -translate-y-2' : 'bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-gradient-to-br hover:from-[#112240] hover:to-[#004b87]/60 hover:shadow-[0_30px_60px_rgba(0,242,255,0.2)] hover:border-[#22d3ee]/40 hover:-translate-y-2'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
@@ -2023,10 +2024,10 @@ export default function App() {
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-8 h-8 transition-colors duration-300' })}
                 </div>
                 <div className="space-y-3">
-                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-slate-100 group-hover:text-brand-blue'}`}>
+                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-white drop-shadow-[0_2px_10px_rgba(34,211,238,0.5)] group-hover:text-[#22d3ee]'}`}>
                     {sector.title}
                   </h3>
-                  <p className="text-sm text-slate-100 leading-relaxed font-medium">
+                  <p className="text-[13px] text-[#a5f3fc] drop-shadow-md leading-relaxed font-bold tracking-wide">
                     {sector.description}
                   </p>
                 </div>
@@ -2039,17 +2040,17 @@ export default function App() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="pt-6 border-t border-glass-border space-y-5"
+                    className="pt-6 border-t border-white/10 space-y-5"
                   >
                     {sector.details?.groups.map((group, i) => (
                       <div key={i} className="space-y-3">
-                        <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] flex items-center gap-2">
+                        <h4 className="text-sm font-black text-[#e0e7ff] drop-shadow-md uppercase tracking-[0.2em] flex items-center gap-2">
                           <div className="w-1 h-1 bg-brand-orange rounded-full" />
                           {group.title}
                         </h4>
                         <ul className="grid grid-cols-1 gap-2.5">
                           {group.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-sm text-on-surface-subtle font-medium leading-relaxed">
+                            <li key={j} className="flex items-start gap-3 text-sm text-[#e0e7ff] drop-shadow-md font-medium leading-relaxed">
                               <ArrowRight className="w-2.5 h-2.5 text-brand-orange/40 mt-0.5 flex-shrink-0" />
                               {item}
                             </li>
@@ -2078,16 +2079,16 @@ export default function App() {
             viewport={{ once: true }}
             className="space-y-6 text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#112240]/80 backdrop-blur-md border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto">
               <ArrowLeftRight className="w-3 h-3" />
               Ingeniería en Resultados
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-slate-100 drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] leading-tight">
               Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
-              <p className="text-on-surface/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
+              <p className="text-[#e0e7ff] drop-shadow-md text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
                 Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-brand-blue">operativa</span>.
               </p>
             </div>
@@ -2112,15 +2113,15 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#112240]/80 backdrop-blur-md border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
           >
             <Star className="w-3 h-3" />
             Casos de Éxito
           </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e0e7ff] drop-shadow-md uppercase tracking-tighter drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
             Clientes&nbsp;&nbsp;<span className="text-gradient">Satisfechos</span>
           </h2>
-          <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
+          <p className="text-[#e0e7ff] drop-shadow-md max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
             La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
           </p>
         </div>
@@ -2133,7 +2134,7 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
+              className="bg-[#112240]/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
             >
               <div className="space-y-6">
                 <div className="flex gap-1">
@@ -2143,13 +2144,13 @@ export default function App() {
                 </div>
                 <div className="relative">
                   <Quote className="absolute -top-4 -left-4 w-8 h-8 text-brand-orange/10" />
-                  <p className="text-on-surface/80 text-sm leading-relaxed font-medium italic relative z-10">
+                  <p className="text-[#e0e7ff] drop-shadow-md text-sm leading-relaxed font-medium italic relative z-10">
                     "{t.text}"
                   </p>
                 </div>
               </div>
-              <div className="mt-8 pt-6 border-t border-glass-border">
-                <p className="text-on-surface font-black text-xs uppercase tracking-widest">{t.name}</p>
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <p className="text-[#e0e7ff] drop-shadow-md font-black text-xs uppercase tracking-widest">{t.name}</p>
                 <p className="text-brand-blue text-xs font-bold uppercase tracking-widest mt-1 transition-colors">{t.company}</p>
               </div>
             </motion.div>
@@ -2171,11 +2172,11 @@ export default function App() {
                 <Mail className="w-3" />
                 Ingeniería de Ventas
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-100 uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-5xl font-black text-white drop-shadow-sm uppercase tracking-tighter leading-none">
                 ¿TIENES UN <br />
                 <span className="text-brand-orange">PROYECTO EN MENTE?</span>
               </h2>
-              <p className="text-slate-100 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+              <p className="text-white drop-shadow-sm text-lg md:text-xl font-medium leading-relaxed max-w-xl">
                 Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
               </p>
             </div>
@@ -2189,7 +2190,7 @@ export default function App() {
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
                     {item.icon}
                   </div>
-                  <a href={item.href} className="text-sm font-black text-slate-100 transition-colors">
+                  <a href={item.href} className="text-sm font-black text-white drop-shadow-sm transition-colors">
                     {item.text}
                   </a>
                 </div>
@@ -2227,39 +2228,39 @@ export default function App() {
                     <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-400 border border-green-100 shadow-inner">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
-                    <h3 className="text-2xl font-black text-slate-100 uppercase">¡Mensaje Enviado!</h3>
-                    <p className="text-slate-100 font-medium">Un experto te contactará en breve.</p>
+                    <h3 className="text-2xl font-black text-white drop-shadow-sm uppercase">¡Mensaje Enviado!</h3>
+                    <p className="text-white drop-shadow-sm font-medium">Un experto te contactará en breve.</p>
                     <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">Enviar otro mensaje</button>
                   </motion.div>
                ) : (
                   <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Cargo</label>
-                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Cargo</label>
+                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
                       </div>
                       <div className="md:col-span-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Nombre Completo *</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Nombre Completo *</label>
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Empresa / Planta *</label>
-                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Empresa / Planta *</label>
+                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Email *</label>
+                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Teléfono *</label>
-                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Teléfono *</label>
+                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Detalles del Proyecto *</label>
-                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Detalles del Proyecto *</label>
+                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                       {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
@@ -2283,7 +2284,7 @@ export default function App() {
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-100 uppercase tracking-tighter">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white drop-shadow-sm uppercase tracking-tighter">
             Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
           </h2>
         </div>
@@ -2308,7 +2309,7 @@ export default function App() {
               className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-[#112240]/80 backdrop-blur-md border border-white/10 border-brand-orange shadow-[0_30px_60px_rgba(0,0,0,0.7)] scale-[1.02]' : 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 border-white/10 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]'}`}
             >
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-slate-100 font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                <h3 className="text-white drop-shadow-sm font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
                   <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
                   {faq.q}
                 </h3>
@@ -2322,7 +2323,7 @@ export default function App() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-4 text-slate-100 text-sm md:text-base leading-relaxed pl-8">
+                    <p className="mt-4 text-white drop-shadow-sm text-sm md:text-base leading-relaxed pl-8">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -2492,7 +2493,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-[#112240]/80 backdrop-blur-md border border-white/10 rounded-2xl border border-glass-border shadow-[0_30px_60px_rgba(0,0,0,0.7)] flex flex-col overflow-hidden"
+              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-[#112240]/80 backdrop-blur-md border border-white/10 rounded-2xl border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.7)] flex flex-col overflow-hidden"
             >
               <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10 font-sans">
@@ -2588,7 +2589,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-slate-100 self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-white drop-shadow-sm self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]" referrerPolicy="no-referrer" />
                       )}
@@ -2634,9 +2635,9 @@ export default function App() {
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-slate-100 font-bold truncate">{selectedFile.name}</p>
+                      <p className="text-[10px] text-white drop-shadow-sm font-bold truncate">{selectedFile.name}</p>
                     </div>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-slate-100 hover:text-red-400 transition-colors">
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-white drop-shadow-sm hover:text-red-400 transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -2655,7 +2656,7 @@ export default function App() {
                       playClickSound();
                       fileInputRef.current?.click();
                     }}
-                    className="p-2.5 text-slate-100 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
+                    className="p-2.5 text-white drop-shadow-sm hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2664,7 +2665,7 @@ export default function App() {
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escriba su consulta técnica..."
-                    className="flex-1 bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-slate-100 placeholder:text-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
+                    className="flex-1 bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white drop-shadow-sm placeholder:text-white drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
                   />
                   <button 
                     type="submit"
@@ -2693,9 +2694,9 @@ export default function App() {
                 e.stopPropagation();
                 handleSmoothScroll(e as any, '#inicio');
               }}
-              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
+              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-[#e0e7ff] drop-shadow-md rounded-full items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
             >
-              <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-[#e0e7ff] drop-shadow-md px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
               </div>
               <ChevronDown className="w-6 h-6 rotate-180" />
@@ -2759,7 +2760,7 @@ export default function App() {
                   </div>
                   <div className="flex flex-col leading-none">
                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
-                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-100">Poliméricas</span>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-white drop-shadow-sm">Poliméricas</span>
                   </div>
                 </div>
                 <button 
@@ -2767,7 +2768,7 @@ export default function App() {
                     playClickSound();
                     setIsMenuOpen(false);
                   }}
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-100 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white drop-shadow-sm hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -2775,7 +2776,7 @@ export default function App() {
 
               <nav className="flex-1 flex flex-col px-8 py-10">
                 <div className="flex flex-col gap-1">
-                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-100 mb-4 px-1 leading-none">Menú Principal</p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white drop-shadow-sm mb-4 px-1 leading-none">Menú Principal</p>
                   {navLinks.map((link, index) => (
                     <motion.a 
                       key={link.name}
@@ -2789,7 +2790,7 @@ export default function App() {
                         handleSmoothScroll(e, link.href);
                       }}
                     >
-                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-100 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
+                      <span className="text-sm font-black uppercase tracking-[0.25em] text-white drop-shadow-sm group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
                         <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-brand-orange transition-colors" />
                         {link.name}
                       </span>
@@ -2814,8 +2815,8 @@ export default function App() {
                           <Phone className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col leading-tight">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-100">Teléfono</span>
-                          <span className="text-xs font-bold text-slate-100 tracking-wide">55 6150 0317</span>
+                          <span className="text-[8px] font-black uppercase tracking-widest text-white drop-shadow-sm">Teléfono</span>
+                          <span className="text-xs font-bold text-white drop-shadow-sm tracking-wide">55 6150 0317</span>
                         </div>
                       </a>
 
@@ -2827,8 +2828,8 @@ export default function App() {
                           <Mail className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col leading-tight min-w-0">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-100">Email Corporativo</span>
-                          <span className="text-[10px] font-bold text-slate-100 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
+                          <span className="text-[8px] font-black uppercase tracking-widest text-white drop-shadow-sm">Email Corporativo</span>
+                          <span className="text-[10px] font-bold text-white drop-shadow-sm truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
                         </div>
                       </a>
                     </div>
@@ -2860,7 +2861,7 @@ export default function App() {
                 src={selectedImage}
                 alt="Selected Gallery"
                 referrerPolicy="no-referrer"
-                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-glass-border"
+                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
               />
               
               <button
@@ -2870,7 +2871,7 @@ export default function App() {
                 <X className="w-8 h-8" />
               </button>
 
-              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 glass px-6 py-2 rounded-full border-glass-border text-on-surface-subtle text-xs font-bold uppercase tracking-widest whitespace-nowrap">
+              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-[#112240]/80 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-[#e0e7ff] drop-shadow-md text-xs font-bold uppercase tracking-widest whitespace-nowrap">
                 Haz clic fuera para cerrar
               </div>
             </motion.div>
@@ -2898,12 +2899,12 @@ export default function App() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl glass rounded-[2.5rem] border border-white/10 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] flex flex-col will-change-transform"
+              className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] flex flex-col will-change-transform"
             >
               {/* Close Button */}
               <button 
                 onClick={() => setIsStrengthHovered(false)}
-                className="absolute top-6 right-6 z-50 p-3 rounded-full glass border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+                className="absolute top-6 right-6 z-50 p-3 rounded-full bg-[#112240]/80 backdrop-blur-md border border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -2916,13 +2917,13 @@ export default function App() {
                       <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
                         <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
                       </div>
-                      <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
+                      <h3 className="text-xl md:text-2xl font-extrabold text-[#e0e7ff] drop-shadow-md uppercase tracking-tighter leading-tight">
                         {activeStrength.title}
                       </h3>
                       <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
                     </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
+                    <p className="text-base md:text-lg leading-relaxed text-[#e0e7ff] drop-shadow-md font-normal italic border-l-4 border-brand-blue pl-6">
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
@@ -2932,12 +2933,12 @@ export default function App() {
                           {typeof item === 'string' ? (
                             <div className="flex gap-4">
                               <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-on-surface text-sm md:text-lg leading-relaxed">
+                              <p className="text-[#e0e7ff] drop-shadow-md text-sm md:text-lg leading-relaxed">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
                             </div>
                           ) : (
-                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-glass-border">
+                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-white/10">
                               <div className="flex items-center gap-3">
                                 <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
                                 <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
@@ -2946,7 +2947,7 @@ export default function App() {
                               </div>
                               <ul className="grid grid-cols-1 gap-3 pl-4">
                                 {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
+                                  <li key={j} className="flex gap-3 items-start text-sm text-[#e0e7ff] drop-shadow-md leading-relaxed">
                                     <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
                                     {sub}
                                   </li>
