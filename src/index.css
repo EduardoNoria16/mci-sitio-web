@@ -16,14 +16,14 @@
 }
 
 :root {
-  --bg-primary: transparent; /* Changed out flat color so gradient rules it all */
-  --text-primary: #020617; /* Slate 950 - Máximo contraste, casi negro total */
-  --text-secondary: #1e293b; /* Slate 800 - Gris muy oscuro para legibilidad */
-  --glass-bg: rgba(255, 255, 255, 0.7); /* Slightly more transparent */
-  --glass-border: rgba(15, 23, 42, 0.1); 
-  --card-bg: rgba(255, 255, 255, 0.6);
+  --bg-primary: #0a192f;
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(34, 211, 238, 0.2);
+  --card-bg: rgba(17, 34, 64, 0.6);
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -31,63 +31,57 @@
     @apply max-w-full h-auto;
   }
   
-*, *::before, *::after {
+  *, *::before, *::after {
     box-sizing: border-box;
-}
-
-/* Touch-friendly buttons and active states */
-button, 
-.btn-touch {
-  min-width: 44px;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  touch-action: manipulation;
-}
-
-button:active,
-.btn-touch:active {
-  transform: scale(0.95);
-  filter: brightness(0.9);
-}
-
-.glass-active:active {
-  background-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  width: 100%;
-  overflow-x: hidden;
-  position: relative;
-  @media (max-width: 640px) {
-    font-size: 14px;
   }
-}
 
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 100%;
-  position: relative;
-  hyphens: none;
-}
-  
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    @media (max-width: 640px) {
+      font-size: 14px;
+    }
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed;
+    overflow-x: hidden;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-black tracking-tight;
     color: var(--text-primary);
     line-height: 1.1;
   }
+
+  button, 
+  .btn-touch {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    touch-action: manipulation;
+  }
+
+  button:active,
+  .btn-touch:active {
+    transform: scale(0.95);
+    filter: brightness(0.9);
+  }
 }
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#004b87] via-[#3b82f6] to-[#f58220];
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#22d3ee] via-[#3b82f6] to-[#f58220];
 }
 
 .glass {
@@ -97,39 +91,27 @@ body {
 }
 
 .glass-hover {
-  @apply hover:bg-white hover:border-brand-orange/50 transition-all duration-500 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)];
+  @apply hover:bg-[#112240] hover:border-brand-orange/50 transition-all duration-500 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)];
 }
 
-html {
-  overflow-x: hidden;
-  scrollbar-gutter: stable;
-}
-
-body {
-  overflow-x: hidden;
-  width: 100vw;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Cleanup any remaining custom scrollbar issues */
+/* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(10, 25, 47, 0.1);
+  background: #0a192f;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 211, 238, 0.2);
+  background: #112240;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 2px solid #0a192f;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(245, 130, 32, 0.5);
+  background: #f58220;
 }
 
 /* Ensure all interactive elements show the pointer cursor */
@@ -142,38 +124,6 @@ input[type="checkbox"],
 input[type="radio"],
 .cursor-pointer {
   cursor: pointer !important;
-}
-
-.reading-active {
-  box-shadow: 0 0 40px rgba(245, 130, 32, 0.15) !important;
-  outline: 2px solid rgba(245, 130, 32, 0.4) !important;
-  outline-offset: 4px;
-  position: relative;
-  transition: all 0.5s ease;
-}
-
-.reading-active::after {
-  content: "Lectura activa";
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #f58220;
-  color: white;
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 99px;
-  letter-spacing: 0.1em;
-  z-index: 50;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
 }
 
 @keyframes shine {
