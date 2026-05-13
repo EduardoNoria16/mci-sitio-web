@@ -1398,7 +1398,15 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  
+  // Custom threshold for header transformation
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen || selectedImage || isStrengthHovered) {
@@ -1537,44 +1545,122 @@ export default function App() {
         <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/5 via-[#3b82f6]/5 to-[#f58220]/5" />
         <div className="hidden md:block absolute -top-[20%] -left-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.1)_0%,transparent_70%)] opacity-50 relative z-0" />
         <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.1)_0%,transparent_70%)] opacity-50 relative z-0" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02] pointer-events-none mix-blend-normal" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05] pointer-events-none mix-blend-overlay" />
       </div>
-      
+
       {/* Header / Navigation */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b ${
-          isScrolled 
-            ? 'bg-[#0a192f]/80 backdrop-blur-xl border-b border-white/10 py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
-            : 'bg-[#112240]/40 border border-white/5 backdrop-blur-md py-4 sm:py-5 border-transparent'
+        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-700 ${
+          isScrolled || showMoreInfo
+            ? 'bg-[#0a192f]/95 backdrop-blur-2xl border-b border-[#22d3ee]/20 py-2 md:py-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
+            : 'bg-transparent border-transparent py-8 md:py-12'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-10 flex items-center justify-between transition-all duration-500">
           <a 
             href="#inicio" 
-            className="flex items-center gap-3 sm:gap-4 group flex-shrink-0 cursor-pointer min-w-0"
+            className="flex items-center gap-4 sm:gap-6 group flex-shrink-0 cursor-pointer min-w-0"
             onClick={(e) => {
-              setShowMoreInfo(false);
-              handleSmoothScroll(e, '#inicio');
+              if (showMoreInfo) {
+                e.preventDefault();
+                setShowMoreInfo(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                handleSmoothScroll(e, '#inicio');
+              }
             }}
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 flex-shrink-0 drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
+            <div className={`transition-all duration-700 ease-out group-hover:scale-105 flex-shrink-0 drop-shadow-[0_10px_40px_rgba(0,0,0,0.6)] ${
+              isScrolled || showMoreInfo ? 'w-10 h-10 md:w-12 md:h-12' : 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32'
+            }`}>
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain brightness-110"
                 referrerPolicy="no-referrer"
               />
             </div>
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
-              <span className="text-base sm:text-lg md:text-2xl font-black tracking-tight leading-none flex flex-wrap gap-x-1.5 items-baseline lg:whitespace-nowrap">
-                <span className="text-brand-orange">MCI</span>
-                <span className="text-white drop-shadow-sm transition-colors drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">Soluciones</span>
+              <span className={`font-black tracking-tight leading-none flex flex-wrap gap-x-2 items-baseline lg:whitespace-nowrap transition-all duration-700 ${
+                isScrolled || showMoreInfo ? 'text-lg md:text-2xl' : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'
+              }`}>
+                <span className="text-brand-orange drop-shadow-md">MCI</span>
+                <span className="text-white drop-shadow-md transition-colors">Soluciones</span>
               </span>
-              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-white drop-shadow-sm mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className={`font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-white/80 drop-shadow-sm transition-all duration-700 leading-tight lg:whitespace-nowrap ${
+                isScrolled || showMoreInfo ? 'text-[0.6rem] md:text-[0.8rem]' : 'text-[0.8rem] sm:text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]'
+              }`}>Poliméricas</span>
             </div>
           </a>
+
+          {/* Navigation - Always visible in section 2 or when scrolled */}
+          {(showMoreInfo || isScrolled) && (
+            <div className="flex items-center gap-8">
+              <nav className="hidden lg:flex items-center gap-8 xl:gap-12">
+                {navLinks.map((link) => (
+                  <a 
+                    key={link.name}
+                    href={link.href}
+                    className="text-[11px] xl:text-xs font-black uppercase tracking-[0.3em] text-white/90 hover:text-brand-orange transition-all relative group/nav"
+                    onClick={(e) => handleSmoothScroll(e, link.href)}
+                  >
+                    {link.name}
+                    <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_10px_rgba(245,130,32,0.8)]" />
+                  </a>
+                ))}
+              </nav>
+
+              {/* Mobile/Tablet Menu Button */}
+              <button 
+                className="lg:hidden relative z-[10001] w-12 h-12 flex items-center justify-center text-brand-orange group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle Menu"
+              >
+                <div className="flex flex-col gap-1.5 items-end">
+                  <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-8'}`} />
+                  <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-6'}`} />
+                  <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-4 group-hover:w-8'}`} />
+                </div>
+              </button>
+            </div>
+          )}
         </div>
       </header>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed inset-0 z-[9999] bg-[#0a192f] flex flex-col items-center justify-center p-10"
+          >
+            <div className="flex flex-col gap-12 text-center">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name}
+                  href={link.href}
+                  className="text-4xl lg:text-5xl font-black uppercase tracking-[0.3em] text-white hover:text-brand-orange transition-all active:scale-90"
+                  onClick={(e) => {
+                    handleSmoothScroll(e, link.href);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  {link.name}
+                </a>
+              ))}
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="mt-10 px-8 py-4 border border-brand-orange/30 text-brand-orange font-black uppercase tracking-widest text-xs rounded-2xl"
+              >
+                Cerrar Menú
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Progress Bar */}
       <motion.div
@@ -2504,7 +2590,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-white/5">
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white/5">
                 {chatMessages.map((msg, i) => {
                   
                   // Formateador para inyectar botón de whatsapp directamente en texto plano
@@ -2709,13 +2795,13 @@ export default function App() {
 
       <AnimatePresence mode="wait">
         {isStrengthHovered && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
-          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[10001] flex items-end md:items-center justify-center p-0 md:p-8"
+            >
             <div 
               className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
               onClick={() => setIsStrengthHovered(false)}
@@ -2723,60 +2809,60 @@ export default function App() {
             
             <motion.div
               id="strength-modal-content"
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              initial={{ scale: 0.9, opacity: 0, y: 100 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] md:max-h-[85vh] h-full md:h-auto flex flex-col"
+              exit={{ scale: 0.9, opacity: 0, y: 100 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative w-full max-w-5xl bg-gradient-to-br from-[#0a192f] to-[#112240] border-t md:border border-[#22d3ee]/40 rounded-t-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-[0_-20px_80px_rgba(34,211,238,0.15)] z-10 h-[90vh] md:h-auto md:max-h-[85vh] flex flex-col"
             >
               {/* Close Button */}
               <button 
                 onClick={() => setIsStrengthHovered(false)}
-                className="absolute top-6 right-6 z-50 p-3 rounded-full bg-[#112240]/80 backdrop-blur-md border border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+                className="absolute top-5 right-5 z-[60] p-3 rounded-full bg-brand-orange text-white shadow-2xl hover:scale-110 active:scale-95 transition-all"
               >
                 <X className="w-6 h-6" />
               </button>
 
-              <div className="flex-1 overflow-y-auto custom-scrollbar">
+              <div className="flex-1 overflow-y-auto scroll-smooth">
                 <div className="flex flex-col">
                   {/* Content Side */}
-                  <div className="p-8 md:p-12 space-y-8">
-                    <div className="space-y-4">
-                      <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
-                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
+                  <div className="p-8 md:p-14 space-y-10">
+                    <div className="space-y-6">
+                      <div className="inline-block px-4 py-1.5 rounded-full bg-brand-orange/20 border border-brand-orange/30">
+                        <span className="text-[11px] font-black text-brand-orange uppercase tracking-[0.2em]">Ficha Técnica MCI</span>
                       </div>
-                      <h3 className="text-xl md:text-2xl font-extrabold text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold uppercase tracking-tighter leading-tight">
+                      <h3 className="text-2xl md:text-4xl font-black text-white drop-shadow-xl uppercase tracking-tight leading-none">
                         {activeStrength.title}
                       </h3>
-                      <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
+                      <div className="w-24 h-2 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(245,130,32,0.5)]" />
                     </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold font-normal italic border-l-4 border-brand-blue pl-6">
+                    <p className="text-lg md:text-xl leading-relaxed text-slate-100 font-bold italic border-l-4 border-[#22d3ee] pl-8 py-2 bg-white/5 rounded-r-2xl">
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
-                    <div className="space-y-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
                       {activeStrength.items.map((item, i) => (
                         <div key={i} className="group/item">
                           {typeof item === 'string' ? (
-                            <div className="flex gap-4">
-                              <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold text-sm md:text-lg leading-relaxed">
+                            <div className="flex gap-5 items-start p-6 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                              <div className="mt-2 w-3 h-3 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_15px_rgba(245,130,32,0.8)]" />
+                              <p className="text-slate-100 font-bold text-base md:text-lg leading-snug">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
                             </div>
                           ) : (
-                            <div className="space-y-4 bg-black/20 p-6 rounded-2xl border border-white/10">
-                              <div className="flex items-center gap-3">
-                                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
-                                <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
+                            <div className="space-y-5 bg-[#004b87]/30 p-8 rounded-[2rem] border border-[#22d3ee]/20 h-full">
+                              <div className="flex items-center gap-4">
+                                <div className="w-2 h-8 bg-brand-orange rounded-full" />
+                                <p className="text-brand-orange font-black text-xs md:text-sm uppercase tracking-[0.25em]">
                                   {item.label}
                                 </p>
                               </div>
-                              <ul className="grid grid-cols-1 gap-3 pl-4">
+                              <ul className="space-y-4 pt-2">
                                 {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-sm text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold leading-relaxed">
-                                    <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
+                                  <li key={j} className="flex gap-4 items-start text-sm md:text-base text-slate-100 font-bold leading-relaxed">
+                                    <ArrowRight className="w-4 h-4 text-brand-orange mt-1 flex-shrink-0" />
                                     {sub}
                                   </li>
                                 ))}

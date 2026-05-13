@@ -100,29 +100,36 @@ body {
   @apply hover:bg-white hover:border-brand-orange/50 transition-all duration-500 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)];
 }
 
-/* Custom scrollbar for the strengths section */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-brand-blue/5;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-brand-blue/30 rounded-full hover:bg-brand-blue/50 transition-colors;
+html {
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
-/* Highlight style */
-.hl {
-  @apply text-brand-orange font-black transition-colors duration-300;
+body {
+  overflow-x: hidden;
+  width: 100vw;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar Hide Util for Mobile Carousels */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Cleanup any remaining custom scrollbar issues */
+::-webkit-scrollbar {
+  width: 10px;
 }
-.hide-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.2);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 130, 32, 0.5);
 }
 
 /* Ensure all interactive elements show the pointer cursor */
