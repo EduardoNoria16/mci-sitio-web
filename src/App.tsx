@@ -1661,44 +1661,72 @@ export default function App() {
                 referrerPolicy="no-referrer"
               />
           {/* Enhanced glass overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/80 to-white/60 md:backdrop-blur-[6px] z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/20 md:backdrop-blur-[2px] z-10 pointer-events-none" />
           <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full z-10 pointer-events-none animate-pulse" />
         </div>
         
         <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 flex flex-col items-center w-full">
           <div className="flex flex-col gap-12 lg:gap-16 items-center w-full">
             {/* 1. ¿Quiénes Somos? Text */}
-            <div className="w-full max-w-5xl mx-auto">
+            <div className="w-full max-w-5xl mx-auto relative">
               <motion.div 
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative w-full flex flex-col items-center justify-center space-y-6 md:space-y-8 p-6 md:p-14 lg:p-20 rounded-[2.5rem] md:rounded-[4rem] bg-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-white/80 backdrop-blur-3xl overflow-hidden text-center transition-all duration-700 hover:shadow-brand-orange/10"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative w-full flex flex-col items-center justify-center space-y-6 md:space-y-8 py-10 md:py-16 text-center"
               >
-                {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full -mr-16 -mt-16 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] rounded-full -ml-12 -mb-12 pointer-events-none" />
+                {/* Dynamic Decorative Elements */}
+                <motion.div 
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.7, 0.4] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-0 right-0 md:right-10 w-48 h-48 md:w-64 md:h-64 bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full pointer-events-none" 
+                />
+                <motion.div 
+                  animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute bottom-0 left-0 md:left-10 w-56 h-56 md:w-72 md:h-72 bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] rounded-full pointer-events-none" 
+                />
                 
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="space-y-4 flex flex-col items-center"
+                  transition={{ delay: 0.2, duration: 0.8, type: "spring", bounce: 0.4 }}
+                  className="space-y-4 flex flex-col items-center relative z-10"
                 >
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-slate-900 flex flex-wrap items-center justify-center gap-3 md:gap-4">
-                    <span>¿Quiénes</span>
-                    <span className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4">Somos</span>
-                    <span>?</span>
+                  <h1 
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-slate-900 flex flex-wrap items-center justify-center gap-3 md:gap-4 drop-shadow-sm"
+                    style={{ textShadow: '0 4px 20px rgba(255,255,255,0.8)' }}
+                  >
+                    <motion.span
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    >¿Quiénes</motion.span>
+                    <motion.span 
+                      className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4"
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                    >Somos</motion.span>
+                    <motion.span
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                    >?</motion.span>
                   </h1>
-                  <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_20px_rgba(245,130,32,0.4)]" />
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+                    className="flex justify-center"
+                  >
+                    <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_15px_rgba(245,130,32,0.4)]" />
+                  </motion.div>
                 </motion.div>
 
                 <motion.div 
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-700 leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
-                  style={{ overflowWrap: 'break-word' }}
+                  transition={{ delay: 0.4, duration: 0.8 }}
+                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-800 leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
+                  style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(255,255,255,0.7)' }}
                 >
                   <p>
                     <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
