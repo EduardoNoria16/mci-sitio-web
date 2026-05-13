@@ -620,7 +620,7 @@ const BEFORE_AFTER_PAIRS = [
     title: 'Caso de Éxito 8',
     description: 'Recuperación de brillo y resistencia de superficies degradadas.',
     before: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
-    after: 'https://i.postimg.cc/mD8zHhX3/IMG-20260316-WA0022.jpg'
+    after: 'https://images2.imgbox.com/50/29/3D2Zh5mJ_o.jpg'
   },
   {
     id: 'case9',
@@ -1563,6 +1563,7 @@ export default function App() {
                 src={logoBase64} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
               />
             </div>
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
@@ -1657,6 +1658,7 @@ export default function App() {
                 src="/hero.jpg" 
                 alt="MCI Soluciones Fotografía Oficial"
                 className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
+                referrerPolicy="no-referrer"
               />
           {/* Enhanced glass overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/80 to-white/60 md:backdrop-blur-[6px] z-10 pointer-events-none" />
@@ -2311,7 +2313,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
             <div className="space-y-6 text-center md:text-left max-w-sm">
               <div className="flex items-center justify-center md:justify-start gap-4">
-                <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" />
+                <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
                 <div className="h-10 w-px bg-white/20" />
                 <div className="text-white">
                   <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
@@ -2560,7 +2562,7 @@ export default function App() {
                   >
                     <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-slate-50 text-slate-700 self-start rounded-tl-none shadow-sm border border-slate-200' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-xl ml-auto border border-white/5'}`}>
                       {msg.image && (
-                        <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-lg" />
+                        <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-lg" referrerPolicy="no-referrer" />
                       )}
                       <div dangerouslySetInnerHTML={{ __html: formatChatMessage(msg.text) }} />
                     </div>
@@ -2601,7 +2603,7 @@ export default function App() {
                 {selectedFile && (
                   <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-xl border border-slate-200">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
-                      <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" />
+                      <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] text-slate-600 font-bold truncate">{selectedFile.name}</p>
@@ -2725,7 +2727,7 @@ export default function App() {
               <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-white shadow-sm">
-                    <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" />
+                    <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                   </div>
                   <div className="flex flex-col leading-none">
                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>

@@ -66,6 +66,7 @@ export default function QRCodeModal({ isOpen, onClose }: Props) {
                 src={qrImageUrl} 
                 alt="Código QR de MCI" 
                 className="w-[220px] h-[220px] object-contain"
+                referrerPolicy="no-referrer"
               />
             </div>
 
