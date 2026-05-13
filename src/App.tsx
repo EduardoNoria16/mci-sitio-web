@@ -317,7 +317,7 @@ const CustomVideoPlayer = memo(() => {
             </div>
 
             <div className="text-white/90 text-xs font-medium tracking-wide ml-2 select-none font-mono">
-              {formatTime(currentTime)} <span className="text-white/40 mx-1 font-sans">/</span> {formatTime(duration)}
+              {formatTime(currentTime)} <span className="text-white/80 mx-1 font-sans">/</span> {formatTime(duration)}
             </div>
           </div>
 
@@ -1571,7 +1571,7 @@ export default function App() {
                 <span className="text-brand-orange">MCI</span>
                 <span className="text-slate-100 transition-colors drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">Soluciones</span>
               </span>
-              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-slate-500 mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-slate-100 mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
@@ -1784,7 +1784,7 @@ export default function App() {
                     <h3 className="text-xl font-black text-slate-100 uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
                       {s.title}
                     </h3>
-                    <p className="text-xs text-slate-500 font-bold leading-relaxed uppercase tracking-widest px-4">
+                    <p className="text-xs text-slate-100 font-bold leading-relaxed uppercase tracking-widest px-4">
                       {s.description || 'Excelencia Operativa'}
                     </p>
                   </div>
@@ -1839,7 +1839,7 @@ export default function App() {
                     <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
                   </h3>
                   
-                  <p className="text-white/60 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
+                  <p className="text-white/90 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
                     Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
                   </p>
 
@@ -1866,7 +1866,7 @@ export default function App() {
                 setShowMoreInfo(false);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-slate-500 hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
+              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-slate-100 hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
             >
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white/10 group-hover:border-brand-orange flex items-center justify-center bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
@@ -1898,30 +1898,30 @@ export default function App() {
                    {[
                      {
                        title: 'Misión',
-                       icon: <Target className="w-8 h-8 text-blue-600" />,
+                       icon: <Target className="w-8 h-8 text-brand-blue-bright" />,
                        text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-white/20/60',
+                       iconBg: 'bg-blue-100/50 border-white/20 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
+                       titleColor: 'text-white drop-shadow-md border-white/20'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-8 h-8 text-blue-600" />,
+                       icon: <Eye className="w-8 h-8 text-brand-blue-bright" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-white/20/60',
+                       iconBg: 'bg-blue-100/50 border-white/20 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
+                       titleColor: 'text-white drop-shadow-md border-white/20'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+                       icon: <ShieldCheck className="w-8 h-8 text-brand-blue-bright" />,
                        text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200',
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-white/20/60',
+                       iconBg: 'bg-blue-100/50 border-white/20 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
+                       titleColor: 'text-white drop-shadow-md border-white/20',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -1954,7 +1954,7 @@ export default function App() {
                              <h3 className={`text-lg md:text-xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
                                {item.title}
                              </h3>
-                             <p className={`${item.textColor || 'text-slate-300'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
+                             <p className={`${item.textColor || 'text-slate-100'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
                                {item.text}
                              </p>
                           </div>
@@ -1969,7 +1969,7 @@ export default function App() {
                               {item.differentiators.map((diff, i) => (
                                 <div key={i} className="flex items-center gap-2 bg-[#112240]/60 border border-white/10 p-3 rounded-xl border border-orange-100 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 transition-colors duration-300">
                                   <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />
-                                  <span className="text-xs md:text-sm font-semibold text-slate-200">{diff}</span>
+                                  <span className="text-xs md:text-sm font-semibold text-white">{diff}</span>
                                 </div>
                               ))}
                             </div>
@@ -2026,7 +2026,7 @@ export default function App() {
                   <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-slate-100 group-hover:text-brand-blue'}`}>
                     {sector.title}
                   </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  <p className="text-sm text-slate-100 leading-relaxed font-medium">
                     {sector.description}
                   </p>
                 </div>
@@ -2175,7 +2175,7 @@ export default function App() {
                 ¿TIENES UN <br />
                 <span className="text-brand-orange">PROYECTO EN MENTE?</span>
               </h2>
-              <p className="text-slate-500 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+              <p className="text-slate-100 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
                 Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
               </p>
             </div>
@@ -2224,42 +2224,42 @@ export default function App() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-10 space-y-6"
                   >
-                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-600 border border-green-100 shadow-inner">
+                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-400 border border-green-100 shadow-inner">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
                     <h3 className="text-2xl font-black text-slate-100 uppercase">¡Mensaje Enviado!</h3>
-                    <p className="text-slate-500 font-medium">Un experto te contactará en breve.</p>
+                    <p className="text-slate-100 font-medium">Un experto te contactará en breve.</p>
                     <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">Enviar otro mensaje</button>
                   </motion.div>
                ) : (
                   <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Cargo</label>
-                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Cargo</label>
+                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
                       </div>
                       <div className="md:col-span-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Nombre Completo *</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Nombre Completo *</label>
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Empresa / Planta *</label>
-                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Empresa / Planta *</label>
+                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Email *</label>
+                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Teléfono *</label>
-                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Teléfono *</label>
+                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Detalles del Proyecto *</label>
-                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 ml-2 mb-2 block">Detalles del Proyecto *</label>
+                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-100 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                       {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
@@ -2322,7 +2322,7 @@ export default function App() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-4 text-slate-500 text-sm md:text-base leading-relaxed pl-8">
+                    <p className="mt-4 text-slate-100 text-sm md:text-base leading-relaxed pl-8">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -2348,12 +2348,12 @@ export default function App() {
                   <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
                 </div>
               </div>
-              <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-relaxed">
+              <p className="text-white/80 text-xs font-bold uppercase tracking-widest leading-relaxed">
                 Ingeniería aplicada en restauración y protección de activos industriales con más de 30 años de experiencia.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/90 text-[10px] font-black uppercase tracking-[0.3em]">
               <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
               <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
               <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Antes / Después</a>
@@ -2362,9 +2362,9 @@ export default function App() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
+            <p className="text-white/80 text-[10px] font-black uppercase tracking-widest">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
             <div className="flex items-center gap-6">
-              <span className="text-white/20 text-[10px] font-black uppercase tracking-widest">Ciudad de México, MX</span>
+              <span className="text-white/80 text-[10px] font-black uppercase tracking-widest">Ciudad de México, MX</span>
             </div>
           </div>
         </div>
@@ -2535,7 +2535,7 @@ export default function App() {
                     <h4 className="text-white font-black uppercase tracking-widest text-[10px]">MCI Tech Assistant</h4>
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full animate-pulse" />
-                      <p className="text-white/60 text-[9px] font-black uppercase tracking-tighter">Status: Active</p>
+                      <p className="text-white/90 text-[9px] font-black uppercase tracking-tighter">Status: Active</p>
                     </div>
                   </div>
                 </div>
@@ -2546,7 +2546,7 @@ export default function App() {
                       playClickSound();
                       handleResetChat();
                     }}
-                    className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
+                    className="p-2 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
                     aria-label="Reiniciar chat"
                     title="Regresar al inicio"
                   >
@@ -2558,7 +2558,7 @@ export default function App() {
                       playClickSound();
                       setIsChatOpen(false);
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all cursor-pointer active:scale-95 border border-white/10 text-[10px] uppercase font-bold tracking-wider"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/90 hover:text-white transition-all cursor-pointer active:scale-95 border border-white/10 text-[10px] uppercase font-bold tracking-wider"
                     aria-label="Minimizar chat"
                   >
                     <Minimize className="w-3 h-3" />
@@ -2567,7 +2567,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-gray-50/5">
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-white/5">
                 {chatMessages.map((msg, i) => {
                   
                   // Formateador para inyectar botón de whatsapp directamente en texto plano
@@ -2588,7 +2588,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-slate-300 self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-slate-100 self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]" referrerPolicy="no-referrer" />
                       )}
@@ -2606,7 +2606,7 @@ export default function App() {
                           <button
                             key={idx}
                             onClick={() => handleChatOption(opt.q, opt.a)}
-                            className="text-left p-3 rounded-xl border border-gray-200 bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:bg-gray-50 text-xs font-bold text-brand-orange transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex justify-between items-center group"
+                            className="text-left p-3 rounded-xl border border-white/10 bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:bg-white/10 text-xs font-bold text-brand-orange transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex justify-between items-center group"
                           >
                             {opt.q}
                             <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -2634,9 +2634,9 @@ export default function App() {
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-slate-500 font-bold truncate">{selectedFile.name}</p>
+                      <p className="text-[10px] text-slate-100 font-bold truncate">{selectedFile.name}</p>
                     </div>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-slate-500 hover:text-red-500 transition-colors">
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-slate-100 hover:text-red-400 transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -2655,7 +2655,7 @@ export default function App() {
                       playClickSound();
                       fileInputRef.current?.click();
                     }}
-                    className="p-2.5 text-slate-500 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
+                    className="p-2.5 text-slate-100 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2664,7 +2664,7 @@ export default function App() {
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escriba su consulta técnica..."
-                    className="flex-1 bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
+                    className="flex-1 bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-slate-100 placeholder:text-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
                   />
                   <button 
                     type="submit"
@@ -2759,7 +2759,7 @@ export default function App() {
                   </div>
                   <div className="flex flex-col leading-none">
                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
-                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-500">Poliméricas</span>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-100">Poliméricas</span>
                   </div>
                 </div>
                 <button 
@@ -2767,7 +2767,7 @@ export default function App() {
                     playClickSound();
                     setIsMenuOpen(false);
                   }}
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-500 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-100 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -2775,7 +2775,7 @@ export default function App() {
 
               <nav className="flex-1 flex flex-col px-8 py-10">
                 <div className="flex flex-col gap-1">
-                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 mb-4 px-1 leading-none">Menú Principal</p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-100 mb-4 px-1 leading-none">Menú Principal</p>
                   {navLinks.map((link, index) => (
                     <motion.a 
                       key={link.name}
@@ -2789,11 +2789,11 @@ export default function App() {
                         handleSmoothScroll(e, link.href);
                       }}
                     >
-                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-500 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
+                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-100 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
                         <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-brand-orange transition-colors" />
                         {link.name}
                       </span>
-                      <ChevronRight className="w-4 h-4 text-slate-200 group-hover:text-brand-orange group-hover:translate-x-1 transition-all duration-300" />
+                      <ChevronRight className="w-4 h-4 text-white group-hover:text-brand-orange group-hover:translate-x-1 transition-all duration-300" />
                       
                       <div className="absolute inset-0 bg-[#112240]/60 backdrop-blur-sm border border-white/5 opacity-0 group-hover:opacity-100 -z-10 rounded-xl transition-opacity" />
                     </motion.a>
@@ -2814,8 +2814,8 @@ export default function App() {
                           <Phone className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col leading-tight">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">Teléfono</span>
-                          <span className="text-xs font-bold text-slate-300 tracking-wide">55 6150 0317</span>
+                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-100">Teléfono</span>
+                          <span className="text-xs font-bold text-slate-100 tracking-wide">55 6150 0317</span>
                         </div>
                       </a>
 
@@ -2827,8 +2827,8 @@ export default function App() {
                           <Mail className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col leading-tight min-w-0">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">Email Corporativo</span>
-                          <span className="text-[10px] font-bold text-slate-300 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
+                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-100">Email Corporativo</span>
+                          <span className="text-[10px] font-bold text-slate-100 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
                         </div>
                       </a>
                     </div>
