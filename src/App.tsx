@@ -847,7 +847,7 @@ const SECTORS: Sector[] = [
 
 const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string; keywords: string[]; isIntro?: boolean }) => {
   if (isIntro) {
-    return <span className="text-brand-orange font-bold">{text}</span>;
+    return <span className="text-[#f58220] font-black drop-shadow-md">{text}</span>;
   }
 
   let parts = [text];
@@ -870,7 +870,7 @@ const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string;
       {parts.map((part, i) => {
         const isKeyword = keywords.some(k => k.toLowerCase() === part.toLowerCase());
         return isKeyword ? (
-          <span key={i} className="text-brand-orange font-bold">{part}</span>
+          <span key={i} className="text-[#f58220] font-black drop-shadow-md">{part}</span>
         ) : (
           <span key={i}>{part}</span>
         );
@@ -1532,13 +1532,12 @@ export default function App() {
   return (
     <div className="min-h-screen w-full bg-[#0a192f] text-white drop-shadow-sm transition-colors duration-500 overflow-x-hidden relative font-sans">
       
-      {/* Dynamic Background Elements for more vibrant feel */}
+      {/* Simplified Background Elements for Performance */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/10 via-[#3b82f6]/10 to-[#f58220]/10 mix-blend-overlay" />
-        <div className="absolute -top-[20%] -left-[20%] w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.15)_0%,transparent_70%)] opacity-80 md:animate-blob mix-blend-multiply" />
-        <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] opacity-80 animate-blob animation-delay-2000 mix-blend-multiply" />
-        <div className="absolute -bottom-[20%] left-1/4 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(245,130,32,0.1)_0%,transparent_70%)] opacity-80 md:animate-blob animation-delay-4000 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
+        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/5 via-[#3b82f6]/5 to-[#f58220]/5" />
+        <div className="hidden md:block absolute -top-[20%] -left-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.1)_0%,transparent_70%)] opacity-50 relative z-0" />
+        <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.1)_0%,transparent_70%)] opacity-50 relative z-0" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02] pointer-events-none mix-blend-normal" />
       </div>
       
       {/* Header / Navigation */}
@@ -1574,69 +1573,6 @@ export default function App() {
               <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-white drop-shadow-sm mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
-
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-6 lg:gap-10">
-            {navLinks.map((link) => (
-              <a 
-                key={link.name}
-                href={link.href}
-                className="text-xs font-black uppercase tracking-[0.25em] text-[#e0e7ff] drop-shadow-md hover:text-brand-orange transition-all relative group/nav"
-                onClick={(e) => handleSmoothScroll(e, link.href)}
-              >
-                {link.name}
-                <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_8px_rgba(245,130,32,0.6)]" />
-              </a>
-            ))}
-          </nav>
-
-          <button 
-            ref={menuButtonRef}
-            className="lg:hidden relative z-[10001] text-brand-orange hover:text-brand-blue transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              playClickSound();
-              setIsMenuOpen(prev => !prev);
-            }}
-            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          >
-            <AnimatePresence>
-              {isMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
-                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                  exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-brand-blue-bright pointer-events-none"
-                >
-                  <X className="w-7 h-7" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0, scale: 0.5 }}
-                  animate={{ 
-                    rotate: 0, 
-                    opacity: 1,
-                    scale: [1, 1.15, 1],
-                  }}
-                  exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
-                  transition={{ 
-                    scale: {
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    },
-                    default: { duration: 0.2 }
-                  }}
-                  className="pointer-events-none"
-                >
-                  <Menu className="w-7 h-7" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
         </div>
       </header>
       
@@ -1679,12 +1615,12 @@ export default function App() {
                 <motion.div 
                   animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.7, 0.4] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-0 right-0 md:right-10 w-48 h-48 md:w-64 md:h-64 bg-[radial-gradient(circle,rgba(245,130,32,0.25)_0%,transparent_70%)] rounded-full pointer-events-none mix-blend-screen" 
+                  className="hidden md:block absolute top-0 right-0 md:right-10 w-48 h-48 md:w-64 md:h-64 bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full pointer-events-none" 
                 />
                 <motion.div 
                   animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-0 left-0 md:left-10 w-56 h-56 md:w-72 md:h-72 bg-[radial-gradient(circle,rgba(0,242,255,0.2)_0%,transparent_70%)] rounded-full pointer-events-none mix-blend-screen" 
+                  className="hidden md:block absolute bottom-0 left-0 md:left-10 w-56 h-56 md:w-72 md:h-72 bg-[radial-gradient(circle,rgba(0,242,255,0.1)_0%,transparent_70%)] rounded-full pointer-events-none" 
                 />
                 
                 <motion.div 
@@ -2731,115 +2667,7 @@ export default function App() {
         </button>
       </div>
 
-      {/* Unified Mobile Menu Overlay (Premium Cyan Glass Redesign) */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            {/* Subtle light immersive backdrop */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-slate-900/10 backdrop-blur-sm z-[100001] lg:hidden touch-none"
-              onClick={() => setIsMenuOpen(false)}
-            />
-            
-            <motion.div
-              initial={{ x: '100%', opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '100%', opacity: 0 }}
-              transition={{ type: "spring", damping: 45, stiffness: 400, mass: 1 }}
-              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-[#112240]/80 border border-white/10 backdrop-blur-3xl border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
-              ref={menuRef}
-            >
-              {/* Internal Header */}
-              <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-                    <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                  </div>
-                  <div className="flex flex-col leading-none">
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
-                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-white drop-shadow-sm">Poliméricas</span>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => {
-                    playClickSound();
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white drop-shadow-sm hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <nav className="flex-1 flex flex-col px-8 py-10">
-                <div className="flex flex-col gap-1">
-                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white drop-shadow-sm mb-4 px-1 leading-none">Menú Principal</p>
-                  {navLinks.map((link, index) => (
-                    <motion.a 
-                      key={link.name}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.04 }}
-                      href={link.href}
-                      className="group flex items-center justify-between py-4 px-1 rounded-xl transition-all relative"
-                      onClick={(e) => {
-                        playClickSound();
-                        handleSmoothScroll(e, link.href);
-                      }}
-                    >
-                      <span className="text-sm font-black uppercase tracking-[0.25em] text-white drop-shadow-sm group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
-                        <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-brand-orange transition-colors" />
-                        {link.name}
-                      </span>
-                      <ChevronRight className="w-4 h-4 text-white group-hover:text-brand-orange group-hover:translate-x-1 transition-all duration-300" />
-                      
-                      <div className="absolute inset-0 bg-[#112240]/60 backdrop-blur-sm border border-white/5 opacity-0 group-hover:opacity-100 -z-10 rounded-xl transition-opacity" />
-                    </motion.a>
-                  ))}
-                </div>
-                
-                {/* Refined Contact Section */}
-                <div className="mt-auto pt-8 border-t border-white/10">
-                  <div className="p-6 rounded-2xl bg-[#112240]/40 border border-white/5 backdrop-blur-md border border-white/60 shadow-[0_4px_20px_rgba(0,0,0,0.3)] space-y-5">
-                    <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-orange/70">Atención Directa</p>
-                    
-                    <div className="space-y-4">
-                      <a 
-                        href="tel:+525561500317" 
-                        className="flex items-center gap-4 group"
-                      >
-                        <div className="w-9 h-9 rounded-lg bg-[#112240]/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
-                          <Phone className="w-4 h-4" />
-                        </div>
-                        <div className="flex flex-col leading-tight">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-white drop-shadow-sm">Teléfono</span>
-                          <span className="text-xs font-bold text-white drop-shadow-sm tracking-wide">55 6150 0317</span>
-                        </div>
-                      </a>
-
-                      <a 
-                        href="mailto:mci.spolimericas@polycovers.mx" 
-                        className="flex items-center gap-4 group"
-                      >
-                        <div className="w-9 h-9 rounded-lg bg-[#112240]/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-brand-blue-bright group-hover:border-brand-blue-bright/30 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
-                          <Mail className="w-4 h-4" />
-                        </div>
-                        <div className="flex flex-col leading-tight min-w-0">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-white drop-shadow-sm">Email Corporativo</span>
-                          <span className="text-[10px] font-bold text-white drop-shadow-sm truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </nav>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -2899,7 +2727,7 @@ export default function App() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] flex flex-col will-change-transform"
+              className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] md:max-h-[85vh] h-full md:h-auto flex flex-col"
             >
               {/* Close Button */}
               <button 
@@ -2917,13 +2745,13 @@ export default function App() {
                       <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
                         <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
                       </div>
-                      <h3 className="text-xl md:text-2xl font-extrabold text-[#e0e7ff] drop-shadow-md uppercase tracking-tighter leading-tight">
+                      <h3 className="text-xl md:text-2xl font-extrabold text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold uppercase tracking-tighter leading-tight">
                         {activeStrength.title}
                       </h3>
                       <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
                     </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-[#e0e7ff] drop-shadow-md font-normal italic border-l-4 border-brand-blue pl-6">
+                    <p className="text-base md:text-lg leading-relaxed text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold font-normal italic border-l-4 border-brand-blue pl-6">
                       <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
                     </p>
 
@@ -2933,12 +2761,12 @@ export default function App() {
                           {typeof item === 'string' ? (
                             <div className="flex gap-4">
                               <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-[#e0e7ff] drop-shadow-md text-sm md:text-lg leading-relaxed">
+                              <p className="text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold text-sm md:text-lg leading-relaxed">
                                 <HighlightText text={item} keywords={activeStrength.keywords} />
                               </p>
                             </div>
                           ) : (
-                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-white/10">
+                            <div className="space-y-4 bg-black/20 p-6 rounded-2xl border border-white/10">
                               <div className="flex items-center gap-3">
                                 <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
                                 <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
@@ -2947,7 +2775,7 @@ export default function App() {
                               </div>
                               <ul className="grid grid-cols-1 gap-3 pl-4">
                                 {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-sm text-[#e0e7ff] drop-shadow-md leading-relaxed">
+                                  <li key={j} className="flex gap-3 items-start text-sm text-slate-100 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-semibold leading-relaxed">
                                     <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
                                     {sub}
                                   </li>
