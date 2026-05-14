@@ -960,8 +960,6 @@ export default function App() {
     }
   }, [location.pathname]);
 
-  const [showMoreInfo, setShowMoreInfo] = useState(false);
-
   // Reiniciar scroll al inicio en cada actualización
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -1310,7 +1308,7 @@ export default function App() {
     if (currentReadingId) {
       const el = document.getElementById(currentReadingId);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // el.scrollIntoView({ behavior: 'smooth', block: 'center' }); // REMOVED to prevent automatic jumpiness
         el.classList.add('reading-active');
         return () => el.classList.remove('reading-active');
       }
@@ -1362,7 +1360,7 @@ export default function App() {
       setChatMessages(prev => [...prev, { type: 'bot', text: '' }]);
 
       for await (const chunk of stream) {
-        const chunkText = chunk.candidates?.[0]?.content?.parts?.[0]?.text;
+        const chunkText = chunk.text;
         if (chunkText) {
           botText += chunkText;
           setChatMessages(prev => {
@@ -1446,7 +1444,7 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
-  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
+  // Removed pendingScrollId
 
   // Keyboard controls for accessibility (Escape to close everything)
   useEffect(() => {
@@ -1476,29 +1474,7 @@ export default function App() {
     
     // Logic for part-based section visibility
     // Fortalezas is now shared, so it doesn't trigger a part switch anymore if we want it to stay visible
-    const part1Ids = ['inicio'];
-    const part2Ids = ['sectores', 'transformacion', 'galeria', 'testimonios', 'contacto', 'inicio-part2', 'nosotros'];
-    
-    if (part1Ids.includes(targetId) && showMoreInfo) {
-      setShowMoreInfo(false);
-      setPendingScrollId(targetId);
-      return;
-    }
-    
-    // If we're clicking home/inicio and we're not in more info, just scroll to top
-    if (targetId === 'inicio' && !showMoreInfo) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    if (part2Ids.includes(targetId) && !showMoreInfo) {
-      setShowMoreInfo(true);
-      const actualTarget = targetId === 'nosotros' ? 'inicio-part2' : targetId;
-      setPendingScrollId(actualTarget);
-      return;
-    }
-
-    const actualId = (targetId === 'fortalezas' || targetId === 'video-fortalezas') ? 'video-fortalezas' : (targetId === 'nosotros' ? 'inicio-part2' : targetId);
+    const actualId = targetId === 'nosotros' ? 'inicio-part2' : targetId;
     const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
     
     if (element) {
@@ -1514,31 +1490,7 @@ export default function App() {
     navigate(`/${targetId}`);
   };
 
-  // Effect to handle pending scroll after Section 2 is revealed
-  useEffect(() => {
-    if (pendingScrollId) {
-      const scrollToTarget = () => {
-        const actualId = pendingScrollId === 'fortalezas' ? 'video-fortalezas' : pendingScrollId;
-        const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
-        if (element) {
-          const headerOffset = window.innerWidth < 768 ? 70 : 100;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-          navigate(`/${pendingScrollId}`);
-        }
-        setPendingScrollId(null);
-      };
-      
-      const timer = setTimeout(scrollToTarget, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [showMoreInfo, pendingScrollId]);
-
+  // Navigation Links
   const navLinks = useMemo(() => [
     { name: 'Inicio', href: '#inicio' },
     { name: 'Nosotros', href: '#inicio-part2' },
@@ -1560,22 +1512,22 @@ export default function App() {
             >
               <div className="absolute inset-0 bg-[#0a192f]/98 backdrop-blur-2xl" onClick={() => setIsStrengthHovered(false)} />
               <motion.div 
-                initial={{ scale: 0.95, opacity: 0, y: 50 }}
+                initial={{ scale: 0.95, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                className="relative w-full max-w-4xl bg-[#112240] border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[80vh] md:max-h-[90vh] mt-4 md:mt-0"
+                className="relative w-full max-w-3xl bg-[#0a192f] border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[85vh] md:max-h-[90vh] mx-4"
               >
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/10 rounded-full blur-[80px] pointer-events-none" />
                 <button 
                   onClick={() => setIsStrengthHovered(false)} 
-                  className="absolute top-4 right-4 md:top-6 md:right-6 z-50 p-3 bg-brand-orange text-white rounded-2xl shadow-lg hover:scale-110 transition-transform active:scale-95"
+                  className="absolute top-4 right-4 md:top-6 md:right-6 z-50 p-2 md:p-3 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-all"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
-                <div className="overflow-y-auto p-6 md:p-12 scrollbar-thin scrollbar-thumb-brand-orange/30">
+                <div className="overflow-y-auto p-6 md:p-10 relative z-10 w-full">
                    <div className="space-y-8">
                       <div className="space-y-4">
-                        <span className="text-brand-orange font-black text-xs uppercase tracking-widest px-3 py-1 bg-brand-orange/10 rounded-full border border-brand-orange/20">Ficha Técnica</span>
-                        <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tight">{activeStrength.title}</h3>
-                        <div className="w-16 h-1.5 bg-brand-orange rounded-full" />
+                        <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">{activeStrength.title}</h3>
+                        <div className="w-16 h-1.5 bg-brand-orange rounded-full shadow-[0_2px_10px_rgba(245,130,32,0.5)]" />
                       </div>
                       <p className="text-lg md:text-xl font-bold leading-relaxed text-white/90 border-l-4 border-brand-orange pl-6 py-2 bg-white/5 rounded-r-xl">
                         <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
@@ -1620,7 +1572,7 @@ export default function App() {
       {/* Header / Navigation */}
       <header 
         className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-700 ${
-          isScrolled || showMoreInfo
+          isScrolled
             ? 'bg-[#004b87]/90 backdrop-blur-2xl border-b-2 border-brand-orange/30 py-2 md:py-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
             : 'bg-transparent border-transparent py-8 md:py-12'
         }`}
@@ -1629,18 +1581,10 @@ export default function App() {
           <a 
             href="#inicio" 
             className="flex items-center gap-4 sm:gap-6 group flex-shrink-0 cursor-pointer min-w-0"
-            onClick={(e) => {
-              if (showMoreInfo) {
-                e.preventDefault();
-                setShowMoreInfo(false);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              } else {
-                handleSmoothScroll(e, '#inicio');
-              }
-            }}
+            onClick={(e) => handleSmoothScroll(e, '#inicio')}
           >
             <div className={`transition-all duration-700 ease-out group-hover:scale-105 flex-shrink-0 drop-shadow-[0_10px_40px_rgba(0,0,0,0.6)] ${
-              isScrolled || showMoreInfo ? 'w-10 h-10 md:w-12 md:h-12' : 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32'
+              isScrolled ? 'w-10 h-10 md:w-12 md:h-12' : 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32'
             }`}>
               <img 
                 src={logoBase64} 
@@ -1651,46 +1595,56 @@ export default function App() {
             </div>
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
               <span className={`font-black tracking-tight leading-none flex flex-wrap gap-x-2 items-baseline lg:whitespace-nowrap transition-all duration-700 ${
-                isScrolled || showMoreInfo ? 'text-lg md:text-2xl' : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'
+                isScrolled ? 'text-lg md:text-2xl' : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'
               }`}>
                 <span className="text-brand-orange drop-shadow-md">MCI</span>
                 <span className="text-white drop-shadow-md transition-colors">Soluciones</span>
               </span>
               <span className={`font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-white/80 drop-shadow-sm transition-all duration-700 leading-tight lg:whitespace-nowrap ${
-                isScrolled || showMoreInfo ? 'text-[0.6rem] md:text-[0.8rem]' : 'text-[0.8rem] sm:text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]'
+                isScrolled ? 'text-[0.6rem] md:text-[0.8rem]' : 'text-[0.8rem] sm:text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]'
               }`}>Poliméricas</span>
             </div>
           </a>
 
-          {/* Navigation & Menu Button */}
           <div className="flex items-center gap-4 md:gap-8">
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-12">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.href}
-                  className="text-[10px] lg:text-[11px] xl:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.3em] text-white/90 hover:text-brand-orange transition-all relative group/nav"
-                  onClick={(e) => handleSmoothScroll(e, link.href)}
+            <AnimatePresence>
+              {isScrolled && (
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="flex items-center gap-4 md:gap-8"
                 >
-                  {link.name}
-                  <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_10px_rgba(245,130,32,0.8)]" />
-                </a>
-              ))}
-            </nav>
+                  <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-12">
+                    {navLinks.map((link) => (
+                      <a 
+                        key={link.name}
+                        href={link.href}
+                        className="text-[10px] lg:text-[11px] xl:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.3em] text-white/90 hover:text-brand-orange transition-all relative group/nav"
+                        onClick={(e) => handleSmoothScroll(e, link.href)}
+                      >
+                        {link.name}
+                        <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_10px_rgba(245,130,32,0.8)]" />
+                      </a>
+                    ))}
+                  </nav>
 
-            {/* Mobile/Tablet Menu Button */}
-            <button 
-              ref={menuButtonRef}
-              className="md:hidden relative z-[10001] w-12 h-12 flex items-center justify-center text-brand-orange group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle Menu"
-            >
-              <div className="flex flex-col gap-1.5 items-end">
-                <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-8'}`} />
-                <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-6'}`} />
-                <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-4 group-hover:w-8'}`} />
-              </div>
-            </button>
+                  {/* Mobile/Tablet Menu Button */}
+                  <button 
+                    ref={menuButtonRef}
+                    className="md:hidden relative z-[10001] w-12 h-12 flex items-center justify-center text-brand-orange group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Toggle Menu"
+                  >
+                    <div className="flex flex-col gap-1.5 items-end">
+                      <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-8'}`} />
+                      <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-6'}`} />
+                      <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-4 group-hover:w-8'}`} />
+                    </div>
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </header>
@@ -1758,7 +1712,6 @@ export default function App() {
 
       {/* Primary Landing Content */}
       <div className="pb-12">
-        {!showMoreInfo && (
           <div className="animate-fade-in">
             {/* Hero Section */}
             <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
@@ -1852,7 +1805,6 @@ export default function App() {
           </div>
         </section>
       </div>
-    )}
 
     {/* --- FORTALEZAS (Always visible as transition or in both) --- */}
     <section id="video-fortalezas" className="relative z-10 py-16 md:py-24 overflow-hidden bg-gradient-to-b from-transparent via-[#0a192f]/50 to-transparent">
@@ -1917,75 +1869,11 @@ export default function App() {
       </div>
     </section>
 
-    {!showMoreInfo && (
-      <div className="flex justify-center mt-12 mb-32 relative z-20 px-6">
-        <motion.button 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  playClickSound();
-                  setShowMoreInfo(true);
-                  // Scroll to the next section slightly
-                  setTimeout(() => {
-                    const el = document.getElementById('inicio-part2');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }} 
-                className="group relative w-full max-w-lg bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-brand-orange/20 transition-all duration-500"
-              >
-                {/* Visual Engineering Background */}
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-orange/20 to-brand-orange animate-pulse" />
-                
-                <div className="relative z-10 px-4 py-8 md:px-8 md:py-10 flex flex-col items-center gap-3 text-center">
-                  <div className="flex items-center gap-2 bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">
-                    <span className="w-1.5 h-1.5 bg-brand-orange rounded-full animate-ping" />
-                    <span className="text-[10px] md:text-[11px] font-black text-brand-orange uppercase tracking-[0.3em]">Continuar Explorando</span>
-                  </div>
-                  
-                  <h3 className="text-lg md:text-2xl lg:text-3xl font-black text-white uppercase tracking-tight md:tracking-tighter leading-tight drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
-                    PARA MÁS INFORMACIÓN <br />
-                    <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
-                  </h3>
-                  
-                  <p className="text-white/90 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
-                    Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
-                  </p>
-
-                  <div className="mt-3 flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-white/10 group-hover:border-brand-orange group-hover:bg-brand-orange transition-all duration-500">
-                    <ArrowDown className="w-4 h-4 md:w-6 md:h-6 text-brand-orange group-hover:text-white animate-bounce" />
-                  </div>
-                </div>
-
-                {/* Animated Shine */}
-                <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shine pointer-events-none" />
-              </motion.button>
-        </div>
-      )}
+    <div className="hidden">
     </div>
 
       {/* Part 2 Sections */}
-      {showMoreInfo && (
         <div className="animate-fade-in pt-12 md:pt-16">
-          {/* Back Button */}
-          <div className="max-w-7xl mx-auto px-5 md:px-6 mt-8 md:mt-12 mb-4 flex justify-center md:justify-start">
-            <button
-              onClick={() => {
-                playClickSound();
-                setShowMoreInfo(false);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-white drop-shadow-sm hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
-            >
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white/10 group-hover:border-brand-orange flex items-center justify-center bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
-                <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
-              </div>
-              Regresar
-            </button>
-          </div>
-
           <section id="inicio-part2" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 pt-24 md:pt-32 pb-12">
             {/* 2. Misión/Visión/Propuesta Vertical Stack */}
             <motion.div
@@ -2481,7 +2369,6 @@ export default function App() {
         </div>
       </footer>
         </div>
-      )}
 
       {/* Floating Chat Widget */}
       <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000] scale-[0.8] origin-bottom-left md:scale-100" ref={chatContainerRef}>
@@ -2884,5 +2771,6 @@ export default function App() {
 
       <QRCodeModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} url={window.location.href} />
     </div>
+  </div>
   );
 }
