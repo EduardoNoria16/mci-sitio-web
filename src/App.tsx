@@ -925,6 +925,84 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // --- Main App Component ---
 
+const StrengthAccordion: React.FC<{ strength: Strength, index: number }> = ({ strength, index }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="w-full"
+    >
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full bg-[#112240] hover:bg-[#1a365d] border border-white/10 rounded-2xl p-4 md:p-5 cursor-pointer flex flex-col md:flex-row gap-4 items-center justify-between transition-all duration-300 group shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-brand-orange/50 relative overflow-hidden"
+      >
+        <div className="flex flex-col md:flex-row items-center gap-4 flex-1">
+          <div className="w-12 h-12 shrink-0 rounded-xl bg-[#0a192f] border border-white/10 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-lg">
+            {React.cloneElement(strength.icon as React.ReactElement, { className: 'w-6 h-6 transition-transform duration-300' })}
+          </div>
+          
+          <div className="flex-1 min-w-0 flex flex-col justify-center text-center md:text-left">
+            <h3 className="text-base md:text-lg font-black text-white uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors md:truncate">
+              {strength.title}
+            </h3>
+            <p className="text-[10px] md:text-xs text-white/50 font-bold uppercase tracking-widest mt-1 md:truncate">
+              {strength.description}
+            </p>
+          </div>
+        </div>
+
+        <div className="shrink-0 text-white/50 group-hover:text-brand-orange transition-colors">
+          <ChevronDown className={`w-5 h-5 md:w-6 md:h-6 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="p-6 md:p-8 mt-2 bg-[#112240]/50 border border-white/5 rounded-2xl text-left">
+              <div className="space-y-6">
+                <p className="text-base md:text-lg font-bold leading-relaxed text-white/90 border-l-4 border-brand-orange pl-4 md:pl-6 py-2 bg-white/5 rounded-r-xl">
+                  <HighlightText text={strength.intro} keywords={strength.keywords} isIntro />
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  {strength.items.map((item, i) => (
+                    <div key={i} className="p-4 md:p-6 rounded-2xl bg-[#0a192f] border border-white/5">
+                      {typeof item === 'string' ? (
+                        <p className="font-bold text-white/90 text-sm md:text-base"><HighlightText text={item} keywords={strength.keywords} /></p>
+                      ) : (
+                        <div className="space-y-3 md:space-y-4">
+                          <p className="text-brand-orange font-black text-[10px] md:text-xs uppercase tracking-widest">{item.label}</p>
+                          <ul className="space-y-2">
+                            {item.subItems.map((sub, j) => (
+                              <li key={j} className="flex gap-2 text-xs md:text-sm text-white/80 font-semibold">
+                                <ArrowRight className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
+                                <span>{sub}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1503,62 +1581,6 @@ export default function App() {
     <div className="min-h-screen w-full bg-[#0a192f] text-white drop-shadow-sm transition-colors duration-500 overflow-x-hidden relative font-sans">
       
       <AnimatePresence>
-        {isStrengthHovered && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[30000] flex items-start md:items-center justify-center p-2 md:p-8"
-            >
-              <div className="absolute inset-0 bg-[#0a192f]/98 backdrop-blur-2xl" onClick={() => setIsStrengthHovered(false)} />
-              <motion.div 
-                initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                className="relative w-full max-w-3xl bg-[#0a192f] border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[85vh] md:max-h-[90vh] mx-4"
-              >
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/10 rounded-full blur-[80px] pointer-events-none" />
-                <button 
-                  onClick={() => setIsStrengthHovered(false)} 
-                  className="absolute top-4 right-4 md:top-6 md:right-6 z-50 p-2 md:p-3 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-all"
-                >
-                  <X className="w-5 h-5 md:w-6 md:h-6" />
-                </button>
-                <div className="overflow-y-auto p-6 md:p-10 relative z-10 w-full">
-                   <div className="space-y-8">
-                      <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">{activeStrength.title}</h3>
-                        <div className="w-16 h-1.5 bg-brand-orange rounded-full shadow-[0_2px_10px_rgba(245,130,32,0.5)]" />
-                      </div>
-                      <p className="text-lg md:text-xl font-bold leading-relaxed text-white/90 border-l-4 border-brand-orange pl-6 py-2 bg-white/5 rounded-r-xl">
-                        <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
-                      </p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8">
-                        {activeStrength.items.map((item, i) => (
-                          <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                            {typeof item === 'string' ? (
-                              <p className="font-bold text-white/90"><HighlightText text={item} keywords={activeStrength.keywords} /></p>
-                            ) : (
-                              <div className="space-y-4">
-                                <p className="text-brand-orange font-black text-xs uppercase tracking-widest">{item.label}</p>
-                                <ul className="space-y-2">
-                                  {item.subItems.map((sub, j) => (
-                                    <li key={j} className="flex gap-2 text-sm text-white/80 font-semibold"><ArrowRight className="w-4 h-4 text-brand-orange shrink-0" />{sub}</li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                      <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row gap-6 justify-between items-center">
-                        <p className="text-sm font-bold text-white/60">Contáctanos para una asesoría técnica a detalle</p>
-                        <a href="https://wa.me/525561500317" className="bg-brand-orange text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest">WhatsApp Directo</a>
-                      </div>
-                   </div>
-                </div>
-              </motion.div>
-            </motion.div>
-        )}
       </AnimatePresence>
       
       {/* Simplified Background Elements for Performance */}
@@ -1808,8 +1830,8 @@ export default function App() {
 
     {/* --- FORTALEZAS (Always visible as transition or in both) --- */}
     <section id="video-fortalezas" className="relative z-10 py-16 md:py-24 overflow-hidden bg-gradient-to-b from-transparent via-[#0a192f]/50 to-transparent">
-      {/* Strengths Section (Improved Grid Layout) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-10 lg:px-12 will-change-transform">
+      {/* Strengths Section (Vertical Accordion Layout) */}
+      <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-10 lg:px-12 will-change-transform">
         <div className="text-center mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1826,45 +1848,10 @@ export default function App() {
           </motion.div>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {STRENGTHS.map((s, idx) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: idx * 0.1, duration: 0.5, type: "spring", bounce: 0.4 }}
-                onClick={() => {
-                  playClickSound();
-                  setActiveStrength(s);
-                  setIsStrengthHovered(true);
-                }}
-                className="group relative p-5 md:p-6 rounded-[1.5rem] border-2 border-white/5 bg-gradient-to-br from-[#112240] to-[#0a192f] transition-all duration-300 flex flex-col items-center text-center gap-4 cursor-pointer overflow-hidden transform"
-              >
-                <div className="absolute inset-0 bg-brand-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-xl bg-[#0a192f] border border-white/10 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-lg group-hover:rotate-3">
-                  {React.cloneElement(s.icon as React.ReactElement, { className: 'w-6 h-6 md:w-8 md:h-8 transition-transform duration-300' })}
-                </div>
-                
-                <div className="space-y-2">
-                  <h3 className="relative z-10 text-base md:text-lg font-black text-white uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
-                    {s.title}
-                  </h3>
-                  <div className="w-4 h-0.5 bg-brand-orange/30 mx-auto rounded-full group-hover:w-8 group-hover:bg-brand-orange transition-all duration-300" />
-                  <p className="relative z-10 text-[9px] text-white/40 font-bold leading-relaxed uppercase tracking-wider px-2 group-hover:text-white/70 transition-colors">
-                    {s.description || 'Excelencia Operativa'}
-                  </p>
-                </div>
-
-                <div className="mt-auto pt-4">
-                  <div className="flex items-center gap-2 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] group-hover:tracking-[0.3em] transition-all">
-                    Detalles <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        <div className="w-full flex flex-col gap-4">
+          {STRENGTHS.map((s, idx) => (
+            <StrengthAccordion key={s.id} strength={s} index={idx} />
+          ))}
         </div>
       </div>
     </section>
