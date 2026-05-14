@@ -38,9 +38,6 @@
   html {
     font-size: 16px;
     scroll-behavior: smooth;
-    width: 100%;
-    overflow-x: hidden;
-    scrollbar-gutter: stable;
     @media (max-width: 640px) {
       font-size: 14px;
     }
@@ -51,7 +48,6 @@
     color: var(--text-primary);
     @apply antialiased selection:bg-[#3b82f6] selection:text-white font-sans leading-relaxed;
     overflow-x: hidden;
-    width: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

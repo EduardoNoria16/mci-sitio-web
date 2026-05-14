@@ -1348,7 +1348,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
