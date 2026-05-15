@@ -55,6 +55,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
+import { ProjectGallery } from './components/ProjectGallery';
 import QRCodeModal from './components/QRCodeModal';
 
 // --- Sound Effects ---
@@ -571,113 +572,36 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
-    after: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg'
+    before: 'https://i.postimg.cc/1Vc1j2nR/IMG-20260515-WA0008.jpg',
+    after: 'https://i.postimg.cc/q6XH5ShJ/IMG-20260515-WA0004.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
-    after: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg'
+    before: 'https://i.postimg.cc/QKkZyw9M/IMG-20260515-WA0005.jpg',
+    after: 'https://i.postimg.cc/2LFNKMbm/IMG-20260515-WA0006.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
-    after: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg'
+    before: 'https://i.postimg.cc/q6XH5Stw/IMG-20260515-WA0007.jpg',
+    after: 'https://i.postimg.cc/p5YM6490/IMG-20260515-WA0009.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
-    after: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
+    before: 'https://i.postimg.cc/PvznR9LK/IMG-20260515-WA0010.jpg',
+    after: 'https://i.postimg.cc/wRddFgBG/IMG-20260515-WA0011.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
-    after: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg'
-  },
-  {
-    id: 'case6',
-    title: 'Caso de Éxito 6',
-    description: 'Renovación de instalaciones con acabado estético impecable.',
-    before: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
-    after: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg'
-  },
-  {
-    id: 'case7',
-    title: 'Caso de Éxito 7',
-    description: 'Mantenimiento integral y durabilidad prolongada.',
-    before: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
-    after: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg'
-  },
-  {
-    id: 'case8',
-    title: 'Caso de Éxito 8',
-    description: 'Recuperación de brillo y resistencia de superficies degradadas.',
-    before: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
-    after: 'https://images2.imgbox.com/50/29/3D2Zh5mJ_o.jpg'
-  },
-  {
-    id: 'case9',
-    title: 'Caso de Éxito 9',
-    description: 'Protección anticorrosiva para entornos exigentes.',
-    before: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg',
-    after: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg'
-  },
-  {
-    id: 'case10',
-    title: 'Caso de Éxito 10',
-    description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
-    before: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg',
-    after: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
-  },
-  {
-    id: 'case11',
-    title: 'Caso de Éxito 11',
-    description: 'Tratamiento sellante y nivelador permanente.',
-    before: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg',
-    after: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg'
-  },
-  {
-    id: 'case12',
-    title: 'Caso de Éxito 12',
-    description: 'Recuperación de estética y funcionalidad total.',
-    before: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
-    after: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
-  },
-  {
-    id: 'case13',
-    title: 'Caso de Éxito 13',
-    description: 'Transformación y recuperación de superficies.',
-    before: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg',
-    after: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg'
-  },
-  {
-    id: 'case14',
-    title: 'Caso de Éxito 14',
-    description: 'Nivelación y protección duradera.',
-    before: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg',
-    after: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg'
-  },
-  {
-    id: 'case15',
-    title: 'Caso de Éxito 15',
-    description: 'Mantenimiento integral correctivo.',
-    before: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg',
-    after: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
-  },
-  {
-    id: 'case16',
-    title: 'Caso de Éxito 16',
-    description: 'Soluciones especiales para control de calidad.',
-    before: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg',
-    after: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg'
+    before: 'https://i.postimg.cc/V0cc4mN9/IMG-20260515-WA0012.jpg',
+    after: 'https://i.postimg.cc/4HTTws37/IMG-20260515-WA0013.jpg'
   }
 ];
 
@@ -1883,30 +1807,30 @@ export default function App() {
                    {[
                      {
                        title: 'Misión',
-                       icon: <Target className="w-8 h-8 text-blue-600" />,
+                       icon: <Target className="w-8 h-8 text-[#22d3ee]" />,
                        text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
+                       iconBg: 'bg-[#22d3ee]/10 border border-[#22d3ee]/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200'
+                       titleColor: 'text-[#22d3ee] drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-8 h-8 text-blue-600" />,
+                       icon: <Eye className="w-8 h-8 text-[#22d3ee]" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
+                       iconBg: 'bg-[#22d3ee]/10 border border-[#22d3ee]/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200'
+                       titleColor: 'text-[#22d3ee] drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+                       icon: <ShieldCheck className="w-8 h-8 text-brand-orange" />,
                        text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
+                       iconBg: 'bg-[#22d3ee]/10 border border-[#22d3ee]/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200',
+                       titleColor: 'text-[#22d3ee] drop-shadow-[0_2px_10px_rgba(34,211,238,0.4)]',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -2089,6 +2013,8 @@ export default function App() {
           </motion.div>
         </div>
       </section>
+
+      <ProjectGallery onImageSelect={setSelectedImage} />
 
       {/* Testimonials Section */}
       <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-12">
