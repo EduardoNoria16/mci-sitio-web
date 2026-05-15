@@ -55,6 +55,7 @@ import {
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import QRCodeModal from './components/QRCodeModal';
+import { ProjectGallery } from './components/ProjectGallery';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -1486,21 +1487,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (isMenuOpen || selectedImage || isStrengthHovered) {
-      document.documentElement.style.overflow = 'hidden';
+    if (isMenuOpen || selectedImage) {
       document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = 'var(--removed-body-scroll-bar-size, 0px)';
     } else {
-      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
     }
     return () => {
-      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
     };
-  }, [isMenuOpen, selectedImage, isStrengthHovered]);
+  }, [isMenuOpen, selectedImage]);
 
   // Click outside to close mobile menu
   useEffect(() => {
@@ -1578,10 +1573,7 @@ export default function App() {
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-[#0a192f] text-white drop-shadow-sm transition-colors duration-500 overflow-x-hidden relative font-sans">
-      
-      <AnimatePresence>
-      </AnimatePresence>
+    <div className="min-h-screen w-full bg-[#0a192f] text-white transition-colors duration-500 relative font-sans">
       
       {/* Simplified Background Elements for Performance */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -2090,6 +2082,9 @@ export default function App() {
           </motion.div>
         </div>
       </section>
+
+      {/* Project Gallery Section */}
+      <ProjectGallery onImageSelect={setSelectedImage} />
 
       {/* Testimonials Section */}
       <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-12">
