@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocation, useNavigate, Routes, Route, Navigate } from 'react-router-dom';
 import { logoBase64 } from './logoBase64';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
@@ -55,7 +56,6 @@ import {
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import QRCodeModal from './components/QRCodeModal';
-import { ProjectGallery } from './components/ProjectGallery';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -318,7 +318,7 @@ const CustomVideoPlayer = memo(() => {
             </div>
 
             <div className="text-white/90 text-xs font-medium tracking-wide ml-2 select-none font-mono">
-              {formatTime(currentTime)} <span className="text-white/80 mx-1 font-sans">/</span> {formatTime(duration)}
+              {formatTime(currentTime)} <span className="text-white/40 mx-1 font-sans">/</span> {formatTime(duration)}
             </div>
           </div>
 
@@ -848,7 +848,7 @@ const SECTORS: Sector[] = [
 
 const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string; keywords: string[]; isIntro?: boolean }) => {
   if (isIntro) {
-    return <span className="text-[#f58220] font-black drop-shadow-md">{text}</span>;
+    return <span className="text-brand-orange font-bold">{text}</span>;
   }
 
   let parts = [text];
@@ -871,7 +871,7 @@ const HighlightText = memo(({ text, keywords, isIntro = false }: { text: string;
       {parts.map((part, i) => {
         const isKeyword = keywords.some(k => k.toLowerCase() === part.toLowerCase());
         return isKeyword ? (
-          <span key={i} className="text-[#f58220] font-black drop-shadow-md">{part}</span>
+          <span key={i} className="text-brand-orange font-bold">{part}</span>
         ) : (
           <span key={i}>{part}</span>
         );
@@ -926,84 +926,6 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // --- Main App Component ---
 
-const StrengthAccordion: React.FC<{ strength: Strength, index: number }> = ({ strength, index }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="w-full"
-    >
-      <div 
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full bg-[#112240] hover:bg-[#1a365d] border border-white/10 rounded-2xl p-4 md:p-5 cursor-pointer flex flex-col md:flex-row gap-4 items-center justify-between transition-all duration-300 group shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-brand-orange/50 relative overflow-hidden"
-      >
-        <div className="flex flex-col md:flex-row items-center gap-4 flex-1">
-          <div className="w-12 h-12 shrink-0 rounded-xl bg-[#0a192f] border border-white/10 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-300 shadow-lg">
-            {React.cloneElement(strength.icon as React.ReactElement, { className: 'w-6 h-6 transition-transform duration-300' })}
-          </div>
-          
-          <div className="flex-1 min-w-0 flex flex-col justify-center text-center md:text-left">
-            <h3 className="text-base md:text-lg font-black text-white uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors md:truncate">
-              {strength.title}
-            </h3>
-            <p className="text-[10px] md:text-xs text-white/50 font-bold uppercase tracking-widest mt-1 md:truncate">
-              {strength.description}
-            </p>
-          </div>
-        </div>
-
-        <div className="shrink-0 text-white/50 group-hover:text-brand-orange transition-colors">
-          <ChevronDown className={`w-5 h-5 md:w-6 md:h-6 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
-          >
-            <div className="p-6 md:p-8 mt-2 bg-[#112240]/50 border border-white/5 rounded-2xl text-left">
-              <div className="space-y-6">
-                <p className="text-base md:text-lg font-bold leading-relaxed text-white/90 border-l-4 border-brand-orange pl-4 md:pl-6 py-2 bg-white/5 rounded-r-xl">
-                  <HighlightText text={strength.intro} keywords={strength.keywords} isIntro />
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                  {strength.items.map((item, i) => (
-                    <div key={i} className="p-4 md:p-6 rounded-2xl bg-[#0a192f] border border-white/5">
-                      {typeof item === 'string' ? (
-                        <p className="font-bold text-white/90 text-sm md:text-base"><HighlightText text={item} keywords={strength.keywords} /></p>
-                      ) : (
-                        <div className="space-y-3 md:space-y-4">
-                          <p className="text-brand-orange font-black text-[10px] md:text-xs uppercase tracking-widest">{item.label}</p>
-                          <ul className="space-y-2">
-                            {item.subItems.map((sub, j) => (
-                              <li key={j} className="flex gap-2 text-xs md:text-sm text-white/80 font-semibold">
-                                <ArrowRight className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
-                                <span>{sub}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-};
-
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1038,6 +960,8 @@ export default function App() {
       });
     }
   }, [location.pathname]);
+
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
 
   // Reiniciar scroll al inicio en cada actualización
   useEffect(() => {
@@ -1387,7 +1311,7 @@ export default function App() {
     if (currentReadingId) {
       const el = document.getElementById(currentReadingId);
       if (el) {
-        // el.scrollIntoView({ behavior: 'smooth', block: 'center' }); // REMOVED to prevent automatic jumpiness
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         el.classList.add('reading-active');
         return () => el.classList.remove('reading-active');
       }
@@ -1427,7 +1351,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-2.5-flash",
+        model: "gemini-3-flash-preview",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -1439,7 +1363,7 @@ export default function App() {
       setChatMessages(prev => [...prev, { type: 'bot', text: '' }]);
 
       for await (const chunk of stream) {
-        const chunkText = chunk.text;
+        const chunkText = chunk.candidates?.[0]?.content?.parts?.[0]?.text;
         if (chunkText) {
           botText += chunkText;
           setChatMessages(prev => {
@@ -1476,28 +1400,8 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  
-  // Custom threshold for header transformation
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  useEffect(() => {
-    if (isMenuOpen || selectedImage) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isMenuOpen, selectedImage]);
-
-  // Click outside to close mobile menu
+  // Clicks outside to close mobile menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // Si el click es en el botón de menú, dejar que el onClick del botón lo maneje
@@ -1517,7 +1421,7 @@ export default function App() {
     };
   }, [isMenuOpen]);
 
-  // Removed pendingScrollId
+  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
 
   // Keyboard controls for accessibility (Escape to close everything)
   useEffect(() => {
@@ -1546,8 +1450,22 @@ export default function App() {
     const targetId = href.startsWith('/') ? href.substring(1) : href.replace('#', '');
     
     // Logic for part-based section visibility
-    // Fortalezas is now shared, so it doesn't trigger a part switch anymore if we want it to stay visible
-    const actualId = targetId === 'nosotros' ? 'inicio-part2' : targetId;
+    const part1Ids = ['inicio', 'fortalezas', 'video-fortalezas'];
+    const part2Ids = ['sectores', 'transformacion', 'galeria', 'testimonios', 'contacto', 'inicio-part2'];
+    
+    if (part1Ids.includes(targetId) && showMoreInfo) {
+      setShowMoreInfo(false);
+      setPendingScrollId(targetId);
+      return;
+    }
+    
+    if (part2Ids.includes(targetId) && !showMoreInfo) {
+      setShowMoreInfo(true);
+      setPendingScrollId(targetId);
+      return;
+    }
+
+    const actualId = targetId === 'fortalezas' ? 'video-fortalezas' : targetId;
     const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
     
     if (element) {
@@ -1563,160 +1481,148 @@ export default function App() {
     navigate(`/${targetId}`);
   };
 
-  // Navigation Links
+  // Effect to handle pending scroll after Section 2 is revealed
+  useEffect(() => {
+    if (pendingScrollId) {
+      const scrollToTarget = () => {
+        const actualId = pendingScrollId === 'fortalezas' ? 'video-fortalezas' : pendingScrollId;
+        const element = document.getElementById(actualId) || (actualId === 'contacto' ? document.getElementById('contacto-footer') : null);
+        if (element) {
+          const headerOffset = window.innerWidth < 768 ? 70 : 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+          navigate(`/${pendingScrollId}`);
+        }
+        setPendingScrollId(null);
+      };
+      
+      const timer = setTimeout(scrollToTarget, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [showMoreInfo, pendingScrollId]);
+
   const navLinks = useMemo(() => [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Nosotros', href: '#inicio-part2' },
-    { name: 'Fortalezas', href: '#video-fortalezas' },
-    { name: 'Sectores', href: '#sectores' },
-    { name: 'Contacto', href: '#contacto' }
+    { name: 'Inicio', href: '/inicio' },
+    { name: 'Sectores', href: '/sectores' },
+    { name: 'Fortalezas', href: '/fortalezas' },
+    { name: 'Contacto', href: '/contacto' }
   ], []);
 
   return (
-    <div className="min-h-screen w-full bg-[#0a192f] text-white transition-colors duration-500 relative font-sans">
+    <div className="min-h-screen w-full bg-[#0a192f] text-white drop-shadow-sm transition-colors duration-500 overflow-x-hidden relative font-sans">
       
-      {/* Simplified Background Elements for Performance */}
+      {/* Dynamic Background Elements for more vibrant feel */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/5 via-[#3b82f6]/5 to-[#f58220]/5" />
-        <div className="hidden md:block absolute -top-[20%] -left-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.1)_0%,transparent_70%)] opacity-50 relative z-0" />
-        <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.1)_0%,transparent_70%)] opacity-50 relative z-0" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05] pointer-events-none mix-blend-overlay" />
+        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-slate-800 via-brand-blue/20 to-slate-900 mix-blend-overlay" />
+        <div className="absolute -top-[20%] -left-[20%] w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.15)_0%,transparent_70%)] opacity-80 md:animate-blob mix-blend-multiply" />
+        <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] opacity-80 animate-blob animation-delay-2000 mix-blend-multiply" />
+        <div className="absolute -bottom-[20%] left-1/4 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(245,130,32,0.1)_0%,transparent_70%)] opacity-80 md:animate-blob animation-delay-4000 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
       </div>
-
+      
       {/* Header / Navigation */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-700 ${
-          isScrolled
-            ? 'bg-[#004b87]/90 backdrop-blur-2xl border-b-2 border-brand-orange/30 py-2 md:py-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
-            : 'bg-transparent border-transparent py-8 md:py-12'
+        className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b ${
+          isScrolled 
+            ? 'bg-[#0a192f]/80 backdrop-blur-xl border-b border-white/10 py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
+            : 'bg-[#112240]/40 border border-white/5 backdrop-blur-md py-4 sm:py-5 border-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-10 flex items-center justify-between transition-all duration-500">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
           <a 
             href="#inicio" 
-            className="flex items-center gap-4 sm:gap-6 group flex-shrink-0 cursor-pointer min-w-0"
-            onClick={(e) => handleSmoothScroll(e, '#inicio')}
+            className="flex items-center gap-3 sm:gap-4 group flex-shrink-0 cursor-pointer min-w-0"
+            onClick={(e) => {
+              setShowMoreInfo(false);
+              handleSmoothScroll(e, '#inicio');
+            }}
           >
-            <div className={`transition-all duration-700 ease-out group-hover:scale-105 flex-shrink-0 drop-shadow-[0_10px_40px_rgba(0,0,0,0.6)] ${
-              isScrolled ? 'w-10 h-10 md:w-12 md:h-12' : 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32'
-            }`}>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 flex-shrink-0 drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
               <img 
                 src={logoBase64} 
                 alt="Logo MCI" 
-                className="w-full h-full object-contain brightness-110"
+                className="w-full h-full object-contain"
                 referrerPolicy="no-referrer"
               />
             </div>
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
-              <span className={`font-black tracking-tight leading-none flex flex-wrap gap-x-2 items-baseline lg:whitespace-nowrap transition-all duration-700 ${
-                isScrolled ? 'text-lg md:text-2xl' : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'
-              }`}>
-                <span className="text-brand-orange drop-shadow-md">MCI</span>
-                <span className="text-white drop-shadow-md transition-colors">Soluciones</span>
+              <span className="text-base sm:text-lg md:text-2xl font-black tracking-tight leading-none flex flex-wrap gap-x-1.5 items-baseline lg:whitespace-nowrap">
+                <span className="text-brand-orange">MCI</span>
+                <span className="text-white drop-shadow-sm transition-colors drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">Soluciones</span>
               </span>
-              <span className={`font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-white/80 drop-shadow-sm transition-all duration-700 leading-tight lg:whitespace-nowrap ${
-                isScrolled ? 'text-[0.6rem] md:text-[0.8rem]' : 'text-[0.8rem] sm:text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]'
-              }`}>Poliméricas</span>
+              <span className="text-[0.6rem] sm:text-[0.7rem] md:text-[0.8rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] md:tracking-[0.25em] text-slate-500 mt-1 transition-colors leading-tight lg:whitespace-nowrap">Poliméricas</span>
             </div>
           </a>
 
-          <div className="flex items-center gap-4 md:gap-8">
-            <AnimatePresence>
-              {isScrolled && (
-                <motion.div 
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="flex items-center gap-4 md:gap-8"
-                >
-                  <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-12">
-                    {navLinks.map((link) => (
-                      <a 
-                        key={link.name}
-                        href={link.href}
-                        className="text-[10px] lg:text-[11px] xl:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.3em] text-white/90 hover:text-brand-orange transition-all relative group/nav"
-                        onClick={(e) => handleSmoothScroll(e, link.href)}
-                      >
-                        {link.name}
-                        <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_10px_rgba(245,130,32,0.8)]" />
-                      </a>
-                    ))}
-                  </nav>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-6 lg:gap-10">
+            {navLinks.map((link) => (
+              <a 
+                key={link.name}
+                href={link.href}
+                className="text-xs font-black uppercase tracking-[0.25em] text-on-surface/90 hover:text-brand-orange transition-all relative group/nav"
+                onClick={(e) => handleSmoothScroll(e, link.href)}
+              >
+                {link.name}
+                <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-brand-orange transition-all duration-300 group-hover/nav:w-full shadow-[0_0_8px_rgba(245,130,32,0.6)]" />
+              </a>
+            ))}
+          </nav>
 
-                  {/* Mobile/Tablet Menu Button */}
-                  <button 
-                    ref={menuButtonRef}
-                    className="md:hidden relative z-[10001] w-12 h-12 flex items-center justify-center text-brand-orange group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    aria-label="Toggle Menu"
-                  >
-                    <div className="flex flex-col gap-1.5 items-end">
-                      <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-8'}`} />
-                      <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-6'}`} />
-                      <span className={`h-0.5 bg-brand-orange transition-all duration-300 ${isMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-4 group-hover:w-8'}`} />
-                    </div>
-                  </button>
+          <button 
+            ref={menuButtonRef}
+            className="lg:hidden relative z-[10001] text-brand-orange hover:text-brand-blue transition-all flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 active:scale-90 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              playClickSound();
+              setIsMenuOpen(prev => !prev);
+            }}
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          >
+            <AnimatePresence>
+              {isMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-brand-blue-bright pointer-events-none"
+                >
+                  <X className="w-7 h-7" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                  animate={{ 
+                    rotate: 0, 
+                    opacity: 1,
+                    scale: [1, 1.15, 1],
+                  }}
+                  exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                  transition={{ 
+                    scale: {
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    },
+                    default: { duration: 0.2 }
+                  }}
+                  className="pointer-events-none"
+                >
+                  <Menu className="w-7 h-7" />
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </button>
         </div>
       </header>
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-0 z-[20000] bg-[#0a192f]/98 backdrop-blur-2xl flex flex-col items-center justify-center p-10"
-          >
-            <div className="absolute top-10 right-10">
-              <button 
-                onClick={() => setIsMenuOpen(false)}
-                className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-orange"
-              >
-                <X className="w-8 h-8" />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-8 text-center items-center">
-              <div className="mb-8 scale-75 opacity-50">
-                 <img src={logoBase64} alt="MCI" className="w-24 h-24 object-contain" />
-              </div>
-
-              {navLinks.map((link, idx) => (
-                <motion.a 
-                  key={link.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  href={link.href}
-                  className="text-4xl xs:text-5xl font-black uppercase tracking-[0.2em] text-white hover:text-brand-orange transition-all active:scale-95"
-                  onClick={(e) => {
-                    handleSmoothScroll(e, link.href);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  {link.name}
-                </motion.a>
-              ))}
-              
-              <div className="mt-12 flex flex-col gap-6">
-                <a 
-                  href="https://wa.me/525561500317" 
-                  target="_blank"
-                  className="bg-brand-orange text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl"
-                >
-                  Contacto WhatsApp
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
       
       {/* Progress Bar */}
       <motion.div
@@ -1725,135 +1631,236 @@ export default function App() {
       />
 
       {/* Primary Landing Content */}
-      <div className="pb-12">
-          <div className="animate-fade-in">
-            {/* Hero Section */}
-            <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
-              
-              {/* Fondo fotográfico with improved depth */}
-              <div className="absolute inset-0 z-0 bg-[#0a192f]">
-                <img 
-                  src="/hero.jpg" 
-                  alt="MCI Soluciones Fotografía Oficial"
-                  className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-40 scale-105 mix-blend-luminosity"
-                  referrerPolicy="no-referrer"
-                />
-            {/* Enhanced glass overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-[#0a192f]/70 to-transparent z-10 pointer-events-none" />
-            <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full z-10 pointer-events-none animate-pulse" />
-          </div>
-          
-          <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 flex flex-col items-center w-full">
-            <div className="flex flex-col gap-12 lg:gap-16 items-center w-full">
-              {/* 1. ¿Quiénes Somos? Text */}
-              <div className="w-full max-w-5xl mx-auto relative">
+      {!showMoreInfo && (
+        <div className="animate-fade-in pb-12">
+          {/* Hero Section */}
+          <section id="inicio" className="relative pt-32 md:pt-40 pb-20 md:pb-28 lg:pb-32 w-full flex-grow overflow-hidden flex flex-col justify-center min-h-[90vh]">
+            
+            {/* Fondo fotográfico with improved depth */}
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/hero.jpg" 
+                alt="MCI Soluciones Fotografía Oficial"
+                className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
+                referrerPolicy="no-referrer"
+              />
+          {/* Enhanced glass overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent md:backdrop-blur-[2px] z-10 pointer-events-none" />
+          <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full z-10 pointer-events-none animate-pulse" />
+        </div>
+        
+        <div className="relative z-20 max-w-7xl mx-auto px-5 sm:px-6 md:px-10 lg:px-12 flex flex-col items-center w-full">
+          <div className="flex flex-col gap-12 lg:gap-16 items-center w-full">
+            {/* 1. ¿Quiénes Somos? Text */}
+            <div className="w-full max-w-5xl mx-auto relative">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative w-full flex flex-col items-center justify-center space-y-6 md:space-y-8 py-10 md:py-16 text-center"
+              >
+                {/* Dynamic Decorative Elements */}
                 <motion.div 
-                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.7, 0.4] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-0 right-0 md:right-10 w-48 h-48 md:w-64 md:h-64 bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full pointer-events-none" 
+                />
+                <motion.div 
+                  animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute bottom-0 left-0 md:left-10 w-56 h-56 md:w-72 md:h-72 bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] rounded-full pointer-events-none" 
+                />
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="relative w-full flex flex-col items-center justify-center space-y-6 md:space-y-8 py-10 md:py-16 text-center"
+                  transition={{ delay: 0.2, duration: 0.8, type: "spring", bounce: 0.4 }}
+                  className="space-y-4 flex flex-col items-center relative z-10"
                 >
-                  {/* Dynamic Decorative Elements */}
-                  <motion.div 
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.7, 0.4] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="hidden md:block absolute top-0 right-0 md:right-10 w-48 h-48 md:w-64 md:h-64 bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full pointer-events-none" 
-                  />
-                  <motion.div 
-                    animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="hidden md:block absolute bottom-0 left-0 md:left-10 w-56 h-56 md:w-72 md:h-72 bg-[radial-gradient(circle,rgba(0,242,255,0.1)_0%,transparent_70%)] rounded-full pointer-events-none" 
-                  />
-                  
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.8, type: "spring", bounce: 0.4 }}
-                    className="space-y-4 flex flex-col items-center relative z-10"
+                  <h1 
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-sm flex flex-wrap items-center justify-center gap-3 md:gap-4 drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+                    style={{ textShadow: '0 4px 20px rgba(255,255,255,0.8)' }}
                   >
-                    <h1 
-                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-none text-white flex flex-wrap items-center justify-center gap-3 md:gap-4 my-4"
-                      style={{ textShadow: '0 8px 30px rgba(0,0,0,0.9), 0 4px 10px rgba(0,0,0,0.5)' }}
-                    >
-                      <motion.span
-                        animate={{ y: [0, -5, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                      >¿Quiénes</motion.span>
-                      <motion.span 
-                        className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4"
-                        animate={{ y: [0, -5, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-                      >Somos</motion.span>
-                      <motion.span
-                        animate={{ y: [0, -5, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-                      >?</motion.span>
-                    </h1>
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-                      className="flex justify-center"
-                    >
-                      <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_15px_rgba(245,130,32,0.4)]" />
-                    </motion.div>
-                  </motion.div>
-  
+                    <motion.span
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    >¿Quiénes</motion.span>
+                    <motion.span 
+                      className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4"
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                    >Somos</motion.span>
+                    <motion.span
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                    >?</motion.span>
+                  </h1>
                   <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.8 }}
-                    className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-white drop-shadow-sm leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
-                    style={{ overflowWrap: 'break-word', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+                    className="flex justify-center"
                   >
-                    <p>
-                      <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
-                    </p>
-                    <p className="font-black text-brand-orange text-base md:text-xl lg:text-2xl leading-snug drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]" style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}>
-                      No fabricamos materiales, ofrecemos criterio técnico, diagnóstico, especificación correcta y ejecución especializada
-                    </p>
+                    <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_15px_rgba(245,130,32,0.4)]" />
                   </motion.div>
                 </motion.div>
-              </div>
+
+                <motion.div 
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.8 }}
+                  className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-200 leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
+                  style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(255,255,255,0.7)' }}
+                >
+                  <p>
+                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
+                  </p>
+                  <p className="font-black text-brand-orange text-base md:text-xl lg:text-2xl leading-snug drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]" style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}>
+                    No fabricamos materiales, ofrecemos criterio técnico, diagnóstico, especificación correcta y ejecución especializada
+                  </p>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
-        </section>
-      </div>
-
-    {/* --- FORTALEZAS (Always visible as transition or in both) --- */}
-    <section id="video-fortalezas" className="relative z-10 py-16 md:py-24 overflow-hidden bg-gradient-to-b from-transparent via-[#0a192f]/50 to-transparent">
-      {/* Strengths Section (Vertical Accordion Layout) */}
-      <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-10 lg:px-12 will-change-transform">
-        <div className="text-center mb-12 md:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-4 flex flex-col items-center"
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-2xl flex flex-wrap items-center justify-center gap-3 md:gap-4">
-              <span>Nuestras</span>
-              <span className="text-brand-orange underline decoration-[6px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Fortalezas</span>
-            </h2>
-            <div className="h-1.5 md:h-2 w-24 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_20px_rgba(245,130,32,0.6)]" />
-            <p className="text-white/60 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] max-w-2xl">Ingeniería aplicada y capacidad operativa de excelencia</p>
-          </motion.div>
         </div>
+      </section>
 
-        <div className="w-full flex flex-col gap-4">
-          {STRENGTHS.map((s, idx) => (
-            <StrengthAccordion key={s.id} strength={s} index={idx} />
-          ))}
+      {/* --- NUEVA ESTRUCTURA (FORTALEZAS) --- */}
+      <section id="video-fortalezas" className="relative z-10 py-12 md:py-16 overflow-hidden">
+        {/* Strengths Section (Improved Grid Layout) */}
+        <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 will-change-transform mt-8">
+          <div className="text-center mb-12 md:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="space-y-4 flex flex-col items-center"
+            >
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-sm flex flex-wrap items-center justify-center gap-3 md:gap-4">
+                <span>Nuestras</span>
+                <span className="text-brand-orange underline decoration-[4px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Fortalezas</span>
+              </h2>
+              <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_20px_rgba(245,130,32,0.4)]" />
+            </motion.div>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+              {STRENGTHS.map((s, idx) => (
+                <motion.div
+                  key={s.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.5, type: "spring" }}
+                  onClick={() => {
+                    playClickSound();
+                    setActiveStrength(s);
+                    setIsStrengthHovered(true);
+                  }}
+                  className="group relative p-8 rounded-[2rem] border-2 border-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] hover:from-[#112240] hover:to-[#004b87]/40 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,75,135,0.4)] hover:border-[#22d3ee]/60 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer overflow-hidden"
+                >
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#22d3ee] rounded-full blur-[80px] opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
+                  <div className="relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-[#22d3ee]/10 to-[#004b87]/30 border border-[#22d3ee]/30 flex items-center justify-center text-[#22d3ee] group-hover:bg-gradient-to-br group-hover:from-brand-orange group-hover:to-brand-orange/80 group-hover:text-white group-hover:border-brand-orange transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_10px_40px_rgba(245,130,32,0.4)] group-hover:rotate-6">
+                    {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h3 className="relative z-10 text-xl font-black text-white drop-shadow-[0_2px_10px_rgba(34,211,238,0.5)] uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
+                      {s.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 font-bold leading-relaxed uppercase tracking-widest px-4">
+                      {s.description || 'Excelencia Operativa'}
+                    </p>
+                  </div>
+
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playClickSound();
+                      setActiveStrength(s);
+                      setIsStrengthHovered(true);
+                    }}
+                    className="mt-2 flex items-center gap-2 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all"
+                  >
+                    Detalles <ArrowRight className="w-3 h-3" />
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="flex justify-center mt-12 mb-24 relative z-20 px-5">
+        <motion.button 
+          initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  playClickSound();
+                  setShowMoreInfo(true);
+                  // Scroll to the next section slightly
+                  setTimeout(() => {
+                    const el = document.getElementById('inicio-part2');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }} 
+                className="group relative w-full max-w-lg bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-brand-orange/20 transition-all duration-500"
+              >
+                {/* Visual Engineering Background */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-orange/20 to-brand-orange animate-pulse" />
+                
+                <div className="relative z-10 px-4 py-8 md:px-8 md:py-10 flex flex-col items-center gap-3 text-center">
+                  <div className="flex items-center gap-2 bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">
+                    <span className="w-1.5 h-1.5 bg-brand-orange rounded-full animate-ping" />
+                    <span className="text-[10px] md:text-[11px] font-black text-brand-orange uppercase tracking-[0.3em]">Continuar Explorando</span>
+                  </div>
+                  
+                  <h3 className="text-lg md:text-2xl lg:text-3xl font-black text-white uppercase tracking-tight md:tracking-tighter leading-tight drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+                    PARA MÁS INFORMACIÓN <br />
+                    <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
+                  </h3>
+                  
+                  <p className="text-white/60 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
+                    Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
+                  </p>
+
+                  <div className="mt-3 flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-white/10 group-hover:border-brand-orange group-hover:bg-brand-orange transition-all duration-500">
+                    <ArrowDown className="w-4 h-4 md:w-6 md:h-6 text-brand-orange group-hover:text-white animate-bounce" />
+                  </div>
+                </div>
+
+                {/* Animated Shine */}
+                <div className="absolute top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shine pointer-events-none" />
+              </motion.button>
         </div>
       </div>
-    </section>
-
-    <div className="hidden">
-    </div>
+      )}
 
       {/* Part 2 Sections */}
+      {showMoreInfo && (
         <div className="animate-fade-in pt-12 md:pt-16">
-          <section id="inicio-part2" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 pt-24 md:pt-32 pb-12">
+          {/* Back Button */}
+          <div className="max-w-7xl mx-auto px-5 md:px-6 mt-8 md:mt-12 mb-4 flex justify-center md:justify-start">
+            <button
+              onClick={() => {
+                playClickSound();
+                setShowMoreInfo(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-slate-500 hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
+            >
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white/10 group-hover:border-brand-orange flex items-center justify-center bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
+                <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
+              </div>
+              Regresar
+            </button>
+          </div>
+
+          <section id="inicio-part2" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-4">
             {/* 2. Misión/Visión/Propuesta Vertical Stack */}
             <motion.div
                initial="hidden"
@@ -1866,7 +1873,7 @@ export default function App() {
                className="mt-8 md:mt-12 px-4 w-full flex flex-col items-center relative z-20"
              >
                 <div className="text-center mb-8 md:mb-12">
-                   <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-[#e0e7ff] drop-shadow-md mb-4 leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] max-w-4xl mx-auto">
+                   <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] max-w-4xl mx-auto">
                     Así&nbsp;&nbsp;Garantizamos&nbsp;&nbsp;<span className="text-gradient transition-colors">Resultados</span>
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -1876,30 +1883,30 @@ export default function App() {
                    {[
                      {
                        title: 'Misión',
-                       icon: <Target className="w-8 h-8 text-white" />,
+                       icon: <Target className="w-8 h-8 text-blue-600" />,
                        text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
-                       theme: 'bg-[#1a365d] border-white/10 hover:border-brand-orange/40',
-                       iconBg: 'bg-brand-orange shadow-[0_0_20px_rgba(245,130,32,0.4)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-100 leading-relaxed font-bold',
-                       titleColor: 'text-white'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
+                       titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-8 h-8 text-white" />,
+                       icon: <Eye className="w-8 h-8 text-blue-600" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
-                       theme: 'bg-[#1a365d] border-white/10 hover:border-brand-orange/40',
-                       iconBg: 'bg-brand-orange shadow-[0_0_20px_rgba(245,130,32,0.4)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-100 leading-relaxed font-bold',
-                       titleColor: 'text-white'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
+                       titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-white" />,
-                       text: <><span className="font-extrabold text-brand-orange italic">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
-                       theme: 'bg-[#1a365d] border-white/10 hover:border-brand-orange/40',
-                       iconBg: 'bg-brand-orange shadow-[0_0_20px_rgba(245,130,32,0.4)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-100 leading-relaxed font-bold',
-                       titleColor: 'text-white',
+                       icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+                       text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
+                       titleColor: 'text-blue-950 border-blue-200',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -1919,20 +1926,20 @@ export default function App() {
                           hidden: { opacity: 0, y: 30 },
                           visible: { opacity: 1, y: 0 }
                        }}
-                       className={`${item.theme} border backdrop-blur-md rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col items-center md:items-start gap-4 md:gap-6 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_30px_rgba(245,130,32,0.15)] transition-all duration-300 relative overflow-hidden group`}
+                       className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border border-[#22d3ee]/20 hover:border-[#22d3ee]/60 rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-[0_4px_20px_rgba(0,10,30,0.5)] hover:shadow-[0_20px_50px_rgba(0,242,255,0.2)] transition-all duration-500 relative overflow-hidden group`}
                      >
                         {/* Subtle premium glass reflection */}
-                        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        <div className="absolute inset-0 bg-[#112240]/40 border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                         
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 lg:gap-8 w-full">
                           <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl ${item.iconBg} flex items-center justify-center shrink-0 border transition-transform duration-500 group-hover:scale-110 relative z-10`}>
                              {item.icon}
                           </div>
                           <div className="flex-1 flex flex-col text-center md:text-left gap-2 md:gap-3 w-full relative z-10 mt-2 md:mt-0">
-                             <h3 className={`text-base md:text-lg font-black uppercase tracking-widest ${item.titleColor} transition-colors`}>
+                             <h3 className={`text-lg md:text-xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
                                {item.title}
                              </h3>
-                             <p className="text-slate-100 text-sm md:text-base font-semibold leading-relaxed mt-2 md:mt-0 drop-shadow-sm">
+                             <p className={`${item.textColor || 'text-slate-300'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
                                {item.text}
                              </p>
                           </div>
@@ -1945,9 +1952,9 @@ export default function App() {
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
                               {item.differentiators.map((diff, i) => (
-                                <div key={i} className="flex items-center gap-2 bg-[#0a192f]/80 p-3 rounded-xl border border-white/20 shadow-lg hover:border-brand-orange/40 transition-all duration-300">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.8)]" />
-                                  <span className="text-xs md:text-sm font-bold text-slate-100">{diff}</span>
+                                <div key={i} className="flex items-center gap-2 bg-[#112240]/60 border border-white/10 p-3 rounded-xl border border-orange-100 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 transition-colors duration-300">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />
+                                  <span className="text-xs md:text-sm font-semibold text-slate-200">{diff}</span>
                                 </div>
                               ))}
                             </div>
@@ -1962,7 +1969,7 @@ export default function App() {
       {/* Sectors Section */}
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-[#e0e7ff] drop-shadow-md drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-all duration-300">
             Sectores&nbsp;&nbsp;que&nbsp;&nbsp;<span className="text-gradient transition-colors">Atendemos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
@@ -2001,10 +2008,10 @@ export default function App() {
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-8 h-8 transition-colors duration-300' })}
                 </div>
                 <div className="space-y-3">
-                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-white drop-shadow-[0_2px_10px_rgba(34,211,238,0.5)] group-hover:text-[#22d3ee]'}`}>
+                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-white drop-shadow-sm group-hover:text-brand-blue'}`}>
                     {sector.title}
                   </h3>
-                  <p className="text-[13px] text-[#a5f3fc] drop-shadow-md leading-relaxed font-bold tracking-wide">
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium">
                     {sector.description}
                   </p>
                 </div>
@@ -2021,13 +2028,13 @@ export default function App() {
                   >
                     {sector.details?.groups.map((group, i) => (
                       <div key={i} className="space-y-3">
-                        <h4 className="text-sm font-black text-[#e0e7ff] drop-shadow-md uppercase tracking-[0.2em] flex items-center gap-2">
+                        <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] flex items-center gap-2">
                           <div className="w-1 h-1 bg-brand-orange rounded-full" />
                           {group.title}
                         </h4>
                         <ul className="grid grid-cols-1 gap-2.5">
                           {group.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-sm text-[#e0e7ff] drop-shadow-md font-medium leading-relaxed">
+                            <li key={j} className="flex items-start gap-3 text-sm text-on-surface-subtle font-medium leading-relaxed">
                               <ArrowRight className="w-2.5 h-2.5 text-brand-orange/40 mt-0.5 flex-shrink-0" />
                               {item}
                             </li>
@@ -2065,7 +2072,7 @@ export default function App() {
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
-              <p className="text-[#e0e7ff] drop-shadow-md text-xl md:text-3xl lg:text-4xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
+              <p className="text-on-surface/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
                 Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-brand-blue">operativa</span>.
               </p>
             </div>
@@ -2083,9 +2090,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Project Gallery Section */}
-      <ProjectGallery onImageSelect={setSelectedImage} />
-
       {/* Testimonials Section */}
       <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-12">
         <div className="text-center mb-16 space-y-4">
@@ -2098,10 +2102,10 @@ export default function App() {
             <Star className="w-3 h-3" />
             Casos de Éxito
           </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e0e7ff] drop-shadow-md uppercase tracking-tighter drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
             Clientes&nbsp;&nbsp;<span className="text-gradient">Satisfechos</span>
           </h2>
-          <p className="text-[#e0e7ff] drop-shadow-md max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
+          <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
             La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
           </p>
         </div>
@@ -2124,13 +2128,13 @@ export default function App() {
                 </div>
                 <div className="relative">
                   <Quote className="absolute -top-4 -left-4 w-8 h-8 text-brand-orange/10" />
-                  <p className="text-[#e0e7ff] drop-shadow-md text-sm leading-relaxed font-medium italic relative z-10">
+                  <p className="text-on-surface/80 text-sm leading-relaxed font-medium italic relative z-10">
                     "{t.text}"
                   </p>
                 </div>
               </div>
               <div className="mt-8 pt-6 border-t border-white/10">
-                <p className="text-[#e0e7ff] drop-shadow-md font-black text-xs uppercase tracking-widest">{t.name}</p>
+                <p className="text-on-surface font-black text-xs uppercase tracking-widest">{t.name}</p>
                 <p className="text-brand-blue text-xs font-bold uppercase tracking-widest mt-1 transition-colors">{t.company}</p>
               </div>
             </motion.div>
@@ -2152,11 +2156,11 @@ export default function App() {
                 <Mail className="w-3" />
                 Ingeniería de Ventas
               </div>
-              <h2 className="text-2xl md:text-4xl font-black text-white drop-shadow-sm uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-5xl font-black text-white drop-shadow-sm uppercase tracking-tighter leading-none">
                 ¿TIENES UN <br />
                 <span className="text-brand-orange">PROYECTO EN MENTE?</span>
               </h2>
-              <p className="text-white drop-shadow-sm text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+              <p className="text-slate-500 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
                 Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
               </p>
             </div>
@@ -2205,42 +2209,42 @@ export default function App() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-10 space-y-6"
                   >
-                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-400 border border-green-100 shadow-inner">
+                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-600 border border-green-100 shadow-inner">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
                     <h3 className="text-2xl font-black text-white drop-shadow-sm uppercase">¡Mensaje Enviado!</h3>
-                    <p className="text-white drop-shadow-sm font-medium">Un experto te contactará en breve.</p>
+                    <p className="text-slate-500 font-medium">Un experto te contactará en breve.</p>
                     <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">Enviar otro mensaje</button>
                   </motion.div>
                ) : (
                   <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Cargo</label>
-                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Cargo</label>
+                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-[#8ba3c7] text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
                       </div>
                       <div className="md:col-span-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Nombre Completo *</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Nombre Completo *</label>
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-[#8ba3c7] text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Empresa / Planta *</label>
-                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Empresa / Planta *</label>
+                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-[#8ba3c7] text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Email *</label>
+                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-[#8ba3c7] text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
                       </div>
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Teléfono *</label>
-                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Teléfono *</label>
+                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-[#8ba3c7] text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white drop-shadow-sm ml-2 mb-2 block">Detalles del Proyecto *</label>
-                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-white drop-shadow-sm text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-2 mb-2 block">Detalles del Proyecto *</label>
+                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 placeholder:text-[#8ba3c7] text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                       {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
@@ -2303,7 +2307,7 @@ export default function App() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-4 text-white drop-shadow-sm text-sm md:text-base leading-relaxed pl-8">
+                    <p className="mt-4 text-slate-500 text-sm md:text-base leading-relaxed pl-8">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -2329,12 +2333,12 @@ export default function App() {
                   <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
                 </div>
               </div>
-              <p className="text-white/80 text-xs font-bold uppercase tracking-widest leading-relaxed">
+              <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-relaxed">
                 Ingeniería aplicada en restauración y protección de activos industriales con más de 30 años de experiencia.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/90 text-[10px] font-black uppercase tracking-[0.3em]">
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
               <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
               <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
               <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Antes / Después</a>
@@ -2343,14 +2347,15 @@ export default function App() {
           </div>
 
           <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/80 text-[10px] font-black uppercase tracking-widest">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
+            <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
             <div className="flex items-center gap-6">
-              <span className="text-white/80 text-[10px] font-black uppercase tracking-widest">Ciudad de México, MX</span>
+              <span className="text-white/20 text-[10px] font-black uppercase tracking-widest">Ciudad de México, MX</span>
             </div>
           </div>
         </div>
       </footer>
         </div>
+      )}
 
       {/* Floating Chat Widget */}
       <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000] scale-[0.8] origin-bottom-left md:scale-100" ref={chatContainerRef}>
@@ -2515,7 +2520,7 @@ export default function App() {
                     <h4 className="text-white font-black uppercase tracking-widest text-[10px]">MCI Tech Assistant</h4>
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full animate-pulse" />
-                      <p className="text-white/90 text-[9px] font-black uppercase tracking-tighter">Status: Active</p>
+                      <p className="text-white/60 text-[9px] font-black uppercase tracking-tighter">Status: Active</p>
                     </div>
                   </div>
                 </div>
@@ -2526,7 +2531,7 @@ export default function App() {
                       playClickSound();
                       handleResetChat();
                     }}
-                    className="p-2 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
+                    className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer active:scale-95 border border-transparent hover:border-white/10"
                     aria-label="Reiniciar chat"
                     title="Regresar al inicio"
                   >
@@ -2538,7 +2543,7 @@ export default function App() {
                       playClickSound();
                       setIsChatOpen(false);
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/90 hover:text-white transition-all cursor-pointer active:scale-95 border border-white/10 text-[10px] uppercase font-bold tracking-wider"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all cursor-pointer active:scale-95 border border-white/10 text-[10px] uppercase font-bold tracking-wider"
                     aria-label="Minimizar chat"
                   >
                     <Minimize className="w-3 h-3" />
@@ -2547,7 +2552,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white/5">
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-gray-50/5">
                 {chatMessages.map((msg, i) => {
                   
                   // Formateador para inyectar botón de whatsapp directamente en texto plano
@@ -2568,7 +2573,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-white drop-shadow-sm self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-slate-300 self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]" referrerPolicy="no-referrer" />
                       )}
@@ -2586,7 +2591,7 @@ export default function App() {
                           <button
                             key={idx}
                             onClick={() => handleChatOption(opt.q, opt.a)}
-                            className="text-left p-3 rounded-xl border border-white/10 bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:bg-white/10 text-xs font-bold text-brand-orange transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex justify-between items-center group"
+                            className="text-left p-3 rounded-xl border border-gray-200 bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:bg-gray-50 text-xs font-bold text-brand-orange transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex justify-between items-center group"
                           >
                             {opt.q}
                             <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -2614,9 +2619,9 @@ export default function App() {
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-white drop-shadow-sm font-bold truncate">{selectedFile.name}</p>
+                      <p className="text-[10px] text-slate-500 font-bold truncate">{selectedFile.name}</p>
                     </div>
-                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-white drop-shadow-sm hover:text-red-400 transition-colors">
+                    <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-slate-500 hover:text-red-500 transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -2635,7 +2640,7 @@ export default function App() {
                       playClickSound();
                       fileInputRef.current?.click();
                     }}
-                    className="p-2.5 text-white drop-shadow-sm hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
+                    className="p-2.5 text-slate-500 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2644,7 +2649,7 @@ export default function App() {
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escriba su consulta técnica..."
-                    className="flex-1 bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white drop-shadow-sm placeholder:text-white drop-shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
+                    className="flex-1 bg-[#112240]/60 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white drop-shadow-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
                   />
                   <button 
                     type="submit"
@@ -2673,9 +2678,9 @@ export default function App() {
                 e.stopPropagation();
                 handleSmoothScroll(e as any, '#inicio');
               }}
-              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-[#e0e7ff] drop-shadow-md rounded-full items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
+              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
             >
-              <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-[#e0e7ff] drop-shadow-md px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
               </div>
               <ChevronDown className="w-6 h-6 rotate-180" />
@@ -2710,49 +2715,256 @@ export default function App() {
         </button>
       </div>
 
-      
+      {/* Unified Mobile Menu Overlay (Premium Cyan Glass Redesign) */}
       <AnimatePresence>
-        {selectedImage && (
+        {isMenuOpen && (
+          <>
+            {/* Subtle light immersive backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-slate-900/10 backdrop-blur-sm z-[100001] lg:hidden touch-none"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            
+            <motion.div
+              initial={{ x: '100%', opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0 }}
+              transition={{ type: "spring", damping: 45, stiffness: 400, mass: 1 }}
+              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-[#112240]/80 border border-white/10 backdrop-blur-3xl border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
+              ref={menuRef}
+            >
+              {/* Internal Header */}
+              <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                    <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                  </div>
+                  <div className="flex flex-col leading-none">
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-500">Poliméricas</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => {
+                    playClickSound();
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-500 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <nav className="flex-1 flex flex-col px-8 py-10">
+                <div className="flex flex-col gap-1">
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 mb-4 px-1 leading-none">Menú Principal</p>
+                  {navLinks.map((link, index) => (
+                    <motion.a 
+                      key={link.name}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.04 }}
+                      href={link.href}
+                      className="group flex items-center justify-between py-4 px-1 rounded-xl transition-all relative"
+                      onClick={(e) => {
+                        playClickSound();
+                        handleSmoothScroll(e, link.href);
+                      }}
+                    >
+                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-500 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-brand-orange transition-colors" />
+                        {link.name}
+                      </span>
+                      <ChevronRight className="w-4 h-4 text-slate-200 group-hover:text-brand-orange group-hover:translate-x-1 transition-all duration-300" />
+                      
+                      <div className="absolute inset-0 bg-[#112240]/60 backdrop-blur-sm border border-white/5 opacity-0 group-hover:opacity-100 -z-10 rounded-xl transition-opacity" />
+                    </motion.a>
+                  ))}
+                </div>
+                
+                {/* Refined Contact Section */}
+                <div className="mt-auto pt-8 border-t border-white/10">
+                  <div className="p-6 rounded-2xl bg-[#112240]/40 border border-white/5 backdrop-blur-md border border-white/60 shadow-[0_4px_20px_rgba(0,0,0,0.3)] space-y-5">
+                    <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-orange/70">Atención Directa</p>
+                    
+                    <div className="space-y-4">
+                      <a 
+                        href="tel:+525561500317" 
+                        className="flex items-center gap-4 group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-[#112240]/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
+                          <Phone className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col leading-tight">
+                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">Teléfono</span>
+                          <span className="text-xs font-bold text-slate-300 tracking-wide">55 6150 0317</span>
+                        </div>
+                      </a>
+
+                      <a 
+                        href="mailto:mci.spolimericas@polycovers.mx" 
+                        className="flex items-center gap-4 group"
+                      >
+                        <div className="w-9 h-9 rounded-lg bg-[#112240]/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-brand-blue-bright group-hover:border-brand-blue-bright/30 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all">
+                          <Mail className="w-4 h-4" />
+                        </div>
+                        <div className="flex flex-col leading-tight min-w-0">
+                          <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">Email Corporativo</span>
+                          <span className="text-[10px] font-bold text-slate-300 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+      {createPortal(
+        <AnimatePresence>
+          {selectedImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[1000000] flex items-center justify-center p-4 md:p-12 bg-[#0a192f]/95 backdrop-blur-3xl cursor-zoom-out"
+              onClick={() => setSelectedImage(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 40 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 40 }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={selectedImage}
+                  alt="Selected Gallery"
+                  referrerPolicy="no-referrer"
+                  className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
+                />
+                
+                <button
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute -top-12 right-0 md:-right-12 p-3 text-brand-blue-bright hover:text-white transition-all hover:rotate-90 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
+                >
+                  <X className="w-8 h-8" />
+                </button>
+
+                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-[#112240]/80 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-on-surface-subtle text-xs font-bold uppercase tracking-widest whitespace-nowrap">
+                  Haz clic fuera para cerrar
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      <AnimatePresence mode="wait">
+        {isStrengthHovered && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-12 bg-[#0a192f]/95 backdrop-blur-3xl cursor-zoom-out"
-            onClick={() => setSelectedImage(null)}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
           >
+            <div 
+              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
+              onClick={() => setIsStrengthHovered(false)}
+            />
+            
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 40 }}
+              id="strength-modal-content"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 40 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="relative"
-              onClick={(e) => e.stopPropagation()}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] flex flex-col will-change-transform"
             >
-              <img
-                src={selectedImage}
-                alt="Selected Gallery"
-                referrerPolicy="no-referrer"
-                className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
-              />
-              
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 md:-right-12 p-3 text-brand-blue-bright hover:text-white transition-all hover:rotate-90 bg-white/5 rounded-full backdrop-blur-md border border-white/10"
+              {/* Close Button */}
+              <button 
+                onClick={() => setIsStrengthHovered(false)}
+                className="absolute top-6 right-6 z-50 p-3 rounded-full bg-[#112240]/80 backdrop-blur-md border border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
               >
-                <X className="w-8 h-8" />
+                <X className="w-6 h-6" />
               </button>
 
-              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-[#112240]/80 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-[#e0e7ff] drop-shadow-md text-xs font-bold uppercase tracking-widest whitespace-nowrap">
-                Haz clic fuera para cerrar
+              <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <div className="flex flex-col">
+                  {/* Content Side */}
+                  <div className="p-8 md:p-12 space-y-8">
+                    <div className="space-y-4">
+                      <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
+                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
+                        {activeStrength.title}
+                      </h3>
+                      <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
+                    </div>
+
+                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
+                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
+                    </p>
+
+                    <div className="space-y-5">
+                      {activeStrength.items.map((item, i) => (
+                        <div key={i} className="group/item">
+                          {typeof item === 'string' ? (
+                            <div className="flex gap-4">
+                              <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
+                              <p className="text-on-surface text-sm md:text-lg leading-relaxed">
+                                <HighlightText text={item} keywords={activeStrength.keywords} />
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-white/10">
+                              <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
+                                <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
+                                  {item.label}
+                                </p>
+                              </div>
+                              <ul className="grid grid-cols-1 gap-3 pl-4">
+                                {item.subItems.map((sub, j) => (
+                                  <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
+                                    <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
+                                    {sub}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA in Modal */}
+                    <div className="pt-8 border-t border-white/10">
+                      <a 
+                        href="https://wa.me/525561500317" 
+                        target="_blank"
+                        className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                      >
+                        Solicitar Cotización
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
-
       <QRCodeModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} url={window.location.href} />
     </div>
-  </div>
   );
 }
