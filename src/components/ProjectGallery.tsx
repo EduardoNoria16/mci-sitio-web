@@ -105,14 +105,15 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                 className="group relative aspect-square rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer bg-[#112240] shadow-md hover:shadow-2xl hover:shadow-[#22d3ee]/10 will-change-transform"
                 onClick={() => onImageSelect(image.url)}
               >
-                <div className="w-full h-full relative">
+                <div className="w-full h-full relative flex items-center justify-center p-2 bg-gradient-to-br from-[#0a192f] to-[#112240]">
                   <img
                     src={image.url}
                     alt={`Proyecto de ${image.category}`}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-[1.15] drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] rounded-lg"
                     loading="lazy"
                     decoding="async"
                     referrerPolicy="no-referrer"
+                    style={{ imageRendering: 'high-quality' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   

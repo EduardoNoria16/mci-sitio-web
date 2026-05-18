@@ -2738,14 +2738,15 @@ export default function App() {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 40 }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="relative"
+                className="relative flex items-center justify-center w-full max-w-4xl"
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
                   src={selectedImage}
                   alt="Selected Gallery"
                   referrerPolicy="no-referrer"
-                  className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
+                  style={{ imageRendering: 'high-quality' }}
+                  className="w-full h-auto max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
                 />
                 
                 <button
@@ -2754,10 +2755,6 @@ export default function App() {
                 >
                   <X className="w-8 h-8" />
                 </button>
-
-                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-[#112240]/80 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-on-surface-subtle text-xs font-bold uppercase tracking-widest whitespace-nowrap">
-                  Haz clic fuera para cerrar
-                </div>
               </motion.div>
             </motion.div>
           )}
