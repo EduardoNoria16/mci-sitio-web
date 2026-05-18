@@ -1,4 +1,3 @@
-import { BEFORE_AFTER_B64 } from './data/imagesBase64';
 import { PROJECT_IMAGES } from './data/images';
 /**
  * @license
@@ -575,113 +574,113 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: ''+BEFORE_AFTER_B64['wsIEHA08_o.jpg']+'',
-    after: ''+BEFORE_AFTER_B64['dancwYF1_o.jpg']+''
+    before: '/before-after/wsIEHA08_o.jpg',
+    after: '/before-after/dancwYF1_o.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: ''+BEFORE_AFTER_B64['jFHrF04P_o.jpg']+'',
-    after: ''+BEFORE_AFTER_B64['Vdt4qzQ3_o.jpg']+''
+    before: '/before-after/jFHrF04P_o.jpg',
+    after: '/before-after/Vdt4qzQ3_o.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: ''+BEFORE_AFTER_B64['VIDPBh84_o.jpg']+'',
-    after: ''+BEFORE_AFTER_B64['Ewf4uEcE_o.jpg']+''
+    before: '/before-after/VIDPBh84_o.jpg',
+    after: '/before-after/Ewf4uEcE_o.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: ''+BEFORE_AFTER_B64['fjT1RFET_o.jpg']+'',
-    after: ''+BEFORE_AFTER_B64['Z4NXVOoQ_o.jpg']+''
+    before: '/before-after/fjT1RFET_o.jpg',
+    after: '/before-after/Z4NXVOoQ_o.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: ''+BEFORE_AFTER_B64['Id0Pii6t_o.jpg']+'',
-    after: ''+BEFORE_AFTER_B64['2toaJPpW_o.jpg']+''
+    before: '/before-after/Id0Pii6t_o.jpg',
+    after: '/before-after/2toaJPpW_o.jpg'
   },
   {
     id: 'case6',
     title: 'Caso de Éxito 6',
     description: 'Renovación de instalaciones con acabado estético impecable.',
-    before: ''+BEFORE_AFTER_B64['6xiopQMz_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['QP6E8I7q_o.jpeg']+''
+    before: '/before-after/6xiopQMz_o.jpeg',
+    after: '/before-after/QP6E8I7q_o.jpeg'
   },
   {
     id: 'case7',
     title: 'Caso de Éxito 7',
     description: 'Mantenimiento integral y durabilidad prolongada.',
-    before: ''+BEFORE_AFTER_B64['kf0mogLt_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['Q0GbGWpl_o.jpeg']+''
+    before: '/before-after/kf0mogLt_o.jpeg',
+    after: '/before-after/Q0GbGWpl_o.jpeg'
   },
   {
     id: 'case8',
     title: 'Caso de Éxito 8',
     description: 'Recuperación de brillo y resistencia de superficies degradadas.',
-    before: ''+BEFORE_AFTER_B64['M6Qrnsfl_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['3D2Zh5mJ_o.jpg']+''
+    before: '/before-after/M6Qrnsfl_o.jpeg',
+    after: '/before-after/3D2Zh5mJ_o.jpg'
   },
   {
     id: 'case9',
     title: 'Caso de Éxito 9',
     description: 'Protección anticorrosiva para entornos exigentes.',
-    before: ''+BEFORE_AFTER_B64['BjTHRJDu_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['jJ2i1pBZ_o.jpeg']+''
+    before: '/before-after/BjTHRJDu_o.jpeg',
+    after: '/before-after/jJ2i1pBZ_o.jpeg'
   },
   {
     id: 'case10',
     title: 'Caso de Éxito 10',
     description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
-    before: ''+BEFORE_AFTER_B64['TDea6Iwx_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['FBvq9fDK_o.jpeg']+''
+    before: '/before-after/TDea6Iwx_o.jpeg',
+    after: '/before-after/FBvq9fDK_o.jpeg'
   },
   {
     id: 'case11',
     title: 'Caso de Éxito 11',
     description: 'Tratamiento sellante y nivelador permanente.',
-    before: ''+BEFORE_AFTER_B64['JH5fSihJ_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['FvTTrvLo_o.jpeg']+''
+    before: '/before-after/JH5fSihJ_o.jpeg',
+    after: '/before-after/FvTTrvLo_o.jpeg'
   },
   {
     id: 'case12',
     title: 'Caso de Éxito 12',
     description: 'Recuperación de estética y funcionalidad total.',
-    before: ''+BEFORE_AFTER_B64['mJMEDX1z_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['bbEi5xTg_o.jpeg']+''
+    before: '/before-after/mJMEDX1z_o.jpeg',
+    after: '/before-after/bbEi5xTg_o.jpeg'
   },
   {
     id: 'case13',
     title: 'Caso de Éxito 13',
     description: 'Transformación y recuperación de superficies.',
-    before: ''+BEFORE_AFTER_B64['J2vpLZYD_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['JfWJnP14_o.jpeg']+''
+    before: '/before-after/J2vpLZYD_o.jpeg',
+    after: '/before-after/JfWJnP14_o.jpeg'
   },
   {
     id: 'case14',
     title: 'Caso de Éxito 14',
     description: 'Nivelación y protección duradera.',
-    before: ''+BEFORE_AFTER_B64['fAv1c6kg_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['zKFPhqMi_o.jpeg']+''
+    before: '/before-after/fAv1c6kg_o.jpeg',
+    after: '/before-after/zKFPhqMi_o.jpeg'
   },
   {
     id: 'case15',
     title: 'Caso de Éxito 15',
     description: 'Mantenimiento integral correctivo.',
-    before: ''+BEFORE_AFTER_B64['qB1LdmEE_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['iPc1dSbL_o.jpeg']+''
+    before: '/before-after/qB1LdmEE_o.jpeg',
+    after: '/before-after/iPc1dSbL_o.jpeg'
   },
   {
     id: 'case16',
     title: 'Caso de Éxito 16',
     description: 'Soluciones especiales para control de calidad.',
-    before: ''+BEFORE_AFTER_B64['WzvkrASE_o.jpeg']+'',
-    after: ''+BEFORE_AFTER_B64['1zmZdpVx_o.jpeg']+''
+    before: '/before-after/WzvkrASE_o.jpeg',
+    after: '/before-after/1zmZdpVx_o.jpeg'
   }
 ];
 
@@ -1518,7 +1517,7 @@ export default function App() {
                 src={logoBase64} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
-                referrerPolicy="no-referrer"
+                
               />
             </div>
             <div className="flex flex-col notranslate min-w-0 justify-center" translate="no">
@@ -1613,7 +1612,7 @@ export default function App() {
                 src="/hero.jpg" fetchPriority="high" 
                 alt="MCI Soluciones Fotografía Oficial"
                 className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
-                referrerPolicy="no-referrer"
+                
               />
           {/* Enhanced glass overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent md:backdrop-blur-[2px] z-10 pointer-events-none" />
@@ -2299,7 +2298,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
             <div className="space-y-6 text-center md:text-left max-w-sm">
               <div className="flex items-center justify-center md:justify-start gap-4">
-                <img decoding="async" src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
+                <img decoding="async" src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert"  />
                 <div className="h-10 w-px bg-white/20" />
                 <div className="text-white">
                   <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
@@ -2548,7 +2547,7 @@ export default function App() {
                   >
                     <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-slate-300 self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
                       {msg.image && (
-                        <img decoding="async" src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]" referrerPolicy="no-referrer" />
+                        <img decoding="async" src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]"  />
                       )}
                       <div dangerouslySetInnerHTML={{ __html: formatChatMessage(msg.text) }} />
                     </div>
@@ -2589,7 +2588,7 @@ export default function App() {
                 {selectedFile && (
                   <div className="flex items-center gap-3 bg-[#112240]/60 backdrop-blur-sm border border-white/5 p-2 rounded-xl border border-white/10">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-                      <img decoding="async" src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <img decoding="async" src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover"  />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] text-slate-500 font-bold truncate">{selectedFile.name}</p>
@@ -2713,7 +2712,7 @@ export default function App() {
               <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-                    <img decoding="async" src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                    <img decoding="async" src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain"  />
                   </div>
                   <div className="flex flex-col leading-none">
                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
@@ -2818,7 +2817,7 @@ export default function App() {
                 <img
                   src={selectedImage}
                   alt="Selected Gallery"
-                  referrerPolicy="no-referrer"
+                  
                   style={{ imageRendering: 'high-quality' }}
                   className="w-auto h-auto max-w-full max-h-[90vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
                 />
