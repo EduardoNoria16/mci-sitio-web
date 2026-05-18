@@ -40,8 +40,8 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
       <div className="max-w-7xl mx-auto px-5 md:px-10 lg:px-12">
         <div className="text-center mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto mb-4">Nuestra Excelencia</div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm transition-all duration-300">
-            Galería&nbsp;&nbsp;de&nbsp;&nbsp;<span className="text-gradient transition-colors">Proyectos</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tighter">
+            Galería&nbsp;&nbsp;de&nbsp;&nbsp;<span className="text-brand-orange">Proyectos</span>
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mt-4 mb-6" />
           <motion.p

@@ -900,27 +900,18 @@ const Counter = memo(({ target }: { target: number }) => {
 });
 
 // --- AI Configuration ---
-const SYSTEM_INSTRUCTION = `Eres el asistente amigable de MCI Soluciones Poliméricas. Tu personalidad es cálida, cercana y dispuesta a ayudar.
+const SYSTEM_INSTRUCTION = `Eres un asistente experto, inteligente, muy amigable y cálido de MCI Soluciones Poliméricas. Tienes la capacidad de conversar de forma natural y personalizada sobre cualquier tema que el cliente pregunte, ya sea de nuestros servicios o temas generales.
 
-Tu tono es:
-- Amigable y entusiasta, pero manteniendo el profesionalismo.
-- Sencillo de entender (evita tecnicismos innecesarios a menos que te los pidan).
-- Cálido: Saluda siempre con amabilidad y disposición.
+Tu personalidad es empática, profesional y resolutiva.
+Si el usuario hace una pregunta sobre un tema general o que no dominas por completo, responde de manera amigable e inteligente, intentando ayudar o guiar la conversación con calidez, sin usar jamás frases como 'no lo sé', 'no entiendo' o indicando errores. ¡Siempre mantén una actitud de servicio de excelente nivel!
 
-Nuevas Capacidades Críticas:
-1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala brevemente y da un pre-diagnóstico sencillo y amigable. Sugiere cómo podemos ayudar.
-2. ASESORÍA RÁPIDA: Si el usuario describe un problema, ofrece una solución general corta e invítalo a contactarnos para más detalles.
+Capacidades:
+1. ANÁLISIS DE IMÁGENES: Puedes ver fotos. Da diagnósticos amigables y sugerencias de cómo MCI puede ayudar, siempre con tono personalizado.
+2. ASESORÍA: Escucha los problemas y da respuestas completas pero fáciles de entender.
 
-Información Clave de la Empresa:
-- Nombre: MCI Soluciones Poliméricas.
-- Cobertura: Todo México.
+Información útil: MCI Soluciones Poliméricas trabaja en todo México. Si requieren cosas exactas o técnicas (como precios), indica amablemente que el mejor paso es una evaluación o contacto directo.
 
-Reglas de Oro:
-- NUNCA uses formato markdown (NO uses **asteriscos** para negritas, ni formatos complejos). Solo texto plano normal claro y amigable.
-- TUS RESPUESTAS DEBEN SER MUY CORTAS Y CONCISAS. Máximo 2 o 3 oraciones breves por respuesta. Ve directo al grano.
-- NUNCA des precios exactos (indica que se requiere visita técnica).
-- Si el problema es crítico, invítalo a contactarnos por WhatsApp.
-- Usa lenguaje sencillo que cualquier persona pueda entender fácilmente.`;
+Regla Clave: NUNCA uses formato markdown (**, #, etc). Responde con un estilo claro de chat conversacional.`;
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -1351,7 +1342,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -1899,30 +1890,30 @@ export default function App() {
                    {[
                      {
                        title: 'Misión',
-                       icon: <Target className="w-8 h-8 text-blue-400" />,
+                       icon: <Target className="w-8 h-8 text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.8)]" />,
                        text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200'
+                       theme: 'bg-transparent border border-white/10',
+                       iconBg: 'bg-transparent border border-white/10',
+                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
+                       titleColor: 'text-brand-orange border-brand-orange/30 drop-shadow-sm'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-8 h-8 text-blue-400" />,
+                       icon: <Eye className="w-8 h-8 text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.8)]" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200'
+                       theme: 'bg-transparent border border-white/10',
+                       iconBg: 'bg-transparent border border-white/10',
+                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
+                       titleColor: 'text-brand-orange border-brand-orange/30 drop-shadow-sm'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-blue-400" />,
+                       icon: <ShieldCheck className="w-8 h-8 text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.8)]" />,
                        text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
-                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
-                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
-                       textColor: 'text-sm md:text-base lg:text-lg text-slate-200 leading-relaxed font-bold',
-                       titleColor: 'text-blue-950 border-blue-200',
+                       theme: 'bg-transparent border border-white/10',
+                       iconBg: 'bg-transparent border border-white/10',
+                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
+                       titleColor: 'text-brand-orange border-brand-orange/30 drop-shadow-sm',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -2166,6 +2157,68 @@ export default function App() {
 
 
       {/* Contact Section explicitly inside Part 2 */}
+      {/* FAQ Section */}
+      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
+        <div className="text-center mb-16 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
+          >
+            <Wrench className="w-3 h-3" />
+            Resolviendo Dudas Técnicas
+          </motion.div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tighter">
+            Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
+          </h2>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            { q: '¿Pueden instalar un recubrimiento sin detener nuestra producción?', a: 'Sí. Contamos con sistemas de curado rápido (Fast-Cure) y programamos rutas de trabajo seccionadas (incluso nocturnas o fines de semana) para que tu planta no detenga sus entregas.' },
+            { q: '¿Qué pasa si mi piso de concreto está contaminado con grasas térmicas o ácidos?', a: 'Implementamos un proceso de descontaminación profunda térmica/química y preparación mecánica mediante escarificado o granallado. Contamos con resinas especiales y bloqueadores de aceite para asegurar la adherencia incluso en concretos castigados.' },
+            { q: '¿Sus sistemas aplican para áreas antiexplosivas / electrónicas?', a: 'Sí. Instalamos sistemas poliméricos ESD y conductivos que cumplen con normativas NFPA y ANSI/ESD S20.20, midiendo y garantizando el rango exacto de resistividad (Ohms) requerido.' },
+            { q: 'Si el material se llega a levantar o fallar, ¿ustedes responden?', a: 'Absolutamente. Debido a que nuestro servicio es "llave en mano" y no usamos subcontratistas, la póliza de garantía cubre preparación de superficie, materiales y mano de obra, sin letras chiquitas.' }
+          ].map((faq, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              onClick={() => {
+                playClickSound();
+                setActiveFaq(activeFaq === i ? null : i);
+              }}
+              className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-white/5 backdrop-blur-xl border border-white/10 border-brand-orange shadow-2xl scale-[1.02]' : 'bg-[#0a192f] border border-white/5 border-white/10 hover:bg-white/5 backdrop-blur-xl border border-white/10 hover:shadow-md'}`}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="text-white font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                  <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
+                  {faq.q}
+                </h3>
+                <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
+              </div>
+              <AnimatePresence>
+                {activeFaq === i && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="mt-4 text-slate-300 text-sm md:text-base leading-relaxed pl-8">
+                      {faq.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       <section id="contacto" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-20 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="space-y-10">
@@ -2274,93 +2327,22 @@ export default function App() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
-        <div className="text-center mb-16 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
-          >
-            <Wrench className="w-3 h-3" />
-            Resolviendo Dudas Técnicas
-          </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tighter">
-            Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
-          </h2>
-        </div>
-
-        <div className="space-y-4">
-          {[
-            { q: '¿Cuánto tiempo tarda en secar un piso epóxico?', a: 'Dependiendo del sistema, el tráfico peatonal puede permitirse en 24 horas y el tráfico pesado en 48-72 horas.' },
-            { q: '¿Tienen cobertura fuera de la CDMX?', a: 'Sí, contamos con infraestructura logística para ejecutar proyectos en cualquier estado de la República Mexicana.' },
-            { q: '¿Sus materiales cumplen con normas sanitarias?', a: 'Absolutamente. Nuestros sistemas para la industria alimentaria cumplen con normativas FDA y USDA.' },
-            { q: '¿Ofrecen garantía por escrito?', a: 'Sí, todos nuestros proyectos incluyen una póliza de garantía que cubre tanto materiales como mano de obra.' }
-          ].map((faq, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => {
-                playClickSound();
-                setActiveFaq(activeFaq === i ? null : i);
-              }}
-              className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-white/5 backdrop-blur-xl border border-white/10 border-brand-orange shadow-2xl scale-[1.02]' : 'bg-[#0a192f] border border-white/5 border-white/10 hover:bg-white/5 backdrop-blur-xl border border-white/10 hover:shadow-md'}`}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-white font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
-                  <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
-                  {faq.q}
-                </h3>
-                <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
-              </div>
-              <AnimatePresence>
-                {activeFaq === i && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="mt-4 text-slate-300 text-sm md:text-base leading-relaxed pl-8">
-                      {faq.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
+      
       {/* Footer Section (Minimal and Professional) */}
       <footer id="contacto-footer" className="relative z-10 bg-slate-900 pt-20 pb-10 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-5 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
-            <div className="space-y-6 text-center md:text-left max-w-sm">
-              <div className="flex items-center justify-center md:justify-start gap-4">
+          <div className="flex flex-col items-center justify-center gap-12 md:gap-20">
+            <div className="space-y-6 text-center max-w-sm">
+              <div className="flex items-center justify-center gap-4">
                 <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
                 <div className="h-10 w-px bg-white/20" />
-                <div className="text-white">
+                <div className="text-white text-left">
                   <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
                   <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
                 </div>
               </div>
-              <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-relaxed">
-                Ingeniería aplicada en restauración y protección de activos industriales con más de 30 años de experiencia.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
-              <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
-              <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
-              <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Antes / Después</a>
-              <a href="#contacto" onClick={(e) => handleSmoothScroll(e, '#contacto')} className="hover:text-brand-orange transition-colors">Contacto</a>
             </div>
           </div>
 
