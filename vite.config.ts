@@ -20,6 +20,10 @@ export default defineConfig(({ mode }) => {
         devOptions: {
           enabled: true
         },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
+          maximumFileSizeToCacheInBytes: 50 * 1024 * 1024,
+        },
         manifest: {
           name: 'MCI Soluciones Poliméricas',
           short_name: 'MCI',

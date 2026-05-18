@@ -1,3 +1,4 @@
+import { BEFORE_AFTER_B64 } from './data/imagesBase64';
 import { PROJECT_IMAGES } from './data/images';
 /**
  * @license
@@ -574,113 +575,113 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: '/before-after/wsIEHA08_o.jpg',
-    after: '/before-after/dancwYF1_o.jpg'
+    before: ''+BEFORE_AFTER_B64['wsIEHA08_o.jpg']+'',
+    after: ''+BEFORE_AFTER_B64['dancwYF1_o.jpg']+''
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: '/before-after/jFHrF04P_o.jpg',
-    after: '/before-after/Vdt4qzQ3_o.jpg'
+    before: ''+BEFORE_AFTER_B64['jFHrF04P_o.jpg']+'',
+    after: ''+BEFORE_AFTER_B64['Vdt4qzQ3_o.jpg']+''
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: '/before-after/VIDPBh84_o.jpg',
-    after: '/before-after/Ewf4uEcE_o.jpg'
+    before: ''+BEFORE_AFTER_B64['VIDPBh84_o.jpg']+'',
+    after: ''+BEFORE_AFTER_B64['Ewf4uEcE_o.jpg']+''
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: '/before-after/fjT1RFET_o.jpg',
-    after: '/before-after/Z4NXVOoQ_o.jpg'
+    before: ''+BEFORE_AFTER_B64['fjT1RFET_o.jpg']+'',
+    after: ''+BEFORE_AFTER_B64['Z4NXVOoQ_o.jpg']+''
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: '/before-after/Id0Pii6t_o.jpg',
-    after: '/before-after/2toaJPpW_o.jpg'
+    before: ''+BEFORE_AFTER_B64['Id0Pii6t_o.jpg']+'',
+    after: ''+BEFORE_AFTER_B64['2toaJPpW_o.jpg']+''
   },
   {
     id: 'case6',
     title: 'Caso de Éxito 6',
     description: 'Renovación de instalaciones con acabado estético impecable.',
-    before: '/before-after/6xiopQMz_o.jpeg',
-    after: '/before-after/QP6E8I7q_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['6xiopQMz_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['QP6E8I7q_o.jpeg']+''
   },
   {
     id: 'case7',
     title: 'Caso de Éxito 7',
     description: 'Mantenimiento integral y durabilidad prolongada.',
-    before: '/before-after/kf0mogLt_o.jpeg',
-    after: '/before-after/Q0GbGWpl_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['kf0mogLt_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['Q0GbGWpl_o.jpeg']+''
   },
   {
     id: 'case8',
     title: 'Caso de Éxito 8',
     description: 'Recuperación de brillo y resistencia de superficies degradadas.',
-    before: '/before-after/M6Qrnsfl_o.jpeg',
-    after: '/before-after/3D2Zh5mJ_o.jpg'
+    before: ''+BEFORE_AFTER_B64['M6Qrnsfl_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['3D2Zh5mJ_o.jpg']+''
   },
   {
     id: 'case9',
     title: 'Caso de Éxito 9',
     description: 'Protección anticorrosiva para entornos exigentes.',
-    before: '/before-after/BjTHRJDu_o.jpeg',
-    after: '/before-after/jJ2i1pBZ_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['BjTHRJDu_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['jJ2i1pBZ_o.jpeg']+''
   },
   {
     id: 'case10',
     title: 'Caso de Éxito 10',
     description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
-    before: '/before-after/TDea6Iwx_o.jpeg',
-    after: '/before-after/FBvq9fDK_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['TDea6Iwx_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['FBvq9fDK_o.jpeg']+''
   },
   {
     id: 'case11',
     title: 'Caso de Éxito 11',
     description: 'Tratamiento sellante y nivelador permanente.',
-    before: '/before-after/JH5fSihJ_o.jpeg',
-    after: '/before-after/FvTTrvLo_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['JH5fSihJ_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['FvTTrvLo_o.jpeg']+''
   },
   {
     id: 'case12',
     title: 'Caso de Éxito 12',
     description: 'Recuperación de estética y funcionalidad total.',
-    before: '/before-after/mJMEDX1z_o.jpeg',
-    after: '/before-after/bbEi5xTg_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['mJMEDX1z_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['bbEi5xTg_o.jpeg']+''
   },
   {
     id: 'case13',
     title: 'Caso de Éxito 13',
     description: 'Transformación y recuperación de superficies.',
-    before: '/before-after/J2vpLZYD_o.jpeg',
-    after: '/before-after/JfWJnP14_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['J2vpLZYD_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['JfWJnP14_o.jpeg']+''
   },
   {
     id: 'case14',
     title: 'Caso de Éxito 14',
     description: 'Nivelación y protección duradera.',
-    before: '/before-after/fAv1c6kg_o.jpeg',
-    after: '/before-after/zKFPhqMi_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['fAv1c6kg_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['zKFPhqMi_o.jpeg']+''
   },
   {
     id: 'case15',
     title: 'Caso de Éxito 15',
     description: 'Mantenimiento integral correctivo.',
-    before: '/before-after/qB1LdmEE_o.jpeg',
-    after: '/before-after/iPc1dSbL_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['qB1LdmEE_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['iPc1dSbL_o.jpeg']+''
   },
   {
     id: 'case16',
     title: 'Caso de Éxito 16',
     description: 'Soluciones especiales para control de calidad.',
-    before: '/before-after/WzvkrASE_o.jpeg',
-    after: '/before-after/1zmZdpVx_o.jpeg'
+    before: ''+BEFORE_AFTER_B64['WzvkrASE_o.jpeg']+'',
+    after: ''+BEFORE_AFTER_B64['1zmZdpVx_o.jpeg']+''
   }
 ];
 
