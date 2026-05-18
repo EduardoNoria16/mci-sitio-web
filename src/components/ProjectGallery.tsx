@@ -4,22 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2 } from 'lucide-react';
 
 const GALLERY_IMAGES = [
-  { id: 1, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0004.jpg'], category: 'Instalación' },
-  { id: 2, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0005.jpg'], category: 'Acabados' },
-  { id: 3, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0006.jpg'], category: 'Instalación' },
-  { id: 4, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0007.jpg'], category: 'Mantenimiento' },
-  { id: 5, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0008.jpg'], category: 'Acabados' },
-  { id: 6, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0009.jpg'], category: 'Instalación' },
-  { id: 7, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0010.jpg'], category: 'Mantenimiento' },
-  { id: 8, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0011.jpg'], category: 'Instalación' },
-  { id: 9, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0012.jpg'], category: 'Acabados' },
-  { id: 10, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0013.jpg'], category: 'Instalación' },
-  { id: 11, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0014.jpg'], category: 'Mantenimiento' },
-  { id: 12, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0015.jpg'], category: 'Acabados' },
-  { id: 13, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0016.jpg'], category: 'Instalación' },
-  { id: 14, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0017.jpg'], category: 'Mantenimiento' },
-  { id: 15, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0018.jpg'], category: 'Instalación' },
-  { id: 16, url: PROJECT_IMAGES['/projects/IMG-20260515-WA0019.jpg'], category: 'Acabados' }
+  { id: 1, url: '/projects/IMG-20260515-WA0004.jpg', category: 'Instalación', title: 'Piso Industrial' },
+  { id: 2, url: '/projects/IMG-20260515-WA0005.jpg', category: 'Acabados', title: 'Acabado Resistente' },
+  { id: 3, url: '/projects/IMG-20260515-WA0006.jpg', category: 'Instalación', title: 'Piso de Alta Durabilidad' },
+  { id: 4, url: '/projects/IMG-20260515-WA0007.jpg', category: 'Mantenimiento', title: 'Restauración' },
+  { id: 5, url: '/projects/IMG-20260515-WA0008.jpg', category: 'Acabados', title: 'Mantenimiento Industrial' },
+  { id: 6, url: '/projects/IMG-20260515-WA0009.jpg', category: 'Instalación', title: 'Sistema Epóxico' },
+  { id: 7, url: '/projects/IMG-20260515-WA0010.jpg', category: 'Mantenimiento', title: 'Nivelación' },
+  { id: 8, url: '/projects/IMG-20260515-WA0011.jpg', category: 'Instalación', title: 'Piso Sanitario' },
+  { id: 9, url: '/projects/IMG-20260515-WA0012.jpg', category: 'Acabados', title: 'Mantenimiento' },
+  { id: 10, url: '/projects/IMG-20260515-WA0013.jpg', category: 'Instalación', title: 'Área de Producción' },
+  { id: 11, url: '/projects/IMG-20260515-WA0014.jpg', category: 'Mantenimiento', title: 'Tráfico Pesado' },
+  { id: 12, url: '/projects/IMG-20260515-WA0015.jpg', category: 'Acabados', title: 'Almacén' },
+  { id: 13, url: '/projects/IMG-20260515-WA0016.jpg', category: 'Instalación', title: 'Cuarto Limpio' },
+  { id: 14, url: '/projects/IMG-20260515-WA0017.jpg', category: 'Mantenimiento', title: 'Poliuretano' },
+  { id: 15, url: '/projects/IMG-20260515-WA0018.jpg', category: 'Instalación', title: 'Impermeabilización' },
+  { id: 16, url: '/projects/IMG-20260515-WA0019.jpg', category: 'Acabados', title: 'Protección' }
 ];
 
 const CATEGORIES = ['Todos', 'Instalación', 'Mantenimiento', 'Acabados'];
@@ -90,8 +90,8 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
           ))}
         </div>
 
-        {/* Masonry Grid Simulation / Flex Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
           <AnimatePresence mode="popLayout">
             {filteredImages.map((image) => (
               <motion.div
@@ -102,30 +102,30 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                 exit={{ opacity: 0, scale: 0.8 }}
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.25 }}
-                className="group relative aspect-square rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer bg-[#112240] shadow-md hover:shadow-2xl hover:shadow-[#22d3ee]/10 will-change-transform"
+                className="group relative aspect-square rounded-xl md:rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl hover:shadow-[#22d3ee]/20 will-change-transform bg-[#0a192f]"
                 onClick={() => onImageSelect(image.url)}
               >
-                <div className="w-full h-full relative flex items-center justify-center p-2 bg-gradient-to-br from-[#0a192f] to-[#112240]">
+                <div className="w-full h-full relative">
                   <img
                     src={image.url}
                     alt={`Proyecto de ${image.category}`}
-                    className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-[1.15] drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] rounded-lg"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                     decoding="async"
                     referrerPolicy="no-referrer"
                     style={{ imageRendering: 'high-quality' }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   
                   {/* Category Tag */}
-                  <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full text-[9px] text-white/90 font-black uppercase tracking-widest translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-75">
+                  <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md border border-white/20 px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[8px] md:text-[10px] text-white/90 font-black uppercase tracking-widest translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-75 pointer-events-none">
                     {image.category}
                   </div>
 
                   {/* Expand Icon */}
-                  <div className="absolute bottom-6 left-6 text-white translate-y-[10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-100">
-                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-orange/90 shadow-lg text-white backdrop-blur-md">
-                       <Maximize2 className="w-5 h-5" />
+                  <div className="absolute bottom-3 left-3 md:bottom-5 md:left-5 text-white translate-y-[10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-100 pointer-events-none">
+                     <span className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-orange shadow-[0_4px_15px_rgba(245,130,32,0.5)] text-white">
+                       <Maximize2 className="w-4 h-4 md:w-5 md:h-5" />
                      </span>
                   </div>
                 </div>

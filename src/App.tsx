@@ -574,36 +574,113 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0008.jpg'],
-    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0004.jpg']
+    before: '/before-after/wsIEHA08_o.jpg',
+    after: '/before-after/dancwYF1_o.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0005.jpg'],
-    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0006.jpg']
+    before: '/before-after/jFHrF04P_o.jpg',
+    after: '/before-after/Vdt4qzQ3_o.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0007.jpg'],
-    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0009.jpg']
+    before: '/before-after/VIDPBh84_o.jpg',
+    after: '/before-after/Ewf4uEcE_o.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0010.jpg'],
-    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0011.jpg']
+    before: '/before-after/fjT1RFET_o.jpg',
+    after: '/before-after/Z4NXVOoQ_o.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0012.jpg'],
-    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0013.jpg']
+    before: '/before-after/Id0Pii6t_o.jpg',
+    after: '/before-after/2toaJPpW_o.jpg'
+  },
+  {
+    id: 'case6',
+    title: 'Caso de Éxito 6',
+    description: 'Renovación de instalaciones con acabado estético impecable.',
+    before: '/before-after/6xiopQMz_o.jpeg',
+    after: '/before-after/QP6E8I7q_o.jpeg'
+  },
+  {
+    id: 'case7',
+    title: 'Caso de Éxito 7',
+    description: 'Mantenimiento integral y durabilidad prolongada.',
+    before: '/before-after/kf0mogLt_o.jpeg',
+    after: '/before-after/Q0GbGWpl_o.jpeg'
+  },
+  {
+    id: 'case8',
+    title: 'Caso de Éxito 8',
+    description: 'Recuperación de brillo y resistencia de superficies degradadas.',
+    before: '/before-after/M6Qrnsfl_o.jpeg',
+    after: '/before-after/3D2Zh5mJ_o.jpg'
+  },
+  {
+    id: 'case9',
+    title: 'Caso de Éxito 9',
+    description: 'Protección anticorrosiva para entornos exigentes.',
+    before: '/before-after/BjTHRJDu_o.jpeg',
+    after: '/before-after/jJ2i1pBZ_o.jpeg'
+  },
+  {
+    id: 'case10',
+    title: 'Caso de Éxito 10',
+    description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
+    before: '/before-after/TDea6Iwx_o.jpeg',
+    after: '/before-after/FBvq9fDK_o.jpeg'
+  },
+  {
+    id: 'case11',
+    title: 'Caso de Éxito 11',
+    description: 'Tratamiento sellante y nivelador permanente.',
+    before: '/before-after/JH5fSihJ_o.jpeg',
+    after: '/before-after/FvTTrvLo_o.jpeg'
+  },
+  {
+    id: 'case12',
+    title: 'Caso de Éxito 12',
+    description: 'Recuperación de estética y funcionalidad total.',
+    before: '/before-after/mJMEDX1z_o.jpeg',
+    after: '/before-after/bbEi5xTg_o.jpeg'
+  },
+  {
+    id: 'case13',
+    title: 'Caso de Éxito 13',
+    description: 'Transformación y recuperación de superficies.',
+    before: '/before-after/J2vpLZYD_o.jpeg',
+    after: '/before-after/JfWJnP14_o.jpeg'
+  },
+  {
+    id: 'case14',
+    title: 'Caso de Éxito 14',
+    description: 'Nivelación y protección duradera.',
+    before: '/before-after/fAv1c6kg_o.jpeg',
+    after: '/before-after/zKFPhqMi_o.jpeg'
+  },
+  {
+    id: 'case15',
+    title: 'Caso de Éxito 15',
+    description: 'Mantenimiento integral correctivo.',
+    before: '/before-after/qB1LdmEE_o.jpeg',
+    after: '/before-after/iPc1dSbL_o.jpeg'
+  },
+  {
+    id: 'case16',
+    title: 'Caso de Éxito 16',
+    description: 'Soluciones especiales para control de calidad.',
+    before: '/before-after/WzvkrASE_o.jpeg',
+    after: '/before-after/1zmZdpVx_o.jpeg'
   }
 ];
 
@@ -1651,14 +1728,14 @@ export default function App() {
                     setActiveStrength(s);
                     setIsStrengthHovered(true);
                   }}
-                  className="group relative p-8 rounded-[2rem] border-2 border-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] hover:from-[#112240] hover:to-[#004b87]/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,75,135,0.4)] hover:border-[#22d3ee]/60 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer overflow-hidden"
+                  className="group relative p-8 rounded-[2rem] border-2 border-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] hover:from-[#112240] hover:to-[#004b87]/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,75,135,0.4)] hover:border-[#22d3ee]/60 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer overflow-hidden h-full"
                 >
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#22d3ee] rounded-full blur-[80px] opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
-                  <div className="relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-[#22d3ee]/10 to-[#004b87]/30 border border-[#22d3ee]/30 flex items-center justify-center text-[#22d3ee] group-hover:bg-gradient-to-br group-hover:from-brand-orange group-hover:to-brand-orange/80 group-hover:text-white group-hover:border-brand-orange transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_10px_40px_rgba(245,130,32,0.4)] group-hover:rotate-6">
+                  <div className="relative z-10 w-20 h-20 shrink-0 rounded-2xl bg-gradient-to-br from-[#22d3ee]/10 to-[#004b87]/30 border border-[#22d3ee]/30 flex items-center justify-center text-[#22d3ee] group-hover:bg-gradient-to-br group-hover:from-brand-orange group-hover:to-brand-orange/80 group-hover:text-white group-hover:border-brand-orange transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_10px_40px_rgba(245,130,32,0.4)] group-hover:rotate-6">
                     {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
                   </div>
                   
-                  <div className="space-y-4">
+                  <div className="space-y-4 flex-grow flex flex-col justify-center">
                     <h3 className="relative z-10 text-xl font-black text-white drop-shadow-[0_2px_10px_rgba(34,211,238,0.5)] uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
                       {s.title}
                     </h3>
@@ -1674,7 +1751,7 @@ export default function App() {
                       setActiveStrength(s);
                       setIsStrengthHovered(true);
                     }}
-                    className="mt-2 flex items-center gap-2 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all"
+                    className="mt-auto shrink-0 flex items-center gap-2 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all"
                   >
                     Detalles <ArrowRight className="w-3 h-3" />
                   </button>
@@ -1956,10 +2033,6 @@ export default function App() {
             viewport={{ once: true, margin: "200px" }}
             className="space-y-6 text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#112240]/80 backdrop-blur-md border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto">
-              <ArrowLeftRight className="w-3 h-3" />
-              Ingeniería en Resultados
-            </div>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)] leading-tight">
               Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
             </h2>
@@ -2738,7 +2811,7 @@ export default function App() {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 40 }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="relative flex items-center justify-center w-full max-w-4xl"
+                className="relative flex items-center justify-center w-full max-w-6xl px-4 md:px-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
@@ -2746,7 +2819,7 @@ export default function App() {
                   alt="Selected Gallery"
                   referrerPolicy="no-referrer"
                   style={{ imageRendering: 'high-quality' }}
-                  className="w-full h-auto max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
+                  className="w-auto h-auto max-w-full max-h-[90vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-white/10"
                 />
                 
                 <button
