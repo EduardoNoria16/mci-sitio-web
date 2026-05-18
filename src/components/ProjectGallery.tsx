@@ -41,7 +41,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             className="inline-flex items-center gap-2 mb-4"
           >
             <div className="w-8 h-px bg-brand-orange" />
@@ -51,7 +51,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-white mb-6 drop-shadow-lg"
           >
@@ -60,7 +60,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             transition={{ delay: 0.2 }}
             className="text-white/70 max-w-2xl mx-auto text-sm md:text-base font-bold tracking-wide"
           >
@@ -75,7 +75,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
               key={category}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "200px" }}
               transition={{ delay: idx * 0.1 }}
               onClick={() => setActiveCategory(category)}
               className={`px-5 py-2 md:px-8 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 ${
@@ -110,6 +110,8 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                     alt={`Proyecto de ${image.category}`}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   

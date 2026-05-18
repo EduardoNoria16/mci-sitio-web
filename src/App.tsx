@@ -54,6 +54,7 @@ import {
   QrCode,
   RotateCcw
 } from 'lucide-react';
+
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import { ProjectGallery } from './components/ProjectGallery';
 import QRCodeModal from './components/QRCodeModal';
@@ -605,40 +606,7 @@ const BEFORE_AFTER_PAIRS = [
   }
 ];
 
-const GALLERY_IMAGES = [
-  { url: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg', title: 'Mantenimiento de Superficies' },
-  { url: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg', title: 'Mantenimiento de Superficies' },
-  { url: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg', title: 'Instalación de Recubrimientos' },
-  { url: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg', title: 'Instalación de Recubrimientos' },
-  { url: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg', title: 'Personal Altamente Capacitado' },
-  { url: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg', title: 'Personal Altamente Capacitado' },
-  { url: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg', title: 'Infraestructura Industrial' },
-  { url: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg', title: 'Infraestructura Industrial' },
-  { url: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg', title: 'Proyectos de Gran Escala' },
-  { url: 'https://images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg', title: 'Proyectos de Gran Escala' },
-  { url: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg', title: 'Estructuras Metálicas' },
-  { url: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg', title: 'Estructuras Metálicas' },
-  { url: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg', title: 'Control de Corrosión' },
-  { url: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg', title: 'Control de Corrosión' },
-  { url: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg', title: 'Ingeniería de Detalle' },
-  { url: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg', title: 'Ingeniería de Detalle' },
-  { url: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg', title: 'Procesos Industriales' },
-  { url: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg', title: 'Procesos Industriales' },
-  { url: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg', title: 'Tecnología Polimérica' },
-  { url: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' },
-  { url: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg', title: 'Infraestructura de Datos' },
-  { url: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg', title: 'Infraestructura de Datos' }
-];
+
 
 const TESTIMONIALS = [
   {
@@ -1453,7 +1421,7 @@ export default function App() {
       <header 
         className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b ${
           isScrolled 
-            ? 'bg-[#0a192f]/80 backdrop-blur-xl border-b border-white/10 py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
+            ? 'bg-[#0a192f]/80 backdrop-blur-md border-b border-white/10 py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
             : 'bg-[#112240]/40 border border-white/5 backdrop-blur-md py-4 sm:py-5 border-transparent'
         }`}
       >
@@ -1467,7 +1435,7 @@ export default function App() {
             }}
           >
             <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-105 flex-shrink-0 drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
-              <img 
+              <img decoding="async" 
                 src={logoBase64} 
                 alt="Logo MCI" 
                 className="w-full h-full object-contain"
@@ -1562,8 +1530,8 @@ export default function App() {
             
             {/* Fondo fotográfico with improved depth */}
             <div className="absolute inset-0 z-0">
-              <img 
-                src="/hero.jpg" 
+              <img decoding="async" 
+                src="/hero.jpg" fetchPriority="high" 
                 alt="MCI Soluciones Fotografía Oficial"
                 className="absolute inset-0 w-full h-full object-cover object-[center_top] opacity-50 scale-105"
                 referrerPolicy="no-referrer"
@@ -1657,7 +1625,7 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "200px" }}
               className="space-y-4 flex flex-col items-center"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-sm flex flex-wrap items-center justify-center gap-3 md:gap-4">
@@ -1675,14 +1643,14 @@ export default function App() {
                   key={s.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "200px" }}
                   transition={{ delay: idx * 0.1, duration: 0.5, type: "spring" }}
                   onClick={() => {
                     playClickSound();
                     setActiveStrength(s);
                     setIsStrengthHovered(true);
                   }}
-                  className="group relative p-8 rounded-[2rem] border-2 border-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] hover:from-[#112240] hover:to-[#004b87]/40 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,75,135,0.4)] hover:border-[#22d3ee]/60 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer overflow-hidden"
+                  className="group relative p-8 rounded-[2rem] border-2 border-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] hover:from-[#112240] hover:to-[#004b87]/40 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(0,75,135,0.4)] hover:border-[#22d3ee]/60 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer overflow-hidden"
                 >
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#22d3ee] rounded-full blur-[80px] opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" />
                   <div className="relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-[#22d3ee]/10 to-[#004b87]/30 border border-[#22d3ee]/30 flex items-center justify-center text-[#22d3ee] group-hover:bg-gradient-to-br group-hover:from-brand-orange group-hover:to-brand-orange/80 group-hover:text-white group-hover:border-brand-orange transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-hover:shadow-[0_10px_40px_rgba(245,130,32,0.4)] group-hover:rotate-6">
@@ -1789,7 +1757,7 @@ export default function App() {
             <motion.div
                initial="hidden"
                whileInView="visible"
-               viewport={{ once: true }}
+               viewport={{ once: true, margin: "200px" }}
                variants={{
                  hidden: { opacity: 0, scale: 0.95 },
                  visible: { opacity: 1, scale: 1, transition: { delay: 0.2, type: "spring", stiffness: 100 } }
@@ -1902,7 +1870,7 @@ export default function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "200px" }}
           variants={{
             hidden: { opacity: 0 },
             visible: {
@@ -1921,7 +1889,7 @@ export default function App() {
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative overflow-hidden flex flex-col justify-between ${activeSector === sector.id ? 'ring-4 ring-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/50 shadow-[0_30px_60px_rgba(0,75,135,0.4)] -translate-y-2' : 'bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-gradient-to-br hover:from-[#112240] hover:to-[#004b87]/60 hover:shadow-[0_30px_60px_rgba(0,242,255,0.2)] hover:border-[#22d3ee]/40 hover:-translate-y-2'}`}
+              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative overflow-hidden flex flex-col justify-between ${activeSector === sector.id ? 'ring-4 ring-[#22d3ee]/20 bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/50 shadow-[0_30px_60px_rgba(0,75,135,0.4)] -translate-y-2' : 'bg-white/5 backdrop-blur-md border border-white/10 hover:bg-gradient-to-br hover:from-[#112240] hover:to-[#004b87]/60 hover:shadow-[0_30px_60px_rgba(0,242,255,0.2)] hover:border-[#22d3ee]/40 hover:-translate-y-2'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
@@ -1984,7 +1952,7 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             className="space-y-6 text-center max-w-3xl mx-auto"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#112240]/80 backdrop-blur-md border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto">
@@ -2005,16 +1973,20 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             className="relative w-full"
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
-            <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS} />
+            
+              <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS} />
+            
           </motion.div>
         </div>
       </section>
 
-      <ProjectGallery onImageSelect={setSelectedImage} />
+      
+        <ProjectGallery onImageSelect={setSelectedImage} />
+      
 
       {/* Testimonials Section */}
       <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-12">
@@ -2022,7 +1994,7 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#112240]/80 backdrop-blur-md border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
           >
             <Star className="w-3 h-3" />
@@ -2042,7 +2014,7 @@ export default function App() {
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "200px" }}
               transition={{ delay: i * 0.1 }}
               className="bg-[#112240]/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
             >
@@ -2188,7 +2160,7 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "200px" }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
           >
             <Wrench className="w-3 h-3" />
@@ -2210,7 +2182,7 @@ export default function App() {
               key={i}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "200px" }}
               transition={{ delay: i * 0.1 }}
               onClick={() => {
                 playClickSound();
@@ -2252,7 +2224,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
             <div className="space-y-6 text-center md:text-left max-w-sm">
               <div className="flex items-center justify-center md:justify-start gap-4">
-                <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
+                <img decoding="async" src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
                 <div className="h-10 w-px bg-white/20" />
                 <div className="text-white">
                   <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
@@ -2501,7 +2473,7 @@ export default function App() {
                   >
                     <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#112240]/60 backdrop-blur-sm border border-white/5 text-slate-300 self-start rounded-tl-none shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-[0_20px_50px_rgba(0,0,0,0.6)] ml-auto border border-white/5'}`}>
                       {msg.image && (
-                        <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]" referrerPolicy="no-referrer" />
+                        <img decoding="async" src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.5)]" referrerPolicy="no-referrer" />
                       )}
                       <div dangerouslySetInnerHTML={{ __html: formatChatMessage(msg.text) }} />
                     </div>
@@ -2542,7 +2514,7 @@ export default function App() {
                 {selectedFile && (
                   <div className="flex items-center gap-3 bg-[#112240]/60 backdrop-blur-sm border border-white/5 p-2 rounded-xl border border-white/10">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-                      <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <img decoding="async" src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] text-slate-500 font-bold truncate">{selectedFile.name}</p>
@@ -2604,7 +2576,7 @@ export default function App() {
                 e.stopPropagation();
                 handleSmoothScroll(e as any, '#inicio');
               }}
-              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
+              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-md border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
             >
               <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
@@ -2620,7 +2592,7 @@ export default function App() {
             playClickSound();
             toggleSpeech();
           }}
-          className={`relative w-14 h-14 backdrop-blur-xl border-2 rounded-full flex items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:border-transparent transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : 'bg-[#22d3ee]/15 border-[#22d3ee]/30 text-brand-orange'}`}
+          className={`relative w-14 h-14 backdrop-blur-md border-2 rounded-full flex items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.7)] hover:scale-110 hover:bg-[#112240]/80 backdrop-blur-md border border-white/10 hover:border-transparent transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : 'bg-[#22d3ee]/15 border-[#22d3ee]/30 text-brand-orange'}`}
           aria-label={isSpeaking ? 'Detener lectura' : 'Escuchar página'}
         >
           <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
@@ -2659,14 +2631,14 @@ export default function App() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: '100%', opacity: 0 }}
               transition={{ type: "spring", damping: 45, stiffness: 400, mass: 1 }}
-              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-[#112240]/80 border border-white/10 backdrop-blur-3xl border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
+              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-[#112240]/80 border border-white/10 backdrop-blur-md border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
               ref={menuRef}
             >
               {/* Internal Header */}
               <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-[#112240]/80 backdrop-blur-md border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-                    <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                    <img decoding="async" src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                   </div>
                   <div className="flex flex-col leading-none">
                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">MCI Soluciones</span>
@@ -2757,7 +2729,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[1000000] flex items-center justify-center p-4 md:p-12 bg-[#0a192f]/95 backdrop-blur-3xl cursor-zoom-out"
+              className="fixed inset-0 z-[1000000] flex items-center justify-center p-4 md:p-12 bg-[#0a192f]/95 backdrop-blur-md cursor-zoom-out"
               onClick={() => setSelectedImage(null)}
             >
               <motion.div
