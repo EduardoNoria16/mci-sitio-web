@@ -29,3 +29,5 @@ function restore(file) {
 
 restore('src/App.tsx');
 restore('src/components/ProjectGallery.tsx');
+
+restore('src/components/BeforeAfterMarquee.tsx');

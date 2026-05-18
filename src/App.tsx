@@ -1,3 +1,4 @@
+import { PROJECT_IMAGES } from './data/images';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -573,36 +574,36 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: '/projects/IMG-20260515-WA0008.jpg',
-    after: '/projects/IMG-20260515-WA0004.jpg'
+    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0008.jpg'],
+    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0004.jpg']
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: '/projects/IMG-20260515-WA0005.jpg',
-    after: '/projects/IMG-20260515-WA0006.jpg'
+    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0005.jpg'],
+    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0006.jpg']
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: '/projects/IMG-20260515-WA0007.jpg',
-    after: '/projects/IMG-20260515-WA0009.jpg'
+    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0007.jpg'],
+    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0009.jpg']
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: '/projects/IMG-20260515-WA0010.jpg',
-    after: '/projects/IMG-20260515-WA0011.jpg'
+    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0010.jpg'],
+    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0011.jpg']
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: '/projects/IMG-20260515-WA0012.jpg',
-    after: '/projects/IMG-20260515-WA0013.jpg'
+    before: PROJECT_IMAGES['/projects/IMG-20260515-WA0012.jpg'],
+    after: PROJECT_IMAGES['/projects/IMG-20260515-WA0013.jpg']
   }
 ];
 
@@ -1793,7 +1794,7 @@ export default function App() {
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-brand-orange" />,
+                       icon: <ShieldCheck className="w-8 h-8 text-[#22d3ee]" />,
                        text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
                        theme: 'from-[#112240]/80 to-[#0a192f]/80 hover:from-[#112240] hover:to-[#004b87]/40 border-[#22d3ee]/20',
                        iconBg: 'bg-[#22d3ee]/10 border border-[#22d3ee]/30 shadow-[0_0_15px_rgba(34,211,238,0.2)]',
@@ -2764,104 +2765,102 @@ export default function App() {
         document.body
       )}
 
-      <AnimatePresence mode="wait">
-        {isStrengthHovered && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
-          >
-            <div 
-              className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
-              onClick={() => setIsStrengthHovered(false)}
-            />
-            
+      {typeof window !== 'undefined' && createPortal(
+        <AnimatePresence mode="wait">
+          {isStrengthHovered && (
             <motion.div
-              id="strength-modal-content"
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] flex flex-col will-change-transform"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[10001] flex items-center justify-center p-4 md:p-8"
             >
-              {/* Close Button */}
-              <button 
+              <div 
+                className="absolute inset-0 bg-[#0a192f]/90 backdrop-blur-sm"
                 onClick={() => setIsStrengthHovered(false)}
-                className="absolute top-6 right-6 z-50 p-3 rounded-full bg-[#112240]/80 backdrop-blur-md border border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+              />
+              
+              <motion.div
+                id="strength-modal-content"
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className="relative w-full max-w-5xl bg-gradient-to-br from-[#112240] to-[#0a192f] border border-[#22d3ee]/30 rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-10 max-h-[90vh] overflow-y-auto custom-scrollbar will-change-transform"
               >
-                <X className="w-6 h-6" />
-              </button>
+                {/* Close Button */}
+                <button 
+                  onClick={() => setIsStrengthHovered(false)}
+                  className="absolute top-6 right-6 z-50 p-3 rounded-full bg-[#112240]/80 backdrop-blur-md border border-white/10 text-brand-blue-bright hover:text-white hover:bg-white/10 transition-all duration-300 hover:rotate-90 group/close"
+                >
+                  <X className="w-6 h-6" />
+                </button>
 
-              <div className="flex-1 overflow-y-auto custom-scrollbar">
-                <div className="flex flex-col">
-                  {/* Content Side */}
-                  <div className="p-8 md:p-12 space-y-8">
+                <div className="p-8 md:p-12 space-y-8">
                     <div className="space-y-4">
-                      <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
-                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
+                        <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
+                          <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
+                        </div>
+                        <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
+                          {activeStrength.title}
+                        </h3>
+                        <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
                       </div>
-                      <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
-                        {activeStrength.title}
-                      </h3>
-                      <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
-                    </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
-                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
-                    </p>
+                      <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
+                        <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
+                      </p>
 
-                    <div className="space-y-5">
-                      {activeStrength.items.map((item, i) => (
-                        <div key={i} className="group/item">
-                          {typeof item === 'string' ? (
-                            <div className="flex gap-4">
-                              <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
-                              <p className="text-on-surface text-sm md:text-lg leading-relaxed">
-                                <HighlightText text={item} keywords={activeStrength.keywords} />
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-white/10">
-                              <div className="flex items-center gap-3">
-                                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
-                                <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
-                                  {item.label}
+                      <div className="space-y-5">
+                        {activeStrength.items.map((item, i) => (
+                          <div key={i} className="group/item">
+                            {typeof item === 'string' ? (
+                              <div className="flex gap-4">
+                                <div className="mt-1.5 w-2 h-2 rounded-full bg-brand-orange flex-shrink-0 shadow-[0_0_10px_rgba(245,130,32,0.5)]" />
+                                <p className="text-on-surface text-sm md:text-lg leading-relaxed">
+                                  <HighlightText text={item} keywords={activeStrength.keywords} />
                                 </p>
                               </div>
-                              <ul className="grid grid-cols-1 gap-3 pl-4">
-                                {item.subItems.map((sub, j) => (
-                                  <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
-                                    <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
-                                    {sub}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                            ) : (
+                              <div className="space-y-4 bg-brand-blue/5 p-6 rounded-2xl border border-white/10">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
+                                  <p className="text-brand-orange font-black text-sm uppercase tracking-widest">
+                                    {item.label}
+                                  </p>
+                                </div>
+                                <ul className="grid grid-cols-1 gap-3 pl-4">
+                                  {item.subItems.map((sub, j) => (
+                                    <li key={j} className="flex gap-3 items-start text-sm text-on-surface-subtle leading-relaxed">
+                                      <div className="w-1 h-1 bg-brand-orange/40 rounded-full mt-1.5 flex-shrink-0" />
+                                      {sub}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
 
-                    {/* CTA in Modal */}
-                    <div className="pt-8 border-t border-white/10">
-                      <a 
-                        href="https://wa.me/525561500317" 
-                        target="_blank"
-                        className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
-                      >
-                        Solicitar Cotización
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
+                      {/* CTA in Modal */}
+                      <div className="pt-8 border-t border-white/10">
+                        <a 
+                          href="https://wa.me/525561500317" 
+                          target="_blank"
+                          className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                        >
+                          Solicitar Cotización
+                          <ArrowRight className="w-4 h-4" />
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
       <QRCodeModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} url={window.location.href} />
     </div>
   );
