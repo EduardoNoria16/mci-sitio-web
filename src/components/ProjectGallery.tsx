@@ -4,22 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2 } from 'lucide-react';
 
 const GALLERY_IMAGES = [
-  { id: 1, url: '/projects/IMG-20260515-WA0004.jpg', category: 'Instalación', title: 'Piso Industrial' },
-  { id: 2, url: '/projects/IMG-20260515-WA0005.jpg', category: 'Acabados', title: 'Acabado Resistente' },
-  { id: 3, url: '/projects/IMG-20260515-WA0006.jpg', category: 'Instalación', title: 'Piso de Alta Durabilidad' },
-  { id: 4, url: '/projects/IMG-20260515-WA0007.jpg', category: 'Mantenimiento', title: 'Restauración' },
-  { id: 5, url: '/projects/IMG-20260515-WA0008.jpg', category: 'Acabados', title: 'Mantenimiento Industrial' },
-  { id: 6, url: '/projects/IMG-20260515-WA0009.jpg', category: 'Instalación', title: 'Sistema Epóxico' },
-  { id: 7, url: '/projects/IMG-20260515-WA0010.jpg', category: 'Mantenimiento', title: 'Nivelación' },
-  { id: 8, url: '/projects/IMG-20260515-WA0011.jpg', category: 'Instalación', title: 'Piso Sanitario' },
-  { id: 9, url: '/projects/IMG-20260515-WA0012.jpg', category: 'Acabados', title: 'Mantenimiento' },
-  { id: 10, url: '/projects/IMG-20260515-WA0013.jpg', category: 'Instalación', title: 'Área de Producción' },
-  { id: 11, url: '/projects/IMG-20260515-WA0014.jpg', category: 'Mantenimiento', title: 'Tráfico Pesado' },
-  { id: 12, url: '/projects/IMG-20260515-WA0015.jpg', category: 'Acabados', title: 'Almacén' },
-  { id: 13, url: '/projects/IMG-20260515-WA0016.jpg', category: 'Instalación', title: 'Cuarto Limpio' },
-  { id: 14, url: '/projects/IMG-20260515-WA0017.jpg', category: 'Mantenimiento', title: 'Poliuretano' },
-  { id: 15, url: '/projects/IMG-20260515-WA0018.jpg', category: 'Instalación', title: 'Impermeabilización' },
-  { id: 16, url: '/projects/IMG-20260515-WA0019.jpg', category: 'Acabados', title: 'Protección' }
+  { id: 1, url: 'https://wsrv.nl/?url=i.postimg.cc/q6XH5ShJ/IMG-20260515-WA0004.jpg', category: 'Instalación', title: 'Piso Industrial' },
+  { id: 2, url: 'https://wsrv.nl/?url=i.postimg.cc/QKkZyw9M/IMG-20260515-WA0005.jpg', category: 'Acabados', title: 'Acabado Resistente' },
+  { id: 3, url: 'https://wsrv.nl/?url=i.postimg.cc/2LFNKMbm/IMG-20260515-WA0006.jpg', category: 'Instalación', title: 'Piso de Alta Durabilidad' },
+  { id: 4, url: 'https://wsrv.nl/?url=i.postimg.cc/q6XH5Stw/IMG-20260515-WA0007.jpg', category: 'Mantenimiento', title: 'Restauración' },
+  { id: 5, url: 'https://wsrv.nl/?url=i.postimg.cc/1Vc1j2nR/IMG-20260515-WA0008.jpg', category: 'Acabados', title: 'Mantenimiento Industrial' },
+  { id: 6, url: 'https://wsrv.nl/?url=i.postimg.cc/p5YM6490/IMG-20260515-WA0009.jpg', category: 'Instalación', title: 'Sistema Epóxico' },
+  { id: 7, url: 'https://wsrv.nl/?url=i.postimg.cc/PvznR9LK/IMG-20260515-WA0010.jpg', category: 'Mantenimiento', title: 'Nivelación' },
+  { id: 8, url: 'https://wsrv.nl/?url=i.postimg.cc/wRddFgBG/IMG-20260515-WA0011.jpg', category: 'Instalación', title: 'Piso Sanitario' },
+  { id: 9, url: 'https://wsrv.nl/?url=i.postimg.cc/V0cc4mN9/IMG-20260515-WA0012.jpg', category: 'Acabados', title: 'Mantenimiento' },
+  { id: 10, url: 'https://wsrv.nl/?url=i.postimg.cc/4HTTws37/IMG-20260515-WA0013.jpg', category: 'Instalación', title: 'Área de Producción' },
+  { id: 11, url: 'https://wsrv.nl/?url=i.postimg.cc/CnVVJSKR/IMG-20260515-WA0014.jpg', category: 'Mantenimiento', title: 'Tráfico Pesado' },
+  { id: 12, url: 'https://wsrv.nl/?url=i.postimg.cc/vgnsWcG5/IMG-20260515-WA0015.jpg', category: 'Acabados', title: 'Almacén' },
+  { id: 13, url: 'https://wsrv.nl/?url=i.postimg.cc/7Gzkgfq4/IMG-20260515-WA0016.jpg', category: 'Instalación', title: 'Cuarto Limpio' },
+  { id: 14, url: 'https://wsrv.nl/?url=i.postimg.cc/Vrt8jdzc/IMG-20260515-WA0017.jpg', category: 'Mantenimiento', title: 'Poliuretano' },
+  { id: 15, url: 'https://wsrv.nl/?url=i.postimg.cc/R6tBcNvv/IMG-20260515-WA0018.jpg', category: 'Instalación', title: 'Impermeabilización' },
+  { id: 16, url: 'https://wsrv.nl/?url=i.postimg.cc/gXhWvnGW/IMG-20260515-WA0019.jpg', category: 'Acabados', title: 'Protección' }
 ];
 
 const CATEGORIES = ['Todos', 'Instalación', 'Mantenimiento', 'Acabados'];
