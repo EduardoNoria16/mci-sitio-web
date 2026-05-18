@@ -4,22 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2 } from 'lucide-react';
 
 const GALLERY_IMAGES = [
-  { id: 1, url: 'https://wsrv.nl/?url=i.postimg.cc/q6XH5ShJ/IMG-20260515-WA0004.jpg', category: 'Instalación', title: 'Piso Industrial' },
-  { id: 2, url: 'https://wsrv.nl/?url=i.postimg.cc/QKkZyw9M/IMG-20260515-WA0005.jpg', category: 'Acabados', title: 'Acabado Resistente' },
-  { id: 3, url: 'https://wsrv.nl/?url=i.postimg.cc/2LFNKMbm/IMG-20260515-WA0006.jpg', category: 'Instalación', title: 'Piso de Alta Durabilidad' },
-  { id: 4, url: 'https://wsrv.nl/?url=i.postimg.cc/q6XH5Stw/IMG-20260515-WA0007.jpg', category: 'Mantenimiento', title: 'Restauración' },
-  { id: 5, url: 'https://wsrv.nl/?url=i.postimg.cc/1Vc1j2nR/IMG-20260515-WA0008.jpg', category: 'Acabados', title: 'Mantenimiento Industrial' },
-  { id: 6, url: 'https://wsrv.nl/?url=i.postimg.cc/p5YM6490/IMG-20260515-WA0009.jpg', category: 'Instalación', title: 'Sistema Epóxico' },
-  { id: 7, url: 'https://wsrv.nl/?url=i.postimg.cc/PvznR9LK/IMG-20260515-WA0010.jpg', category: 'Mantenimiento', title: 'Nivelación' },
-  { id: 8, url: 'https://wsrv.nl/?url=i.postimg.cc/wRddFgBG/IMG-20260515-WA0011.jpg', category: 'Instalación', title: 'Piso Sanitario' },
-  { id: 9, url: 'https://wsrv.nl/?url=i.postimg.cc/V0cc4mN9/IMG-20260515-WA0012.jpg', category: 'Acabados', title: 'Mantenimiento' },
-  { id: 10, url: 'https://wsrv.nl/?url=i.postimg.cc/4HTTws37/IMG-20260515-WA0013.jpg', category: 'Instalación', title: 'Área de Producción' },
-  { id: 11, url: 'https://wsrv.nl/?url=i.postimg.cc/CnVVJSKR/IMG-20260515-WA0014.jpg', category: 'Mantenimiento', title: 'Tráfico Pesado' },
-  { id: 12, url: 'https://wsrv.nl/?url=i.postimg.cc/vgnsWcG5/IMG-20260515-WA0015.jpg', category: 'Acabados', title: 'Almacén' },
-  { id: 13, url: 'https://wsrv.nl/?url=i.postimg.cc/7Gzkgfq4/IMG-20260515-WA0016.jpg', category: 'Instalación', title: 'Cuarto Limpio' },
-  { id: 14, url: 'https://wsrv.nl/?url=i.postimg.cc/Vrt8jdzc/IMG-20260515-WA0017.jpg', category: 'Mantenimiento', title: 'Poliuretano' },
-  { id: 15, url: 'https://wsrv.nl/?url=i.postimg.cc/R6tBcNvv/IMG-20260515-WA0018.jpg', category: 'Instalación', title: 'Impermeabilización' },
-  { id: 16, url: 'https://wsrv.nl/?url=i.postimg.cc/gXhWvnGW/IMG-20260515-WA0019.jpg', category: 'Acabados', title: 'Protección' }
+  { id: 1, url: 'https://wsrv.nl/?url=images2.imgbox.com/9e/ee/4iPPOcUe_o.jpg', category: 'Instalación', title: 'Piso Industrial' },
+  { id: 2, url: 'https://wsrv.nl/?url=images2.imgbox.com/57/31/zRTvlmqq_o.jpg', category: 'Acabados', title: 'Acabado Resistente' },
+  { id: 3, url: 'https://wsrv.nl/?url=images2.imgbox.com/53/a1/RMPmtN1P_o.jpg', category: 'Instalación', title: 'Piso de Alta Durabilidad' },
+  { id: 4, url: 'https://wsrv.nl/?url=images2.imgbox.com/e8/ec/sJejxSW5_o.jpg', category: 'Mantenimiento', title: 'Restauración' },
+  { id: 5, url: 'https://wsrv.nl/?url=images2.imgbox.com/88/de/y2XVBg7H_o.jpg', category: 'Acabados', title: 'Mantenimiento Industrial' },
+  { id: 6, url: 'https://wsrv.nl/?url=images2.imgbox.com/43/c5/5xCpEHj0_o.jpg', category: 'Instalación', title: 'Sistema Epóxico' },
+  { id: 7, url: 'https://wsrv.nl/?url=images2.imgbox.com/ba/df/VL6MMCsD_o.jpg', category: 'Mantenimiento', title: 'Nivelación' },
+  { id: 8, url: 'https://wsrv.nl/?url=images2.imgbox.com/6d/28/f6Ghki6p_o.jpg', category: 'Instalación', title: 'Piso Sanitario' },
+  { id: 9, url: 'https://wsrv.nl/?url=images2.imgbox.com/ac/2c/Bgjcj7Yd_o.jpg', category: 'Acabados', title: 'Mantenimiento' },
+  { id: 10, url: 'https://wsrv.nl/?url=images2.imgbox.com/6d/12/5PxQSgc3_o.jpg', category: 'Instalación', title: 'Área de Producción' },
+  { id: 11, url: 'https://wsrv.nl/?url=images2.imgbox.com/71/e0/HMfjCcGl_o.jpg', category: 'Mantenimiento', title: 'Tráfico Pesado' },
+  { id: 12, url: 'https://wsrv.nl/?url=images2.imgbox.com/f0/2f/Mk6k1VFh_o.jpg', category: 'Acabados', title: 'Almacén' },
+  { id: 13, url: 'https://wsrv.nl/?url=images2.imgbox.com/e7/17/leo7KCru_o.jpg', category: 'Instalación', title: 'Cuarto Limpio' },
+  { id: 14, url: 'https://wsrv.nl/?url=images2.imgbox.com/0d/85/a47FYWFE_o.jpg', category: 'Mantenimiento', title: 'Poliuretano' },
+  { id: 15, url: 'https://wsrv.nl/?url=images2.imgbox.com/51/5e/BrUBERDR_o.jpg', category: 'Instalación', title: 'Impermeabilización' },
+  { id: 16, url: 'https://wsrv.nl/?url=images2.imgbox.com/c0/73/kTgHn9uN_o.jpg', category: 'Acabados', title: 'Protección' }
 ];
 
 const CATEGORIES = ['Todos', 'Instalación', 'Mantenimiento', 'Acabados'];
@@ -39,25 +39,11 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
     <section id="galeria" className="relative z-10 py-20 md:py-32 bg-[#0a192f]">
       <div className="max-w-7xl mx-auto px-5 md:px-10 lg:px-12">
         <div className="text-center mb-12 md:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "200px" }}
-            className="inline-flex items-center gap-2 mb-4"
-          >
-            <div className="w-8 h-px bg-brand-orange" />
-            <span className="text-brand-orange font-black text-[10px] md:text-sm tracking-[0.3em] uppercase">Nuestra Excelencia</span>
-            <div className="w-8 h-px bg-brand-orange" />
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "200px" }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-white mb-6 drop-shadow-lg"
-          >
-            Galería de <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-[#f58220]">Proyectos</span>
-          </motion.h2>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto mb-4">Nuestra Excelencia</div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm transition-all duration-300">
+            Galería&nbsp;&nbsp;de&nbsp;&nbsp;<span className="text-gradient transition-colors">Proyectos</span>
+          </h2>
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mt-4 mb-6" />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
