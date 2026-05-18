@@ -3,22 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2 } from 'lucide-react';
 
 const GALLERY_IMAGES = [
-  { id: 1, url: 'https://i.postimg.cc/q6XH5ShJ/IMG-20260515-WA0004.jpg', category: 'Instalación' },
-  { id: 2, url: 'https://i.postimg.cc/QKkZyw9M/IMG-20260515-WA0005.jpg', category: 'Acabados' },
-  { id: 3, url: 'https://i.postimg.cc/2LFNKMbm/IMG-20260515-WA0006.jpg', category: 'Instalación' },
-  { id: 4, url: 'https://i.postimg.cc/q6XH5Stw/IMG-20260515-WA0007.jpg', category: 'Mantenimiento' },
-  { id: 5, url: 'https://i.postimg.cc/1Vc1j2nR/IMG-20260515-WA0008.jpg', category: 'Acabados' },
-  { id: 6, url: 'https://i.postimg.cc/p5YM6490/IMG-20260515-WA0009.jpg', category: 'Instalación' },
-  { id: 7, url: 'https://i.postimg.cc/PvznR9LK/IMG-20260515-WA0010.jpg', category: 'Mantenimiento' },
-  { id: 8, url: 'https://i.postimg.cc/wRddFgBG/IMG-20260515-WA0011.jpg', category: 'Instalación' },
-  { id: 9, url: 'https://i.postimg.cc/V0cc4mN9/IMG-20260515-WA0012.jpg', category: 'Acabados' },
-  { id: 10, url: 'https://i.postimg.cc/4HTTws37/IMG-20260515-WA0013.jpg', category: 'Instalación' },
-  { id: 11, url: 'https://i.postimg.cc/CnVVJSKR/IMG-20260515-WA0014.jpg', category: 'Mantenimiento' },
-  { id: 12, url: 'https://i.postimg.cc/vgnsWcG5/IMG-20260515-WA0015.jpg', category: 'Acabados' },
-  { id: 13, url: 'https://i.postimg.cc/7Gzkgfq4/IMG-20260515-WA0016.jpg', category: 'Instalación' },
-  { id: 14, url: 'https://i.postimg.cc/Vrt8jdzc/IMG-20260515-WA0017.jpg', category: 'Mantenimiento' },
-  { id: 15, url: 'https://i.postimg.cc/R6tBcNvv/IMG-20260515-WA0018.jpg', category: 'Instalación' },
-  { id: 16, url: 'https://i.postimg.cc/gXhWvnGW/IMG-20260515-WA0019.jpg', category: 'Acabados' }
+  { id: 1, url: '/projects/IMG-20260515-WA0004.jpg', category: 'Instalación' },
+  { id: 2, url: '/projects/IMG-20260515-WA0005.jpg', category: 'Acabados' },
+  { id: 3, url: '/projects/IMG-20260515-WA0006.jpg', category: 'Instalación' },
+  { id: 4, url: '/projects/IMG-20260515-WA0007.jpg', category: 'Mantenimiento' },
+  { id: 5, url: '/projects/IMG-20260515-WA0008.jpg', category: 'Acabados' },
+  { id: 6, url: '/projects/IMG-20260515-WA0009.jpg', category: 'Instalación' },
+  { id: 7, url: '/projects/IMG-20260515-WA0010.jpg', category: 'Mantenimiento' },
+  { id: 8, url: '/projects/IMG-20260515-WA0011.jpg', category: 'Instalación' },
+  { id: 9, url: '/projects/IMG-20260515-WA0012.jpg', category: 'Acabados' },
+  { id: 10, url: '/projects/IMG-20260515-WA0013.jpg', category: 'Instalación' },
+  { id: 11, url: '/projects/IMG-20260515-WA0014.jpg', category: 'Mantenimiento' },
+  { id: 12, url: '/projects/IMG-20260515-WA0015.jpg', category: 'Acabados' },
+  { id: 13, url: '/projects/IMG-20260515-WA0016.jpg', category: 'Instalación' },
+  { id: 14, url: '/projects/IMG-20260515-WA0017.jpg', category: 'Mantenimiento' },
+  { id: 15, url: '/projects/IMG-20260515-WA0018.jpg', category: 'Instalación' },
+  { id: 16, url: '/projects/IMG-20260515-WA0019.jpg', category: 'Acabados' }
 ];
 
 const CATEGORIES = ['Todos', 'Instalación', 'Mantenimiento', 'Acabados'];

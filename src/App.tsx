@@ -572,36 +572,36 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: 'https://i.postimg.cc/1Vc1j2nR/IMG-20260515-WA0008.jpg',
-    after: 'https://i.postimg.cc/q6XH5ShJ/IMG-20260515-WA0004.jpg'
+    before: '/projects/IMG-20260515-WA0008.jpg',
+    after: '/projects/IMG-20260515-WA0004.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: 'https://i.postimg.cc/QKkZyw9M/IMG-20260515-WA0005.jpg',
-    after: 'https://i.postimg.cc/2LFNKMbm/IMG-20260515-WA0006.jpg'
+    before: '/projects/IMG-20260515-WA0005.jpg',
+    after: '/projects/IMG-20260515-WA0006.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: 'https://i.postimg.cc/q6XH5Stw/IMG-20260515-WA0007.jpg',
-    after: 'https://i.postimg.cc/p5YM6490/IMG-20260515-WA0009.jpg'
+    before: '/projects/IMG-20260515-WA0007.jpg',
+    after: '/projects/IMG-20260515-WA0009.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: 'https://i.postimg.cc/PvznR9LK/IMG-20260515-WA0010.jpg',
-    after: 'https://i.postimg.cc/wRddFgBG/IMG-20260515-WA0011.jpg'
+    before: '/projects/IMG-20260515-WA0010.jpg',
+    after: '/projects/IMG-20260515-WA0011.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: 'https://i.postimg.cc/V0cc4mN9/IMG-20260515-WA0012.jpg',
-    after: 'https://i.postimg.cc/4HTTws37/IMG-20260515-WA0013.jpg'
+    before: '/projects/IMG-20260515-WA0012.jpg',
+    after: '/projects/IMG-20260515-WA0013.jpg'
   }
 ];
 
