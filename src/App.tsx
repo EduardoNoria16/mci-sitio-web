@@ -56,6 +56,7 @@ import {
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import { ProjectGallery } from './components/ProjectGallery';
 import QRCodeModal from './components/QRCodeModal';
+import { getProxiedImageUrl } from './utils/image';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -571,149 +572,149 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación de superficies industriales.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/8c/e2/dancwYF1_o.jpg'
+    before: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
+    after: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg'
+    before: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
+    after: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Restauración profunda y recubrimiento protector.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg'
+    before: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
+    after: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
+    before: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
+    after: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/ff/2b/2toaJPpW_o.jpg'
+    before: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
+    after: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg'
   },
   {
     id: 'case6',
     title: 'Caso de Éxito 6',
     description: 'Renovación de instalaciones con acabado estético impecable.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg'
+    before: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
+    after: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg'
   },
   {
     id: 'case7',
     title: 'Caso de Éxito 7',
     description: 'Mantenimiento integral y durabilidad prolongada.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg'
+    before: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
+    after: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg'
   },
   {
     id: 'case8',
     title: 'Caso de Éxito 8',
     description: 'Recuperación de brillo y resistencia de superficies degradadas.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/50/29/3D2Zh5mJ_o.jpg'
+    before: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
+    after: 'https://images2.imgbox.com/50/29/3D2Zh5mJ_o.jpg'
   },
   {
     id: 'case9',
     title: 'Caso de Éxito 9',
     description: 'Protección anticorrosiva para entornos exigentes.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg'
+    before: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg',
+    after: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg'
   },
   {
     id: 'case10',
     title: 'Caso de Éxito 10',
     description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
+    before: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg',
+    after: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
   },
   {
     id: 'case11',
     title: 'Caso de Éxito 11',
     description: 'Tratamiento sellante y nivelador permanente.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/14/64/JH5fSihJ_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg'
+    before: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg',
+    after: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg'
   },
   {
     id: 'case12',
     title: 'Caso de Éxito 12',
     description: 'Recuperación de estética y funcionalidad total.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
+    before: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
+    after: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
   },
   {
     id: 'case13',
     title: 'Caso de Éxito 13',
     description: 'Transformación y recuperación de superficies.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/31/da/J2vpLZYD_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg'
+    before: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg',
+    after: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg'
   },
   {
     id: 'case14',
     title: 'Caso de Éxito 14',
     description: 'Nivelación y protección duradera.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg'
+    before: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg',
+    after: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg'
   },
   {
     id: 'case15',
     title: 'Caso de Éxito 15',
     description: 'Mantenimiento integral correctivo.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
+    before: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg',
+    after: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
   },
   {
     id: 'case16',
     title: 'Caso de Éxito 16',
     description: 'Soluciones especiales para control de calidad.',
-    before: 'https://wsrv.nl/?url=images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg',
-    after: 'https://wsrv.nl/?url=images2.imgbox.com/03/79/1zmZdpVx_o.jpeg'
+    before: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg',
+    after: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg'
   }
 ];
 
 const GALLERY_IMAGES = [
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/af/5e/wsIEHA08_o.jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/8c/e2/dancwYF1_o.jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/e2/b1/jFHrF04P_o.jpg', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/40/7c/VIDPBh84_o.jpg', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/e4/b6/fjT1RFET_o.jpg', title: 'Mantenimiento de Superficies' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg', title: 'Mantenimiento de Superficies' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/39/54/Id0Pii6t_o.jpg', title: 'Instalación de Recubrimientos' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/ff/2b/2toaJPpW_o.jpg', title: 'Instalación de Recubrimientos' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg', title: 'Personal Altamente Capacitado' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg', title: 'Personal Altamente Capacitado' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg', title: 'Infraestructura Industrial' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg', title: 'Infraestructura Industrial' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg', title: 'Proyectos de Gran Escala' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg', title: 'Proyectos de Gran Escala' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg', title: 'Estructuras Metálicas' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg', title: 'Estructuras Metálicas' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg', title: 'Control de Corrosión' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg', title: 'Control de Corrosión' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/14/64/JH5fSihJ_o.jpeg', title: 'Ingeniería de Detalle' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg', title: 'Ingeniería de Detalle' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg', title: 'Mantenimiento Preventivo' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/07/92/bbEi5xTg_o.jpeg', title: 'Mantenimiento Preventivo' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/31/da/J2vpLZYD_o.jpeg', title: 'Procesos Industriales' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg', title: 'Procesos Industriales' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg', title: 'Tecnología Polimérica' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg', title: 'Infraestructura de Datos' },
-  { url: 'https://wsrv.nl/?url=images2.imgbox.com/03/79/1zmZdpVx_o.jpeg', title: 'Infraestructura de Datos' }
+  { url: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg', title: 'Piso Industrial de Alta Precisión' },
+  { url: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg', title: 'Piso Industrial de Alta Precisión' },
+  { url: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg', title: 'Acabados Químico-Resistentes' },
+  { url: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg', title: 'Acabados Químico-Resistentes' },
+  { url: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg', title: 'Laboratorio con Piso Epóxico' },
+  { url: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg', title: 'Laboratorio con Piso Epóxico' },
+  { url: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg', title: 'Mantenimiento de Superficies' },
+  { url: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg', title: 'Mantenimiento de Superficies' },
+  { url: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg', title: 'Instalación de Recubrimientos' },
+  { url: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg', title: 'Instalación de Recubrimientos' },
+  { url: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg', title: 'Personal Altamente Capacitado' },
+  { url: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg', title: 'Personal Altamente Capacitado' },
+  { url: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg', title: 'Infraestructura Industrial' },
+  { url: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg', title: 'Infraestructura Industrial' },
+  { url: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg', title: 'Proyectos de Gran Escala' },
+  { url: 'https://images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg', title: 'Proyectos de Gran Escala' },
+  { url: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg', title: 'Estructuras Metálicas' },
+  { url: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg', title: 'Estructuras Metálicas' },
+  { url: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg', title: 'Control de Corrosión' },
+  { url: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg', title: 'Control de Corrosión' },
+  { url: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg', title: 'Ingeniería de Detalle' },
+  { url: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg', title: 'Ingeniería de Detalle' },
+  { url: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg', title: 'Mantenimiento Preventivo' },
+  { url: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg', title: 'Mantenimiento Preventivo' },
+  { url: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg', title: 'Procesos Industriales' },
+  { url: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg', title: 'Procesos Industriales' },
+  { url: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg', title: 'Almacenamiento Logístico' },
+  { url: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg', title: 'Almacenamiento Logístico' },
+  { url: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg', title: 'Tecnología Polimérica' },
+  { url: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' },
+  { url: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg', title: 'Infraestructura de Datos' },
+  { url: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg', title: 'Infraestructura de Datos' }
 ];
 
 const TESTIMONIALS = [
@@ -900,18 +901,27 @@ const Counter = memo(({ target }: { target: number }) => {
 });
 
 // --- AI Configuration ---
-const SYSTEM_INSTRUCTION = `Eres un asistente experto, inteligente, muy amigable y cálido de MCI Soluciones Poliméricas. Tienes la capacidad de conversar de forma natural y personalizada sobre cualquier tema que el cliente pregunte, ya sea de nuestros servicios o temas generales.
+const SYSTEM_INSTRUCTION = `Eres el asistente amigable de MCI Soluciones Poliméricas. Tu personalidad es cálida, cercana y dispuesta a ayudar.
 
-Tu personalidad es empática, profesional y resolutiva.
-Si el usuario hace una pregunta sobre un tema general o que no dominas por completo, responde de manera amigable e inteligente, intentando ayudar o guiar la conversación con calidez, sin usar jamás frases como 'no lo sé', 'no entiendo' o indicando errores. ¡Siempre mantén una actitud de servicio de excelente nivel!
+Tu tono es:
+- Amigable y entusiasta, pero manteniendo el profesionalismo.
+- Sencillo de entender (evita tecnicismos innecesarios a menos que te los pidan).
+- Cálido: Saluda siempre con amabilidad y disposición.
 
-Capacidades:
-1. ANÁLISIS DE IMÁGENES: Puedes ver fotos. Da diagnósticos amigables y sugerencias de cómo MCI puede ayudar, siempre con tono personalizado.
-2. ASESORÍA: Escucha los problemas y da respuestas completas pero fáciles de entender.
+Nuevas Capacidades Críticas:
+1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala brevemente y da un pre-diagnóstico sencillo y amigable. Sugiere cómo podemos ayudar.
+2. ASESORÍA RÁPIDA: Si el usuario describe un problema, ofrece una solución general corta e invítalo a contactarnos para más detalles.
 
-Información útil: MCI Soluciones Poliméricas trabaja en todo México. Si requieren cosas exactas o técnicas (como precios), indica amablemente que el mejor paso es una evaluación o contacto directo.
+Información Clave de la Empresa:
+- Nombre: MCI Soluciones Poliméricas.
+- Cobertura: Todo México.
 
-Regla Clave: NUNCA uses formato markdown (**, #, etc). Responde con un estilo claro de chat conversacional.`;
+Reglas de Oro:
+- NUNCA uses formato markdown (NO uses **asteriscos** para negritas, ni formatos complejos). Solo texto plano normal claro y amigable.
+- TUS RESPUESTAS DEBEN SER MUY CORTAS Y CONCISAS. Máximo 2 o 3 oraciones breves por respuesta. Ve directo al grano.
+- NUNCA des precios exactos (indica que se requiere visita técnica).
+- Si el problema es crítico, invítalo a contactarnos por WhatsApp.
+- Usa lenguaje sencillo que cualquier persona pueda entender fácilmente.`;
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -1342,7 +1352,7 @@ export default function App() {
 
       // Usar streaming para no bloquear y mejorar UX
       const stream = await ai.models.generateContentStream({ 
-        model: "gemini-2.5-flash",
+        model: "gemini-3-flash-preview",
         contents: [{ role: 'user', parts }],
         config: {
           systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
@@ -1526,7 +1536,7 @@ export default function App() {
       
       {/* Dynamic Background Elements for more vibrant feel */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/10 via-[#3b82f6]/10 to-[#f58220]/10 mix-blend-overlay" />
+        <div className="absolute top-0 inset-x-0 h-full bg-gradient-to-br from-[#004b87]/30 via-[#3b82f6]/20 to-[#f58220]/10 mix-blend-overlay" />
         <div className="absolute -top-[20%] -left-[20%] w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(0,242,255,0.15)_0%,transparent_70%)] opacity-80 md:animate-blob mix-blend-multiply" />
         <div className="hidden md:block absolute top-[10%] -right-[20%] w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,rgba(0,75,135,0.15)_0%,transparent_70%)] opacity-80 animate-blob animation-delay-2000 mix-blend-multiply" />
         <div className="absolute -bottom-[20%] left-1/4 w-[100vw] h-[100vw] rounded-full bg-[radial-gradient(circle,rgba(245,130,32,0.1)_0%,transparent_70%)] opacity-80 md:animate-blob animation-delay-4000 mix-blend-multiply" />
@@ -1537,8 +1547,8 @@ export default function App() {
       <header 
         className={`fixed top-0 left-0 right-0 z-[10000] transition-all duration-500 border-b ${
           isScrolled 
-            ? 'bg-[#0a192f]/80 border-b border-white/10 backdrop-blur-xl py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
-            : 'bg-[#0a192f] backdrop-blur-md py-4 sm:py-5 border-transparent'
+            ? 'bg-[#0a192f]/95 backdrop-blur-xl py-2 sm:py-3 shadow-[0_10px_40px_-15px_rgba(34,211,238,0.2)] border-[#22d3ee]/20' 
+            : 'bg-[#0a192f]/40 backdrop-blur-md py-4 sm:py-5 border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
@@ -1573,7 +1583,7 @@ export default function App() {
               <a 
                 key={link.name}
                 href={link.href}
-                className="text-xs font-black uppercase tracking-[0.25em] text-on-surface/90 hover:text-brand-orange transition-all relative group/nav"
+                className="text-xs font-black uppercase tracking-[0.25em] text-slate-200 hover:text-brand-orange transition-all relative group/nav"
                 onClick={(e) => handleSmoothScroll(e, link.href)}
               >
                 {link.name}
@@ -1653,7 +1663,7 @@ export default function App() {
                 referrerPolicy="no-referrer"
               />
           {/* Enhanced glass overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/20 md:backdrop-blur-[2px] z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0a192f]/95 via-[#0a192f]/70 to-[#0a192f]/30 md:backdrop-blur-[2px] z-10 pointer-events-none" />
           <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[radial-gradient(circle,rgba(245,130,32,0.15)_0%,transparent_70%)] rounded-full z-10 pointer-events-none animate-pulse" />
         </div>
         
@@ -1687,7 +1697,7 @@ export default function App() {
                 >
                   <h1 
                     className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-white flex flex-wrap items-center justify-center gap-3 md:gap-4 drop-shadow-sm"
-                    style={{ textShadow: '0 4px 20px rgba(255,255,255,0.8)' }}
+                    style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}
                   >
                     <motion.span
                       animate={{ y: [0, -5, 0] }}
@@ -1718,7 +1728,7 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
                   className="mt-6 text-sm md:text-base lg:text-lg xl:text-xl text-slate-200 leading-relaxed md:leading-loose font-medium relative z-10 max-w-4xl flex flex-col gap-6"
-                  style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(255,255,255,0.7)' }}
+                  style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
                 >
                   <p>
                     <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
@@ -1766,9 +1776,9 @@ export default function App() {
                     setActiveStrength(s);
                     setIsStrengthHovered(true);
                   }}
-                  className="group relative p-8 rounded-[2rem] border-2 border-white/10 bg-white/5 backdrop-blur-xl border border-white/10 shadow-sm hover:shadow-2xl hover:border-brand-orange/40 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
+                  className="group relative p-8 rounded-[2rem] border-2 border-white/5 bg-[#112240] shadow-sm hover:shadow-2xl hover:border-brand-orange/40 hover:bg-[#162a4d] transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-[#0a192f] border border-white/5 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-xl group-hover:rotate-6">
+                  <div className="w-20 h-20 rounded-2xl bg-[#0a192f] flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-xl group-hover:rotate-6">
                     {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
                   </div>
                   
@@ -1776,7 +1786,7 @@ export default function App() {
                     <h3 className="text-xl font-black text-white uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
                       {s.title}
                     </h3>
-                    <p className="text-xs text-slate-400 font-bold leading-relaxed uppercase tracking-widest px-4">
+                    <p className="text-xs text-white/60 font-bold leading-relaxed uppercase tracking-widest px-4">
                       {s.description || 'Excelencia Operativa'}
                     </p>
                   </div>
@@ -1821,17 +1831,12 @@ export default function App() {
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-orange/20 to-brand-orange animate-pulse" />
                 
                 <div className="relative z-10 px-4 py-8 md:px-8 md:py-10 flex flex-col items-center gap-3 text-center">
-                  <div className="flex items-center gap-2 bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20">
-                    <span className="w-1.5 h-1.5 bg-brand-orange rounded-full animate-ping" />
-                    <span className="text-[10px] md:text-[11px] font-black text-brand-orange uppercase tracking-[0.3em]">Continuar Explorando</span>
-                  </div>
-                  
-                  <h3 className="text-lg md:text-2xl lg:text-3xl font-black text-white uppercase tracking-tight md:tracking-tighter leading-tight drop-shadow-lg">
-                    PARA MÁS INFORMACIÓN <br />
+                  <h3 className="text-lg md:text-2xl lg:text-3xl font-black uppercase tracking-tight md:tracking-tighter leading-tight">
+                    <span className="text-[#00f2ff]">PARA MÁS INFORMACIÓN</span> <br />
                     <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
                   </h3>
                   
-                  <p className="text-white/60 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
+                  <p className="text-[#38bdf8] text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
                     Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
                   </p>
 
@@ -1860,7 +1865,7 @@ export default function App() {
               }}
               className="group flex flex-col items-center gap-2 text-[10px] md:text-xs font-black text-slate-400 hover:text-brand-orange transition-all uppercase tracking-[0.2em]"
             >
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white/10 group-hover:border-brand-orange flex items-center justify-center bg-white/5 backdrop-blur-xl border border-white/10 shadow-sm group-hover:shadow-md transition-all">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-200 group-hover:border-brand-orange flex items-center justify-center bg-white shadow-sm group-hover:shadow-md transition-all">
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
               </div>
               Regresar
@@ -1890,30 +1895,30 @@ export default function App() {
                    {[
                      {
                        title: 'Misión',
-                       icon: <Target className="w-8 h-8 text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.8)]" />,
+                       icon: <Target className="w-8 h-8 text-blue-600" />,
                        text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
-                       theme: 'bg-transparent border border-white/10',
-                       iconBg: 'bg-transparent border border-white/10',
-                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
-                       titleColor: 'text-brand-orange border-brand-orange/30 drop-shadow-sm'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
+                       titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Visión',
-                       icon: <Eye className="w-8 h-8 text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.8)]" />,
+                       icon: <Eye className="w-8 h-8 text-blue-600" />,
                        text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
-                       theme: 'bg-transparent border border-white/10',
-                       iconBg: 'bg-transparent border border-white/10',
-                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
-                       titleColor: 'text-brand-orange border-brand-orange/30 drop-shadow-sm'
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
+                       titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
                        title: 'Propuesta de Valor',
-                       icon: <ShieldCheck className="w-8 h-8 text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.8)]" />,
+                       icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
                        text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
-                       theme: 'bg-transparent border border-white/10',
-                       iconBg: 'bg-transparent border border-white/10',
-                       textColor: 'text-sm md:text-base lg:text-lg text-white leading-relaxed font-bold',
-                       titleColor: 'text-brand-orange border-brand-orange/30 drop-shadow-sm',
+                       theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
+                       iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
+                       textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
+                       titleColor: 'text-blue-950 border-blue-200',
                        differentiators: [
                          'Más de 30 años de experiencia',
                          'Respuesta inmediata 24/7',
@@ -1936,7 +1941,7 @@ export default function App() {
                        className={`bg-gradient-to-br ${item.theme} backdrop-blur-md border rounded-3xl p-6 md:p-8 lg:p-10 flex flex-col items-center md:items-start gap-4 md:gap-6 lg:gap-8 shadow-sm hover:shadow-xl transition-all duration-500 relative overflow-hidden group`}
                      >
                         {/* Subtle premium glass reflection */}
-                        <div className="absolute inset-0 bg-[#0a192f] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                         
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 lg:gap-8 w-full">
                           <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl ${item.iconBg} flex items-center justify-center shrink-0 border transition-transform duration-500 group-hover:scale-110 relative z-10`}>
@@ -1946,7 +1951,7 @@ export default function App() {
                              <h3 className={`text-lg md:text-xl font-black uppercase tracking-widest ${item.titleColor} border-b-2 pb-2 md:border-none md:pb-0 inline-block w-fit mx-auto md:mx-0 transition-colors`}>
                                {item.title}
                              </h3>
-                             <p className={`${item.textColor || 'text-slate-200'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
+                             <p className={`${item.textColor || 'text-slate-700'} text-sm md:text-base font-medium leading-relaxed mt-2 md:mt-0`}>
                                {item.text}
                              </p>
                           </div>
@@ -1959,9 +1964,9 @@ export default function App() {
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
                               {item.differentiators.map((diff, i) => (
-                                <div key={i} className="flex items-center gap-2 bg-[#0a192f] p-3 rounded-xl border border-orange-100 shadow-sm hover:bg-white/5 backdrop-blur-xl border border-white/10 transition-colors duration-300">
+                                <div key={i} className="flex items-center gap-2 bg-white/60 p-3 rounded-xl border border-orange-100 shadow-sm hover:bg-white transition-colors duration-300">
                                   <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />
-                                  <span className="text-xs md:text-sm font-semibold text-slate-200">{diff}</span>
+                                  <span className="text-xs md:text-sm font-semibold text-slate-800">{diff}</span>
                                 </div>
                               ))}
                             </div>
@@ -2004,21 +2009,21 @@ export default function App() {
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl -translate-y-2 border-brand-orange/40' : 'bg-[#0a192f] border-white/10 hover:bg-white/5 backdrop-blur-xl border border-white/10 hover:shadow-xl hover:border-brand-blue/20 hover:-translate-y-2'}`}
+              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-white shadow-2xl -translate-y-2 border-brand-orange/40' : 'bg-slate-50/50 border-slate-100 hover:bg-white hover:shadow-xl hover:border-brand-blue/20 hover:-translate-y-2'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
               <div className="flex flex-col gap-6 w-full">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-xl' : 'bg-slate-100 text-brand-orange border border-white/10'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-xl' : 'bg-slate-100 text-brand-orange border border-slate-200'}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-8 h-8 transition-colors duration-300' })}
                 </div>
                 <div className="space-y-3">
-                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-white group-hover:text-brand-blue'}`}>
+                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-blue'}`}>
                     {sector.title}
                   </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed font-medium">
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">
                     {sector.description}
                   </p>
                 </div>
@@ -2070,11 +2075,7 @@ export default function App() {
             viewport={{ once: true }}
             className="space-y-6 text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest mx-auto">
-              <ArrowLeftRight className="w-3 h-3" />
-              Ingeniería en Resultados
-            </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-slate-900 drop-shadow-sm leading-tight">
               Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
@@ -2157,68 +2158,6 @@ export default function App() {
 
 
       {/* Contact Section explicitly inside Part 2 */}
-      {/* FAQ Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
-        <div className="text-center mb-16 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
-          >
-            <Wrench className="w-3 h-3" />
-            Resolviendo Dudas Técnicas
-          </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tighter">
-            Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
-          </h2>
-        </div>
-
-        <div className="space-y-4">
-          {[
-            { q: '¿Pueden instalar un recubrimiento sin detener nuestra producción?', a: 'Sí. Contamos con sistemas de curado rápido (Fast-Cure) y programamos rutas de trabajo seccionadas (incluso nocturnas o fines de semana) para que tu planta no detenga sus entregas.' },
-            { q: '¿Qué pasa si mi piso de concreto está contaminado con grasas térmicas o ácidos?', a: 'Implementamos un proceso de descontaminación profunda térmica/química y preparación mecánica mediante escarificado o granallado. Contamos con resinas especiales y bloqueadores de aceite para asegurar la adherencia incluso en concretos castigados.' },
-            { q: '¿Sus sistemas aplican para áreas antiexplosivas / electrónicas?', a: 'Sí. Instalamos sistemas poliméricos ESD y conductivos que cumplen con normativas NFPA y ANSI/ESD S20.20, midiendo y garantizando el rango exacto de resistividad (Ohms) requerido.' },
-            { q: 'Si el material se llega a levantar o fallar, ¿ustedes responden?', a: 'Absolutamente. Debido a que nuestro servicio es "llave en mano" y no usamos subcontratistas, la póliza de garantía cubre preparación de superficie, materiales y mano de obra, sin letras chiquitas.' }
-          ].map((faq, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => {
-                playClickSound();
-                setActiveFaq(activeFaq === i ? null : i);
-              }}
-              className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-white/5 backdrop-blur-xl border border-white/10 border-brand-orange shadow-2xl scale-[1.02]' : 'bg-[#0a192f] border border-white/5 border-white/10 hover:bg-white/5 backdrop-blur-xl border border-white/10 hover:shadow-md'}`}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-white font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
-                  <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
-                  {faq.q}
-                </h3>
-                <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
-              </div>
-              <AnimatePresence>
-                {activeFaq === i && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="mt-4 text-slate-300 text-sm md:text-base leading-relaxed pl-8">
-                      {faq.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       <section id="contacto" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-20 md:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="space-y-10">
@@ -2227,11 +2166,11 @@ export default function App() {
                 <Mail className="w-3" />
                 Ingeniería de Ventas
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
                 ¿TIENES UN <br />
                 <span className="text-brand-orange">PROYECTO EN MENTE?</span>
               </h2>
-              <p className="text-slate-300 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+              <p className="text-slate-600 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
                 Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
               </p>
             </div>
@@ -2245,7 +2184,7 @@ export default function App() {
                   <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
                     {item.icon}
                   </div>
-                  <a href={item.href} className="text-sm font-black text-white transition-colors">
+                  <a href={item.href} className="text-sm font-black text-slate-900 transition-colors">
                     {item.text}
                   </a>
                 </div>
@@ -2273,18 +2212,18 @@ export default function App() {
 
           <div className="relative">
             <div className="absolute -inset-6 bg-gradient-to-tr from-brand-orange/20 via-transparent to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden">
+            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-2xl relative overflow-hidden">
                {isFormSubmitted ? (
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-10 space-y-6"
                   >
-                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-400 border border-green-100 shadow-inner">
+                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-600 border border-green-100 shadow-inner">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
-                    <h3 className="text-2xl font-black text-white uppercase">¡Mensaje Enviado!</h3>
-                    <p className="text-slate-300 font-medium">Un experto te contactará en breve.</p>
+                    <h3 className="text-2xl font-black text-slate-900 uppercase">¡Mensaje Enviado!</h3>
+                    <p className="text-slate-600 font-medium">Un experto te contactará en breve.</p>
                     <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">Enviar otro mensaje</button>
                   </motion.div>
                ) : (
@@ -2292,30 +2231,30 @@ export default function App() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Cargo</label>
-                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
                       </div>
                       <div className="md:col-span-3">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Nombre Completo *</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
                       </div>
                     </div>
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Empresa / Planta *</label>
-                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
                       </div>
                       <div>
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Teléfono *</label>
-                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
                       </div>
                     </div>
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Detalles del Proyecto *</label>
-                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                       {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
@@ -2327,22 +2266,93 @@ export default function App() {
         </div>
       </section>
 
-      
+      {/* FAQ Section */}
+      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
+        <div className="text-center mb-16 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
+          >
+            <Wrench className="w-3 h-3" />
+            Resolviendo Dudas Técnicas
+          </motion.div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 uppercase tracking-tighter">
+            Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
+          </h2>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            { q: '¿Cuánto tiempo tarda en secar un piso epóxico?', a: 'Dependiendo del sistema, el tráfico peatonal puede permitirse en 24 horas y el tráfico pesado en 48-72 horas.' },
+            { q: '¿Tienen cobertura fuera de la CDMX?', a: 'Sí, contamos con infraestructura logística para ejecutar proyectos en cualquier estado de la República Mexicana.' },
+            { q: '¿Sus materiales cumplen con normas sanitarias?', a: 'Absolutamente. Nuestros sistemas para la industria alimentaria cumplen con normativas FDA y USDA.' },
+            { q: '¿Ofrecen garantía por escrito?', a: 'Sí, todos nuestros proyectos incluyen una póliza de garantía que cubre tanto materiales como mano de obra.' }
+          ].map((faq, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              onClick={() => {
+                playClickSound();
+                setActiveFaq(activeFaq === i ? null : i);
+              }}
+              className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange shadow-2xl scale-[1.02]' : 'bg-slate-50 border-slate-100 hover:bg-white hover:shadow-md'}`}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="text-slate-900 font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
+                  <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
+                  {faq.q}
+                </h3>
+                <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
+              </div>
+              <AnimatePresence>
+                {activeFaq === i && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="mt-4 text-slate-600 text-sm md:text-base leading-relaxed pl-8">
+                      {faq.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* Footer Section (Minimal and Professional) */}
       <footer id="contacto-footer" className="relative z-10 bg-slate-900 pt-20 pb-10 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-5 md:px-6 relative z-10">
-          <div className="flex flex-col items-center justify-center gap-12 md:gap-20">
-            <div className="space-y-6 text-center max-w-sm">
-              <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
+            <div className="space-y-6 text-center md:text-left max-w-sm">
+              <div className="flex items-center justify-center md:justify-start gap-4">
                 <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
                 <div className="h-10 w-px bg-white/20" />
-                <div className="text-white text-left">
+                <div className="text-white">
                   <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
                   <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
                 </div>
               </div>
+              <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-relaxed">
+                Ingeniería aplicada en restauración y protección de activos industriales con más de 30 años de experiencia.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
+              <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
+              <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
+              <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Antes / Después</a>
+              <a href="#contacto" onClick={(e) => handleSmoothScroll(e, '#contacto')} className="hover:text-brand-orange transition-colors">Contacto</a>
             </div>
           </div>
 
@@ -2366,7 +2376,7 @@ export default function App() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ delay: 2, duration: 0.5, type: "spring" }}
-              className="absolute bottom-full left-0 mb-4 ml-6 w-48 bg-[#0a192f]/80 border-b border-white/10 backdrop-blur-md text-brand-blue-bright text-xs font-bold leading-tight px-4 py-3 rounded-2xl rounded-bl-sm shadow-[0_10px_20px_rgba(0,0,0,0.15)] border border-brand-blue/10 flex items-center gap-2 pointer-events-none"
+              className="absolute bottom-full left-0 mb-4 ml-6 w-48 bg-white/95 backdrop-blur-md text-brand-blue-bright text-xs font-bold leading-tight px-4 py-3 rounded-2xl rounded-bl-sm shadow-[0_10px_20px_rgba(0,0,0,0.15)] border border-brand-blue/10 flex items-center gap-2 pointer-events-none"
             >
                <motion.span 
                  animate={{ rotate: [0, 15, -10, 15, -10, 0] }}
@@ -2477,7 +2487,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden"
+              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden"
             >
               <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10 font-sans">
@@ -2552,7 +2562,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar ">
+              <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar bg-gray-50/5">
                 {chatMessages.map((msg, i) => {
                   
                   // Formateador para inyectar botón de whatsapp directamente en texto plano
@@ -2573,7 +2583,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex flex-col gap-2"
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-[#0a192f] border border-white/5 text-slate-200 self-start rounded-tl-none shadow-sm border border-white/10' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-xl ml-auto border border-white/5'}`}>
+                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-slate-50 text-slate-700 self-start rounded-tl-none shadow-sm border border-slate-200' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-xl ml-auto border border-white/5'}`}>
                       {msg.image && (
                         <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-lg" referrerPolicy="no-referrer" />
                       )}
@@ -2591,7 +2601,7 @@ export default function App() {
                           <button
                             key={idx}
                             onClick={() => handleChatOption(opt.q, opt.a)}
-                            className="text-left p-3 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/5 text-xs font-bold text-brand-orange transition-all shadow-sm flex justify-between items-center group"
+                            className="text-left p-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-bold text-brand-orange transition-all shadow-sm flex justify-between items-center group"
                           >
                             {opt.q}
                             <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -2603,7 +2613,7 @@ export default function App() {
                 );
                 })}
                 {isTyping && (
-                  <div className="bg-slate-900/[0.05] p-4 rounded-2xl rounded-bl-none border border-white/10 self-start flex gap-1.5 shadow-md">
+                  <div className="bg-slate-900/[0.05] p-4 rounded-2xl rounded-bl-none border border-slate-200 self-start flex gap-1.5 shadow-md">
                     <motion.div className="w-1.5 h-1.5 bg-slate-900 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity }} />
                     <motion.div className="w-1.5 h-1.5 bg-slate-900 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
                     <motion.div className="w-1.5 h-1.5 bg-slate-900 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
@@ -2612,14 +2622,14 @@ export default function App() {
                 <div ref={chatEndRef} />
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-4 bg-white/5 backdrop-blur-xl border border-white/10 border-t border-white/10 space-y-3 shrink-0">
+              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-slate-100 space-y-3 shrink-0">
                 {selectedFile && (
-                  <div className="flex items-center gap-3 bg-[#0a192f] border border-white/5 p-2 rounded-xl border border-white/10">
+                  <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-xl border border-slate-200">
                     <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-sm">
                       <img src={URL.createObjectURL(selectedFile)} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-slate-300 font-bold truncate">{selectedFile.name}</p>
+                      <p className="text-[10px] text-slate-600 font-bold truncate">{selectedFile.name}</p>
                     </div>
                     <button type="button" onClick={() => setSelectedFile(null)} className="p-1.5 text-slate-400 hover:text-red-500 transition-colors">
                       <X className="w-4 h-4" />
@@ -2640,7 +2650,7 @@ export default function App() {
                       playClickSound();
                       fileInputRef.current?.click();
                     }}
-                    className="p-2.5 text-slate-400 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-white/10 rounded-xl"
+                    className="p-2.5 text-slate-400 hover:text-brand-orange transition-all active:scale-95 border border-transparent hover:border-slate-100 rounded-xl"
                   >
                     <Camera className="w-5 h-5" />
                   </button>
@@ -2649,7 +2659,7 @@ export default function App() {
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                     placeholder="Escriba su consulta técnica..."
-                    className="flex-1 bg-[#0a192f] border border-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-white/10 transition-all min-w-0"
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 transition-all min-w-0"
                   />
                   <button 
                     type="submit"
@@ -2678,7 +2688,7 @@ export default function App() {
                 e.stopPropagation();
                 handleSmoothScroll(e as any, '#inicio');
               }}
-              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-2xl hover:scale-110 hover:bg-white/5 backdrop-blur-xl border border-white/10 hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
+              className="hidden md:flex w-14 h-14 bg-[#22d3ee]/15 backdrop-blur-xl border-2 border-[#22d3ee]/30 text-on-surface-subtle/80 rounded-full items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:text-brand-blue hover:border-transparent transition-all group pointer-events-auto"
             >
               <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-on-surface px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                 Ir arriba
@@ -2694,7 +2704,7 @@ export default function App() {
             playClickSound();
             toggleSpeech();
           }}
-          className={`relative w-14 h-14 backdrop-blur-xl border-2 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white/5 backdrop-blur-xl border border-white/10 hover:border-transparent transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : 'bg-[#22d3ee]/15 border-[#22d3ee]/30 text-brand-orange'}`}
+          className={`relative w-14 h-14 backdrop-blur-xl border-2 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:border-transparent transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : 'bg-[#22d3ee]/15 border-[#22d3ee]/30 text-brand-orange'}`}
           aria-label={isSpeaking ? 'Detener lectura' : 'Escuchar página'}
         >
           <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
@@ -2733,13 +2743,13 @@ export default function App() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: '100%', opacity: 0 }}
               transition={{ type: "spring", damping: 45, stiffness: 400, mass: 1 }}
-              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-[#0a192f]/95 backdrop-blur-3xl border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
+              className="lg:hidden fixed top-0 right-0 bottom-0 w-[80%] sm:w-[380px] bg-white/80 backdrop-blur-3xl border-l border-[#22d3ee]/40 overflow-y-auto z-[100002] shadow-[-15px_0_50px_rgba(34,211,238,0.1)] flex flex-col"
               ref={menuRef}
             >
               {/* Internal Header */}
-              <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-white/10">
+              <div className="px-8 pt-10 pb-8 flex items-center justify-between border-b border-slate-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-white/5 backdrop-blur-xl border border-white/10 shadow-sm">
+                  <div className="w-10 h-10 border border-[#22d3ee]/20 rounded-xl flex items-center justify-center p-1.5 bg-white shadow-sm">
                     <img src={logoBase64} alt="MCI Logo" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                   </div>
                   <div className="flex flex-col leading-none">
@@ -2752,7 +2762,7 @@ export default function App() {
                     playClickSound();
                     setIsMenuOpen(false);
                   }}
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-white/5 backdrop-blur-xl border border-white/10 shadow-sm"
+                  className="w-10 h-10 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:text-brand-orange hover:border-brand-orange/30 transition-all active:scale-95 bg-white shadow-sm"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -2774,20 +2784,20 @@ export default function App() {
                         handleSmoothScroll(e, link.href);
                       }}
                     >
-                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-300 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
+                      <span className="text-sm font-black uppercase tracking-[0.25em] text-slate-600 group-hover:text-brand-orange transition-colors duration-300 flex items-center gap-4">
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-100 group-hover:bg-brand-orange transition-colors" />
                         {link.name}
                       </span>
                       <ChevronRight className="w-4 h-4 text-slate-200 group-hover:text-brand-orange group-hover:translate-x-1 transition-all duration-300" />
                       
-                      <div className="absolute inset-0 bg-[#0a192f] border border-white/5 opacity-0 group-hover:opacity-100 -z-10 rounded-xl transition-opacity" />
+                      <div className="absolute inset-0 bg-slate-50 opacity-0 group-hover:opacity-100 -z-10 rounded-xl transition-opacity" />
                     </motion.a>
                   ))}
                 </div>
                 
                 {/* Refined Contact Section */}
-                <div className="mt-auto pt-8 border-t border-white/10">
-                  <div className="p-6 rounded-2xl bg-[#0a192f] backdrop-blur-md border border-white/60 shadow-sm space-y-5">
+                <div className="mt-auto pt-8 border-t border-slate-100">
+                  <div className="p-6 rounded-2xl bg-white/40 backdrop-blur-md border border-white/60 shadow-sm space-y-5">
                     <p className="text-[9px] font-black uppercase tracking-[0.4em] text-brand-orange/70">Atención Directa</p>
                     
                     <div className="space-y-4">
@@ -2795,12 +2805,12 @@ export default function App() {
                         href="tel:+525561500317" 
                         className="flex items-center gap-4 group"
                       >
-                        <div className="w-9 h-9 rounded-lg bg-white/5 backdrop-blur-xl border border-white/10 border border-white/10 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-md transition-all">
+                        <div className="w-9 h-9 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-md transition-all">
                           <Phone className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col leading-tight">
                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">Teléfono</span>
-                          <span className="text-xs font-bold text-slate-200 tracking-wide">55 6150 0317</span>
+                          <span className="text-xs font-bold text-slate-700 tracking-wide">55 6150 0317</span>
                         </div>
                       </a>
 
@@ -2808,12 +2818,12 @@ export default function App() {
                         href="mailto:mci.spolimericas@polycovers.mx" 
                         className="flex items-center gap-4 group"
                       >
-                        <div className="w-9 h-9 rounded-lg bg-white/5 backdrop-blur-xl border border-white/10 border border-white/10 flex items-center justify-center text-brand-blue-bright group-hover:border-brand-blue-bright/30 group-hover:shadow-md transition-all">
+                        <div className="w-9 h-9 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-brand-blue-bright group-hover:border-brand-blue-bright/30 group-hover:shadow-md transition-all">
                           <Mail className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col leading-tight min-w-0">
                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">Email Corporativo</span>
-                          <span className="text-[10px] font-bold text-slate-200 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
+                          <span className="text-[10px] font-bold text-slate-700 truncate tracking-tight">mci.spolimericas@polycovers.mx</span>
                         </div>
                       </a>
                     </div>
@@ -2842,7 +2852,7 @@ export default function App() {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={selectedImage}
+                src={getProxiedImageUrl(selectedImage)}
                 alt="Selected Gallery"
                 referrerPolicy="no-referrer"
                 className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.3)] border border-glass-border"

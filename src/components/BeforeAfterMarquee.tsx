@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Maximize2 } from 'lucide-react';
+import { getProxiedImageUrl } from '../utils/image';
 
 export interface PhotoPair {
   id: string;
@@ -23,8 +24,8 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
     <div 
       className={`relative flex flex-col w-[65vw] sm:w-[280px] md:w-[320px] lg:w-[360px] shrink-0 rounded-[1.5rem] p-3 sm:p-4 backdrop-blur-xl border-2 shadow-xl transition-all duration-500 cursor-pointer group hover:-translate-y-2 ${
         isEven 
-        ? 'bg-gradient-to-br from-surface/80 to-[#22d3ee]/10 border-[#22d3ee]/20 hover:border-[#22d3ee]/50 hover:shadow-[0_20px_50px_rgba(34,211,238,0.2)]' 
-        : 'bg-gradient-to-bl from-surface/80 to-brand-orange/10 border-brand-orange/20 hover:border-brand-orange/50 hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)]'
+        ? 'bg-gradient-to-br from-[#0a192f]/80 to-[#22d3ee]/10 border-[#22d3ee]/20 hover:border-[#22d3ee]/50 hover:shadow-[0_20px_50px_rgba(34,211,238,0.2)]' 
+        : 'bg-gradient-to-bl from-[#0a192f]/80 to-brand-orange/10 border-brand-orange/20 hover:border-brand-orange/50 hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)]'
       }`}
       onClick={onClick}
     >
@@ -40,7 +41,7 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
       <div className="relative flex flex-row w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-inner border border-white/10 group-hover:shadow-2xl transition-shadow duration-500">
         {/* Mitad Antes */}
         <div className="relative w-1/2 h-full overflow-hidden">
-          <img src={pair.before} alt="Antes" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:rotate-1" draggable={false}  loading="lazy" decoding="async" />
+          <img src={getProxiedImageUrl(pair.before)} alt="Antes" referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:rotate-1" draggable={false}  loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
           <div className="absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-1 sm:px-4 sm:py-1.5 bg-black/70 backdrop-blur-md text-white border-white/20 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg border z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
             Condición inicial
@@ -52,7 +53,7 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
         
         {/* Mitad Después */}
         <div className="relative w-1/2 h-full overflow-hidden">
-          <img src={pair.after} alt="Después" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:-rotate-1" draggable={false}  loading="lazy" decoding="async" />
+          <img src={getProxiedImageUrl(pair.after)} alt="Después" referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:-rotate-1" draggable={false}  loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
           <div className="absolute top-2 right-2 sm:top-4 sm:right-4 px-2 py-1 sm:px-4 sm:py-1.5 bg-brand-orange/90 backdrop-blur-md text-white border-white/20 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-[0_0_20px_rgba(245,130,32,0.5)] border z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
             Solución MCI
@@ -209,7 +210,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
 
                 {/* Antes Side */}
                 <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group pt-16 md:pt-0">
-                  <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
+                  <img src={getProxiedImageUrl(selectedPair.before)} alt="Antes" referrerPolicy="no-referrer" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
                   <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-6 sm:py-3 bg-black/80 backdrop-blur-md text-white font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
                     Condición inicial
                   </div>
@@ -220,7 +221,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
 
                 {/* Después Side */}
                 <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group">
-                  <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
+                  <img src={getProxiedImageUrl(selectedPair.after)} alt="Después" referrerPolicy="no-referrer" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
                   <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-6 sm:py-3 bg-brand-orange/90 backdrop-blur-md text-white font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
                     Solución MCI
                   </div>
