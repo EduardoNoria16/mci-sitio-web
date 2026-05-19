@@ -2009,21 +2009,21 @@ export default function App() {
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-white shadow-2xl -translate-y-2 border-brand-orange/40' : 'bg-slate-50/50 border-slate-100 hover:bg-white hover:shadow-xl hover:border-brand-blue/20 hover:-translate-y-2'}`}
+              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-[#112240] shadow-2xl -translate-y-2 border-brand-orange/40' : 'bg-[#112240]/40 border-white/5 hover:bg-[#112240] hover:shadow-xl hover:border-brand-blue/20 hover:-translate-y-2'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
               <div className="flex flex-col gap-6 w-full">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-xl' : 'bg-slate-100 text-brand-orange border border-slate-200'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-xl' : 'bg-[#0a192f] text-brand-orange border border-white/10 group-hover:bg-brand-orange group-hover:text-white'}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-8 h-8 transition-colors duration-300' })}
                 </div>
                 <div className="space-y-3">
-                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-slate-900 group-hover:text-brand-blue'}`}>
+                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-white group-hover:text-brand-blue'}`}>
                     {sector.title}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                  <p className={`text-sm leading-relaxed font-semibold transition-colors duration-300 ${activeSector === sector.id ? 'text-white/80' : 'text-white/60 group-hover:text-white/80'}`}>
                     {sector.description}
                   </p>
                 </div>
