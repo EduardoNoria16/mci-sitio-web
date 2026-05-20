@@ -1356,50 +1356,16 @@ export default function App() {
         const errData = await response.json();
         throw new Error(errData.error || 'Failed to fetch');
       }
-      
-      if (!response.body) {
-         throw new Error("No response body");
-      }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      
-      setChatMessages(prev => [...prev, { type: 'bot', text: '' }]);
-      let botText = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const dataStr = line.substring(6);
-            if (dataStr === '[DONE]') {
-               break;
-            }
-            try {
-              const dataObj = JSON.parse(dataStr);
-              if (dataObj.text) {
-                botText += dataObj.text;
-                setChatMessages(prev => {
-                  const newMsg = [...prev];
-                  newMsg[newMsg.length - 1].text = botText;
-                  return newMsg;
-                });
-              }
-            } catch(e) {
-               console.warn("Parse error on chunk line", line);
-            }
-          }
-        }
-      }
+      const data = await response.json();
+      setChatMessages(prev => [...prev, { type: 'bot', text: data.text }]);
       
       setBotExpression('happy');
       setTimeout(() => setBotExpression('idle'), 3000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("AI Error Details:", error);
-      setChatMessages(prev => [...prev, { type: 'bot', text: "Hubo un error al conectar con el asistente. Por favor, intenta de nuevo o contáctanos por WhatsApp." }]);
+      const errorMsg = error?.message || "Error desconocido";
+      setChatMessages(prev => [...prev, { type: 'bot', text: `Hubo un error al conectar con el asistente: ${errorMsg}. Por favor, intenta de nuevo.` }]);
     } finally {
       setIsTyping(false);
     }

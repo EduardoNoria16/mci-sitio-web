@@ -32,13 +32,8 @@ async function startServer() {
         parts.push(imagePart);
       }
 
-      // Configure for Server-Sent Events
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-
-      // Generate response stream
-      const responseStream = await ai.models.generateContentStream({
+      // Generate response
+      const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: [{ role: 'user', parts }],
         config: {
@@ -46,22 +41,10 @@ async function startServer() {
         }
       });
 
-      for await (const chunk of responseStream) {
-        if (chunk.text) {
-          res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
-        }
-      }
-      res.write('data: [DONE]\n\n');
-      res.end();
+      res.json({ text: response.text });
     } catch (error) {
       console.error("Gemini API Error:", error);
-      // If headers haven't been sent, return normal JSON error
-      if (!res.headersSent) {
-        res.status(500).json({ error: "Failed to generate content", details: String(error) });
-      } else {
-        res.write(`event: error\ndata: ${JSON.stringify({ error: String(error) })}\n\n`);
-        res.end();
-      }
+      res.status(500).json({ error: "Failed to generate content", details: String(error) });
     }
   });
 
