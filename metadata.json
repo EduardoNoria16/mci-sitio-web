@@ -1,5 +1,6 @@
 {
   "name": "Polycovers - Ingeniería en Recubrimientos",
   "description": "Líder en soluciones poliméricas para la protección y restauración de activos industriales. Más de 30 años de experiencia técnica bajo la marca Polycovers.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

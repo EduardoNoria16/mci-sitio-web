@@ -7,7 +7,6 @@ import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from '
 import { useLocation, useNavigate, Routes, Route, Navigate } from 'react-router-dom';
 import { logoBase64 } from './logoBase64';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, animate } from 'motion/react';
-import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { 
   Phone, 
   Mail, 
@@ -923,8 +922,6 @@ Reglas de Oro:
 - Si el problema es crítico, invítalo a contactarnos por WhatsApp.
 - Usa lenguaje sencillo que cualquier persona pueda entender fácilmente.`;
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 // --- Main App Component ---
 
 export default function App() {
@@ -1344,34 +1341,57 @@ export default function App() {
     setBotExpression('thinking');
 
     try {
-      const parts: any[] = [];
-      if (userMsg) parts.push({ text: userMsg });
+      let imagePart = null;
       if (currentFile) {
-        parts.push(await fileToGenerativePart(currentFile));
+        imagePart = await fileToGenerativePart(currentFile);
       }
 
-      // Usar streaming para no bloquear y mejorar UX
-      const stream = await ai.models.generateContentStream({ 
-        model: "gemini-3-flash-preview",
-        contents: [{ role: 'user', parts }],
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION + "\n\nIMPORTANTE: Responde de manera concisa y directa."
-        }
+      const response = await fetch('/api/gemini/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userMsg, imagePart })
       });
+      
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Failed to fetch');
+      }
+      
+      if (!response.body) {
+         throw new Error("No response body");
+      }
 
-      let botText = "";
-      // Agregar mensaje vacío del bot para ir actualizando
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      
       setChatMessages(prev => [...prev, { type: 'bot', text: '' }]);
+      let botText = "";
 
-      for await (const chunk of stream) {
-        const chunkText = chunk.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (chunkText) {
-          botText += chunkText;
-          setChatMessages(prev => {
-            const newMsg = [...prev];
-            newMsg[newMsg.length - 1].text = botText;
-            return newMsg;
-          });
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const dataStr = line.substring(6);
+            if (dataStr === '[DONE]') {
+               break;
+            }
+            try {
+              const dataObj = JSON.parse(dataStr);
+              if (dataObj.text) {
+                botText += dataObj.text;
+                setChatMessages(prev => {
+                  const newMsg = [...prev];
+                  newMsg[newMsg.length - 1].text = botText;
+                  return newMsg;
+                });
+              }
+            } catch(e) {
+               console.warn("Parse error on chunk line", line);
+            }
+          }
         }
       }
       
@@ -2300,14 +2320,14 @@ export default function App() {
                 playClickSound();
                 setActiveFaq(activeFaq === i ? null : i);
               }}
-              className={`p-5 md:p-6 rounded-2xl border transition-all group cursor-pointer ${activeFaq === i ? 'bg-white border-brand-orange shadow-2xl scale-[1.02]' : 'bg-slate-50 border-slate-100 hover:bg-white hover:shadow-md'}`}
+              className={`p-5 md:p-6 rounded-2xl border-[1.5px] transition-all duration-500 cursor-pointer group hover:-translate-y-1 ${activeFaq === i ? 'bg-gradient-to-br from-blue-100/80 to-white shadow-xl scale-[1.02] border-blue-300 ring-4 ring-blue-400/20' : 'bg-gradient-to-br from-blue-50/70 to-white/70 border-blue-200/60 shadow-sm hover:shadow-lg hover:from-blue-100/80 hover:to-white/90'}`}
             >
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-slate-900 font-bold text-sm md:text-lg group-hover:text-brand-orange transition-colors flex items-start gap-3">
-                  <span className="text-brand-orange/40 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
+                <h3 className={`font-bold text-sm md:text-lg transition-colors flex items-start gap-3 ${activeFaq === i ? 'text-blue-900' : 'text-blue-950 group-hover:text-blue-700'}`}>
+                  <span className="text-blue-400 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
                   {faq.q}
                 </h3>
-                <ChevronDown className={`w-5 h-5 text-brand-orange transition-transform duration-300 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-5 h-5 text-blue-500 transition-transform duration-500 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
               </div>
               <AnimatePresence>
                 {activeFaq === i && (
@@ -2317,7 +2337,7 @@ export default function App() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-4 text-slate-600 text-sm md:text-base leading-relaxed pl-8">
+                    <p className="mt-4 text-slate-800 text-sm md:text-base leading-relaxed pl-8">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -2341,13 +2361,6 @@ export default function App() {
                 <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
                 <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
               </div>
-            </div>
-          </div>
-
-          <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/20 text-[10px] font-black uppercase tracking-widest text-center">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
-            <div className="flex items-center gap-6">
-              <span className="text-white/20 text-[10px] font-black uppercase tracking-widest text-center">Ciudad de México, MX</span>
             </div>
           </div>
         </div>
