@@ -33,8 +33,13 @@ export default async function handler(req: any, res: any) {
     });
 
     res.json({ text: response.text });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini API Error:", error);
-    res.status(500).json({ error: "Failed to generate content", details: String(error) });
+    const errorString = String(error);
+    if (errorString.includes("suspended") || errorString.includes("API_KEY_INVALID")) {
+      res.status(403).json({ error: "Llave de API inválida o suspendida. Por favor actualiza GEMINI_API_KEY en tu hosting." });
+    } else {
+      res.status(500).json({ error: "Failed to generate content", details: errorString });
+    }
   }
 }
