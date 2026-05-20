@@ -1776,17 +1776,17 @@ export default function App() {
                     setActiveStrength(s);
                     setIsStrengthHovered(true);
                   }}
-                  className="group relative p-8 rounded-[2rem] border-2 border-white/5 bg-[#112240] shadow-sm hover:shadow-2xl hover:border-brand-orange/40 hover:bg-[#162a4d] transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
+                  className="group relative p-8 rounded-[2rem] border-[1.5px] border-blue-200/60 bg-gradient-to-br from-blue-50/70 to-white/70 shadow-sm hover:shadow-xl hover:from-blue-100/80 hover:to-white/90 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-[#0a192f] flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all duration-500 shadow-xl group-hover:rotate-6">
+                  <div className="w-20 h-20 rounded-2xl bg-blue-100/50 flex items-center justify-center text-blue-600 transition-all duration-500 shadow-[0_0_15px_rgba(37,99,235,0.15)] border border-blue-200 group-hover:bg-blue-600 group-hover:text-white group-hover:rotate-6 relative z-10">
                     {React.cloneElement(s.icon as React.ReactElement, { className: 'w-10 h-10 transition-transform duration-500' })}
                   </div>
                   
                   <div className="space-y-4">
-                    <h3 className="text-xl font-black text-white uppercase tracking-tight leading-tight group-hover:text-brand-orange transition-colors">
+                    <h3 className="text-xl font-black text-blue-950 uppercase tracking-tight leading-tight group-hover:text-blue-700 transition-colors relative z-10">
                       {s.title}
                     </h3>
-                    <p className="text-xs text-white/60 font-bold leading-relaxed uppercase tracking-widest px-4">
+                    <p className="text-xs text-slate-800 font-bold leading-relaxed uppercase tracking-widest px-4 relative z-10">
                       {s.description || 'Excelencia Operativa'}
                     </p>
                   </div>
@@ -1798,7 +1798,7 @@ export default function App() {
                       setActiveStrength(s);
                       setIsStrengthHovered(true);
                     }}
-                    className="mt-2 flex items-center gap-2 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all"
+                    className="mt-2 flex items-center gap-2 text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all relative z-10"
                   >
                     Detalles <ArrowRight className="w-3 h-3" />
                   </button>
@@ -1824,19 +1824,19 @@ export default function App() {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 }} 
-                className="group relative w-full max-w-lg bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-brand-orange/20 transition-all duration-500"
+                className="group relative w-full max-w-lg bg-gradient-to-br from-blue-50/70 to-white/70 border border-blue-200/60 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
               >
                 {/* Visual Engineering Background */}
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-orange via-brand-orange/20 to-brand-orange animate-pulse" />
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400 animate-pulse" />
                 
                 <div className="relative z-10 px-4 py-8 md:px-8 md:py-10 flex flex-col items-center gap-3 text-center">
                   <h3 className="text-lg md:text-2xl lg:text-3xl font-black uppercase tracking-tight md:tracking-tighter leading-tight">
-                    <span className="text-[#00f2ff]">PARA MÁS INFORMACIÓN</span> <br />
-                    <span className="text-brand-orange group-hover:text-cyan-400 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
+                    <span className="text-blue-950">PARA MÁS INFORMACIÓN</span> <br />
+                    <span className="text-blue-600 group-hover:text-blue-700 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
                   </h3>
                   
-                  <p className="text-[#38bdf8] text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
+                  <p className="text-slate-700 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
                     Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
                   </p>
 
@@ -2009,21 +2009,21 @@ export default function App() {
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className={`snap-center p-6 md:p-10 rounded-3xl border-2 transition-all duration-500 cursor-pointer group relative ${activeSector === sector.id ? 'ring-4 ring-brand-orange/20 bg-[#112240] shadow-2xl -translate-y-2 border-brand-orange/40' : 'bg-[#112240]/40 border-white/5 hover:bg-[#112240] hover:shadow-xl hover:border-brand-blue/20 hover:-translate-y-2'}`}
+              className={`snap-center p-6 md:p-10 rounded-[2rem] border-[1.5px] transition-all duration-500 cursor-pointer group relative overflow-hidden ${activeSector === sector.id ? 'bg-gradient-to-br from-blue-100/80 to-white shadow-2xl -translate-y-2 border-blue-300 ring-4 ring-blue-400/20' : 'bg-gradient-to-br from-blue-50/70 to-white/70 border-blue-200/60 shadow-sm hover:shadow-xl hover:from-blue-100/80 hover:to-white/90 hover:-translate-y-2'}`}
               onClick={() => {
                 playClickSound();
                 setActiveSector(activeSector === sector.id ? null : sector.id);
               }}
             >
-              <div className="flex flex-col gap-6 w-full">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-brand-blue text-white shadow-xl' : 'bg-[#0a192f] text-brand-orange border border-white/10 group-hover:bg-brand-orange group-hover:text-white'}`}>
+              <div className="flex flex-col gap-6 w-full relative z-10">
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${activeSector === sector.id ? 'bg-blue-600 text-white shadow-xl' : 'bg-blue-100/50 text-blue-600 border border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)] group-hover:bg-blue-600 group-hover:text-white'}`}>
                   {React.cloneElement(sector.icon as React.ReactElement, { className: 'w-8 h-8 transition-colors duration-300' })}
                 </div>
                 <div className="space-y-3">
-                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-brand-orange' : 'text-white group-hover:text-brand-blue'}`}>
+                  <h3 className={`text-xl font-black uppercase tracking-tight leading-tight transition-colors duration-300 ${activeSector === sector.id ? 'text-blue-900' : 'text-blue-950 group-hover:text-blue-700'}`}>
                     {sector.title}
                   </h3>
-                  <p className={`text-sm leading-relaxed font-semibold transition-colors duration-300 ${activeSector === sector.id ? 'text-white/80' : 'text-white/60 group-hover:text-white/80'}`}>
+                  <p className={`text-sm leading-relaxed font-semibold transition-colors duration-300 ${activeSector === sector.id ? 'text-slate-800' : 'text-slate-700 group-hover:text-slate-800'}`}>
                     {sector.description}
                   </p>
                 </div>
@@ -2036,18 +2036,18 @@ export default function App() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="pt-6 border-t border-glass-border space-y-5"
+                    className="pt-6 border-t border-blue-200/40 space-y-5"
                   >
                     {sector.details?.groups.map((group, i) => (
-                      <div key={i} className="space-y-3">
-                        <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] flex items-center gap-2">
-                          <div className="w-1 h-1 bg-brand-orange rounded-full" />
+                      <div key={i} className="space-y-3 relative z-10">
+                        <h4 className="text-sm font-black text-blue-950 uppercase tracking-[0.2em] flex items-center gap-2">
+                          <div className="w-1 h-1 bg-blue-500 rounded-full" />
                           {group.title}
                         </h4>
                         <ul className="grid grid-cols-1 gap-2.5">
                           {group.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-sm text-on-surface-subtle font-medium leading-relaxed">
-                              <ArrowRight className="w-2.5 h-2.5 text-brand-orange/40 mt-0.5 flex-shrink-0" />
+                            <li key={j} className="flex items-start gap-3 text-sm text-slate-800 font-medium leading-relaxed">
+                              <ArrowRight className="w-2.5 h-2.5 text-blue-500/60 mt-0.5 flex-shrink-0" />
                               {item}
                             </li>
                           ))}
@@ -2058,7 +2058,7 @@ export default function App() {
                 )}
               </AnimatePresence>
               
-              <div className="absolute bottom-6 right-8 text-brand-orange opacity-20 group-hover:opacity-100 transition-all duration-500">
+              <div className="absolute bottom-6 right-8 text-blue-400 opacity-20 group-hover:opacity-100 transition-all duration-500">
                 <ChevronDown className={`w-5 h-5 transition-transform duration-500 ${activeSector === sector.id ? 'rotate-180' : ''}`} />
               </div>
             </motion.div>
@@ -2075,13 +2075,13 @@ export default function App() {
             viewport={{ once: true }}
             className="space-y-6 text-center max-w-3xl mx-auto"
           >
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-slate-900 drop-shadow-sm leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm leading-tight">
               Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4">
-              <p className="text-on-surface/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
-                Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-brand-blue">operativa</span>.
+              <p className="text-white/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
+                Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-[#22d3ee]">operativa</span>.
               </p>
             </div>
           </motion.div>

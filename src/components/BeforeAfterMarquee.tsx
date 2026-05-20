@@ -22,17 +22,17 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
 
   return (
     <div 
-      className={`relative flex flex-col w-[65vw] sm:w-[280px] md:w-[320px] lg:w-[360px] shrink-0 rounded-[1.5rem] p-3 sm:p-4 backdrop-blur-xl border-2 shadow-xl transition-all duration-500 cursor-pointer group hover:-translate-y-2 ${
+      className={`relative flex flex-col w-[65vw] sm:w-[280px] md:w-[320px] lg:w-[360px] shrink-0 rounded-[1.5rem] p-3 sm:p-4 border-[1.5px] border-blue-200/60 shadow-sm transition-all duration-500 cursor-pointer group hover:-translate-y-2 hover:shadow-xl ${
         isEven 
-        ? 'bg-gradient-to-br from-[#0a192f]/80 to-[#22d3ee]/10 border-[#22d3ee]/20 hover:border-[#22d3ee]/50 hover:shadow-[0_20px_50px_rgba(34,211,238,0.2)]' 
-        : 'bg-gradient-to-bl from-[#0a192f]/80 to-brand-orange/10 border-brand-orange/20 hover:border-brand-orange/50 hover:shadow-[0_20px_50px_rgba(245,130,32,0.2)]'
+        ? 'bg-gradient-to-br from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90' 
+        : 'bg-gradient-to-bl from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90'
       }`}
       onClick={onClick}
     >
       {/* Decorative header */}
       <div className="flex items-center gap-2 mb-3 px-2">
-        <div className={`w-2 h-2 rounded-full shadow-sm ${isEven ? 'bg-slate-800' : 'bg-brand-orange'}`} />
-        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-slate-200' : 'text-brand-orange drop-shadow-sm'}`}>
+        <div className={`w-2 h-2 rounded-full shadow-sm ${isEven ? 'bg-blue-500' : 'bg-blue-600'}`} />
+        <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${isEven ? 'text-blue-900' : 'text-blue-950'}`}>
           CASOS DE ÉXITO MCI
         </span>
       </div>

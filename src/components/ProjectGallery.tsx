@@ -92,10 +92,10 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "100px" }}
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="group relative flex-none w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] aspect-square snap-center rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-[#22d3ee]/20 will-change-transform bg-[#112240] border border-white/5"
+                  className="group relative flex-none w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] aspect-square snap-center rounded-2xl md:rounded-[2rem] overflow-hidden cursor-pointer shadow-sm border-[1.5px] border-blue-200/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 will-change-transform bg-gradient-to-br from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 p-3 sm:p-4"
                   onClick={() => onImageSelect(getProxiedImageUrl(image.url))}
                 >
-                  <div className="w-full h-full relative">
+                  <div className="w-full h-full relative rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-black/5">
                     <img
                       src={getProxiedImageUrl(image.url)}
                       alt={image.title}
