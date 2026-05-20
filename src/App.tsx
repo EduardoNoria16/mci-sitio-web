@@ -2463,7 +2463,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               style={{ transformOrigin: 'bottom left' }}
-              className="absolute bottom-[calc(100%+8px)] sm:bottom-[calc(100%+12px)] left-0 w-[calc(100vw-32px)] sm:w-[24rem] h-[550px] max-h-[75vh] sm:h-[38rem] sm:max-h-[800px] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
+              className="absolute bottom-[calc(100%+8px)] sm:bottom-[calc(100%+12px)] left-0 w-[calc(100vw-32px)] sm:w-[22rem] md:w-[24rem] h-[460px] xs:h-[480px] sm:h-[500px] md:h-[540px] max-h-[calc(100dvh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10 font-sans">
