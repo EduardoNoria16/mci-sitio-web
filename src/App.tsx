@@ -2166,11 +2166,11 @@ export default function App() {
                 <Mail className="w-3" />
                 Ingeniería de Ventas
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
                 ¿TIENES UN <br />
                 <span className="text-brand-orange">PROYECTO EN MENTE?</span>
               </h2>
-              <p className="text-slate-600 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+              <p className="text-white/70 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
                 Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
               </p>
             </div>
@@ -2184,7 +2184,7 @@ export default function App() {
                   <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
                     {item.icon}
                   </div>
-                  <a href={item.href} className="text-sm font-black text-slate-900 transition-colors">
+                  <a href={item.href} className="text-sm font-black text-white hover:text-brand-orange transition-colors">
                     {item.text}
                   </a>
                 </div>
@@ -2278,7 +2278,7 @@ export default function App() {
             <Wrench className="w-3 h-3" />
             Resolviendo Dudas Técnicas
           </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 uppercase tracking-tighter">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tighter">
             Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
           </h2>
         </div>
@@ -2333,33 +2333,21 @@ export default function App() {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-5 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-20">
-            <div className="space-y-6 text-center md:text-left max-w-sm">
-              <div className="flex items-center justify-center md:justify-start gap-4">
-                <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
-                <div className="h-10 w-px bg-white/20" />
-                <div className="text-white">
-                  <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
-                  <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
-                </div>
+          <div className="flex flex-col items-center justify-center gap-12">
+            <div className="flex items-center justify-center gap-4">
+              <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
+              <div className="h-10 w-px bg-white/20" />
+              <div className="text-white text-left">
+                <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
+                <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
               </div>
-              <p className="text-white/40 text-xs font-bold uppercase tracking-widest leading-relaxed">
-                Ingeniería aplicada en restauración y protección de activos industriales con más de 30 años de experiencia.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/50 text-[10px] font-black uppercase tracking-[0.3em]">
-              <a href="#inicio" onClick={(e) => handleSmoothScroll(e, '#inicio')} className="hover:text-brand-orange transition-colors">Inicio</a>
-              <a href="#sectores" onClick={(e) => handleSmoothScroll(e, '#sectores')} className="hover:text-brand-orange transition-colors">Sectores</a>
-              <a href="#transformacion" onClick={(e) => handleSmoothScroll(e, '#transformacion')} className="hover:text-brand-orange transition-colors">Antes / Después</a>
-              <a href="#contacto" onClick={(e) => handleSmoothScroll(e, '#contacto')} className="hover:text-brand-orange transition-colors">Contacto</a>
             </div>
           </div>
 
-          <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
+          <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-white/20 text-[10px] font-black uppercase tracking-widest text-center">© 2026 MCI Soluciones Poliméricas - Todos los derechos reservados</p>
             <div className="flex items-center gap-6">
-              <span className="text-white/20 text-[10px] font-black uppercase tracking-widest">Ciudad de México, MX</span>
+              <span className="text-white/20 text-[10px] font-black uppercase tracking-widest text-center">Ciudad de México, MX</span>
             </div>
           </div>
         </div>
