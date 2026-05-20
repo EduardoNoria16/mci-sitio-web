@@ -2402,7 +2402,7 @@ export default function App() {
       )}
 
       {/* Floating Chat Widget */}
-      <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000] scale-[0.8] origin-bottom-left md:scale-100" ref={chatContainerRef}>
+      <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100000]" ref={chatContainerRef}>
         <AnimatePresence>
           {!isChatOpen && (
             <motion.div 
@@ -2410,23 +2410,23 @@ export default function App() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ delay: 2, duration: 0.5, type: "spring" }}
-              className="absolute bottom-full left-0 mb-4 ml-6 w-48 bg-white/95 backdrop-blur-md text-brand-blue-bright text-xs font-bold leading-tight px-4 py-3 rounded-2xl rounded-bl-sm shadow-[0_10px_20px_rgba(0,0,0,0.15)] border border-brand-blue/10 flex items-center gap-2 pointer-events-none"
+              className="absolute bottom-full left-0 mb-4 ml-2 w-[11rem] bg-white/95 backdrop-blur-md text-brand-blue-bright text-xs font-bold leading-tight px-4 py-3 rounded-2xl rounded-bl-sm shadow-[0_10px_20px_rgba(0,0,0,0.15)] border border-brand-blue/10 flex items-center gap-2 pointer-events-none"
             >
                <motion.span 
                  animate={{ rotate: [0, 15, -10, 15, -10, 0] }}
                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
-                 className="text-lg origin-bottom-right inline-block"
+                 className="text-lg origin-bottom-right inline-block shrink-0"
                >
                  👋
                </motion.span>
-               ¡Hey! ¿En qué puedo ayudarte?
+               <span>¡Hey! ¿En qué puedo ayudarte?</span>
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="relative inline-block">
+        <div className="relative inline-block group">
           <button 
             onClick={() => setIsChatOpen(!isChatOpen)}
-            className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-brand-blue to-[#1a365d] shadow-[0_12px_25px_rgba(0,0,0,0.3)] flex items-center justify-center group outline-none overflow-hidden border-2 border-white/20 hover:scale-105 active:scale-95 transition-all"
+            className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-tr from-brand-blue to-[#1a365d] shadow-[0_12px_25px_rgba(0,0,0,0.3)] flex items-center justify-center outline-none overflow-hidden border-2 border-white/20 hover:scale-[1.03] active:scale-95 transition-all will-change-transform"
           >
             {isChatOpen ? (
               <motion.div 
@@ -2439,7 +2439,7 @@ export default function App() {
               </motion.div>
             ) : (
               <motion.div 
-                className="relative w-full h-full flex items-center justify-center"
+                className="relative w-full h-full flex items-center justify-center pointer-events-none origin-bottom"
                 animate={{ y: [0, -3, 0] }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
               >
@@ -2450,9 +2450,9 @@ export default function App() {
 
           {/* Neon Green Online Indicator */}
           {!isChatOpen && (
-            <div className="absolute top-0 right-0 flex items-center justify-center z-10 pointer-events-none">
-              <span className="absolute w-4 h-4 bg-[#39ff14] rounded-full animate-ping opacity-40 shadow-[0_0_10px_#39ff14]" />
-              <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border-2 border-[#1a365d] shadow-[0_0_10px_#39ff14]" />
+            <div className="absolute top-[3px] right-[3px] md:top-[6px] md:right-[6px] flex items-center justify-center z-10 hover:scale-110 transition-transform cursor-help" title="Asistente En Línea">
+              <span className="absolute w-[18px] h-[18px] bg-[#39ff14] rounded-full animate-ping opacity-40 shadow-[0_0_10px_#39ff14]" />
+              <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border border-white/20 shadow-[0_0_10px_#39ff14]" />
             </div>
           )}
         </div>
@@ -2460,10 +2460,11 @@ export default function App() {
         <AnimatePresence>
           {isChatOpen && (
             <motion.div 
-              initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-20 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden"
+              style={{ transformOrigin: 'bottom left' }}
+              className="absolute bottom-[calc(100%+12px)] left-0 w-[calc(100vw-32px)] md:w-[24rem] h-[calc(100dvh-120px)] md:h-[38rem] max-h-[800px] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10 font-sans">
