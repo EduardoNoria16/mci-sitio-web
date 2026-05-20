@@ -924,6 +924,73 @@ Reglas de Oro:
 
 // --- Main App Component ---
 
+const BotAvatar = ({ isHappy, isThinking, className = "w-full h-full" }: { isHappy: boolean, isThinking: boolean, className?: string }) => {
+  return (
+    <div className={`relative flex items-center justify-center ${className}`}>
+      <svg viewBox="0 0 100 100" className="w-[85%] h-[85%]">
+        {/* Antenna */}
+        <path d="M50 25 L50 12" stroke="#f8fafc" strokeWidth="4" strokeLinecap="round" />
+        <motion.circle cx="50" cy="12" r="5" fill="#f58220" 
+          animate={{ filter: ['brightness(1)', 'brightness(1.5)', 'brightness(1)'] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+        
+        {/* Head */}
+        <path d="M 20 40 Q 20 30, 40 30 L 60 30 Q 80 30, 80 40 L 80 75 Q 80 85, 70 85 L 30 85 Q 20 85, 20 75 Z" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="2" />
+        
+        {/* Ears */}
+        <path d="M 20 45 L 14 45 Q 10 45, 10 50 L 10 60 Q 10 65, 14 65 L 20 65" fill="#cbd5e1" />
+        <path d="M 80 45 L 86 45 Q 90 45, 90 50 L 90 60 Q 90 65, 86 65 L 80 65" fill="#cbd5e1" />
+        
+        {/* Screen / Visor */}
+        <rect x="28" y="40" width="44" height="28" rx="8" fill="#0f172a" />
+        
+        {/* Eyes */}
+        <motion.ellipse 
+          cx="38" cy="54" rx="4" ry="5" fill="#00f2ff" 
+          animate={
+            isHappy ? { ry: [5, 1.5, 5], cy: [54, 52, 54] } :
+            isThinking ? { cx: [36, 40, 36], rx: 4 } :
+            { ry: [5, 1, 5] }
+          }
+          transition={
+            isHappy ? { duration: 0.8, ease: "easeInOut" } :
+            isThinking ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
+            { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
+          }
+        />
+        <motion.ellipse 
+          cx="62" cy="54" rx="4" ry="5" fill="#00f2ff" 
+          animate={
+            isHappy ? { ry: [5, 1.5, 5], cy: [54, 52, 54] } :
+            isThinking ? { cx: [60, 64, 60], rx: 4 } :
+            { ry: [5, 1, 5] }
+          }
+          transition={
+            isHappy ? { duration: 0.8, ease: "easeInOut" } :
+            isThinking ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
+            { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
+          }
+        />
+
+        {/* Blush */}
+        <circle cx="32" cy="62" r="3.5" fill="#f58220" opacity="0.6" filter="blur(1px)" />
+        <circle cx="68" cy="62" r="3.5" fill="#f58220" opacity="0.6" filter="blur(1px)" />
+
+        {/* Mouth/Smile line */}
+        <motion.path 
+          d="M 45 76 Q 50 80, 55 76" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round"
+          animate={
+            isHappy ? { d: "M 42 74 Q 50 84, 58 74" } :
+            isThinking ? { d: "M 48 77 L 52 77" } :
+            { d: "M 45 76 Q 50 80, 55 76" }
+          }
+        />
+      </svg>
+    </div>
+  );
+};
+
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1104,11 +1171,11 @@ export default function App() {
   };
 
   const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: 'Hola, soy el asistente virtual de MCI Soluciones Poliméricas. Te invito a consultarnos.' }
+    { type: 'bot', text: 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?' }
   ]);
   const handleResetChat = useCallback(() => {
     setChatMessages([
-      { type: 'bot', text: 'Hola, soy el asistente virtual de MCI Soluciones Poliméricas. Te invito a consultarnos.' }
+      { type: 'bot', text: 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?' }
     ]);
   }, []);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -2356,97 +2423,39 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-        <button 
-          onClick={() => setIsChatOpen(!isChatOpen)}
-          className="relative w-16 h-16 flex items-center justify-center group outline-none"
-        >
-          {/* Cyber-Bot Body/Head */}
-          <motion.div 
-            className="absolute inset-0 bg-slate-900 rounded-[1.25rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-b-4 border-slate-950 border-r-2 border-l-2 overflow-hidden ring-1 ring-white/10"
-            animate={{ 
-              y: [0, -6, 0],
-              rotate: isChatOpen ? 0 : [0, -1, 1, 0]
-            }}
-            transition={{ 
-              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-            }}
+        <div className="relative inline-block">
+          <button 
+            onClick={() => setIsChatOpen(!isChatOpen)}
+            className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-brand-blue to-[#1a365d] shadow-[0_12px_25px_rgba(0,0,0,0.3)] flex items-center justify-center group outline-none overflow-hidden border-2 border-white/20 hover:scale-105 active:scale-95 transition-all"
           >
-            {/* Dark Tech Texture */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-            
-            {/* Visor - Cyber Style */}
-            <div className="absolute top-1/4 left-1.5 right-1.5 h-[45%] bg-black rounded-xl flex items-center justify-center gap-2 overflow-hidden border border-brand-orange/20 shadow-[inset_0_0_15px_rgba(245,130,32,0.1)]">
-                {isChatOpen ? (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    className="text-brand-orange font-black text-2xl"
-                  >
-                    ×
-                  </motion.div>
-                ) : (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="flex gap-2.5"
-                  >
-                    {/* Glowing Eyes */}
-                    <motion.div 
-                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_12px_#00f2ff]"
-                      animate={
-                        botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
-                        botExpression === 'thinking' ? { x: [-3, 3, -3], scaleY: 0.8 } :
-                        { scaleY: [1, 0.1, 1] }
-                      }
-                      transition={
-                        botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
-                        botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
-                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
-                      }
-                    />
-                    <motion.div 
-                      className="w-3 h-3 bg-[#00f2ff] rounded-full shadow-[0_0_12px_#00f2ff]"
-                      animate={
-                        botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
-                        botExpression === 'thinking' ? { x: [-3, 3, -3], scaleY: 0.8 } :
-                        { scaleY: [1, 0.1, 1] }
-                      }
-                      transition={
-                        botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
-                        botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
-                        { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
-                      }
-                    />
-                  </motion.div>
-                )}
-              {/* Internal HUD Scanning Grid */}
+            {isChatOpen ? (
               <motion.div 
-                className="absolute inset-0 bg-[linear-gradient(rgba(0,242,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,242,255,0.05)_1px,transparent_1px)] bg-[size:10px_10px]"
-                animate={{ backgroundPositionY: ['0px', '20px'] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              />
+                 initial={{ opacity: 0, rotate: -90 }}
+                 animate={{ opacity: 1, rotate: 0 }}
+                 exit={{ opacity: 0, rotate: 90 }}
+                 className="text-white text-3xl font-black drop-shadow-md"
+              >
+                ×
+              </motion.div>
+            ) : (
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00f2ff]/20 to-transparent h-[1px] w-full"
-                animate={{ top: ['0%', '100%'] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-              />
-            </div>
-            {/* Orange Power Indicator */}
-            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-brand-orange rounded-full blur-[1px] shadow-[0_0_5px_rgba(245,130,32,0.8)] animate-pulse" />
-          </motion.div>
+                className="relative w-full h-full flex items-center justify-center"
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <BotAvatar isHappy={botExpression === 'happy'} isThinking={botExpression === 'thinking'} />
+              </motion.div>
+            )}
+          </button>
 
-          {/* Floating Ring */}
-          <div className="absolute -inset-6 border border-dashed border-brand-orange/30 rounded-full animate-[spin_20s_linear_infinite] pointer-events-none" />
-          
           {/* Neon Green Online Indicator */}
-          <div className="absolute -top-1 -right-1 flex items-center justify-center z-10">
-            <span className="absolute w-5 h-5 bg-[#39ff14] rounded-full animate-ping opacity-40" />
-            <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border-2 border-[#0f172a] shadow-[0_0_10px_#39ff14]" />
-          </div>
-        </button>
+          {!isChatOpen && (
+            <div className="absolute top-0 right-0 flex items-center justify-center z-10 pointer-events-none">
+              <span className="absolute w-4 h-4 bg-[#39ff14] rounded-full animate-ping opacity-40 shadow-[0_0_10px_#39ff14]" />
+              <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border-2 border-[#1a365d] shadow-[0_0_10px_#39ff14]" />
+            </div>
+          )}
+        </div>
 
         <AnimatePresence>
           {isChatOpen && (
@@ -2454,49 +2463,17 @@ export default function App() {
               initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-24 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden"
+              className="absolute bottom-20 left-0 w-[22.5rem] max-w-[calc(100vw-60px)] h-[37.5rem] max-h-[calc(100vh-120px)] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden"
             >
               <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10 font-sans">
-                  <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center relative overflow-hidden shadow-lg border border-white/10 ring-1 ring-white/5">
-                    <div className="absolute inset-0.5 bg-slate-900 rounded-lg flex items-center justify-center gap-1 shadow-inner">
-                        <motion.div 
-                          className="flex gap-0.5"
-                        >
-                          <motion.div 
-                            className="w-1 h-1 bg-[#00f2ff] rounded-full shadow-[0_0_3px_#00f2ff]"
-                            animate={
-                              botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
-                              botExpression === 'thinking' ? { x: [-1, 1, -1], scaleY: 0.8 } :
-                              { scaleY: [1, 0.1, 1] }
-                            }
-                            transition={
-                              botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
-                              botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
-                              { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
-                            }
-                          />
-                          <motion.div 
-                            className="w-1 h-1 bg-[#00f2ff] rounded-full shadow-[0_0_3px_#00f2ff]"
-                            animate={
-                              botExpression === 'happy' ? { scaleY: [1, 0.4, 1], borderRadius: ["50%", "50% 50% 0 0", "50%"] } :
-                              botExpression === 'thinking' ? { x: [-1, 1, -1], scaleY: 0.8 } :
-                              { scaleY: [1, 0.1, 1] }
-                            }
-                            transition={
-                              botExpression === 'happy' ? { duration: 0.8, ease: "easeInOut" } :
-                              botExpression === 'thinking' ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" } :
-                              { duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], ease: "easeInOut" }
-                            }
-                          />
-                        </motion.div>
-                    </div>
-                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#39ff14] border border-black rounded-full shadow-sm" />
+                  <div className="w-10 h-10 bg-[#1a365d] rounded-xl flex items-center justify-center relative overflow-hidden shadow-lg border border-white/10 ring-1 ring-white/5">
+                    <BotAvatar isHappy={botExpression === 'happy'} isThinking={botExpression === 'thinking'} />
                   </div>
                   <div>
                     <h4 className="text-white font-black uppercase tracking-widest text-[10px]">MCI Tech Assistant</h4>
                     <div className="flex items-center gap-1.5">
-                      <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full animate-pulse" />
+                      <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full animate-pulse shadow-[0_0_5px_#39ff14]" />
                       <p className="text-white/60 text-[9px] font-black uppercase tracking-tighter">Status: Active</p>
                     </div>
                   </div>
@@ -2548,17 +2525,23 @@ export default function App() {
                     key={i}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col gap-2"
+                    className={`flex gap-2 ${msg.type === 'bot' ? 'flex-row' : 'flex-row-reverse'}`}
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-slate-50 text-slate-700 self-start rounded-tl-none shadow-sm border border-slate-200' : 'bg-slate-900 text-white font-medium self-end rounded-tr-none shadow-xl ml-auto border border-white/5'}`}>
-                      {msg.image && (
-                        <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-lg" referrerPolicy="no-referrer" />
-                      )}
-                      <div dangerouslySetInnerHTML={{ __html: formatChatMessage(msg.text) }} />
-                    </div>
+                    {msg.type === 'bot' && (
+                      <div className="w-8 h-8 rounded-full bg-[#1a365d] flex-shrink-0 flex items-center justify-center overflow-hidden border border-white/10 shadow-sm mt-auto mb-1">
+                        <BotAvatar isHappy={i === chatMessages.length - 1 ? botExpression === 'happy' : false} isThinking={false} />
+                      </div>
+                    )}
+                    <div className={`flex flex-col gap-2 ${msg.type === 'user' ? 'items-end' : 'items-start'} max-w-[80%]`}>
+                      <div className={`p-3.5 rounded-2xl text-[13px] leading-relaxed relative ${msg.type === 'bot' ? 'bg-white text-slate-700 rounded-bl-sm shadow-sm border border-slate-200' : 'bg-brand-blue text-white font-medium rounded-br-sm shadow-md border border-white/5'}`}>
+                        {msg.image && (
+                          <img src={msg.image} alt="User upload" className="w-full h-40 object-cover rounded-xl mb-3 border border-white/10 shadow-lg" referrerPolicy="no-referrer" />
+                        )}
+                        <div dangerouslySetInnerHTML={{ __html: formatChatMessage(msg.text) }} />
+                      </div>
                     
                     {i === 0 && chatMessages.length === 1 && (
-                      <div className="flex flex-col gap-2 self-start w-[85%]">
+                      <div className="flex flex-col gap-2 self-start w-full">
                         {[
                           { 
                             q: 'Comunícate con nosotros', 
@@ -2576,6 +2559,7 @@ export default function App() {
                         ))}
                       </div>
                     )}
+                    </div>
                   </motion.div>
                 );
                 })}
