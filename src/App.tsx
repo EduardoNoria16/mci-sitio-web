@@ -2428,6 +2428,13 @@ export default function App() {
             onClick={() => setIsChatOpen(!isChatOpen)}
             className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-tr from-brand-blue to-[#1a365d] shadow-[0_12px_25px_rgba(0,0,0,0.3)] flex items-center justify-center outline-none overflow-hidden border-2 border-white/20 hover:scale-[1.03] active:scale-95 transition-all will-change-transform"
           >
+            {/* Integrated LED Indicator that looks like a real hardware light */}
+            {!isChatOpen && (
+              <div className="absolute top-[8%] right-[15%] w-2.5 h-2.5 bg-[#111] rounded-full border border-black/40 shadow-inner flex items-center justify-center z-20">
+                <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shadow-[0_0_8px_2px_#39ff14,0_0_12px_#39ff14] animate-pulse" />
+              </div>
+            )}
+            
             {isChatOpen ? (
               <motion.div 
                  initial={{ opacity: 0, rotate: -90 }}
@@ -2447,14 +2454,6 @@ export default function App() {
               </motion.div>
             )}
           </button>
-
-          {/* Neon Green Online Indicator */}
-          {!isChatOpen && (
-            <div className="absolute top-[3px] right-[3px] md:top-[6px] md:right-[6px] flex items-center justify-center z-10 hover:scale-110 transition-transform cursor-help" title="Asistente En Línea">
-              <span className="absolute w-[18px] h-[18px] bg-[#39ff14] rounded-full animate-ping opacity-40 shadow-[0_0_10px_#39ff14]" />
-              <span className="relative w-3.5 h-3.5 bg-[#39ff14] rounded-full border border-white/20 shadow-[0_0_10px_#39ff14]" />
-            </div>
-          )}
         </div>
 
         <AnimatePresence>
@@ -2464,7 +2463,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               style={{ transformOrigin: 'bottom left' }}
-              className="absolute bottom-[calc(100%+12px)] left-0 w-[calc(100vw-32px)] md:w-[24rem] h-[calc(100dvh-120px)] md:h-[38rem] max-h-[800px] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
+              className="absolute bottom-[calc(100%+8px)] sm:bottom-[calc(100%+12px)] left-0 w-[calc(100vw-32px)] sm:w-[24rem] h-[550px] max-h-[75vh] sm:h-[38rem] sm:max-h-[800px] bg-white rounded-2xl border border-glass-border shadow-2xl flex flex-col overflow-hidden will-change-transform"
             >
               <div className="bg-slate-900 border-b border-white/5 p-4 flex justify-between items-center relative shrink-0">
                 <div className="flex items-center gap-3 relative z-10 font-sans">

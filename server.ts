@@ -4,7 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import * as dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ override: true });
 
 async function startServer() {
   const app = express();
@@ -26,6 +26,7 @@ async function startServer() {
       if (!process.env.GEMINI_API_KEY) {
         return res.status(500).json({ error: "GEMINI_API_KEY is not configured on the server." });
       }
+      console.log("Using API KEY:", process.env.GEMINI_API_KEY.substring(0, 5) + "...");
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
       const { userMsg, imagePart } = req.body;
