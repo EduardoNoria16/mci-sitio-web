@@ -718,33 +718,99 @@ const GALLERY_IMAGES = [
 
 const TESTIMONIALS = [
   {
-    name: "Ing. Ricardo Méndez",
-    company: "Planta Automotriz Bajío",
-    text: "Teníamos un problema serio de desprendimiento en los pasillos de carga. Polycovers no solo reparó el concreto, sino que nos dio una solución que ha aguantado el tráfico pesado por más de 2 años sin un solo bache. Se nota que saben lo que hacen.",
+    name: "Ing. Juan Ramón Ríos Serratos",
+    cargo: "Superintendente de Obra",
+    company: "Trena SA de CV",
+    giro: "Construcción",
+    text: "Nos apoyamos frecuentemente con ellos en lo que respecta a la aplicación de recubrimientos en pisos de las áreas de alimentos en tiendas de la cadena WalMart, sello de juntas, tanques de almacenamiento de agua o impermeabilizaciones. También nos han sacado de apuros con reparaciones de concreto complicadas. Son muy confiables.",
     rating: 5
   },
   {
-    name: "Dra. Elena Vargas",
-    company: "Laboratorios BioTech",
-    text: "Lo que más valoro es la limpieza y el orden con el que trabajaron. En un entorno de laboratorio, el polvo es nuestro enemigo. Polycovers instaló el piso epóxico con un control de contaminación increíble. ¡Altamente recomendados!",
+    name: "Ing. Manuel Marín",
+    cargo: "Gerente de Ejecuciones",
+    company: "Tensa Construcciones SA de CV",
+    giro: "Construcción",
+    text: "Se hace un gran equipo con estos muchachos. Atienden desde el inicio del proyecto aportando sugerencias e ideas que favorecerán en su momento en el buen desarrollo de la obra.",
     rating: 5
   },
   {
-    name: "Arq. Carlos Ruiz",
-    company: "Constructora Global MX",
-    text: "He trabajado con muchos contratistas, pero pocos tienen el nivel de respuesta de Polycovers. Si surge un detalle en obra a las 10 de la noche, el CEO te contesta y te resuelve. Esa tranquilidad no tiene precio.",
+    name: "Ing. Octavio Montiel Padrón",
+    cargo: "Gerente de Proyectos",
+    company: "Integra, Instalación y Construcción SAPI de CV",
+    giro: "Construcción",
+    text: "MCI es una empresa que conocemos de años. Siempre disponible cuando se requiere.",
     rating: 5
   },
   {
-    name: "Lic. Martha Solís",
-    company: "Almacenes Logis-Mex",
-    text: "Nuestros pisos estaban 'llorando' humedad y nada pegaba. Polycovers hizo un diagnóstico profundo, aplicó una barrera de vapor y el acabado final quedó perfecto. Nos ahorraron miles de pesos en retrabajos.",
+    name: "Ing. Maximiliano Plata Monroy",
+    cargo: "Gerente de Mantenimiento",
+    company: "Pepsico de México SA de CV",
+    giro: "Alimenticio",
+    text: "Durante años nos dieron servicio con materiales de buenas características en áreas con requerimientos especiales, áreas de producción, de llenado y en el almacén. Ahora la planta ha cambiado de uso pero continúan con nosotros en el mantenimiento de los pisos.",
     rating: 5
   },
   {
-    name: "Ing. Javier Torres",
-    company: "Refinería del Norte",
-    text: "La aplicación de poliurea en nuestros diques de contención fue un éxito. El equipo de Polycovers está muy bien capacitado y cumplen con todas las normas de seguridad industrial que exigimos.",
+    name: "Ing. Juan Carlos Delgado González",
+    cargo: "Superintendente General de Operaciones",
+    company: "Cobre de Pastejé SA de CV",
+    giro: "Industria Química",
+    text: "Por la operación que tenemos, existen escurrimientos constantes de electrolíto de ácido sulfúrico hacia el sótano de la planta. En ocasiones a los operadores se les caen las barretas de acero con las que se retira la hoja iniciadora de cobre. Esto daña los recubrimientos por lo que hay que atender de inmediato. Ellos tomaron la responsabilidad de estar permanentemente vigilando y reparando cuando se necesitara. Con el crecimiento de la empresa, nos atendieron con la instalación de materiales para derrames químicos. Vinieron a quitarnos preocupaciones y coadyuvaron en el buen funcionamiento de la planta.",
+    rating: 5
+  },
+  {
+    name: "Ing. Luis Segundo Eligio",
+    cargo: "Jefe de Mantenimiento",
+    company: "Clevite de México SA de CV",
+    giro: "Fabricación de piezas automotrices",
+    text: "Nuestra operación requiere continuidad. Los paros programados son apenas de horas. Con MCI encontramos prontitud en el mantenimiento de las tinas e instalaciones que requieren protección química.",
+    rating: 5
+  },
+  {
+    name: "Ing. Alfonso Alvarado",
+    cargo: "Jefe de Proyectos",
+    company: "Embotelladora de Toluca SA de CV",
+    giro: "Alimenticio",
+    text: "Nos ayudaron a resolver problemas en los pisos de la planta con materiales especiales.",
+    rating: 5
+  },
+  {
+    name: "Ing. Ricardo Flores",
+    cargo: "Jefe de Proyectos",
+    company: "Sepromexsa",
+    giro: "Mantenimiento y Construcciones Industriales",
+    text: "Por muchos años colaborador nuestro en proyectos nuevos y de remodelación de las empresas de Industrias Unidas SA de CV.",
+    rating: 5
+  },
+  {
+    name: "Lic. Yazmin Nieto Tapia",
+    cargo: "Jefe de Compras",
+    company: "Names IT Solutions SA de CV",
+    giro: "Electrónica",
+    text: "Recurrimos a estas personas cuando nuestros clientes solicitan acabados especiales, con buena imagen, en los pisos donde van a instalar nuestros equipos como pueden ser acabados antiestáticos o pisos conductivos.",
+    rating: 5
+  },
+  {
+    name: "Ing. Enrique Ramos Narváez",
+    cargo: "Gerente General",
+    company: "Reprotek Ram SA de CV",
+    giro: "Servicios Industriales",
+    text: "Gente experimentada con la cual colaboramos en proyectos de instalación de productos en áreas nuevas básicamente en la región bajío. Empresas como Procter and Gamble, Kimberly Clark o De´Acero nuestras principales participaciones.",
+    rating: 5
+  },
+  {
+    name: "Lic. Juan Carlos Balmaceda",
+    cargo: "Director",
+    company: "Cajaplax SA de CV",
+    giro: "Fabricación de envases de plástico",
+    text: "Estamos iniciando actividades con esta empresa con la habilitación de un cuarto de ambiente controlado. El trato es cordial, directo y con buen apoyo técnico.",
+    rating: 5
+  },
+  {
+    name: "Ing. Enrique Sobrevilla",
+    cargo: "Gerente de Planta",
+    company: "Cobre de Pastejé SA de CV",
+    giro: "Industria Química",
+    text: "San Esiquio; así le decimos a nuestro contacto de MCI, porque es egresado de la ESIQIE del IPN como nosotros y porque siempre nos ayuda con los problemas de la planta.",
     rating: 5
   }
 ];
@@ -1075,6 +1141,8 @@ export default function App() {
   }, [isChatOpen]);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [visibleTestimonialsPage, setVisibleTestimonialsPage] = useState(0);
+  const [showAllTestimonials, setShowAllTestimonials] = useState(false);
   
   const [formData, setFormData] = useState({
     cargo: '',
@@ -2154,55 +2222,152 @@ export default function App() {
       <ProjectGallery onImageSelect={setSelectedImage} />
 
       {/* Testimonials Section */}
-      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-12">
+      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
         <div className="text-center mb-16 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
-          >
-            <Star className="w-3 h-3" />
-            Casos de Éxito
-          </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tighter drop-shadow-sm">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Clientes&nbsp;&nbsp;<span className="text-gradient">Satisfechos</span>
           </h2>
-          <p className="text-on-surface max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
-            La confianza de nuestros clientes es el mejor respaldo de nuestra ingeniería.
+          <p className="text-on-surface/80 max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
+            La confianza de nuestros clientes es el mejor respaldo de nuestros servicios.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border-white/5 flex flex-col justify-between group hover:border-brand-orange/30 transition-all duration-500"
+        {/* View mode toggle controls */}
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex p-1 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+            <button
+              onClick={() => {
+                playClickSound();
+                setShowAllTestimonials(false);
+              }}
+              className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                !showAllTestimonials
+                  ? "bg-brand-orange text-white shadow-lg shadow-brand-orange/20"
+                  : "text-slate-400 hover:text-white"
+              }`}
             >
-              <div className="space-y-6">
-                <div className="flex gap-1">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-brand-orange text-brand-orange" />
-                  ))}
-                </div>
-                <div className="relative">
-                  <Quote className="absolute -top-4 -left-4 w-8 h-8 text-brand-orange/10" />
-                  <p className="text-on-surface/80 text-sm leading-relaxed font-medium italic relative z-10">
-                    "{t.text}"
-                  </p>
-                </div>
-              </div>
-              <div className="mt-8 pt-6 border-t border-glass-border">
-                <p className="text-on-surface font-black text-xs uppercase tracking-widest">{t.name}</p>
-                <p className="text-brand-blue text-xs font-bold uppercase tracking-widest mt-1 transition-colors">{t.company}</p>
-              </div>
-            </motion.div>
-          ))}
+              Paginado (3 en 3)
+            </button>
+            <button
+              onClick={() => {
+                playClickSound();
+                setShowAllTestimonials(true);
+              }}
+              className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                showAllTestimonials
+                  ? "bg-brand-orange text-white shadow-lg shadow-brand-orange/20"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Ver todos (12)
+            </button>
+          </div>
         </div>
+
+        {/* Testimonials grid layout with AnimatePresence */}
+        <div className="relative min-h-[420px]">
+          <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/10 to-brand-blue/10 blur-3xl opacity-35 rounded-[3rem] -z-10" />
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-stretch">
+            <AnimatePresence mode="popLayout">
+              {(showAllTestimonials 
+                ? TESTIMONIALS 
+                : TESTIMONIALS.slice(visibleTestimonialsPage * 3, (visibleTestimonialsPage + 1) * 3)
+              ).map((t, i) => (
+                <motion.div
+                  key={t.name + i}
+                  layout
+                  initial={{ opacity: 0, scale: 0.92, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, y: -30 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25, delay: showAllTestimonials ? i * 0.05 : i * 0.1 }}
+                  className="glass p-6 md:p-8 rounded-[2rem] border border-white/5 flex flex-col justify-between group hover:border-brand-orange/40 hover:shadow-[0_20px_50px_rgba(245,130,32,0.12)] transition-all duration-500 relative overflow-hidden backdrop-blur-xl bg-slate-900/40 w-full"
+                >
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-start">
+                      <div className="flex gap-1 bg-white/5 px-2.5 py-1.5 rounded-xl border border-white/5">
+                        {[...Array(t.rating)].map((_, idx) => (
+                          <Star key={idx} className="w-3.5 h-3.5 fill-brand-orange text-brand-orange" />
+                        ))}
+                      </div>
+                      <Quote className="w-8 h-8 text-brand-orange/20 mr-2" />
+                    </div>
+                    
+                    <div className="relative">
+                      <p className="text-on-surface/90 text-[13px] md:text-sm leading-relaxed font-semibold italic relative z-10 transition-colors group-hover:text-white">
+                        "{t.text}"
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-glass-border flex flex-col justify-end">
+                    <p className="text-white font-black text-sm uppercase tracking-wider">{t.name}</p>
+                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">{t.cargo}</p>
+                    <p className="text-brand-orange text-xs font-black uppercase tracking-widest mt-1.5 transition-colors">{t.company}</p>
+                    
+                    <div className="mt-3.5 self-start">
+                      <span className="inline-flex px-2.5 py-1 text-[9px] font-black uppercase tracking-wider rounded-md bg-white/5 border border-white/10 text-slate-300 group-hover:bg-brand-orange/15 group-hover:border-brand-orange/30 group-hover:text-brand-orange transition-all duration-500">
+                        {t.giro}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Pagination controls (Only visible in paginated mode) */}
+        {!showAllTestimonials && (
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setVisibleTestimonialsPage(prev => (prev - 1 + 4) % 4);
+                }}
+                className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:bg-brand-orange hover:text-white hover:border-transparent transition-all active:scale-95 text-slate-300"
+                title="Página anterior"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </button>
+
+              <div className="flex gap-2">
+                {[...Array(4)].map((_, pageIdx) => (
+                  <button
+                    key={pageIdx}
+                    onClick={() => {
+                      playClickSound();
+                      setVisibleTestimonialsPage(pageIdx);
+                    }}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all ${
+                      visibleTestimonialsPage === pageIdx
+                        ? "bg-brand-orange text-white font-black shadow-md scale-110"
+                        : "bg-white/5 border border-white/10 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    {pageIdx + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => {
+                  playClickSound();
+                  setVisibleTestimonialsPage(prev => (prev + 1) % 4);
+                }}
+                className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:bg-brand-orange hover:text-white hover:border-transparent transition-all active:scale-95 text-slate-300"
+                title="Siguiente página"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+            
+            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+              Mostrando {visibleTestimonialsPage * 3 + 1} - {Math.min((visibleTestimonialsPage + 1) * 3, TESTIMONIALS.length)} de {TESTIMONIALS.length} Clientes Satisfechos
+            </div>
+          </div>
+        )}
       </section>
 
 
