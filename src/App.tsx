@@ -520,46 +520,16 @@ const STRENGTHS: Strength[] = [
   },
   {
     id: 'pa8',
-    title: 'ESPECIALIDADES COMPLEMENTARIAS',
+    title: 'Aislamiento Térmico y Acústico',
     description: 'Intervenciones técnicas de precisión para equipos especiales.',
     icon: <HardHat className="w-5 h-5" />,
-    intro: 'Materiales de especialidad que requieren instalación profesional para su buen desempeño',
+    intro: 'Cómo solución para el control de bajas temperaturas y el mejoramiento del confort acústico en espacios comerciales e industriales',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
     items: [
       {
         label: 'Espuma de poliuretano en diversos espesores',
         subItems: [
           'Recubrimiento ligero (32kg/m³) como aislante térmico y como reductor de ruido. Aplicable en cubiertas de lámina de techumbres o bien, para muros de cuartos de refrigeración.'
-        ]
-      },
-      {
-        label: 'Juntas de expansión en puentes',
-        subItems: [
-          'Instalación de juntas WABO (Watson Bowman Acme): Elastoflex Bridge para movimientos ligeros o Modular para movimientos severos en el control de la expansión de puentes.'
-        ]
-      },
-      {
-        label: 'Grouts de precisión',
-        subItems: [
-          'Asentamiento especializado de maquinaria y equipo (rotativo o vibratorio) usando grouts, libres de contracciones al curado'
-        ]
-      },
-      {
-        label: 'Fabricación de equipo de acero',
-        subItems: [
-          'Tanques, equipos especiales, tubería y accesorios en fibra de vidrio, acero inoxidable y acero al carbón recubierto.'
-        ]
-      },
-      {
-        label: 'Limpieza de equipo de acero',
-        subItems: [
-          'Química y mecánica: Sand blast a metal blanco y metal comercial, hidroblast, pasivado, decapado, desincrustación química y barrido de tubería'
-        ]
-      },
-      {
-        label: 'Linnings para encapsular y proteger instalaciones de concreto',
-        subItems: [
-          'Para fosas, diques, trincheras usando lámina de acero inoxidable en diversos calibres , o bien, hojas de poliestireno aportando resistencia mecánica y estabilidad ante agentes químicos.'
         ]
       }
     ]
