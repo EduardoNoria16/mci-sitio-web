@@ -338,7 +338,6 @@ interface Strength {
   id: string;
   title: string;
   description: string;
-  intro: string;
   items: (string | { label: string; subItems: string[] })[];
   image?: string;
   collage?: string[];
@@ -362,9 +361,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa1',
     title: 'Pisos para uso comercial e industrial',
-    description: 'Ingeniería aplicada para durabilidad y estética superior.',
+    description: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     icon: <Layers className="w-5 h-5" />,
-    intro: 'Donde la eficiencia del proceso comienza desde la base, con pisos de altos niveles de calidad, seguridad y estética.',
     keywords: ['Instalación de concreto para pisos', 'tratamientos químicos', '(DPA)', 'concretos oxidados', 'sello de juntas', 'sobre pisos', 'concretos aligerados', 'acabados decorativos'],
     items: [
       'Instalación de concreto para pisos con altos estándares de precisión y acabado',
@@ -388,9 +386,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa2',
     title: 'PISOS EPÓXICOS DE ALTO VALOR',
-    description: 'Diseños vanguardistas con resinas de alta calidad.',
+    description: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     icon: <Zap className="w-5 h-5" />,
-    intro: 'Donde se puede jugar con ideas de decoración vanguardistas e innovadoras en una amplia gama de colores y texturas con diseños originales, creativos y personalizados.',
     keywords: ['Epóxico autonivelante', 'mate', 'marmoleado', 'hojuelas', 'cuarzo multicolor', 'brillante o satinado'],
     items: [
       'Epóxico autonivelante. Fácil de limpiar, totalmente liso, en tono mate que oculta imperfecciones del firme ideal para showrooms, hospitales, oficinas.',
@@ -403,9 +400,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa3',
     title: 'ACABADOS INDUSTRIALES DE ALTA GAMA',
-    description: 'Protección crítica para entornos químicos exigentes.',
+    description: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     icon: <ShieldCheck className="w-5 h-5" />,
-    intro: 'Verdadera ingeniería aplicada en materiales poliméricos con altas prestaciones y gran nivel de seguridad.',
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
     items: [
       {
@@ -455,9 +451,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa4',
     title: 'REPARACIÓN Y MANTENIMIENTO DE CONCRETO',
-    description: 'Restauración técnica y mantenimiento estructural.',
+    description: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     icon: <Wrench className="w-5 h-5" />,
-    intro: 'Donde las condiciones de operación están cimentadas en elementos de concreto siempre sano y resistente.',
     keywords: ['Bacheos', 'cortos tiempos de paro', 'Renivelar', 'planicidad', 'reparación', 'juntas', 'cámaras de refrigeración', 'Inyección', 'grietas', 'Resanador', 'Estabilizar losas', 'Reforzar', 'estructural', 'fibra de carbón', 'Obturadores', 'filtraciones'],
     items: [
       'Bacheos en pasillos o vialidades críticas con cortos tiempos de paro',
@@ -475,9 +470,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa5',
     title: 'IMPERMEABILIZACIÓN',
-    description: 'Sistemas avanzados contra filtraciones y humedad.',
+    description: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     icon: <Droplets className="w-5 h-5" />,
-    intro: 'Donde existe flujo de agua a través de elementos de concreto con agrietamientos, segregación de cargas, juntas o porosidad en la superficie.',
     keywords: ['poliurea', 'Sistemas vehiculares', 'para estacionamientos', 'cisternas de agua potable', 'Obturadores', 'filtraciones', 'Prefabricados'],
     items: [
       'Aplicación de poliurea por proyección',
@@ -490,9 +484,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa6',
     title: 'PINTURAS Y ACABADOS ESPECIALES',
-    description: 'Protección estética y funcional de alta durabilidad.',
+    description: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     icon: <Paintbrush className="w-5 h-5" />,
-    intro: 'Impacto positivo en clientes y visitantes a través del cuidado, conservación, limpieza y seguridad de sus áreas operativas.',
     keywords: ['epóxi-poliuretano', 'Acabados sanitarios', 'muros y plafones', 'Curvas sanitarias', 'fotoluminiscentes', 'Pintura sobre equipos oxidados', 'Pintura de maquinaria', 'tubería y estructuras', 'Acabados antiadherentes'],
     items: [
       'Sistemas epóxi-poliuretano como acabado en pisos para servicios ligeros',
@@ -508,9 +501,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa7',
     title: 'SISTEMAS CORTAFUEGO Y PROTECCIÓN PASIVA',
-    description: 'Contención y limitación de riesgos críticos de incendio.',
+    description: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     icon: <Flame className="w-5 h-5" />,
-    intro: 'Como elemento de seguridad adicional para proteger vidas y salvaguardar instalaciones porque el fuego no se controla, se contiene y se limita.',
     keywords: ['(intumescentes)', 'Sellado de pasos de instalaciones', 'Sello de juntas'],
     items: [
       'Instalación de retardantes de fuego (intumescentes)',
@@ -521,9 +513,8 @@ const STRENGTHS: Strength[] = [
   {
     id: 'pa8',
     title: 'Aislamiento Térmico y Acústico',
-    description: 'Intervenciones técnicas de precisión para equipos especiales.',
+    description: 'Cómo solución para el control de bajas temperaturas y el mejoramiento del confort acústico en espacios comerciales e industriales',
     icon: <HardHat className="w-5 h-5" />,
-    intro: 'Cómo solución para el control de bajas temperaturas y el mejoramiento del confort acústico en espacios comerciales e industriales',
     keywords: ['Espuma de poliuretano', 'aislante térmico', 'ruido', 'Juntas de expansión en puentes', 'WABO', 'Grouts de precisión', 'Asentamiento', 'maquinaria', 'Fabricación de equipos de acero', 'equipos especiales', 'Limpieza', 'Química y mecánica', 'Linnings', 'usando lámina de acero'],
     items: [
       {
@@ -3048,9 +3039,7 @@ export default function App() {
                       <div className="w-20 h-1.5 bg-brand-orange rounded-full" />
                     </div>
 
-                    <p className="text-base md:text-lg leading-relaxed text-on-surface-subtle font-normal italic border-l-4 border-brand-blue pl-6">
-                      <HighlightText text={activeStrength.intro} keywords={activeStrength.keywords} isIntro />
-                    </p>
+                    
 
                     <div className="space-y-5">
                       {activeStrength.items.map((item, i) => (
