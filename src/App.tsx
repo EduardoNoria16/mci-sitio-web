@@ -648,6 +648,41 @@ const BEFORE_AFTER_PAIRS = [
     description: 'Soluciones especiales para control de calidad.',
     before: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg',
     after: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg'
+  },
+  {
+    id: 'case17',
+    title: 'Caso de Éxito 17',
+    description: 'Recuperación de estética y funcionalidad total.',
+    before: 'https://images2.imgbox.com/a3/20/gO9BJtpH_o.png',
+    after: 'https://images2.imgbox.com/86/27/G8mD9UE1_o.png'
+  },
+  {
+    id: 'case18',
+    title: 'Caso de Éxito 18',
+    description: 'Transformación y recuperación de superficies.',
+    before: 'https://images2.imgbox.com/ea/97/geQKip3O_o.jpg',
+    after: 'https://images2.imgbox.com/26/ad/AzMvxKep_o.png'
+  },
+  {
+    id: 'case19',
+    title: 'Caso de Éxito 19',
+    description: 'Nivelación y protección duradera.',
+    before: 'https://images2.imgbox.com/b1/fc/3vlRdcd1_o.png',
+    after: 'https://images2.imgbox.com/08/a2/ohjFIMFn_o.png'
+  },
+  {
+    id: 'case20',
+    title: 'Caso de Éxito 20',
+    description: 'Mantenimiento integral correctivo.',
+    before: 'https://images2.imgbox.com/cb/67/3vfidMT6_o.jpg',
+    after: 'https://images2.imgbox.com/c2/70/kfZqSNxH_o.jpg'
+  },
+  {
+    id: 'case21',
+    title: 'Caso de Éxito 21',
+    description: 'Soluciones duraderas para áreas operativas.',
+    before: 'https://images2.imgbox.com/f4/54/uFzVmyjf_o.jpg',
+    after: 'https://imgbox.com/41Tq1Zr'
   }
 ];
 
