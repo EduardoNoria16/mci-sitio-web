@@ -531,149 +531,114 @@ const BEFORE_AFTER_PAIRS = [
   {
     id: 'case1',
     title: 'Caso de Éxito 1',
-    description: 'Transformación y recuperación de superficies industriales.',
-    before: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg',
-    after: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/wsIEHA08_o.jpg',
+    after: '/before-after/dancwYF1_o.jpg'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
-    description: 'Nivelación y acabado resistente de alto desempeño.',
-    before: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg',
-    after: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/jFHrF04P_o.jpg',
+    after: '/before-after/Vdt4qzQ3_o.jpg'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
-    description: 'Restauración profunda y recubrimiento protector.',
-    before: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg',
-    after: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/VIDPBh84_o.jpg',
+    after: '/before-after/Ewf4uEcE_o.jpg'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
-    description: 'Soluciones duraderas para áreas de tráfico severo.',
-    before: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg',
-    after: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/fjT1RFET_o.jpg',
+    after: '/before-after/Z4NXVOoQ_o.jpg'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
-    description: 'Aplicación de sistemas de protección y acabados de alta calidad.',
-    before: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg',
-    after: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/Id0Pii6t_o.jpg',
+    after: '/before-after/2toaJPpW_o.jpg'
   },
   {
     id: 'case6',
     title: 'Caso de Éxito 6',
-    description: 'Renovación de instalaciones con acabado estético impecable.',
-    before: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg',
-    after: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/6xiopQMz_o.jpeg',
+    after: '/before-after/QP6E8I7q_o.jpeg'
   },
   {
     id: 'case7',
     title: 'Caso de Éxito 7',
-    description: 'Mantenimiento integral y durabilidad prolongada.',
-    before: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg',
-    after: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/kf0mogLt_o.jpeg',
+    after: '/before-after/Q0GbGWpl_o.jpeg'
   },
   {
     id: 'case8',
     title: 'Caso de Éxito 8',
-    description: 'Recuperación de brillo y resistencia de superficies degradadas.',
-    before: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg',
-    after: 'https://images2.imgbox.com/50/29/3D2Zh5mJ_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/M6Qrnsfl_o.jpeg',
+    after: '/before-after/3D2Zh5mJ_o.jpg'
   },
   {
     id: 'case9',
     title: 'Caso de Éxito 9',
-    description: 'Protección anticorrosiva para entornos exigentes.',
-    before: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg',
-    after: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/BjTHRJDu_o.jpeg',
+    after: '/before-after/jJ2i1pBZ_o.jpeg'
   },
   {
     id: 'case10',
     title: 'Caso de Éxito 10',
-    description: 'Eliminación de daños estructurales mediante recubrimientos avanzados.',
-    before: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg',
-    after: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/TDea6Iwx_o.jpeg',
+    after: '/before-after/FBvq9fDK_o.jpeg'
   },
   {
     id: 'case11',
     title: 'Caso de Éxito 11',
-    description: 'Tratamiento sellante y nivelador permanente.',
-    before: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg',
-    after: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/JH5fSihJ_o.jpeg',
+    after: '/before-after/FvTTrvLo_o.jpeg'
   },
   {
     id: 'case12',
     title: 'Caso de Éxito 12',
-    description: 'Recuperación de estética y funcionalidad total.',
-    before: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg',
-    after: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/mJMEDX1z_o.jpeg',
+    after: '/before-after/bbEi5xTg_o.jpeg'
   },
   {
     id: 'case13',
     title: 'Caso de Éxito 13',
-    description: 'Transformación y recuperación de superficies.',
-    before: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg',
-    after: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/J2vpLZYD_o.jpeg',
+    after: '/before-after/JfWJnP14_o.jpeg'
   },
   {
     id: 'case14',
     title: 'Caso de Éxito 14',
-    description: 'Nivelación y protección duradera.',
-    before: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg',
-    after: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/fAv1c6kg_o.jpeg',
+    after: '/before-after/zKFPhqMi_o.jpeg'
   },
   {
     id: 'case15',
     title: 'Caso de Éxito 15',
-    description: 'Mantenimiento integral correctivo.',
-    before: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg',
-    after: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/qB1LdmEE_o.jpeg',
+    after: '/before-after/iPc1dSbL_o.jpeg'
   },
   {
     id: 'case16',
     title: 'Caso de Éxito 16',
-    description: 'Soluciones especiales para control de calidad.',
-    before: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg',
-    after: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg'
-  },
-  {
-    id: 'case17',
-    title: 'Caso de Éxito 17',
-    description: 'Recuperación de estética y funcionalidad total.',
-    before: 'https://images2.imgbox.com/a3/20/gO9BJtpH_o.png',
-    after: 'https://images2.imgbox.com/86/27/G8mD9UE1_o.png'
-  },
-  {
-    id: 'case18',
-    title: 'Caso de Éxito 18',
-    description: 'Transformación y recuperación de superficies.',
-    before: 'https://images2.imgbox.com/ea/97/geQKip3O_o.jpg',
-    after: 'https://images2.imgbox.com/26/ad/AzMvxKep_o.png'
-  },
-  {
-    id: 'case19',
-    title: 'Caso de Éxito 19',
-    description: 'Nivelación y protección duradera.',
-    before: 'https://images2.imgbox.com/b1/fc/3vlRdcd1_o.png',
-    after: 'https://images2.imgbox.com/08/a2/ohjFIMFn_o.png'
-  },
-  {
-    id: 'case20',
-    title: 'Caso de Éxito 20',
-    description: 'Mantenimiento integral correctivo.',
-    before: 'https://images2.imgbox.com/cb/67/3vfidMT6_o.jpg',
-    after: 'https://images2.imgbox.com/c2/70/kfZqSNxH_o.jpg'
-  },
-  {
-    id: 'case21',
-    title: 'Caso de Éxito 21',
-    description: 'Soluciones duraderas para áreas operativas.',
-    before: 'https://images2.imgbox.com/f4/54/uFzVmyjf_o.jpg',
-    after: 'https://images2.imgbox.com/d5/59/41Tq1Zrl_o.jpg'
+    description: 'Transformación y recuperación estructural.',
+    before: '/before-after/WzvkrASE_o.jpeg',
+    after: '/before-after/1zmZdpVx_o.jpeg'
   }
 ];
 
