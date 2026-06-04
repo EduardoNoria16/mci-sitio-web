@@ -27,8 +27,11 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^22.14.0",
+    "adm-zip": "^0.5.17",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.28.0",
+    "extract-zip": "^2.0.1",
+    "fflate": "^0.8.3",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.22.3",
     "typescript": "~5.8.2",

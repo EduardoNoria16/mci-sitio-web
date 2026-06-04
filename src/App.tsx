@@ -677,51 +677,6 @@ const BEFORE_AFTER_PAIRS = [
   }
 ];
 
-const GALLERY_IMAGES = [
-  { url: 'https://images2.imgbox.com/af/5e/wsIEHA08_o.jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://images2.imgbox.com/8c/e2/dancwYF1_o.jpg', title: 'Piso Industrial de Alta Precisión' },
-  { url: 'https://images2.imgbox.com/e2/b1/jFHrF04P_o.jpg', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://images2.imgbox.com/dc/78/Vdt4qzQ3_o.jpg', title: 'Acabados Químico-Resistentes' },
-  { url: 'https://images2.imgbox.com/40/7c/VIDPBh84_o.jpg', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://images2.imgbox.com/7d/5d/Ewf4uEcE_o.jpg', title: 'Laboratorio con Piso Epóxico' },
-  { url: 'https://images2.imgbox.com/e4/b6/fjT1RFET_o.jpg', title: 'Mantenimiento de Superficies' },
-  { url: 'https://images2.imgbox.com/fc/04/Z4NXVOoQ_o.jpg', title: 'Mantenimiento de Superficies' },
-  { url: 'https://images2.imgbox.com/39/54/Id0Pii6t_o.jpg', title: 'Instalación de Recubrimientos' },
-  { url: 'https://images2.imgbox.com/ff/2b/2toaJPpW_o.jpg', title: 'Instalación de Recubrimientos' },
-  { url: 'https://images2.imgbox.com/8e/bc/6xiopQMz_o.jpeg', title: 'Personal Altamente Capacitado' },
-  { url: 'https://images2.imgbox.com/37/1e/QP6E8I7q_o.jpeg', title: 'Personal Altamente Capacitado' },
-  { url: 'https://images2.imgbox.com/a3/7e/kf0mogLt_o.jpeg', title: 'Infraestructura Industrial' },
-  { url: 'https://images2.imgbox.com/2f/5b/Q0GbGWpl_o.jpeg', title: 'Infraestructura Industrial' },
-  { url: 'https://images2.imgbox.com/4d/f6/M6Qrnsfl_o.jpeg', title: 'Proyectos de Gran Escala' },
-  { url: 'https://images2.imgbox.com/5a/d4/TPmWyNy6_o.jpeg', title: 'Proyectos de Gran Escala' },
-  { url: 'https://images2.imgbox.com/e9/db/BjTHRJDu_o.jpeg', title: 'Estructuras Metálicas' },
-  { url: 'https://images2.imgbox.com/31/ec/jJ2i1pBZ_o.jpeg', title: 'Estructuras Metálicas' },
-  { url: 'https://images2.imgbox.com/fa/7d/TDea6Iwx_o.jpeg', title: 'Control de Corrosión' },
-  { url: 'https://images2.imgbox.com/fa/e6/FBvq9fDK_o.jpeg', title: 'Control de Corrosión' },
-  { url: 'https://images2.imgbox.com/14/64/JH5fSihJ_o.jpeg', title: 'Ingeniería de Detalle' },
-  { url: 'https://images2.imgbox.com/62/aa/FvTTrvLo_o.jpeg', title: 'Ingeniería de Detalle' },
-  { url: 'https://images2.imgbox.com/e1/ce/mJMEDX1z_o.jpeg', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images2.imgbox.com/07/92/bbEi5xTg_o.jpeg', title: 'Mantenimiento Preventivo' },
-  { url: 'https://images2.imgbox.com/31/da/J2vpLZYD_o.jpeg', title: 'Procesos Industriales' },
-  { url: 'https://images2.imgbox.com/b8/b0/JfWJnP14_o.jpeg', title: 'Procesos Industriales' },
-  { url: 'https://images2.imgbox.com/8a/ca/fAv1c6kg_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://images2.imgbox.com/d4/86/zKFPhqMi_o.jpeg', title: 'Almacenamiento Logístico' },
-  { url: 'https://images2.imgbox.com/7d/6d/qB1LdmEE_o.jpeg', title: 'Tecnología Polimérica' },
-  { url: 'https://images2.imgbox.com/a1/4f/iPc1dSbL_o.jpeg', title: 'Tecnología Polimérica' },
-  { url: 'https://images2.imgbox.com/e0/c8/WzvkrASE_o.jpeg', title: 'Infraestructura de Datos' },
-  { url: 'https://images2.imgbox.com/03/79/1zmZdpVx_o.jpeg', title: 'Infraestructura de Datos' },
-  { url: 'https://images2.imgbox.com/a3/20/gO9BJtpH_o.png', title: 'Recuperación de estética y funcionalidad total' },
-  { url: 'https://images2.imgbox.com/86/27/G8mD9UE1_o.png', title: 'Recuperación de estética y funcionalidad total' },
-  { url: 'https://images2.imgbox.com/ea/97/geQKip3O_o.jpg', title: 'Transformación y recuperación de superficies' },
-  { url: 'https://images2.imgbox.com/26/ad/AzMvxKep_o.png', title: 'Transformación y recuperación de superficies' },
-  { url: 'https://images2.imgbox.com/b1/fc/3vlRdcd1_o.png', title: 'Nivelación y protección duradera' },
-  { url: 'https://images2.imgbox.com/08/a2/ohjFIMFn_o.png', title: 'Nivelación y protección duradera' },
-  { url: 'https://images2.imgbox.com/cb/67/3vfidMT6_o.jpg', title: 'Mantenimiento integral correctivo' },
-  { url: 'https://images2.imgbox.com/c2/70/kfZqSNxH_o.jpg', title: 'Mantenimiento integral correctivo' },
-  { url: 'https://images2.imgbox.com/f4/54/uFzVmyjf_o.jpg', title: 'Soluciones duraderas para áreas operativas' },
-  { url: 'https://images2.imgbox.com/d5/59/41Tq1Zrl_o.jpg', title: 'Soluciones duraderas para áreas operativas' }
-];
-
 const TESTIMONIALS = [
   {
     name: "Ing. Juan Ramón Ríos Serratos",

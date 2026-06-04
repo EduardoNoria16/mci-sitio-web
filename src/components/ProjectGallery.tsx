@@ -1,32 +1,157 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProxiedImageUrl } from '../utils/image';
 
-const GALLERY_IMAGES = [
-  { id: 1, url: 'https://images2.imgbox.com/9e/ee/4iPPOcUe_o.jpg', category: 'Instalación', title: 'Piso Industrial' },
-  { id: 2, url: 'https://images2.imgbox.com/57/31/zRTvlmqq_o.jpg', category: 'Acabados', title: 'Acabado Resistente' },
-  { id: 3, url: 'https://images2.imgbox.com/53/a1/RMPmtN1P_o.jpg', category: 'Instalación', title: 'Piso de Alta Durabilidad' },
-  { id: 4, url: 'https://images2.imgbox.com/e8/ec/sJejxSW5_o.jpg', category: 'Mantenimiento', title: 'Restauración' },
-  { id: 5, url: 'https://images2.imgbox.com/88/de/y2XVBg7H_o.jpg', category: 'Acabados', title: 'Mantenimiento Industrial' },
-  { id: 6, url: 'https://images2.imgbox.com/43/c5/5xCpEHj0_o.jpg', category: 'Instalación', title: 'Sistema Epóxico' },
-  { id: 7, url: 'https://images2.imgbox.com/ba/df/VL6MMCsD_o.jpg', category: 'Mantenimiento', title: 'Nivelación' },
-  { id: 8, url: 'https://images2.imgbox.com/6d/28/f6Ghki6p_o.jpg', category: 'Instalación', title: 'Piso Sanitario' },
-  { id: 9, url: 'https://images2.imgbox.com/ac/2c/Bgjcj7Yd_o.jpg', category: 'Acabados', title: 'Mantenimiento' },
-  { id: 10, url: 'https://images2.imgbox.com/6d/12/5PxQSgc3_o.jpg', category: 'Instalación', title: 'Área de Producción' },
-  { id: 11, url: 'https://images2.imgbox.com/71/e0/HMfjCcGl_o.jpg', category: 'Mantenimiento', title: 'Tráfico Pesado' },
-  { id: 12, url: 'https://images2.imgbox.com/f0/2f/Mk6k1VFh_o.jpg', category: 'Acabados', title: 'Almacén' },
-  { id: 13, url: 'https://images2.imgbox.com/e7/17/leo7KCru_o.jpg', category: 'Instalación', title: 'Cuarto Limpio' },
-  { id: 14, url: 'https://images2.imgbox.com/0d/85/a47FYWFE_o.jpg', category: 'Mantenimiento', title: 'Poliuretano' },
-  { id: 15, url: 'https://images2.imgbox.com/51/5e/BrUBERDR_o.jpg', category: 'Instalación', title: 'Impermeabilización' },
-  { id: 16, url: 'https://images2.imgbox.com/c0/73/kTgHn9uN_o.jpg', category: 'Acabados', title: 'Protección' }
+const CATEGORIES = [
+  { id: 'pisos-comerciales', title: 'Pisos para uso comercial e industrial' },
+  { id: 'pisos-epoxicos', title: 'Pisos Epóxicos' },
+  { id: 'acabados-alta-gama', title: 'Acabados industriales de Alta Gama' },
+  { id: 'reparacion-concreto', title: 'Reparación y mantenimiento de concreto' },
+  { id: 'impermeabilizacion', title: 'Impermeabilización' },
+  { id: 'pinturas-especiales', title: 'Pinturas especiales' },
+  { id: 'sistema-cortafuegos', title: 'Sistema Cortafuegos' },
+  { id: 'aislamiento', title: 'Aislamiento Térmico y Acústico' },
 ];
+
+const CATEGORY_IMAGES: Record<string, string[]> = {
+  'pisos-comerciales': [
+    'https://i.ibb.co/k2kd5Tq3/1.webp',
+    'https://i.ibb.co/MyCd48Rp/2.webp',
+    'https://i.ibb.co/Y7DtBMpK/3.webp',
+    'https://i.ibb.co/YgyNNbX/4.webp',
+    'https://i.ibb.co/9H2ptfZb/5.webp',
+    'https://i.ibb.co/TBP4QnHn/6.webp',
+    'https://i.ibb.co/xS9xFkL3/7.webp',
+    'https://i.ibb.co/tPvYRmHJ/8.webp',
+    'https://i.ibb.co/Z1LJFY1H/9.webp',
+    'https://i.ibb.co/bM9vVFZ5/10.webp',
+    'https://i.ibb.co/8D8q7wPB/11.webp',
+    'https://i.ibb.co/R4hW8rc6/12.webp',
+    'https://i.ibb.co/9HbJ56vW/13.webp',
+    'https://i.ibb.co/FbX3LMcy/14.webp',
+    'https://i.ibb.co/n8Pjkcx2/15.webp',
+    'https://i.ibb.co/NghF8cwG/16.webp',
+    'https://i.ibb.co/FbH1yg1s/17.webp',
+    'https://i.ibb.co/RTs1j4RB/18.webp',
+    'https://i.ibb.co/CsHMjMXD/19.webp',
+    'https://i.ibb.co/FbKpdtpK/20.webp',
+    'https://i.ibb.co/TDPsyt5x/21.webp',
+    'https://i.ibb.co/Kzc2RG1K/22.webp',
+    'https://i.ibb.co/p6GSWHBp/23.webp',
+    'https://i.ibb.co/NdGkCC4t/24.webp',
+    'https://i.ibb.co/cKL202G3/25.webp',
+    'https://i.ibb.co/9kVrm9gm/26.webp',
+    'https://i.ibb.co/jP0pZtvc/27.webp',
+  ],
+  'pisos-epoxicos': [
+    'https://i.ibb.co/1GC1X7dw/1.webp',
+    'https://i.ibb.co/NdSJ4jQ2/2.webp',
+    'https://i.ibb.co/KprXnzG6/3.webp',
+    'https://i.ibb.co/k6D5Y3Ff/4.webp',
+    'https://i.ibb.co/VWZ1r2mL/5.webp',
+    'https://i.ibb.co/8LWgjfq5/6.webp',
+  ],
+  'acabados-alta-gama': [
+    'https://i.ibb.co/gL2DGHpQ/1.webp',
+    'https://i.ibb.co/mFbHwxFm/2.webp',
+    'https://i.ibb.co/8LCHLwmd/3.webp',
+    'https://i.ibb.co/1JBxjHyD/4.webp',
+    'https://i.ibb.co/KcJDDSZV/5.webp',
+    'https://i.ibb.co/DDfP4Q1w/6.webp',
+    'https://i.ibb.co/twc09Bjm/7.webp',
+    'https://i.ibb.co/tM8qgScG/8.webp',
+    'https://i.ibb.co/Kx25KY5y/9.webp',
+    'https://i.ibb.co/RT9qYZm3/10.webp',
+    'https://i.ibb.co/GQGXp9cZ/11.webp',
+    'https://i.ibb.co/Xrp563Hs/12.webp',
+    'https://i.ibb.co/XrnnVtW6/13.webp',
+    'https://i.ibb.co/WpPbJRjN/14.webp',
+    'https://i.ibb.co/MyGGRF9k/15.webp',
+    'https://i.ibb.co/0VGDprny/16.webp',
+    'https://i.ibb.co/CKSFp1GF/17.webp',
+    'https://i.ibb.co/7tFyBWfd/18.webp',
+    'https://i.ibb.co/Z6Js1Xwn/19.webp',
+    'https://i.ibb.co/0VC65bkt/20.webp',
+    'https://i.ibb.co/KpqTs6w0/21.webp',
+    'https://i.ibb.co/KxLw7J3h/22.webp',
+    'https://i.ibb.co/5CFc54d/23.webp',
+    'https://i.ibb.co/rGv96jGW/24.webp',
+  ],
+  'reparacion-concreto': [
+    'https://i.ibb.co/fGVGy4b9/1.webp',
+    'https://i.ibb.co/zVnx0W0Z/2.webp',
+    'https://i.ibb.co/67SQKvF7/3.webp',
+    'https://i.ibb.co/zhHKhZVg/4.webp',
+    'https://i.ibb.co/k2kyYdz7/5.webp',
+    'https://i.ibb.co/1Jqf9TT1/6.webp',
+  ],
+  'impermeabilizacion': [
+    'https://i.ibb.co/0RNmfQns/9.webp',
+    'https://i.ibb.co/pvp2trW3/8.webp',
+    'https://i.ibb.co/35Rq2ScH/7.webp',
+    'https://i.ibb.co/CpRF4Rd6/6.webp',
+    'https://i.ibb.co/7JZHz93R/5.webp',
+    'https://i.ibb.co/0yKJGZCt/4.webp',
+    'https://i.ibb.co/6cS8swG4/3.webp',
+    'https://i.ibb.co/jpP5Zm5/2.webp',
+    'https://i.ibb.co/MkFXfB5n/1.webp',
+  ],
+  'pinturas-especiales': [
+    'https://i.ibb.co/VcGSBzLj/1.webp',
+    'https://i.ibb.co/Qv9dKtp1/2.webp',
+    'https://i.ibb.co/gLfLtCFb/3.webp',
+    'https://i.ibb.co/9HqQbm4V/4.webp',
+    'https://i.ibb.co/NgWfLQ7v/5.webp',
+    'https://i.ibb.co/27RKHT9b/6.webp',
+    'https://i.ibb.co/zVfBkPLY/7.webp',
+    'https://i.ibb.co/pv30rdk5/8.webp',
+    'https://i.ibb.co/kVWFfkLB/9.webp',
+    'https://i.ibb.co/Swj96xSR/10.webp',
+    'https://i.ibb.co/XZstj9X8/11.webp',
+    'https://i.ibb.co/9kjSVR1J/12.webp',
+    'https://i.ibb.co/VYfYvYnH/13.webp',
+    'https://i.ibb.co/NnsPVdcc/14.webp',
+    'https://i.ibb.co/pj9m3BvP/15.webp',
+    'https://i.ibb.co/dwhRr1N1/16.webp',
+    'https://i.ibb.co/Nnb2FwX5/17.webp',
+  ],
+  'sistema-cortafuegos': [
+    'https://i.ibb.co/PzCspYpW/1.webp',
+    'https://i.ibb.co/WNW00vZ9/2.webp',
+    'https://i.ibb.co/mFPQYt2P/3.webp',
+    'https://i.ibb.co/jZ670wHK/4.webp',
+    'https://i.ibb.co/SwtYMjky/5.webp',
+    'https://i.ibb.co/WWJHncw8/6.webp',
+    'https://i.ibb.co/RkLvP9hp/7.webp',
+    'https://i.ibb.co/bgqhqCDr/8.webp',
+    'https://i.ibb.co/NgD5M7Px/9.webp',
+    'https://i.ibb.co/twZ1XRmr/10.webp',
+    'https://i.ibb.co/svHxtQbK/11.webp',
+    'https://i.ibb.co/8479DTzV/12.webp',
+  ],
+  'aislamiento': [
+    'https://i.ibb.co/Mk2kr7Vp/1.webp',
+  ],
+};
+
+const ALL_IMAGES = CATEGORIES.flatMap(cat => {
+  const catImages = CATEGORY_IMAGES[cat.id] || [];
+  return catImages.map((url, i) => ({
+    id: `${cat.id}-${i + 1}`,
+    categoryId: cat.id,
+    categoryTitle: cat.title,
+    url: url,
+    title: `${cat.title} - Proyecto ${i + 1}`,
+  }));
+});
 
 interface ProjectGalleryProps {
   onImageSelect: (imageUrl: string) => void;
 }
 
 export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
+  const [activeCategory, setActiveCategory] = useState<string>('all');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -40,23 +165,45 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
     }
   };
 
+  const filteredImages = activeCategory === 'all' 
+    ? ALL_IMAGES 
+    : ALL_IMAGES.filter(img => img.categoryId === activeCategory);
+
   return (
-    <section id="galeria" className="relative z-10 py-20 md:py-32 bg-[#0a192f] flex flex-col justify-center overflow-hidden">
+    <section id="galeria" className="relative z-10 py-16 md:py-24 bg-[#0a192f] flex flex-col justify-center overflow-hidden">
       <div className="w-full max-w-[1600px] mx-auto px-5 md:px-10 lg:px-12">
-        <div className="text-center mb-10 md:mb-14">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm transition-all duration-300">
-            Galería&nbsp;&nbsp;de&nbsp;&nbsp;<span className="text-gradient transition-colors">Proyectos</span>
+        <div className="text-center mb-10 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-sm mb-4">
+            Galería de <span className="text-brand-orange">Proyectos</span>
           </h2>
-          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mt-4 mb-6" />
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "200px" }}
-            transition={{ delay: 0.2 }}
-            className="text-white/70 max-w-2xl mx-auto text-sm md:text-base font-bold tracking-wide"
-          >
-            Explora la calidad de nuestros acabados y soluciones poliméricas a través de nuestro portafolio.
-          </motion.p>
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mb-8" />
+          
+          {/* Categorías (Botones) */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 max-w-5xl mx-auto">
+            <button
+              onClick={() => setActiveCategory('all')}
+              className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs md:text-sm font-bold tracking-wide transition-all duration-300 uppercase ${
+                activeCategory === 'all'
+                  ? 'bg-brand-orange text-white shadow-[0_4px_15px_rgba(245,130,32,0.4)]'
+                  : 'bg-white/10 text-white hover:bg-white/20 hover:text-brand-orange'
+              }`}
+            >
+              Todos
+            </button>
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs md:text-sm font-bold tracking-wide transition-all duration-300 uppercase ${
+                  activeCategory === cat.id
+                    ? 'bg-brand-orange text-white shadow-[0_4px_15px_rgba(245,130,32,0.4)]'
+                    : 'bg-white/10 text-white hover:bg-white/20 hover:text-brand-orange'
+                }`}
+              >
+                {cat.title}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="relative group/gallery">
@@ -85,36 +232,49 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                 msOverflowStyle: 'none' 
               }}
             >
-              {GALLERY_IMAGES.map((image, idx) => (
-                <motion.div
-                  key={image.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "100px" }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="group relative flex-none w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] aspect-square snap-center rounded-2xl md:rounded-[2rem] overflow-hidden cursor-pointer shadow-sm border-[1.5px] border-blue-200/60 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 will-change-transform bg-gradient-to-br from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 p-3 sm:p-4"
-                  onClick={() => onImageSelect(getProxiedImageUrl(image.url))}
-                >
-                  <div className="w-full h-full relative rounded-xl sm:rounded-2xl overflow-hidden shadow-inner border border-black/5">
-                    <img
-                      src={getProxiedImageUrl(image.url)}
-                      alt={image.title}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/90 via-[#0a192f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <AnimatePresence mode='popLayout'>
+                {filteredImages.map((image, idx) => (
+                  <motion.div
+                    layout
+                    key={image.id}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.4 }}
+                    className="group relative flex-none w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] aspect-[4/3] sm:aspect-square snap-center rounded-2xl md:rounded-[2rem] overflow-hidden cursor-pointer shadow-sm border-[1.5px] border-brand-orange/20 transition-all duration-500 hover:shadow-[0_10px_40px_rgba(245,130,32,0.2)] hover:-translate-y-2 will-change-transform bg-black/40 p-2 sm:p-3"
+                    onClick={() => onImageSelect(image.url)}
+                  >
+                    <div className="w-full h-full relative rounded-xl sm:rounded-[1.5rem] overflow-hidden bg-black/50">
+                      <img
+                        src={image.url}
+                        alt={image.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          // If fallback fails too, we don't do infinite loop
+                          if (!target.src.includes('placehold.co')) {
+                            target.src = 'https://placehold.co/600x400/1a1a1a/f58220?text=Error+Cargando';
+                          }
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/90 via-[#0a192f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                    {/* Expand Icon */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 pointer-events-none">
-                       <span className="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-orange/90 backdrop-blur-md shadow-[0_4px_30px_rgba(245,130,32,0.8)] text-white">
-                         <Maximize2 className="w-6 h-6 md:w-8 md:h-8" />
-                       </span>
+                      {/* Info & Expand Icon */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                        <p className="text-white font-bold text-sm tracking-wide mix-blend-plus-lighter">{image.categoryTitle}</p>
+                      </div>
+
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 pointer-events-none">
+                         <span className="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-orange/90 backdrop-blur-md shadow-[0_4px_30px_rgba(245,130,32,0.8)] text-white">
+                           <Maximize2 className="w-6 h-6 md:w-8 md:h-8" />
+                         </span>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
         </div>
       </div>
