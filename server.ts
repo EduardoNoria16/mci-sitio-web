@@ -29,12 +29,20 @@ async function startServer() {
       console.log("Using API KEY:", process.env.GEMINI_API_KEY.substring(0, 5) + "...");
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-      const { userMsg, imagePart } = req.body;
+      const { userMsg, imagePart, history = [] } = req.body;
       const parts: any[] = [];
       if (userMsg) parts.push({ text: userMsg });
       if (imagePart) {
         parts.push(imagePart);
       }
+
+      const contents: any[] = [];
+      for (const msg of history) {
+        if (msg.text) {
+          contents.push({ role: msg.role === 'model' ? 'model' : 'user', parts: [{ text: msg.text }] });
+        }
+      }
+      contents.push({ role: 'user', parts });
 
       // Generate response with model fallback chain (gemini-2.5-flash -> gemini-2.0-flash -> gemini-1.5-flash) to prevent 429 quota exhaustion
       const modelsToTry = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
@@ -46,9 +54,9 @@ async function startServer() {
           console.log(`Attempting generation with model ${modelName}...`);
           response = await ai.models.generateContent({
             model: modelName,
-            contents: [{ role: 'user', parts }],
+            contents,
             config: {
-              systemInstruction: "MCI Soluciones Poliméricas. Eres un experto técnico de MCI, pero tienes la capacidad de conversar amablemente y responder cualquier pregunta general de manera sumamente atenta, amigable e inteligente. TUS RESPUESTAS DEBEN SER MUY CORTAS Y CONCISAS (máximo 2 o 3 oraciones breves). Ve directo al grano. NUNCA des precios exactos de MCI (indica que se requiere visita técnica). Si el problema es crítico, invita al usuario a contactarnos por WhatsApp. Usa un lenguaje sencillo y accesible para todo público."
+              systemInstruction: "MCI Soluciones Poliméricas. Eres el asistente virtual de MCI. Tienes personalidad propia: eres muy amable, profesional, empático, inteligente y dinámico. No des respuestas robóticas ni repitas las mismas frases. Varía tu vocabulario y responde con naturalidad, como un asesor técnico amigable. Muestra disposición para ayudar. NUNCA des precios exactos (sugiere una evaluación técnica sin compromiso o enviar mensaje al área de ventas). Si el problema es crítico, invita a contactar por WhatsApp. Tus respuestas deben ser MUY CORTAS Y CONCISAS (máximo 2 a 3 oraciones). Ve directo al grano usando un lenguaje sencillo y accesible."
             }
           });
           if (response && response.text) {

@@ -1435,10 +1435,15 @@ export default function App() {
         imagePart = await fileToGenerativePart(currentFile);
       }
 
+      const historyPayload = chatMessages.map(m => ({
+        role: m.type === 'user' ? 'user' : 'model',
+        text: m.text
+      })).slice(-10);
+
       const response = await fetch('/api/gemini/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userMsg, imagePart })
+        body: JSON.stringify({ userMsg, imagePart, history: historyPayload })
       });
       
       if (!response.ok) {
@@ -2403,30 +2408,30 @@ export default function App() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Cargo</label>
-                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
                       </div>
                       <div className="md:col-span-3">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Nombre Completo *</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
                       </div>
                     </div>
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Empresa / Planta *</label>
-                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
                       </div>
                       <div>
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Teléfono *</label>
-                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
                       </div>
                     </div>
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Detalles del Proyecto *</label>
-                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-300 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                       {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
