@@ -405,7 +405,7 @@ const STRENGTHS: Strength[] = [
     keywords: ['químico-resistentes', 'inmersión contínua', 'reforzados', 'ladrillos y losetas', 'Recubrimientos ahulados', 'resistencia térmica', 'En húmedo', 'En seco', 'resistencia mecánica', 'abuso físico', 'dieléctricas', 'Conductivos', 'Antiestáticos', 'requerimientos sanitarios', '(FDA)', '(USDA)', '(COFEPRIS)', '(SENESICA)', '(NSF)'],
     items: [
       {
-        label: 'Recubrimientos químico-resistentes para el control de la corrosión.',
+        label: 'Corrosión, tan antigua como la civilización.',
         subItems: [
           'Desde recubrimientos delgados para salpicaduras o derrames ocasionales hasta sistemas robustos para inmersión contínua.',
           'Revestimientos reforzados con fibra de vidrio, saturada con resina epóxica, poliéster, viniliéster, novolac, o híbrida.',
@@ -532,113 +532,141 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case1',
     title: 'Caso de Éxito 1',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/wsIEHA08_o.jpg',
-    after: '/before-after/dancwYF1_o.jpg'
+    before: 'https://i.ibb.co/pBtLBvKF/1-Antes-1.webp',
+    after: 'https://i.ibb.co/dwrLZYxw/2-Despue-s-2.webp'
   },
   {
     id: 'case2',
     title: 'Caso de Éxito 2',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/jFHrF04P_o.jpg',
-    after: '/before-after/Vdt4qzQ3_o.jpg'
+    before: 'https://i.ibb.co/1f83q2sm/3-Antes-3.webp',
+    after: 'https://i.ibb.co/fGBX9RhN/4-Despue-s-4.webp'
   },
   {
     id: 'case3',
     title: 'Caso de Éxito 3',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/VIDPBh84_o.jpg',
-    after: '/before-after/Ewf4uEcE_o.jpg'
+    before: 'https://i.ibb.co/xqBxmksB/5-Antes-5.webp',
+    after: 'https://i.ibb.co/kgBsPvB2/6-Despue-s-6.webp'
   },
   {
     id: 'case4',
     title: 'Caso de Éxito 4',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/fjT1RFET_o.jpg',
-    after: '/before-after/Z4NXVOoQ_o.jpg'
+    before: 'https://i.ibb.co/LMy83y8/7-Antes-7.webp',
+    after: 'https://i.ibb.co/WNtxht5L/8-Despue-s-8.webp'
   },
   {
     id: 'case5',
     title: 'Caso de Éxito 5',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/Id0Pii6t_o.jpg',
-    after: '/before-after/2toaJPpW_o.jpg'
+    before: 'https://i.ibb.co/YB6Bdbjy/9-Antes-9.webp',
+    after: 'https://i.ibb.co/1YL6Q5kv/10-Despue-s-10.webp'
   },
   {
     id: 'case6',
     title: 'Caso de Éxito 6',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/6xiopQMz_o.jpeg',
-    after: '/before-after/QP6E8I7q_o.jpeg'
+    before: 'https://i.ibb.co/Nnjrn3vV/11-Antes-11.webp',
+    after: 'https://i.ibb.co/fVjjnH5Y/12-Despue-s-12.webp'
   },
   {
     id: 'case7',
     title: 'Caso de Éxito 7',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/kf0mogLt_o.jpeg',
-    after: '/before-after/Q0GbGWpl_o.jpeg'
+    before: 'https://i.ibb.co/W4ZD34NW/13-Antes-13.webp',
+    after: 'https://i.ibb.co/LzWZgcRY/14-Despue-s-14.webp'
   },
   {
     id: 'case8',
     title: 'Caso de Éxito 8',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/M6Qrnsfl_o.jpeg',
-    after: '/before-after/3D2Zh5mJ_o.jpg'
+    before: 'https://i.ibb.co/MksBChMm/15-Antes-15.webp',
+    after: 'https://i.ibb.co/MypzhpP6/16-Despue-s-16.webp'
   },
   {
     id: 'case9',
     title: 'Caso de Éxito 9',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/BjTHRJDu_o.jpeg',
-    after: '/before-after/jJ2i1pBZ_o.jpeg'
+    before: 'https://i.ibb.co/JFt0N0ng/17-Antes-17.webp',
+    after: 'https://i.ibb.co/mCkNHshG/18-Despue-s-18.webp'
   },
   {
     id: 'case10',
     title: 'Caso de Éxito 10',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/TDea6Iwx_o.jpeg',
-    after: '/before-after/FBvq9fDK_o.jpeg'
+    before: 'https://i.ibb.co/pBBDJSz6/19-Antes-19.webp',
+    after: 'https://i.ibb.co/fdFYB3ph/20-Despue-s-20.webp'
   },
   {
     id: 'case11',
     title: 'Caso de Éxito 11',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/JH5fSihJ_o.jpeg',
-    after: '/before-after/FvTTrvLo_o.jpeg'
+    before: 'https://i.ibb.co/ksYQKrgW/21-Antes-21.webp',
+    after: 'https://i.ibb.co/Dgwj1jyb/22-Despue-s-22.webp'
   },
   {
     id: 'case12',
     title: 'Caso de Éxito 12',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/mJMEDX1z_o.jpeg',
-    after: '/before-after/bbEi5xTg_o.jpeg'
+    before: 'https://i.ibb.co/CKYvGnwB/23-Antes-23.webp',
+    after: 'https://i.ibb.co/NgQJyphc/24-Despue-s-24.webp'
   },
   {
     id: 'case13',
     title: 'Caso de Éxito 13',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/J2vpLZYD_o.jpeg',
-    after: '/before-after/JfWJnP14_o.jpeg'
+    before: 'https://i.ibb.co/XNmMVwt/25-Antes-25.webp',
+    after: 'https://i.ibb.co/bMtmKN8P/26-Despue-s-26.webp'
   },
   {
     id: 'case14',
     title: 'Caso de Éxito 14',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/fAv1c6kg_o.jpeg',
-    after: '/before-after/zKFPhqMi_o.jpeg'
+    before: 'https://i.ibb.co/VcZzMHqB/27-Antes-27.webp',
+    after: 'https://i.ibb.co/ds1xYjrQ/28-Despue-s-28.webp'
   },
   {
     id: 'case15',
     title: 'Caso de Éxito 15',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/qB1LdmEE_o.jpeg',
-    after: '/before-after/iPc1dSbL_o.jpeg'
+    before: 'https://i.ibb.co/GD42HMp/29-Antes.webp',
+    after: 'https://i.ibb.co/nMQVSZZR/30-Despue-s-30.webp'
   },
   {
     id: 'case16',
     title: 'Caso de Éxito 16',
     description: 'Transformación y recuperación estructural.',
-    before: '/before-after/WzvkrASE_o.jpeg',
-    after: '/before-after/1zmZdpVx_o.jpeg'
+    before: 'https://i.ibb.co/bgns0hSw/31-Antes-31.webp',
+    after: 'https://i.ibb.co/tPBPSBb7/32-Despue-s-32.webp'
+  },
+  {
+    id: 'case17',
+    title: 'Caso de Éxito 17',
+    description: 'Transformación y recuperación estructural.',
+    before: 'https://i.ibb.co/9HtrXwrH/35-Antes-35.webp',
+    after: 'https://i.ibb.co/5X3jVnrp/36-Despue-s-36.webp'
+  },
+  {
+    id: 'case18',
+    title: 'Caso de Éxito 18',
+    description: 'Transformación y recuperación estructural.',
+    before: 'https://i.ibb.co/9mbSPyHm/37-Antee-37.webp',
+    after: 'https://i.ibb.co/21kTc96c/38-Despue-s-38.webp'
+  },
+  {
+    id: 'case19',
+    title: 'Caso de Éxito 19',
+    description: 'Transformación y recuperación estructural.',
+    before: 'https://i.ibb.co/KdK5LXb/39-Antes-39.webp',
+    after: 'https://i.ibb.co/XrkbKFx2/40-Despue-s-40.webp'
+  },
+  {
+    id: 'case20',
+    title: 'Caso de Éxito 20',
+    description: 'Transformación y recuperación estructural.',
+    before: 'https://i.ibb.co/pB3nNSTP/41-Antes-41.webp',
+    after: 'https://i.ibb.co/0jZ4zjWk/42-Despue-s-42.webp'
   }
 ];
 

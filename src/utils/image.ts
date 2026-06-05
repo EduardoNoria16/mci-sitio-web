@@ -4,8 +4,12 @@ export function getProxiedImageUrl(url: string | undefined): string {
   if (url.startsWith('blob:')) return url;
   if (url.startsWith('/')) return url; // local paths stay local!
   
-  // if url is static local asset or logo base64
+  // if url is static local asset, logo base64, or an ibb.co direct image
   if (!url.includes('http://') && !url.includes('https://') && !url.includes('imgbox.')) {
+    return url;
+  }
+  
+  if (url.includes('ibb.co')) {
     return url;
   }
 

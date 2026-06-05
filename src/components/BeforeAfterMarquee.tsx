@@ -41,7 +41,7 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
       <div className="relative flex flex-row w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-inner border border-white/10 group-hover:shadow-2xl transition-shadow duration-500">
         {/* Mitad Antes */}
         <div className="relative w-1/2 h-full overflow-hidden">
-          <img src={getProxiedImageUrl(pair.before)} alt="Antes" referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:rotate-1" draggable={false}  loading="lazy" decoding="async" />
+          <img src={pair.before} alt="Antes" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:rotate-1" draggable={false}  loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-black/10 transition-colors duration-500" />
           <div className="absolute top-2 left-2 sm:top-4 sm:left-4 px-2 py-1 sm:px-4 sm:py-1.5 bg-black/70 backdrop-blur-md text-white border-white/20 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg border z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
             Condición inicial
@@ -53,7 +53,7 @@ const BeforeAfterCard: React.FC<{ pair: PhotoPair; index: number; onClick: () =>
         
         {/* Mitad Después */}
         <div className="relative w-1/2 h-full overflow-hidden">
-          <img src={getProxiedImageUrl(pair.after)} alt="Después" referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:-rotate-1" draggable={false}  loading="lazy" decoding="async" />
+          <img src={pair.after} alt="Después" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110 group-hover:-rotate-1" draggable={false}  loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
           <div className="absolute top-2 right-2 sm:top-4 sm:right-4 px-2 py-1 sm:px-4 sm:py-1.5 bg-brand-orange/90 backdrop-blur-md text-white border-white/20 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-[0_0_20px_rgba(245,130,32,0.5)] border z-10 transition-transform duration-300 group-hover:-translate-y-0.5">
             Solución MCI
@@ -141,19 +141,10 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
   // Usamos todas las fotos para una sola fila
   const allPairs = [...pairs];
 
-  // Bloque renderizable para la cinta (con gaps incluidos)
-  const renderCardBlock = (prefix: string, items: PhotoPair[], startIndex: number = 0) => (
-    <div className="flex shrink-0 gap-3 sm:gap-4 lg:gap-6 pr-3 sm:pr-4 lg:pr-6">
-      {items.map((pair, idx) => (
-        <BeforeAfterCard key={`${prefix}-${idx}`} index={startIndex + idx} pair={pair} onClick={() => setSelectedPair(pair)} />
-      ))}
-    </div>
-  );
-
   return (
-    <div className={`relative w-full overflow-hidden flex flex-col gap-4 sm:gap-6 lg:gap-8 ${className}`}>
+    <div className={`relative w-full flex flex-col gap-4 sm:gap-6 lg:gap-8 ${className}`}>
       
-      {/* Cinta Única - Movimiento Izquierda */}
+      {/* Scrollable Container */}
       <div 
         className="flex w-full overflow-x-auto select-none py-4 sm:py-6 lg:py-8 mt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] cursor-grab active:cursor-grabbing"
         ref={scrollRef}
@@ -161,15 +152,25 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
         onPointerLeave={() => isInteracting.current = false}
         onTouchStart={() => isInteracting.current = true}
         onTouchEnd={() => {
-          // Pequena pausa antes de reanudar
           setTimeout(() => { isInteracting.current = false; }, 1000);
         }}
       >
         <div className="flex shrink-0">
-          {renderCardBlock('c1', allPairs, 0)}
-          {renderCardBlock('c2', allPairs, allPairs.length)}
-          {renderCardBlock('c3', allPairs, allPairs.length * 2)}
-          {renderCardBlock('c4', allPairs, allPairs.length * 3)}
+          <div className="flex shrink-0 gap-3 sm:gap-4 lg:gap-6 pr-3 sm:pr-4 lg:pr-6">
+            {allPairs.map((pair, idx) => (
+              <BeforeAfterCard key={`c1-${idx}`} index={idx} pair={pair} onClick={() => setSelectedPair(pair)} />
+            ))}
+          </div>
+          <div className="flex shrink-0 gap-3 sm:gap-4 lg:gap-6 pr-3 sm:pr-4 lg:pr-6">
+            {allPairs.map((pair, idx) => (
+              <BeforeAfterCard key={`c2-${idx}`} index={idx + allPairs.length} pair={pair} onClick={() => setSelectedPair(pair)} />
+            ))}
+          </div>
+          <div className="flex shrink-0 gap-3 sm:gap-4 lg:gap-6 pr-3 sm:pr-4 lg:pr-6">
+            {allPairs.map((pair, idx) => (
+              <BeforeAfterCard key={`c3-${idx}`} index={idx + allPairs.length * 2} pair={pair} onClick={() => setSelectedPair(pair)} />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -210,7 +211,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
 
                 {/* Antes Side */}
                 <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group pt-16 md:pt-0">
-                  <img src={getProxiedImageUrl(selectedPair.before)} alt="Antes" referrerPolicy="no-referrer" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
+                  <img src={selectedPair.before} alt="Antes" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
                   <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 px-4 py-1.5 sm:px-6 sm:py-3 bg-black/80 backdrop-blur-md text-white font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-2xl border border-white/20 z-50">
                     Condición inicial
                   </div>
@@ -221,7 +222,7 @@ export default function BeforeAfterMarquee({ pairs, className = '' }: Props) {
 
                 {/* Después Side */}
                 <div className="w-full md:w-1/2 relative h-[35vh] md:h-[65vh] group">
-                  <img src={getProxiedImageUrl(selectedPair.after)} alt="Después" referrerPolicy="no-referrer" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
+                  <img src={selectedPair.after} alt="Después" className="w-full h-full object-contain bg-black/80"  loading="lazy" decoding="async" />
                   <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 px-4 py-1.5 sm:px-6 sm:py-3 bg-brand-orange/90 backdrop-blur-md text-white font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-full shadow-[0_0_30px_rgba(245,130,32,0.6)] border border-white/20 z-50">
                     Solución MCI
                   </div>
