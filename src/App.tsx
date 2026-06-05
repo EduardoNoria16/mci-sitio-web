@@ -644,8 +644,8 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case17',
     title: 'Caso de Éxito 17',
     description: 'Transformación y recuperación estructural.',
-    before: 'https://i.ibb.co/9HtrXwrH/35-Antes-35.webp',
-    after: 'https://i.ibb.co/5X3jVnrp/36-Despue-s-36.webp'
+    before: 'https://i.ibb.co/5X3jVnrp/36-Despue-s-36.webp',
+    after: 'https://i.ibb.co/9HtrXwrH/35-Antes-35.webp'
   },
   {
     id: 'case18',
@@ -732,7 +732,7 @@ const TESTIMONIALS = [
     cargo: "Jefe de Proyectos",
     company: "Sepromexsa",
     giro: "Mantenimiento y Construcciones Industriales",
-    text: "Por muchos años colaborador nuestro en proyectos nuevos y de remodelación de las empresas de Industrias Unidas SA de CV.",
+    text: "Por muchos años colaborador nuestro en proyectos nuevos y de remodelación de las empresas de Grupo IUSA.",
     rating: 5
   },
   {
