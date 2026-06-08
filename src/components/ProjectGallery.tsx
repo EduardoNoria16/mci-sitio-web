@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProxiedImageUrl } from '../utils/image';
@@ -51,6 +51,37 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://i.ibb.co/k6D5Y3Ff/4.webp',
     'https://i.ibb.co/VWZ1r2mL/5.webp',
     'https://i.ibb.co/8LWgjfq5/6.webp',
+    'https://i.ibb.co/xLM65c71/10.webp',
+    'https://i.ibb.co/wNXx0jCq/11.webp',
+    'https://i.ibb.co/QFG1L8k5/12.webp',
+    'https://i.ibb.co/FkV66PTr/13.webp',
+    'https://i.ibb.co/4n1Bktf7/14.webp',
+    'https://i.ibb.co/jPnZ21XQ/15.webp',
+    'https://i.ibb.co/PztkVQ09/16.webp',
+    'https://i.ibb.co/S4JtG4ZJ/17.webp',
+    'https://i.ibb.co/RkT2j2n2/18.webp',
+    'https://i.ibb.co/CsHMjMXD/19.webp',
+    'https://i.ibb.co/FbKpdtpK/20.webp',
+    'https://i.ibb.co/TDPsyt5x/21.webp',
+    'https://i.ibb.co/Kzc2RG1K/22.webp',
+    'https://i.ibb.co/p6GSWHBp/23.webp',
+    'https://i.ibb.co/NdGkCC4t/24.webp',
+    'https://i.ibb.co/cKL202G3/25.webp',
+    'https://i.ibb.co/9kVrm9gm/26.webp',
+    'https://i.ibb.co/jP0pZtvc/27.webp',
+    'https://i.ibb.co/0RsswmcM/IMG-20260608-114931.webp',
+    'https://i.ibb.co/TBbvFzP5/IMG-20260608-115239.webp',
+    'https://i.ibb.co/bg0K4g5h/IMG-20260608-115257.webp',
+    'https://i.ibb.co/0Rdc2ry9/IMG-20260608-115330.webp',
+    'https://i.ibb.co/xtnmmPbD/IMG-20260608-115351.webp',
+    'https://i.ibb.co/Q7TvTbCx/IMG-20260608-115415.webp',
+    'https://i.ibb.co/TDYzzXVN/IMG-20260608-115434.webp',
+    'https://i.ibb.co/6722wkYP/IMG-20260608-115511.webp',
+    'https://i.ibb.co/SXWddC4j/IMG-20260608-115532.webp',
+    'https://i.ibb.co/bRN7mBJK/IMG-20260608-115551.webp',
+    'https://i.ibb.co/39Dk7yFQ/IMG-20260608-115616.webp',
+    'https://i.ibb.co/WW4mx3gb/IMG-20260608-115648.webp',
+    'https://i.ibb.co/nMD6VxpR/IMG-20260608-115707.webp',
   ],
   'acabados-alta-gama': [
     'https://i.ibb.co/gL2DGHpQ/1.webp',
@@ -77,6 +108,9 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://i.ibb.co/KxLw7J3h/22.webp',
     'https://i.ibb.co/5CFc54d/23.webp',
     'https://i.ibb.co/rGv96jGW/24.webp',
+    'https://i.ibb.co/p60rB0jV/IMG-20260608-131711.webp',
+    'https://i.ibb.co/PGPmGv7M/IMG-20260608-131818.webp',
+    'https://i.ibb.co/Cp1trKxY/IMG-20260608-131837.webp',
   ],
   'reparacion-concreto': [
     'https://i.ibb.co/fGVGy4b9/1.webp',
@@ -96,6 +130,14 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://i.ibb.co/6cS8swG4/3.webp',
     'https://i.ibb.co/jpP5Zm5/2.webp',
     'https://i.ibb.co/MkFXfB5n/1.webp',
+    'https://i.ibb.co/27PXM0mQ/IMG-20260608-125912.webp',
+    'https://i.ibb.co/b5GVpjBN/IMG-20260608-130020.webp',
+    'https://i.ibb.co/RwK5fDx/IMG-20260608-130042.webp',
+    'https://i.ibb.co/9m6vn4PM/IMG-20260608-130100.webp',
+    'https://i.ibb.co/cSq5y0cQ/IMG-20260608-130118.webp',
+    'https://i.ibb.co/nNWtKx6g/IMG-20260608-130137.webp',
+    'https://i.ibb.co/CpXWpcnW/IMG-20260608-130156.webp',
+    'https://i.ibb.co/xqTjk7sj/IMG-20260608-130215.webp',
   ],
   'pinturas-especiales': [
     'https://i.ibb.co/VcGSBzLj/1.webp',
@@ -192,6 +234,7 @@ interface ProjectGalleryProps {
 export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isInteracting = useRef(false);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -207,6 +250,41 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
   const filteredImages = activeCategory === 'all' 
     ? ALL_IMAGES 
     : ALL_IMAGES.filter(img => img.categoryId === activeCategory);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let animationId: number;
+
+    const scroll = () => {
+      if (!isInteracting.current && container) {
+        container.scrollLeft += 1.5; 
+        
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft -= container.scrollWidth / 2;
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+
+    const handleScroll = () => {
+      if (container.scrollLeft <= 0) {
+        container.scrollLeft += container.scrollWidth / 2;
+      } else if (container.scrollLeft >= container.scrollWidth / 2) {
+        container.scrollLeft -= container.scrollWidth / 2;
+      }
+    };
+    
+    container.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [filteredImages]);
 
   return (
     <section id="galeria" className="relative z-10 py-16 md:py-24 bg-[#0a192f] flex flex-col justify-center overflow-hidden">
@@ -265,55 +343,62 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
             {/* Horizontal scroll layout */}
             <div 
               ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 pb-6 pt-2 hide-scrollbar -mx-5 px-5 md:-mx-10 md:px-10 lg:-mx-12 lg:px-12"
-              style={{ 
-                scrollbarWidth: 'none', 
-                msOverflowStyle: 'none' 
+              className="flex overflow-x-auto select-none pt-2 pb-6 mt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] cursor-grab active:cursor-grabbing -mx-5 px-5 md:-mx-10 md:px-10 lg:-mx-12 lg:px-12"
+              onPointerEnter={() => isInteracting.current = true}
+              onPointerLeave={() => isInteracting.current = false}
+              onTouchStart={() => isInteracting.current = true}
+              onTouchEnd={() => {
+                setTimeout(() => { isInteracting.current = false; }, 1000);
               }}
             >
-              <AnimatePresence mode='popLayout'>
-                {filteredImages.map((image, idx) => (
-                  <motion.div
-                    layout
-                    key={image.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.4 }}
-                    className="group relative flex-none w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] aspect-[4/3] sm:aspect-square snap-center rounded-2xl md:rounded-[2rem] overflow-hidden cursor-pointer shadow-sm border-[1.5px] border-brand-orange/20 transition-all duration-500 hover:shadow-[0_10px_40px_rgba(245,130,32,0.2)] hover:-translate-y-2 will-change-transform bg-black/40 p-2 sm:p-3"
-                    onClick={() => onImageSelect(image.url)}
-                  >
-                    <div className="w-full h-full relative rounded-xl sm:rounded-[1.5rem] overflow-hidden bg-black/50">
-                      <img
-                        src={image.url}
-                        alt={image.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
-                        decoding="async"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          // If fallback fails too, we don't do infinite loop
-                          if (!target.src.includes('placehold.co')) {
-                            target.src = 'https://placehold.co/600x400/1a1a1a/f58220?text=Error+Cargando';
-                          }
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/90 via-[#0a192f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="flex shrink-0">
+                {[...Array(3)].map((_, groupIndex) => (
+                  <div key={`group-${groupIndex}`} className="flex shrink-0 gap-4 md:gap-6 pr-4 md:pr-6">
+                    <AnimatePresence mode='popLayout'>
+                      {filteredImages.map((image, idx) => (
+                        <motion.div
+                          layout
+                          key={`${image.id}-${groupIndex}`}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.8 }}
+                          transition={{ duration: 0.4 }}
+                          className="group relative flex-none w-[75vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] aspect-[4/3] sm:aspect-square rounded-2xl md:rounded-[2rem] overflow-hidden cursor-pointer shadow-sm border-[1.5px] border-brand-orange/20 transition-all duration-500 hover:shadow-[0_10px_40px_rgba(245,130,32,0.2)] hover:-translate-y-2 will-change-transform bg-black/40 p-2 sm:p-3"
+                          onClick={() => onImageSelect(image.url)}
+                        >
+                          <div className="w-full h-full relative rounded-xl sm:rounded-[1.5rem] overflow-hidden bg-black/50">
+                            <img
+                              src={image.url}
+                              alt={image.title}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none"
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                if (!target.src.includes('placehold.co')) {
+                                  target.src = 'https://placehold.co/600x400/1a1a1a/f58220?text=Error+Cargando';
+                                }
+                              }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a192f]/90 via-[#0a192f]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                      {/* Info & Expand Icon */}
-                      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                        <p className="text-white font-bold text-sm tracking-wide mix-blend-plus-lighter">{image.categoryTitle}</p>
-                      </div>
+                            {/* Info & Expand Icon */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+                              <p className="text-white font-bold text-sm tracking-wide mix-blend-plus-lighter">{image.categoryTitle}</p>
+                            </div>
 
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 pointer-events-none">
-                         <span className="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-orange/90 backdrop-blur-md shadow-[0_4px_30px_rgba(245,130,32,0.8)] text-white">
-                           <Maximize2 className="w-6 h-6 md:w-8 md:h-8" />
-                         </span>
-                      </div>
-                    </div>
-                  </motion.div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 pointer-events-none">
+                               <span className="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-brand-orange/90 backdrop-blur-md shadow-[0_4px_30px_rgba(245,130,32,0.8)] text-white">
+                                 <Maximize2 className="w-6 h-6 md:w-8 md:h-8" />
+                               </span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
                 ))}
-              </AnimatePresence>
+              </div>
             </div>
         </div>
       </div>

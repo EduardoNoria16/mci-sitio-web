@@ -667,6 +667,20 @@ const BEFORE_AFTER_PAIRS = [
     description: 'Transformación y recuperación estructural.',
     before: 'https://i.ibb.co/pB3nNSTP/41-Antes-41.webp',
     after: 'https://i.ibb.co/0jZ4zjWk/42-Despue-s-42.webp'
+  },
+  {
+    id: 'case21',
+    title: 'Caso de Éxito 21',
+    description: 'Transformación y recuperación estructural.',
+    before: 'https://i.ibb.co/7FmLhSm/43-Antes-43.webp',
+    after: 'https://i.ibb.co/WWqZsBtJ/44-Despue-s-44.webp'
+  },
+  {
+    id: 'case22',
+    title: 'Caso de Éxito 22',
+    description: 'Transformación y recuperación estructural.',
+    before: 'https://i.ibb.co/q3xmMfXx/45-Antes-45.webp',
+    after: 'https://i.ibb.co/hx6mVq8Z/46-Despue-s-46.webp'
   }
 ];
 
@@ -1099,55 +1113,65 @@ export default function App() {
   const [showAllTestimonials, setShowAllTestimonials] = useState(false);
   
   const [formData, setFormData] = useState({
-    cargo: '',
+    profesion: '',
+    profesionOtro: '',
     nombre: '',
-    empresa: '',
+    razonSocial: '',
     email: '',
-    telefono: '',
-    detalles: ''
+    movil: '',
+    fijo: '',
+    ext: '',
+    naturaleza: [] as string[],
+    naturalezaOtro: '',
+    ubicacion: ''
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateField = (name: string, value: string) => {
+  const validateField = (name: string, value: any) => {
     let error = '';
-    switch (name) {
-      case 'nombre':
-        if (!value.trim()) error = 'El nombre es obligatorio';
-        break;
-      case 'email':
-        if (!value.trim()) error = 'El correo es obligatorio';
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = 'Correo inválido';
-        break;
-      case 'telefono':
-        if (!value.trim()) error = 'El teléfono es obligatorio';
-        else if (!/^\d{10}$/.test(value.replace(/\D/g, ''))) error = 'Debe ser de 10 dígitos';
-        break;
-      case 'empresa':
-        if (!value.trim()) error = 'La empresa es obligatoria';
-        break;
-      case 'detalles':
-        if (!value.trim()) error = 'Los detalles son obligatorios';
-        break;
+    if (typeof value === 'string') {
+      switch (name) {
+        case 'nombre':
+          if (!value.trim()) error = 'El nombre es obligatorio';
+          break;
+        case 'email':
+          if (!value.trim()) error = 'El correo es obligatorio';
+          else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) error = 'Correo inválido';
+          break;
+        case 'movil':
+          if (!value.trim()) error = 'El móvil es obligatorio';
+          break;
+        case 'razonSocial':
+          if (!value.trim()) error = 'La razón social es obligatoria';
+          break;
+      }
     }
     return error;
   };
 
-  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
     if (touchedFields[name]) {
       const error = validateField(name, value);
-      setFormErrors(prev => ({
-        ...prev,
-        [name]: error
-      }));
+      setFormErrors(prev => ({ ...prev, [name]: error }));
     }
   };
 
-  const handleFieldBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleCheckboxChange = (option: string) => {
+    setFormData(prev => {
+      const isSelected = prev.naturaleza.includes(option);
+      const newNaturaleza = isSelected 
+        ? prev.naturaleza.filter(item => item !== option)
+        : [...prev.naturaleza, option];
+      return { ...prev, naturaleza: newNaturaleza };
+    });
+  };
+
+  const handleFieldBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setTouchedFields(prev => ({ ...prev, [name]: true }));
     const error = validateField(name, value);
@@ -2181,7 +2205,7 @@ export default function App() {
       <ProjectGallery onImageSelect={setSelectedImage} />
 
       {/* Testimonials Section */}
-      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-20">
+      <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 pt-12 pb-12 md:pt-20 md:pb-16">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
             Clientes&nbsp;&nbsp;<span className="text-gradient">Satisfechos</span>
@@ -2335,61 +2359,18 @@ export default function App() {
 
 
       {/* Contact Section explicitly inside Part 2 */}
-      <section id="contacto" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-20 md:py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="space-y-10">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 border border-brand-orange/20 rounded-full text-brand-orange text-xs font-black uppercase tracking-widest">
-                <Mail className="w-3" />
-                Ingeniería de Ventas
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
-                ¿TIENES UN <br />
-                <span className="text-brand-orange">PROYECTO EN MENTE?</span>
-              </h2>
-              <p className="text-white/70 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
-                Nuestro departamento técnico está listo para brindarte el diagnóstico y la asesoría que tu planta requiere.
-              </p>
-            </div>
+      <section id="contacto" className="relative z-10 max-w-5xl mx-auto px-5 md:px-6 pt-6 pb-12 md:pt-10 md:pb-20">
+        <div className="text-center mb-10 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-sm mb-4">
+            Permítenos mostrarte por qué somos <span className="text-brand-orange">la mejor opción.</span> <br className="hidden md:block" /> Esperamos contar pronto con una <span className="text-[#22d3ee]">oportunidad para servirte.</span>
+          </h2>
+          <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mb-8" />
+        </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { icon: <Phone className="w-5 h-5" />, text: '55 6150 0317', href: 'tel:+525561500317' },
-                { icon: <Mail className="w-5 h-5" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 group">
-                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all">
-                    {item.icon}
-                  </div>
-                  <a href={item.href} className="text-sm font-black text-white hover:text-brand-orange transition-colors">
-                    {item.text}
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="https://wa.me/525561500317" 
-                target="_blank"
-                className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] transition-all hover:-translate-y-1"
-              >
-                <MessageCircle className="w-5 h-5" />
-                WhatsApp Directo
-              </a>
-              <button 
-                onClick={() => setIsQRModalOpen(true)}
-                className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition-all shadow-lg"
-              >
-                <QrCode className="w-5 h-5" />
-                Ver Tarjeta Digital
-              </button>
-            </div>
-          </div>
-
-          <div className="relative">
+        <div className="space-y-12">
+          <div className="relative max-w-3xl mx-auto">
             <div className="absolute -inset-6 bg-gradient-to-tr from-brand-orange/20 via-transparent to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
-            <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-2xl relative overflow-hidden">
+            <div className="bg-white p-6 md:p-10 rounded-[2.5rem] border border-slate-200 shadow-2xl relative overflow-hidden text-left">
                {isFormSubmitted ? (
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -2407,8 +2388,21 @@ export default function App() {
                   <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Cargo</label>
-                        <input type="text" name="cargo" value={formData.cargo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ing." />
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Profesión</label>
+                        <select name="profesion" value={formData.profesion} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none">
+                          <option value="">Seleccione...</option>
+                          <option value="Ing.">Ing.</option>
+                          <option value="Arq.">Arq.</option>
+                          <option value="Lic.">Lic.</option>
+                          <option value="C.P.">C.P.</option>
+                          <option value="Dr.">Dr.</option>
+                          <option value="Mtro.">Mtro.</option>
+                          <option value="Téc.">Téc.</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+                        {formData.profesion === 'Otro' && (
+                          <input type="text" name="profesionOtro" value={formData.profesionOtro} onChange={handleFieldChange} className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Especifique..." />
+                        )}
                       </div>
                       <div className="md:col-span-3">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Nombre Completo *</label>
@@ -2416,22 +2410,46 @@ export default function App() {
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Empresa / Planta *</label>
-                      <input type="text" name="empresa" value={formData.empresa} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Planta Industrial Norte" />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Razón Social *</label>
+                      <input type="text" name="razonSocial" value={formData.razonSocial} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Empresa / Planta" />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Teléfono *</label>
-                        <input type="tel" name="telefono" value={formData.telefono} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="55 0000 0000" />
+                    <div>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Email *</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Teléfono de Contacto *</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <input type="tel" name="movil" value={formData.movil} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Móvil" />
+                        <input type="tel" name="fijo" value={formData.fijo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Fijo" />
+                        <input type="text" name="ext" value={formData.ext} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ext." />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Detalles del Proyecto *</label>
-                      <textarea name="detalles" rows={3} value={formData.detalles} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none resize-none" placeholder="Describa el área a intervenir..." />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-3 block">Naturaleza del Proyecto *</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                        {['Construcción Nueva', 'Remodelación', 'Ampliación', 'Cambio de uso de Área', 'Mtto Preventivo / Correctivo', 'Otro'].map((option) => (
+                          <label key={option} className="flex items-center gap-2 cursor-pointer group">
+                            <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${formData.naturaleza.includes(option) ? 'bg-brand-blue border-brand-blue text-white' : 'border-slate-300 group-hover:border-brand-blue/50'}`}>
+                              {formData.naturaleza.includes(option) && <CheckCircle2 className="w-3 h-3" />}
+                            </div>
+                            <span className="text-sm text-slate-700 select-none group-hover:text-slate-900 transition-colors leading-tight">{option}</span>
+                            <input 
+                              type="checkbox" 
+                              className="hidden" 
+                              checked={formData.naturaleza.includes(option)} 
+                              onChange={() => handleCheckboxChange(option)} 
+                            />
+                          </label>
+                        ))}
+                      </div>
+                      {formData.naturaleza.includes('Otro') && (
+                        <input type="text" name="naturalezaOtro" value={formData.naturalezaOtro} onChange={handleFieldChange} required className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Describa la naturaleza del proyecto..." />
+                      )}
+                    </div>
+                    <div>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Ubicación del Proyecto *</label>
+                      <input type="text" name="ubicacion" value={formData.ubicacion} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Dirección / Estado" />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
                       {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
@@ -2440,68 +2458,60 @@ export default function App() {
                )}
             </div>
           </div>
+          
+          {/* Contact Details Below Form */}
+          <div className="flex flex-col items-center gap-8 pt-8">
+            <div className="flex flex-col sm:flex-row gap-6 md:gap-12 justify-center">
+              {[
+                { icon: <Phone className="w-5 h-5" />, text: '55 6150 0317', href: 'tel:+525561500317' },
+                { icon: <Mail className="w-5 h-5" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center justify-center gap-4 group">
+                  <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-brand-orange group-hover:bg-brand-orange group-hover:text-white transition-all shadow-lg">
+                    {item.icon}
+                  </div>
+                  <a href={item.href} className="text-sm font-black text-white hover:text-brand-orange transition-colors">
+                    {item.text}
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-2">
+              <a 
+                href="https://wa.me/525561500317" 
+                target="_blank"
+                className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] transition-all hover:-translate-y-1"
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp Directo
+              </a>
+              <button 
+                onClick={() => setIsQRModalOpen(true)}
+                className="flex items-center justify-center gap-3 bg-slate-900 border border-slate-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition-all shadow-lg"
+              >
+                <QrCode className="w-5 h-5" />
+                Ver Tarjeta Digital
+              </button>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-5 md:px-6 py-8 md:py-12">
-        <div className="text-center mb-16 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/30 text-brand-orange text-xs font-bold uppercase tracking-widest"
-          >
-            <Wrench className="w-3 h-3" />
-            Resolviendo Dudas Técnicas
-          </motion.div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white uppercase tracking-tighter">
-            Preguntas&nbsp;&nbsp;<span className="text-brand-orange">Frecuentes</span>
-          </h2>
-        </div>
-
-        <div className="space-y-4">
-          {[
-            { q: '¿Cuánto tiempo tarda en secar un piso epóxico?', a: 'Dependiendo del sistema, el tráfico peatonal puede permitirse en 24 horas y el tráfico pesado en 48-72 horas.' },
-            { q: '¿Tienen cobertura fuera de la CDMX?', a: 'Sí, contamos con infraestructura logística para ejecutar proyectos en cualquier estado de la República Mexicana.' },
-            { q: '¿Sus materiales cumplen con normas sanitarias?', a: 'Absolutamente. Nuestros sistemas para la industria alimentaria cumplen con normativas FDA y USDA.' },
-            { q: '¿Ofrecen garantía por escrito?', a: 'Sí, todos nuestros proyectos incluyen una póliza de garantía que cubre tanto materiales como mano de obra.' }
-          ].map((faq, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => {
-                playClickSound();
-                setActiveFaq(activeFaq === i ? null : i);
-              }}
-              className={`p-5 md:p-6 rounded-2xl border-[1.5px] transition-all duration-500 cursor-pointer group hover:-translate-y-1 ${activeFaq === i ? 'bg-gradient-to-br from-blue-100/80 to-white shadow-xl scale-[1.02] border-blue-300 ring-4 ring-blue-400/20' : 'bg-gradient-to-br from-blue-50/70 to-white/70 border-blue-200/60 shadow-sm hover:shadow-lg hover:from-blue-100/80 hover:to-white/90'}`}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <h3 className={`font-bold text-sm md:text-lg transition-colors flex items-start gap-3 ${activeFaq === i ? 'text-blue-900' : 'text-blue-950 group-hover:text-blue-700'}`}>
-                  <span className="text-blue-400 text-[10px] md:text-xs font-black mt-1 md:mt-1.5 whitespace-nowrap">0{i+1}</span>
-                  {faq.q}
-                </h3>
-                <ChevronDown className={`w-5 h-5 text-blue-500 transition-transform duration-500 flex-shrink-0 ${activeFaq === i ? 'rotate-180' : ''}`} />
-              </div>
-              <AnimatePresence>
-                {activeFaq === i && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="mt-4 text-slate-800 text-sm md:text-base leading-relaxed pl-8">
-                      {faq.a}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+      {/* Thank you and image */}
+      <section className="relative z-10 max-w-5xl mx-auto px-5 md:px-6 py-8 md:py-16 text-center">
+        <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8">
+          ¡Muchas <span className="text-brand-orange">Gracias!</span>
+        </h2>
+        <div className="rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-[1.5px] border-white/20 relative aspect-[16/9] md:aspect-[2.35/1] bg-black/50">
+          <img 
+            src="https://i.ibb.co/DgmjQ1Yg/Equipo-MCI.webp" 
+            alt="Equipo MCI" 
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
         </div>
       </section>
 
