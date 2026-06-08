@@ -658,8 +658,8 @@ const BEFORE_AFTER_PAIRS = [
     id: 'case19',
     title: 'Caso de Éxito 19',
     description: 'Transformación y recuperación estructural.',
-    before: 'https://i.ibb.co/KdK5LXb/39-Antes-39.webp',
-    after: 'https://i.ibb.co/XrkbKFx2/40-Despue-s-40.webp'
+    before: 'https://i.ibb.co/XrkbKFx2/40-Despue-s-40.webp',
+    after: 'https://i.ibb.co/KdK5LXb/39-Antes-39.webp'
   },
   {
     id: 'case20',
