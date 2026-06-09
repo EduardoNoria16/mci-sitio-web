@@ -45,34 +45,10 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://i.ibb.co/jP0pZtvc/27.webp',
   ],
   'pisos-epoxicos': [
-    'https://i.ibb.co/1GC1X7dw/1.webp',
-    'https://i.ibb.co/NdSJ4jQ2/2.webp',
-    'https://i.ibb.co/KprXnzG6/3.webp',
-    'https://i.ibb.co/k6D5Y3Ff/4.webp',
-    'https://i.ibb.co/VWZ1r2mL/5.webp',
-    'https://i.ibb.co/8LWgjfq5/6.webp',
-    'https://i.ibb.co/xLM65c71/10.webp',
-    'https://i.ibb.co/wNXx0jCq/11.webp',
-    'https://i.ibb.co/QFG1L8k5/12.webp',
-    'https://i.ibb.co/FkV66PTr/13.webp',
-    'https://i.ibb.co/4n1Bktf7/14.webp',
-    'https://i.ibb.co/jPnZ21XQ/15.webp',
-    'https://i.ibb.co/PztkVQ09/16.webp',
-    'https://i.ibb.co/S4JtG4ZJ/17.webp',
-    'https://i.ibb.co/RkT2j2n2/18.webp',
-    'https://i.ibb.co/CsHMjMXD/19.webp',
-    'https://i.ibb.co/FbKpdtpK/20.webp',
-    'https://i.ibb.co/TDPsyt5x/21.webp',
-    'https://i.ibb.co/Kzc2RG1K/22.webp',
-    'https://i.ibb.co/p6GSWHBp/23.webp',
-    'https://i.ibb.co/NdGkCC4t/24.webp',
-    'https://i.ibb.co/cKL202G3/25.webp',
-    'https://i.ibb.co/9kVrm9gm/26.webp',
-    'https://i.ibb.co/jP0pZtvc/27.webp',
-    'https://i.ibb.co/0RsswmcM/IMG-20260608-114931.webp',
     'https://i.ibb.co/TBbvFzP5/IMG-20260608-115239.webp',
-    'https://i.ibb.co/bg0K4g5h/IMG-20260608-115257.webp',
+    'https://i.ibb.co/0RsswmcM/IMG-20260608-114931.webp',
     'https://i.ibb.co/0Rdc2ry9/IMG-20260608-115330.webp',
+    'https://i.ibb.co/bg0K4g5h/IMG-20260608-115257.webp',
     'https://i.ibb.co/xtnmmPbD/IMG-20260608-115351.webp',
     'https://i.ibb.co/Q7TvTbCx/IMG-20260608-115415.webp',
     'https://i.ibb.co/TDYzzXVN/IMG-20260608-115434.webp',
@@ -82,6 +58,12 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://i.ibb.co/39Dk7yFQ/IMG-20260608-115616.webp',
     'https://i.ibb.co/WW4mx3gb/IMG-20260608-115648.webp',
     'https://i.ibb.co/nMD6VxpR/IMG-20260608-115707.webp',
+    'https://i.ibb.co/zhg4zr8t/6.webp',
+    'https://i.ibb.co/YBj0GvHp/5.webp',
+    'https://i.ibb.co/hx4cKyX0/4.webp',
+    'https://i.ibb.co/9kH5VbXJ/3.webp',
+    'https://i.ibb.co/Jh6n3x7/2.webp',
+    'https://i.ibb.co/ZRs1DR8j/1.webp',
   ],
   'acabados-alta-gama': [
     'https://i.ibb.co/gL2DGHpQ/1.webp',
@@ -368,11 +350,12 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                         >
                           <div className="w-full h-full relative rounded-xl sm:rounded-[1.5rem] overflow-hidden bg-black/50">
                             <img
-                              src={image.url}
+                              src={getProxiedImageUrl(image.url)}
                               alt={image.title}
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none"
                               loading="lazy"
                               decoding="async"
+                              referrerPolicy="no-referrer"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 if (!target.src.includes('placehold.co')) {

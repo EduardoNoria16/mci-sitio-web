@@ -933,6 +933,29 @@ const Counter = memo(({ target }: { target: number }) => {
   return <span ref={nodeRef}>{count}</span>;
 });
 
+// --- AI Configuration ---
+const SYSTEM_INSTRUCTION = `Eres el asistente amigable de MCI Soluciones Poliméricas. Tu personalidad es cálida, cercana y dispuesta a ayudar.
+
+Tu tono es:
+- Amigable y entusiasta, pero manteniendo el profesionalismo.
+- Sencillo de entender (evita tecnicismos innecesarios a menos que te los pidan).
+- Cálido: Saluda siempre con amabilidad y disposición.
+
+Nuevas Capacidades Críticas:
+1. ANÁLISIS DE IMÁGENES: Si el usuario sube una foto, analízala brevemente y da un pre-diagnóstico sencillo y amigable. Sugiere cómo podemos ayudar.
+2. ASESORÍA RÁPIDA: Si el usuario describe un problema, ofrece una solución general corta e invítalo a contactarnos para más detalles.
+
+Información Clave de la Empresa:
+- Nombre: MCI Soluciones Poliméricas.
+- Cobertura: Todo México.
+
+Reglas de Oro:
+- NUNCA uses formato markdown (NO uses **asteriscos** para negritas, ni formatos complejos). Solo texto plano normal claro y amigable.
+- TUS RESPUESTAS DEBEN SER MUY CORTAS Y CONCISAS. Máximo 2 o 3 oraciones breves por respuesta. Ve directo al grano.
+- NUNCA des precios exactos (indica que se requiere visita técnica).
+- Si el problema es crítico, invítalo a contactarnos por WhatsApp.
+- Usa lenguaje sencillo que cualquier persona pueda entender fácilmente.`;
+
 // --- Main App Component ---
 
 const BotAvatar = ({ isHappy, isThinking, className = "w-full h-full" }: { isHappy: boolean, isThinking: boolean, className?: string }) => {
@@ -2483,10 +2506,11 @@ export default function App() {
         </h2>
         <div className="rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-[1.5px] border-white/20 relative aspect-[16/9] md:aspect-[2.35/1] bg-black/50">
           <img 
-            src="https://i.ibb.co/DgmjQ1Yg/Equipo-MCI.webp" 
+            src={getProxiedImageUrl("https://i.ibb.co/DgmjQ1Yg/Equipo-MCI.webp")} 
             alt="Equipo MCI" 
             className="absolute inset-0 w-full h-full object-cover"
             loading="lazy"
+            referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
         </div>

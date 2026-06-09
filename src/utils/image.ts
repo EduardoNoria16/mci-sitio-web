@@ -13,6 +13,7 @@ export function getProxiedImageUrl(url: string | undefined): string {
     return url;
   }
 
+  
   // if url already has wsrv.nl or weserv.nl, normalize it
   if (url.includes('wsrv.nl') || url.includes('weserv.nl')) {
     const cleanUrl = url.replace(/^https?:\/\/(images\.)?weserv\.nl\/\?url=/, '')
