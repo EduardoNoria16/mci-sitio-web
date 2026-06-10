@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProxiedImageUrl } from '../utils/image';
-import { AudioPlayer } from './AudioPlayer';
 
 const CATEGORIES = [
   { id: 'pisos-comerciales', title: 'Pisos para uso comercial e industrial' },
@@ -271,13 +270,6 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
 
   return (
     <section id="galeria" className="relative z-10 py-16 md:py-24 bg-[#0a192f] flex flex-col justify-center overflow-hidden">
-      <div className="absolute top-4 right-5 md:right-10 z-50">
-        <AudioPlayer 
-          src="/api/audio-proxy?id=1RXJGpkq_NlC-eoAGKlCPudQl-72AOgvO"
-          fadeInDuration={3}
-          className="scale-90 opacity-80 hover:opacity-100 hover:scale-100"
-        />
-      </div>
       <div className="w-full max-w-[1600px] mx-auto px-5 md:px-10 lg:px-12 relative">
         <div className="text-center mb-8 md:mb-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-sm mb-4 flex flex-col items-center justify-center gap-2">

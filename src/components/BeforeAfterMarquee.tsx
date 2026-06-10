@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Maximize2 } from 'lucide-react';
 import { getProxiedImageUrl } from '../utils/image';
-import { AudioPlayer } from './AudioPlayer';
 
 export interface PhotoPair {
   id: string;
