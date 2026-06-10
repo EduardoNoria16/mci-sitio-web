@@ -54,6 +54,7 @@ import {
 } from 'lucide-react';
 import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import { ProjectGallery } from './components/ProjectGallery';
+import { AudioPlayer } from './components/AudioPlayer';
 import QRCodeModal from './components/QRCodeModal';
 import { getProxiedImageUrl } from './utils/image';
 
@@ -2172,6 +2173,14 @@ export default function App() {
 
       {/* Antes / Después Section */}
       <section id="transformacion" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-12 md:py-24">
+        <div className="absolute top-4 right-5 md:right-10 z-50">
+          <AudioPlayer 
+            src="/api/audio-proxy?id=1La9FCyE6i108Wk7PrQ5M6EBpMjhsFfqM"
+            startTime={180}
+            fadeInDuration={5}
+            className="scale-90 opacity-80 hover:opacity-100 hover:scale-100"
+          />
+        </div>
         <div className="flex flex-col gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -2183,7 +2192,7 @@ export default function App() {
               Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
-            <div className="space-y-4">
+            <div className="space-y-4 pt-4">
               <p className="text-white/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
                 Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-[#22d3ee]">operativa</span>.
               </p>

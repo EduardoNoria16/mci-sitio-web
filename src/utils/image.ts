@@ -12,7 +12,6 @@ export function getProxiedImageUrl(url: string | undefined): string {
   if (url.includes('ibb.co')) {
     return url;
   }
-
   
   // if url already has wsrv.nl or weserv.nl, normalize it
   if (url.includes('wsrv.nl') || url.includes('weserv.nl')) {

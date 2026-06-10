@@ -21,6 +21,60 @@ async function startServer() {
   });
 
   // Proxy Gemini API Call
+  app.get("/api/audio-proxy", async (req, res) => {
+    const fileId = req.query.id as string;
+    if (!fileId) {
+      return res.status(400).json({ error: "Missing file id" });
+    }
+    
+    try {
+      const url = `https://drive.google.com/uc?export=download&id=${fileId}`;
+      const response = await fetch(url);
+      
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('text/html')) {
+        const text = await response.text();
+        const confirmMatch = text.match(/confirm=([a-zA-Z0-9_-]+)/);
+        if (confirmMatch && confirmMatch[1]) {
+          const confirmToken = confirmMatch[1];
+          const actualUrl = `${url}&confirm=${confirmToken}`;
+          const actualResponse = await fetch(actualUrl);
+          
+          res.setHeader('Content-Type', actualResponse.headers.get('content-type') || 'audio/mpeg');
+          res.setHeader('Accept-Ranges', 'bytes');
+          if (actualResponse.headers.has('content-length')) {
+            res.setHeader('Content-Length', actualResponse.headers.get('content-length')!);
+          }
+          
+          if (actualResponse.body) {
+            const { Readable } = require('stream');
+            Readable.fromWeb(actualResponse.body as any).pipe(res);
+            return;
+          }
+        } else {
+           // Maybe it's a small file but still returned HTML?
+           res.status(500).send("No confirm token found in drive response");
+           return;
+        }
+      } else {
+        res.setHeader('Content-Type', contentType || 'audio/mpeg');
+        res.setHeader('Accept-Ranges', 'bytes');
+        if (response.headers.has('content-length')) {
+          res.setHeader('Content-Length', response.headers.get('content-length')!);
+        }
+        if (response.body) {
+           const { Readable } = require('stream');
+           Readable.fromWeb(response.body as any).pipe(res);
+           return;
+        }
+      }
+      res.status(500).send('Could not pipe audio');
+    } catch (err: any) {
+      console.error('Audio proxy error:', err);
+      res.status(500).send('Error proxying audio');
+    }
+  });
+
   app.post("/api/gemini/generate", async (req, res) => {
     try {
       if (!process.env.GEMINI_API_KEY) {
