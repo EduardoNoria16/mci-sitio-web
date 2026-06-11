@@ -2499,23 +2499,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Thank you and image */}
-      <section className="relative z-10 max-w-5xl mx-auto px-5 md:px-6 py-8 md:py-16 text-center">
-        <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8">
-          ¡Muchas <span className="text-brand-orange">Gracias!</span>
-        </h2>
-        <div className="rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-[1.5px] border-white/20 relative aspect-[16/9] md:aspect-[2.35/1] bg-black/50">
-          <img 
-            src={getProxiedImageUrl("https://i.ibb.co/DgmjQ1Yg/Equipo-MCI.webp")} 
-            alt="Equipo MCI" 
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="lazy"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-        </div>
-      </section>
-
       {/* Footer Section (Minimal and Professional) */}
       <footer id="contacto-footer" className="relative z-10 bg-slate-900 pt-20 pb-10 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
