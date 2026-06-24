@@ -56,6 +56,8 @@ import BeforeAfterMarquee from './components/BeforeAfterMarquee';
 import { ProjectGallery } from './components/ProjectGallery';
 import QRCodeModal from './components/QRCodeModal';
 import { getProxiedImageUrl } from './utils/image';
+import { useLanguage } from './utils/LanguageContext';
+import { getStrengths, getSectors, getTestimonials } from './data/i18n';
 
 // --- Sound Effects ---
 const playClickSound = () => {
@@ -357,7 +359,7 @@ interface Sector {
 }
 
 // --- Data ---
-const STRENGTHS: Strength[] = [
+const GLOBAL_STRENGTHS: Strength[] = [
   {
     id: 'pa1',
     title: 'Pisos para uso comercial e industrial',
@@ -783,7 +785,7 @@ const TESTIMONIALS = [
   }
 ];
 
-const SECTORS: Sector[] = [
+const GLOBAL_SECTORS: Sector[] = [
   {
     id: 's1',
     title: 'Industria Alimenticia y Sector Salud',
@@ -1028,6 +1030,41 @@ const BotAvatar = ({ isHappy, isThinking, className = "w-full h-full" }: { isHap
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { language, setLanguage, t } = useLanguage();
+
+  const STRENGTHS = useMemo(() => {
+    const raw = getStrengths(language);
+    return raw.map(s => {
+      const original = GLOBAL_STRENGTHS.find(gs => gs.id === s.id);
+      return {
+        ...s,
+        icon: original ? original.icon : undefined
+      };
+    });
+  }, [language]);
+
+  const SECTORS = useMemo(() => {
+    const raw = getSectors(language);
+    return raw.map(s => {
+      const original = GLOBAL_SECTORS.find(gs => gs.id === s.id);
+      return {
+        ...s,
+        icon: original ? original.icon : undefined
+      };
+    });
+  }, [language]);
+
+  const TESTIMONIALS_LIST = useMemo(() => {
+    return getTestimonials(language);
+  }, [language]);
+
+  const BEFORE_AFTER_PAIRS_LIST = useMemo(() => {
+    return BEFORE_AFTER_PAIRS.map((pair, idx) => ({
+      ...pair,
+      title: language === 'en' ? `Success Case ${idx + 1}` : `Caso de Éxito ${idx + 1}`,
+      description: language === 'en' ? 'Structural transformation and recovery.' : 'Transformación y recuperación estructural.'
+    }));
+  }, [language]);
 
   // Route-based smooth scrolling
   useEffect(() => {
@@ -1080,7 +1117,10 @@ export default function App() {
   const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
-  const [activeStrength, setActiveStrength] = useState<Strength>(STRENGTHS[0]);
+  const [activeStrengthId, setActiveStrengthId] = useState<string>('pa1');
+  const activeStrength = useMemo(() => {
+    return STRENGTHS.find(s => s.id === activeStrengthId) || STRENGTHS[0];
+  }, [STRENGTHS, activeStrengthId]);
   const [isStrengthHovered, setIsStrengthHovered] = useState(false);
   const [activeSector, setActiveSector] = useState<string | null>(null);
   const [activeHeroAcc, setActiveHeroAcc] = useState<number | null>(null);
@@ -1134,17 +1174,17 @@ export default function App() {
     if (typeof value === 'string') {
       switch (name) {
         case 'nombre':
-          if (!value.trim()) error = 'El nombre es obligatorio';
+          if (!value.trim()) error = language === 'en' ? 'Full name is required' : 'El nombre es obligatorio';
           break;
         case 'email':
-          if (!value.trim()) error = 'El correo es obligatorio';
-          else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) error = 'Correo inválido';
+          if (!value.trim()) error = language === 'en' ? 'Email is required' : 'El correo es obligatorio';
+          else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) error = language === 'en' ? 'Invalid email' : 'Correo inválido';
           break;
         case 'movil':
-          if (!value.trim()) error = 'El móvil es obligatorio';
+          if (!value.trim()) error = language === 'en' ? 'Mobile number is required' : 'El móvil es obligatorio';
           break;
         case 'razonSocial':
-          if (!value.trim()) error = 'La razón social es obligatoria';
+          if (!value.trim()) error = language === 'en' ? 'Company/plant name is required' : 'La razón social es obligatoria';
           break;
       }
     }
@@ -1207,23 +1247,46 @@ export default function App() {
     setIsFormSubmitted(true);
     
     setFormData({
-      cargo: '',
+      profesion: '',
+      profesionOtro: '',
       nombre: '',
-      empresa: '',
+      razonSocial: '',
       email: '',
-      telefono: '',
-      detalles: ''
+      movil: '',
+      fijo: '',
+      ext: '',
+      naturaleza: [] as string[],
+      naturalezaOtro: '',
+      ubicacion: ''
     });
   };
 
-  const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([
-    { type: 'bot', text: 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?' }
-  ]);
+  const [chatMessages, setChatMessages] = useState<{type: 'bot' | 'user', text: string, image?: string}[]>([]);
+
+  // Initialize and synchronize welcome message on language change
+  useEffect(() => {
+    if (chatMessages.length === 0 || (chatMessages.length === 1 && (chatMessages[0].text === 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?' || chatMessages[0].text === 'Hello. I am MCI’s Virtual Assistant. How can I help you?'))) {
+      setChatMessages([
+        {
+          type: 'bot',
+          text: language === 'en'
+            ? 'Hello. I am MCI’s Virtual Assistant. How can I help you?'
+            : 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?'
+        }
+      ]);
+    }
+  }, [language]);
+
   const handleResetChat = useCallback(() => {
     setChatMessages([
-      { type: 'bot', text: 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?' }
+      {
+        type: 'bot',
+        text: language === 'en'
+          ? 'Hello. I am MCI’s Virtual Assistant. How can I help you?'
+          : 'Hola. Soy el Asistente Virtual de MCI. ¿Cómo puedo ayudarte?'
+      }
     ]);
-  }, []);
+  }, [language]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const strengthSheetRef = useRef<HTMLDivElement>(null);
@@ -1467,7 +1530,7 @@ export default function App() {
       const response = await fetch('/api/gemini/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userMsg, imagePart, history: historyPayload })
+        body: JSON.stringify({ userMsg, imagePart, history: historyPayload, language })
       });
       
       if (!response.ok) {
@@ -1629,11 +1692,11 @@ export default function App() {
   }, [showMoreInfo, pendingScrollId]);
 
   const navLinks = useMemo(() => [
-    { name: 'Inicio', href: '/inicio' },
-    { name: 'Sectores', href: '/sectores' },
-    { name: 'Fortalezas', href: '/fortalezas' },
-    { name: 'Contacto', href: '/contacto' }
-  ], []);
+    { name: language === 'en' ? 'Home' : 'Inicio', href: '/inicio' },
+    { name: language === 'en' ? 'Sectors' : 'Sectores', href: '/sectores' },
+    { name: language === 'en' ? 'Strengths' : 'Fortalezas', href: '/fortalezas' },
+    { name: language === 'en' ? 'Contact' : 'Contacto', href: '/contacto' }
+  ], [language]);
 
   return (
     <div className="min-h-screen w-full bg-[#0a192f] text-white transition-colors duration-500 overflow-x-hidden relative font-sans">
@@ -1695,6 +1758,74 @@ export default function App() {
               </a>
             ))}
           </nav>
+
+          {/* Language Switcher (Desktop) */}
+          <div className="hidden lg:flex items-center bg-white/5 border border-white/15 rounded-full p-1 shadow-inner relative">
+            <button 
+              onClick={() => { playClickSound(); setLanguage('es'); }}
+              className={`relative z-10 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 select-none ${
+                language === 'es' ? 'text-slate-900 font-extrabold' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              ES
+              {language === 'es' && (
+                <motion.div 
+                  layoutId="activeLangDesktop" 
+                  className="absolute inset-0 bg-brand-orange rounded-full -z-10 shadow-[0_2px_10px_rgba(245,130,32,0.4)]"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                />
+              )}
+            </button>
+            <button 
+              onClick={() => { playClickSound(); setLanguage('en'); }}
+              className={`relative z-10 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 select-none ${
+                language === 'en' ? 'text-slate-900 font-extrabold' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              EN
+              {language === 'en' && (
+                <motion.div 
+                  layoutId="activeLangDesktop" 
+                  className="absolute inset-0 bg-brand-orange rounded-full -z-10 shadow-[0_2px_10px_rgba(245,130,32,0.4)]"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                />
+              )}
+            </button>
+          </div>
+
+          {/* Language Switcher (Mobile/Tablet persistent on header) */}
+          <div className="flex lg:hidden items-center bg-white/10 border border-white/20 rounded-full p-1 shadow-inner relative mr-3 ml-auto">
+            <button 
+              onClick={() => { playClickSound(); setLanguage('es'); }}
+              className={`relative z-10 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 select-none ${
+                language === 'es' ? 'text-slate-900 font-extrabold' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              ES
+              {language === 'es' && (
+                <motion.div 
+                  layoutId="activeLangMobileHeader" 
+                  className="absolute inset-0 bg-brand-orange rounded-full -z-10 shadow-[0_2px_10px_rgba(245,130,32,0.4)]"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                />
+              )}
+            </button>
+            <button 
+              onClick={() => { playClickSound(); setLanguage('en'); }}
+              className={`relative z-10 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 select-none ${
+                language === 'en' ? 'text-slate-900 font-extrabold' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              EN
+              {language === 'en' && (
+                <motion.div 
+                  layoutId="activeLangMobileHeader" 
+                  className="absolute inset-0 bg-brand-orange rounded-full -z-10 shadow-[0_2px_10px_rgba(245,130,32,0.4)]"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                />
+              )}
+            </button>
+          </div>
 
           <button 
             ref={menuButtonRef}
@@ -1803,19 +1934,26 @@ export default function App() {
                     className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-white flex flex-wrap items-center justify-center gap-3 md:gap-4 drop-shadow-sm"
                     style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}
                   >
-                    <motion.span
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    >¿Quiénes</motion.span>
-                    <motion.span 
-                      className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4"
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-                    >Somos</motion.span>
-                    <motion.span
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-                    >?</motion.span>
+                    {language === 'es' ? (
+                      <>
+                        <motion.span animate={{ y: [0, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>¿Quiénes</motion.span>
+                        <motion.span 
+                          className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4"
+                          animate={{ y: [0, -5, 0] }}
+                          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                        >Somos</motion.span>
+                        <motion.span animate={{ y: [0, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}>?</motion.span>
+                      </>
+                    ) : (
+                      <>
+                        <motion.span animate={{ y: [0, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>Who</motion.span>
+                        <motion.span 
+                          className="text-brand-orange underline decoration-[8px] md:decoration-[12px] decoration-brand-orange/20 underline-offset-4"
+                          animate={{ y: [0, -5, 0] }}
+                          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                        >We Are</motion.span>
+                      </>
+                    )}
                   </h1>
                   <motion.div 
                     initial={{ width: 0 }}
@@ -1835,10 +1973,18 @@ export default function App() {
                   style={{ overflowWrap: 'break-word', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
                 >
                   <p>
-                    <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>
+                    {language === 'es' ? (
+                      <>
+                        <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> es una empresa de ingeniería aplicada y <span className="font-extrabold text-brand-orange">atención integral</span>. Contamos con más de 30 años de consolidación en los sectores Industrial y de la Construcción en México siendo nuestra especialidad el diseño e implementación de soluciones con sistemas poliméricos de alta gama <span className="font-extrabold text-brand-orange">para restaurar, mejorar y proteger instalaciones</span> expuestas a riesgos físicos o químicos y maximizar así su vida útil, preservando <span className="font-extrabold text-brand-orange">el valor de la inversión de los activos</span>.
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-extrabold text-brand-orange">MCI Soluciones Poliméricas</span> is an applied engineering and <span className="font-extrabold text-brand-orange">comprehensive service</span> company. We have more than 30 years of consolidation in the Industrial and Construction sectors in Mexico, our specialty being the design and implementation of high-end polymeric system solutions <span className="font-extrabold text-brand-orange">to restore, improve and protect facilities</span> exposed to physical or chemical risks, thus maximizing their lifespan and preserving <span className="font-extrabold text-brand-orange">the investment value of assets</span>.
+                      </>
+                    )}
                   </p>
                   <p className="font-black text-brand-orange text-base md:text-xl lg:text-2xl leading-snug drop-shadow-md" style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}>
-                    No fabricamos materiales, ofrecemos criterio técnico, diagnóstico, especificación correcta y ejecución especializada
+                    {t('hero').descPart2}
                   </p>
                 </motion.div>
               </motion.div>
@@ -1859,8 +2005,17 @@ export default function App() {
               className="space-y-4 flex flex-col items-center"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-none text-white flex flex-wrap items-center justify-center gap-3 md:gap-4">
-                <span>Nuestras</span>
-                <span className="text-brand-orange underline decoration-[4px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Fortalezas</span>
+                {language === 'es' ? (
+                  <>
+                    <span>Nuestras</span>
+                    <span className="text-brand-orange underline decoration-[4px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Fortalezas</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Our</span>
+                    <span className="text-brand-orange underline decoration-[4px] md:decoration-[8px] decoration-brand-orange/20 underline-offset-4">Strengths</span>
+                  </>
+                )}
               </h2>
               <div className="h-1 md:h-2 w-20 md:w-32 bg-brand-orange rounded-full shadow-[0_4px_20px_rgba(245,130,32,0.4)]" />
             </motion.div>
@@ -1877,7 +2032,7 @@ export default function App() {
                   transition={{ delay: idx * 0.1, duration: 0.5, type: "spring" }}
                   onClick={() => {
                     playClickSound();
-                    setActiveStrength(s);
+                    setActiveStrengthId(s.id);
                     setIsStrengthHovered(true);
                   }}
                   className="group relative p-8 rounded-[2rem] border-[1.5px] border-blue-200/60 bg-gradient-to-br from-blue-50/70 to-white/70 shadow-sm hover:shadow-xl hover:from-blue-100/80 hover:to-white/90 transition-all duration-500 flex flex-col items-center text-center gap-6 cursor-pointer"
@@ -1891,7 +2046,7 @@ export default function App() {
                       {s.title}
                     </h3>
                     <p className="text-xs text-slate-800 font-bold leading-relaxed uppercase tracking-widest px-4 relative z-10">
-                      {s.description || 'Excelencia Operativa'}
+                      {s.description || (language === 'en' ? 'Operational Excellence' : 'Excelencia Operativa')}
                     </p>
                   </div>
 
@@ -1899,12 +2054,12 @@ export default function App() {
                     onClick={(e) => {
                       e.stopPropagation();
                       playClickSound();
-                      setActiveStrength(s);
+                      setActiveStrengthId(s.id);
                       setIsStrengthHovered(true);
                     }}
                     className="mt-2 flex items-center gap-2 text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all relative z-10"
                   >
-                    Detalles <ArrowRight className="w-3 h-3" />
+                    {language === 'en' ? 'Details' : 'Detalles'} <ArrowRight className="w-3 h-3" />
                   </button>
                 </motion.div>
               ))}
@@ -1936,12 +2091,12 @@ export default function App() {
                 
                 <div className="relative z-10 px-4 py-8 md:px-8 md:py-10 flex flex-col items-center gap-3 text-center">
                   <h3 className="text-lg md:text-2xl lg:text-3xl font-black uppercase tracking-tight md:tracking-tighter leading-tight">
-                    <span className="text-blue-950">PARA MÁS INFORMACIÓN</span> <br />
-                    <span className="text-blue-600 group-hover:text-blue-700 transition-colors duration-500 text-base md:text-xl">TE INVITAMOS A CONOCERNOS</span>
+                    <span className="text-blue-950">{t('about').moreInfo}</span> <br />
+                    <span className="text-blue-600 group-hover:text-blue-700 transition-colors duration-500 text-base md:text-xl">{t('about').inviteKnow}</span>
                   </h3>
                   
                   <p className="text-slate-700 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-sm mt-1">
-                    Descubre nuestra metodología, sectores de atención y casos de éxito que nos consolidan como líderes.
+                    {t('about').discoverMore}
                   </p>
 
                   <div className="mt-3 flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-white/10 group-hover:border-brand-orange group-hover:bg-brand-orange transition-all duration-500">
@@ -1972,7 +2127,7 @@ export default function App() {
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-slate-200 group-hover:border-brand-orange flex items-center justify-center bg-white shadow-sm group-hover:shadow-md transition-all">
                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform" />
               </div>
-              Regresar
+              {t('about').regresar}
             </button>
           </div>
 
@@ -1990,7 +2145,11 @@ export default function App() {
              >
                 <div className="text-center mb-8 md:mb-12">
                    <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface mb-4 leading-tight drop-shadow-sm max-w-4xl mx-auto">
-                    Así&nbsp;&nbsp;Garantizamos&nbsp;&nbsp;<span className="text-gradient transition-colors">Resultados</span>
+                    {language === 'en' ? (
+                      <>How We&nbsp;&nbsp;Guarantee&nbsp;&nbsp;<span className="text-gradient transition-colors">Results</span></>
+                    ) : (
+                      <>Así&nbsp;&nbsp;Garantizamos&nbsp;&nbsp;<span className="text-gradient transition-colors">Resultados</span></>
+                    )}
                    </h2>
                    <div className="w-20 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
                  </div>
@@ -1998,42 +2157,36 @@ export default function App() {
                  <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 md:gap-8">
                    {[
                      {
-                       title: 'Misión',
+                       title: t('about').missionTitle,
                        icon: <Target className="w-8 h-8 text-blue-600" />,
-                       text: 'Contribuir con nuestros clientes en la preservación de sus activos de producción mediante el uso de ingeniería aplicada en sistemas poliméricos que garanticen desempeño y continuidad en la operación de sus procesos.',
+                       text: t('about').missionText,
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
                        titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
-                       title: 'Visión',
+                       title: t('about').visionTitle,
                        icon: <Eye className="w-8 h-8 text-blue-600" />,
-                       text: 'Convertirnos en el socio técnico de referencia para empresas que no pueden permitirse fallas o paros operativos imprevistos ocasionadas por daños físicos o químicos a los activos de producción.',
+                       text: t('about').visionText,
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
                        titleColor: 'text-blue-950 border-blue-200'
                      },
                      {
-                       title: 'Propuesta de Valor',
+                       title: t('about').propTitle,
                        icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
-                       text: <><span className="font-extrabold text-brand-orange">MCI</span> no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.</>,
+                       text: (
+                         <>
+                           <span className="font-extrabold text-brand-orange">MCI</span> {language === 'es' ? 'no vende materiales, ofrece soluciones a partir del análisis de las condiciones reales de trabajo. Identificamos riesgos críticos que pueden comprometer la seguridad y la operación, y diseñamos soluciones que, ejecutadas bajo un control estricto, garanticen continuidad operativa, máxima durabilidad y la protección real de la inversión del cliente.' : 'does not sell materials; we offer solutions based on the analysis of real working conditions. We identify critical risks that can compromise safety and operations, and design solutions that, executed under strict control, guarantee operational continuity, maximum durability, and real protection of the client’s investment.'}
+                         </>
+                       ),
                        theme: 'from-blue-50/70 to-white/70 hover:from-blue-100/80 hover:to-white/90 border-blue-200/60',
                        iconBg: 'bg-blue-100/50 border-blue-200 shadow-[0_0_15px_rgba(37,99,235,0.15)]',
                        textColor: 'text-sm md:text-base lg:text-lg text-slate-800 leading-relaxed font-bold',
                        titleColor: 'text-blue-950 border-blue-200',
-                       differentiators: [
-                         'Más de 30 años de experiencia',
-                         'Respuesta inmediata 24/7',
-                         'Rigor técnico',
-                         'Soluciones integrales a la medida',
-                         'Calidad total demostrada',
-                         'Responsabilidad operativa',
-                         'Protección a largo plazo',
-                         'Sustentabilidad',
-                         'Atención post-venta'
-                       ]
+                       differentiators: t('about').diffs
                      }
                    ].map((item, idx) => (
                      <motion.div 
@@ -2064,7 +2217,7 @@ export default function App() {
                         {item.differentiators && (
                           <div className="w-full mt-4 flex flex-col items-center md:items-start relative z-10">
                             <h4 className="text-sm md:text-base font-black text-brand-orange uppercase tracking-widest mb-4">
-                              Nuestros Diferenciadores:
+                              {t('about').diffTitle}
                             </h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
                               {item.differentiators.map((diff, i) => (
@@ -2086,7 +2239,11 @@ export default function App() {
       <section id="sectores" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 py-8 md:py-16 will-change-transform">
         <div className="text-center mb-12 md:mb-20 space-y-4 md:space-y-6">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-sm transition-all duration-300">
-            Sectores&nbsp;&nbsp;que&nbsp;&nbsp;<span className="text-gradient transition-colors">Atendemos</span>
+            {language === 'en' ? (
+              <>Sectors We&nbsp;&nbsp;<span className="text-gradient transition-colors">Serve</span></>
+            ) : (
+              <>Sectores&nbsp;&nbsp;que&nbsp;&nbsp;<span className="text-gradient transition-colors">Atendemos</span></>
+            )}
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)]" />
         </div>
@@ -2180,12 +2337,16 @@ export default function App() {
             className="space-y-6 text-center max-w-3xl mx-auto"
           >
             <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-tighter text-white drop-shadow-sm leading-tight">
-              Antes&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">Después</span>
+              {language === 'en' ? 'Before ' : 'Antes '}&nbsp;&nbsp;/&nbsp;&nbsp;<span className="text-gradient">{language === 'en' ? 'After' : 'Después'}</span>
             </h2>
             <div className="w-20 md:w-24 h-1.5 md:h-2 bg-brand-orange rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mx-auto" />
             <div className="space-y-4 pt-4">
               <p className="text-white/90 text-2xl md:text-4xl lg:text-5xl font-black leading-tight text-center mx-auto max-w-4xl tracking-tight">
-                Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-[#22d3ee]">operativa</span>.
+                {language === 'en' ? (
+                  <>Real <span className="text-brand-orange">transformation</span>, operational <span className="text-[#22d3ee]">recovery</span>.</>
+                ) : (
+                  <>Transformación <span className="text-brand-orange">real</span>, recuperación <span className="text-[#22d3ee]">operativa</span>.</>
+                )}
               </p>
             </div>
           </motion.div>
@@ -2197,7 +2358,7 @@ export default function App() {
             className="relative w-full"
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-brand-orange/20 to-brand-blue/20 blur-3xl opacity-50 rounded-[3rem] -z-10" />
-            <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS} />
+            <BeforeAfterMarquee pairs={BEFORE_AFTER_PAIRS_LIST} />
           </motion.div>
         </div>
       </section>
@@ -2208,10 +2369,10 @@ export default function App() {
       <section id="testimonios" className="relative z-10 max-w-7xl mx-auto px-5 md:px-6 pt-12 pb-12 md:pt-20 md:pb-16">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-on-surface uppercase tracking-tighter drop-shadow-sm">
-            Clientes&nbsp;&nbsp;<span className="text-gradient">Satisfechos</span>
+            {language === 'en' ? 'Satisfied ' : 'Clientes '}&nbsp;&nbsp;<span className="text-gradient">{language === 'en' ? 'Clients' : 'Satisfechos'}</span>
           </h2>
           <p className="text-on-surface/80 max-w-2xl mx-auto font-bold text-lg md:text-xl transition-all duration-300 px-4">
-            La confianza de nuestros clientes es el mejor respaldo de nuestros servicios.
+            {t('testimonials').subtitle}
           </p>
         </div>
 
@@ -2229,7 +2390,7 @@ export default function App() {
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              Paginado (3 en 3)
+              {language === 'en' ? 'Paginated (3 at a time)' : 'Paginado (3 en 3)'}
             </button>
             <button
               onClick={() => {
@@ -2242,7 +2403,7 @@ export default function App() {
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              Ver todos (12)
+              {language === 'en' ? 'View all (12)' : 'Ver todos (12)'}
             </button>
           </div>
         </div>
@@ -2254,8 +2415,8 @@ export default function App() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-stretch">
             <AnimatePresence mode="popLayout">
               {(showAllTestimonials 
-                ? TESTIMONIALS 
-                : TESTIMONIALS.slice(visibleTestimonialsPage * 3, (visibleTestimonialsPage + 1) * 3)
+                ? TESTIMONIALS_LIST 
+                : TESTIMONIALS_LIST.slice(visibleTestimonialsPage * 3, (visibleTestimonialsPage + 1) * 3)
               ).map((t, i) => (
                 <motion.div
                   key={t.name + i}
@@ -2310,7 +2471,7 @@ export default function App() {
                   setVisibleTestimonialsPage(prev => (prev - 1 + 4) % 4);
                 }}
                 className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:bg-brand-orange hover:text-white hover:border-transparent transition-all active:scale-95 text-slate-300"
-                title="Página anterior"
+                title={language === 'en' ? "Previous page" : "Página anterior"}
               >
                 <ArrowLeft className="w-4 h-4" />
               </button>
@@ -2340,14 +2501,16 @@ export default function App() {
                   setVisibleTestimonialsPage(prev => (prev + 1) % 4);
                 }}
                 className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 bg-white/5 hover:bg-brand-orange hover:text-white hover:border-transparent transition-all active:scale-95 text-slate-300"
-                title="Siguiente página"
+                title={language === 'en' ? "Next page" : "Siguiente página"}
               >
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
             
             <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-              Mostrando {visibleTestimonialsPage * 3 + 1} - {Math.min((visibleTestimonialsPage + 1) * 3, TESTIMONIALS.length)} de {TESTIMONIALS.length} Clientes Satisfechos
+              {language === 'en' 
+                ? `Showing ${visibleTestimonialsPage * 3 + 1} - ${Math.min((visibleTestimonialsPage + 1) * 3, TESTIMONIALS_LIST.length)} of ${TESTIMONIALS_LIST.length} Satisfied Clients`
+                : `Mostrando ${visibleTestimonialsPage * 3 + 1} - ${Math.min((visibleTestimonialsPage + 1) * 3, TESTIMONIALS_LIST.length)} de ${TESTIMONIALS_LIST.length} Clientes Satisfechos`}
             </div>
           </div>
         )}
@@ -2362,7 +2525,11 @@ export default function App() {
       <section id="contacto" className="relative z-10 max-w-5xl mx-auto px-5 md:px-6 pt-6 pb-12 md:pt-10 md:pb-20">
         <div className="text-center mb-10 md:mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-sm mb-4">
-            Permítenos mostrarte por qué somos <span className="text-brand-orange">la mejor opción.</span> <br className="hidden md:block" /> Esperamos contar pronto con una <span className="text-[#22d3ee]">oportunidad para servirte.</span>
+            {language === 'en' ? (
+              <>Let us show you why we are <span className="text-brand-orange">the best choice.</span> <br className="hidden md:block" /> We look forward to having an <span className="text-[#22d3ee]">opportunity to serve you soon.</span></>
+            ) : (
+              <>Permítenos mostrarte por qué somos <span className="text-brand-orange">la mejor opción.</span> <br className="hidden md:block" /> Esperamos contar pronto con una <span className="text-[#22d3ee]">oportunidad para servirte.</span></>
+            )}
           </h2>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mb-8" />
         </div>
@@ -2380,55 +2547,74 @@ export default function App() {
                     <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto text-green-600 border border-green-100 shadow-inner">
                       <CheckCircle2 className="w-10 h-10" />
                     </div>
-                    <h3 className="text-2xl font-black text-slate-900 uppercase">¡Mensaje Enviado!</h3>
-                    <p className="text-slate-600 font-medium">Un experto te contactará en breve.</p>
-                    <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">Enviar otro mensaje</button>
+                    <h3 className="text-2xl font-black text-slate-900 uppercase">
+                      {language === 'en' ? 'Message Sent!' : '¡Mensaje Enviado!'}
+                    </h3>
+                    <p className="text-slate-600 font-medium">
+                      {language === 'en' ? 'An expert will contact you shortly.' : 'Un experto te contactará en breve.'}
+                    </p>
+                    <button onClick={() => setIsFormSubmitted(false)} className="text-brand-orange font-black text-xs uppercase tracking-widest border-b-2 border-brand-orange/20 hover:border-brand-orange transition-all">
+                      {language === 'en' ? 'Send another message' : 'Enviar otro mensaje'}
+                    </button>
                   </motion.div>
                ) : (
                   <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="md:col-span-1">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Profesión</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">
+                          {language === 'en' ? 'Profession' : 'Profesión'}
+                        </label>
                         <select name="profesion" value={formData.profesion} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none">
-                          <option value="">Seleccione...</option>
-                          <option value="Ing.">Ing.</option>
-                          <option value="Arq.">Arq.</option>
-                          <option value="Lic.">Lic.</option>
-                          <option value="C.P.">C.P.</option>
-                          <option value="Dr.">Dr.</option>
-                          <option value="Mtro.">Mtro.</option>
-                          <option value="Téc.">Téc.</option>
-                          <option value="Otro">Otro</option>
+                          <option value="">{language === 'en' ? 'Select...' : 'Seleccione...'}</option>
+                          <option value="Ing.">{language === 'en' ? 'Eng.' : 'Ing.'}</option>
+                          <option value="Arq.">{language === 'en' ? 'Arch.' : 'Arq.'}</option>
+                          <option value="Lic.">{language === 'en' ? 'Lic.' : 'Lic.'}</option>
+                          <option value="C.P.">{language === 'en' ? 'C.P.A.' : 'C.P.'}</option>
+                          <option value="Dr.">{language === 'en' ? 'Dr.' : 'Dr.'}</option>
+                          <option value="Mtro.">{language === 'en' ? 'M.S.' : 'Mtro.'}</option>
+                          <option value="Téc.">{language === 'en' ? 'Tech.' : 'Téc.'}</option>
+                          <option value="Otro">{language === 'en' ? 'Other' : 'Otro'}</option>
                         </select>
                         {formData.profesion === 'Otro' && (
-                          <input type="text" name="profesionOtro" value={formData.profesionOtro} onChange={handleFieldChange} className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Especifique..." />
+                          <input type="text" name="profesionOtro" value={formData.profesionOtro} onChange={handleFieldChange} className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? "Specify..." : "Especifique..."} />
                         )}
                       </div>
                       <div className="md:col-span-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Nombre Completo *</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">
+                          {language === 'en' ? 'Full Name *' : 'Nombre Completo *'}
+                        </label>
                         <input type="text" name="nombre" value={formData.nombre} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Roberto Silva" />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Razón Social *</label>
-                      <input type="text" name="razonSocial" value={formData.razonSocial} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Empresa / Planta" />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">
+                        {language === 'en' ? 'Company Name *' : 'Razón Social *'}
+                      </label>
+                      <input type="text" name="razonSocial" value={formData.razonSocial} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? "Company / Plant" : "Empresa / Planta"} />
                     </div>
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Email *</label>
                       <input type="email" name="email" value={formData.email} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="rsilva@empresa.com" />
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Teléfono de Contacto *</label>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">
+                        {language === 'en' ? 'Contact Phone *' : 'Teléfono de Contacto *'}
+                      </label>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <input type="tel" name="movil" value={formData.movil} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Móvil" />
-                        <input type="tel" name="fijo" value={formData.fijo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Fijo" />
-                        <input type="text" name="ext" value={formData.ext} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Ext." />
+                        <input type="tel" name="movil" value={formData.movil} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? 'Mobile' : 'Móvil'} />
+                        <input type="tel" name="fijo" value={formData.fijo} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? 'Landline' : 'Fijo'} />
+                        <input type="text" name="ext" value={formData.ext} onChange={handleFieldChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? 'Ext.' : 'Ext.'} />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-3 block">Naturaleza del Proyecto *</label>
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-3 block">
+                        {language === 'en' ? 'Project Nature *' : 'Naturaleza del Proyecto *'}
+                      </label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                        {['Construcción Nueva', 'Remodelación', 'Ampliación', 'Cambio de uso de Área', 'Mtto Preventivo / Correctivo', 'Otro'].map((option) => (
+                        {(language === 'en'
+                          ? ['New Construction', 'Remodeling', 'Expansion', 'Change of Area Use', 'Preventive / Corrective Maintenance', 'Other']
+                          : ['Construcción Nueva', 'Remodelación', 'Ampliación', 'Cambio de uso de Área', 'Mtto Preventivo / Correctivo', 'Otro']
+                        ).map((option) => (
                           <label key={option} className="flex items-center gap-2 cursor-pointer group">
                             <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${formData.naturaleza.includes(option) ? 'bg-brand-blue border-brand-blue text-white' : 'border-slate-300 group-hover:border-brand-blue/50'}`}>
                               {formData.naturaleza.includes(option) && <CheckCircle2 className="w-3 h-3" />}
@@ -2443,16 +2629,20 @@ export default function App() {
                           </label>
                         ))}
                       </div>
-                      {formData.naturaleza.includes('Otro') && (
-                        <input type="text" name="naturalezaOtro" value={formData.naturalezaOtro} onChange={handleFieldChange} required className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Describa la naturaleza del proyecto..." />
+                      {formData.naturaleza.includes(language === 'en' ? 'Other' : 'Otro') && (
+                        <input type="text" name="naturalezaOtro" value={formData.naturalezaOtro} onChange={handleFieldChange} required className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? "Describe project nature..." : "Describa la naturaleza del proyecto..."} />
                       )}
                     </div>
                     <div>
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">Ubicación del Proyecto *</label>
-                      <input type="text" name="ubicacion" value={formData.ubicacion} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder="Dirección / Estado" />
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2 mb-2 block">
+                        {language === 'en' ? 'Project Location *' : 'Ubicación del Proyecto *'}
+                      </label>
+                      <input type="text" name="ubicacion" value={formData.ubicacion} onChange={handleFieldChange} required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 placeholder:text-slate-400 text-slate-900 text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" placeholder={language === 'en' ? "Address / State" : "Dirección / Estado"} />
                     </div>
                     <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-brand-blue text-white font-black uppercase tracking-[0.3em] text-[10px] rounded-xl hover:bg-brand-blue/90 shadow-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50">
-                      {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ASESORÍA TÉCNICA'}
+                      {isSubmitting 
+                        ? (language === 'en' ? 'SENDING...' : 'ENVIANDO...') 
+                        : (language === 'en' ? 'REQUEST TECHNICAL CONSULTATION' : 'SOLICITAR ASESORÍA TÉCNICA')}
                     </button>
                   </form>
                )}
@@ -2484,14 +2674,14 @@ export default function App() {
                 className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] transition-all hover:-translate-y-1"
               >
                 <MessageCircle className="w-5 h-5" />
-                WhatsApp Directo
+                {language === 'en' ? 'Direct WhatsApp' : 'WhatsApp Directo'}
               </a>
               <button 
                 onClick={() => setIsQRModalOpen(true)}
                 className="flex items-center justify-center gap-3 bg-slate-900 border border-slate-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition-all shadow-lg"
               >
                 <QrCode className="w-5 h-5" />
-                Ver Tarjeta Digital
+                {language === 'en' ? 'View Digital Card' : 'Ver Tarjeta Digital'}
               </button>
             </div>
           </div>
@@ -2506,11 +2696,11 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 md:px-6 relative z-10">
           <div className="flex flex-col items-center justify-center gap-12">
             <div className="flex items-center justify-center gap-4">
-              <img src={logoBase64} alt="MCI Soluciones" className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
+              <img src={logoBase64} alt={language === 'en' ? "MCI Solutions" : "MCI Soluciones"} className="h-10 md:h-12 w-auto brightness-0 invert" referrerPolicy="no-referrer" />
               <div className="h-10 w-px bg-white/20" />
               <div className="text-white text-left">
-                <p className="text-sm font-black tracking-widest">MCI SOLUCIONES</p>
-                <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">POLIMÉRICAS</p>
+                <p className="text-sm font-black tracking-widest">MCI {language === 'en' ? 'SOLUTIONS' : 'SOLUCIONES'}</p>
+                <p className="text-[10px] font-black tracking-[0.2em] text-brand-orange">{language === 'en' ? 'POLYMERICS' : 'POLIMÉRICAS'}</p>
               </div>
             </div>
           </div>
@@ -2537,7 +2727,7 @@ export default function App() {
                >
                  👋
                </motion.span>
-               <span>¡Hey! ¿En qué puedo ayudarte?</span>
+               <span>{language === 'en' ? 'Hey! How can I help you?' : '¡Hey! ¿En qué puedo ayudarte?'}</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -2863,6 +3053,45 @@ export default function App() {
                     </motion.a>
                   ))}
                 </div>
+
+                {/* Language Switcher (Mobile) */}
+                <div className="mt-8 px-1">
+                  <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 mb-3 leading-none">
+                    {language === 'en' ? 'Language' : 'Idioma'}
+                  </p>
+                  <div className="flex bg-slate-100/90 border border-slate-200/50 rounded-full p-1 shadow-inner relative max-w-[160px]">
+                    <button 
+                      onClick={() => { playClickSound(); setLanguage('es'); }}
+                      className={`relative z-10 flex-1 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 select-none text-center ${
+                        language === 'es' ? 'text-white' : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      ES
+                      {language === 'es' && (
+                        <motion.div 
+                          layoutId="activeLangMobile" 
+                          className="absolute inset-0 bg-brand-orange rounded-full -z-10 shadow-[0_2px_10px_rgba(245,130,32,0.4)]"
+                          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                        />
+                      )}
+                    </button>
+                    <button 
+                      onClick={() => { playClickSound(); setLanguage('en'); }}
+                      className={`relative z-10 flex-1 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 select-none text-center ${
+                        language === 'en' ? 'text-white' : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      EN
+                      {language === 'en' && (
+                        <motion.div 
+                          layoutId="activeLangMobile" 
+                          className="absolute inset-0 bg-brand-orange rounded-full -z-10 shadow-[0_2px_10px_rgba(245,130,32,0.4)]"
+                          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                        />
+                      )}
+                    </button>
+                  </div>
+                </div>
                 
                 {/* Refined Contact Section */}
                 <div className="mt-auto pt-8 border-t border-slate-100">
@@ -2978,7 +3207,7 @@ export default function App() {
                   <div className="p-8 md:p-12 space-y-8">
                     <div className="space-y-4">
                       <div className="inline-block px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20">
-                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">Fortaleza MCI</span>
+                        <span className="text-[10px] font-black text-brand-orange uppercase tracking-widest">{language === 'en' ? 'MCI Strength' : 'Fortaleza MCI'}</span>
                       </div>
                       <h3 className="text-xl md:text-2xl font-extrabold text-on-surface uppercase tracking-tighter leading-tight">
                         {activeStrength.title}
@@ -3027,7 +3256,7 @@ export default function App() {
                         target="_blank"
                         className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-xl"
                       >
-                        Solicitar Cotización
+                        {language === 'en' ? 'Request Quote' : 'Solicitar Cotización'}
                         <ArrowRight className="w-4 h-4" />
                       </a>
                     </div>

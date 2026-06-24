@@ -1,18 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProxiedImageUrl } from '../utils/image';
-
-const CATEGORIES = [
-  { id: 'pisos-comerciales', title: 'Pisos para uso comercial e industrial' },
-  { id: 'pisos-epoxicos', title: 'Pisos Epóxicos' },
-  { id: 'acabados-alta-gama', title: 'Acabados industriales de Alta Gama' },
-  { id: 'reparacion-concreto', title: 'Reparación y mantenimiento de concreto' },
-  { id: 'impermeabilizacion', title: 'Impermeabilización' },
-  { id: 'pinturas-especiales', title: 'Pinturas especiales' },
-  { id: 'sistema-cortafuegos', title: 'Sistema Cortafuegos' },
-  { id: 'aislamiento', title: 'Aislamiento Térmico y Acústico' },
-];
+import { useLanguage } from '../utils/LanguageContext';
+import { getProjectCategories } from '../data/i18n';
 
 const CATEGORY_IMAGES: Record<string, string[]> = {
   'pisos-comerciales': [
@@ -190,24 +181,36 @@ const PISOS_COMERCIALES_TITLES = [
   "Sello de juntas"
 ];
 
-const ALL_IMAGES = CATEGORIES.flatMap(cat => {
-  const catImages = CATEGORY_IMAGES[cat.id] || [];
-  return catImages.map((url, i) => {
-    let specificTitle;
-    if (cat.id === 'pisos-comerciales') {
-      specificTitle = PISOS_COMERCIALES_TITLES[i];
-    }
-    const finalTitle = specificTitle || `${cat.title} - Proyecto ${i + 1}`;
-    
-    return {
-      id: `${cat.id}-${i + 1}`,
-      categoryId: cat.id,
-      categoryTitle: cat.title,
-      url: url,
-      title: finalTitle,
-    };
-  });
-});
+const PISOS_COMERCIALES_TITLES_EN = [
+  "Self-leveling cementitious floor in dining room 1",
+  "Self-leveling cementitious floor in dining room 2",
+  "Self-leveling cementitious floor in Sams staff dining area 1",
+  "Self-leveling cementitious floor in Sams staff dining area 2",
+  "Self-leveling cementitious floor in Sams staff dining area 3",
+  "Self-leveling cementitious floor in Sams staff dining area 4",
+  "DPA 1",
+  "DPA 2",
+  "DPA 3",
+  "DPA 4",
+  "DPA 5",
+  "Epoxy with sanitary requirements 1",
+  "Epoxy with sanitary requirements 2",
+  "Epoxy with sanitary requirements 3",
+  "Epoxy with sanitary requirements 4",
+  "Epoxy with sanitary requirements 5",
+  "Epoxy with sanitary requirements 6",
+  "Epoxy with sanitary requirements 7",
+  "Epoxy in production area 1",
+  "Epoxy in production area 2",
+  "Epoxy in production area 3",
+  "Epoxy in production area 4",
+  "CEDIS Floor",
+  "Concrete floor 1",
+  "Concrete floor 3",
+  "Concrete floor 4",
+  "Floor in commercial space",
+  "Joint sealing"
+];
 
 interface ProjectGalleryProps {
   onImageSelect: (imageUrl: string) => void;
@@ -217,6 +220,30 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInteracting = useRef(false);
+  const { language, t } = useLanguage();
+  const galleryT = t('gallery');
+  const categoriesList = useMemo(() => getProjectCategories(language), [language]);
+
+  const allImages = useMemo(() => {
+    return categoriesList.flatMap(cat => {
+      const catImages = CATEGORY_IMAGES[cat.id] || [];
+      return catImages.map((url, i) => {
+        let specificTitle;
+        if (cat.id === 'pisos-comerciales') {
+          specificTitle = language === 'en' ? PISOS_COMERCIALES_TITLES_EN[i] : PISOS_COMERCIALES_TITLES[i];
+        }
+        const finalTitle = specificTitle || `${cat.title} - ${language === 'en' ? 'Project' : 'Proyecto'} ${i + 1}`;
+        
+        return {
+          id: `${cat.id}-${i + 1}`,
+          categoryId: cat.id,
+          categoryTitle: cat.title,
+          url: url,
+          title: finalTitle,
+        };
+      });
+    });
+  }, [categoriesList, language]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -229,9 +256,11 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
     }
   };
 
-  const filteredImages = activeCategory === 'all' 
-    ? ALL_IMAGES 
-    : ALL_IMAGES.filter(img => img.categoryId === activeCategory);
+  const filteredImages = useMemo(() => {
+    return activeCategory === 'all' 
+      ? allImages 
+      : allImages.filter(img => img.categoryId === activeCategory);
+  }, [allImages, activeCategory]);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -274,9 +303,10 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
         <div className="text-center mb-8 md:mb-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-sm mb-4 flex flex-col items-center justify-center gap-2">
             <div>
-              Galería de <span className="text-brand-orange">Proyectos</span>
+              {language === 'en' ? 'Project ' : 'Galería de '}<span className="text-brand-orange">{language === 'en' ? 'Gallery' : 'Proyectos'}</span>
             </div>
           </h2>
+          <p className="text-sm md:text-base text-slate-300 font-medium max-w-2xl mx-auto mb-4">{galleryT.subtitle}</p>
           <div className="w-24 md:w-32 h-1.5 md:h-2 bg-brand-orange mx-auto rounded-full shadow-[0_0_20px_rgba(245,130,32,0.3)] mb-6" />
           
           {/* Categorías (Botones) */}
@@ -289,9 +319,9 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                   : 'bg-white/10 text-white hover:bg-white/20 hover:text-brand-orange'
               }`}
             >
-              Todos
+              {language === 'en' ? 'All' : 'Todos'}
             </button>
-            {CATEGORIES.map(cat => (
+            {categoriesList.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
@@ -311,7 +341,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
             <button 
               onClick={() => scroll('left')}
               className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 rounded-full bg-black/60 backdrop-blur-xl border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all duration-300 disabled:opacity-0 hover:bg-brand-orange hover:border-brand-orange shadow-[0_0_20px_transparent] hover:shadow-[0_0_30px_rgba(245,130,32,0.6)] hover:scale-110"
-              aria-label="Anterior"
+              aria-label={language === 'en' ? "Previous" : "Anterior"}
             >
               <ChevronLeft className="w-5 h-5 md:w-7 md:h-7 ml-[-2px]" />
             </button>
@@ -319,7 +349,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
             <button 
               onClick={() => scroll('right')}
               className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 rounded-full bg-black/60 backdrop-blur-xl border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all duration-300 disabled:opacity-0 hover:bg-brand-orange hover:border-brand-orange shadow-[0_0_20px_transparent] hover:shadow-[0_0_30px_rgba(245,130,32,0.6)] hover:scale-110"
-              aria-label="Siguiente"
+              aria-label={language === 'en' ? "Next" : "Siguiente"}
             >
               <ChevronRight className="w-5 h-5 md:w-7 md:h-7 mr-[-2px]" />
             </button>
@@ -361,7 +391,7 @@ export function ProjectGallery({ onImageSelect }: ProjectGalleryProps) {
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 if (!target.src.includes('placehold.co')) {
-                                  target.src = 'https://placehold.co/600x400/1a1a1a/f58220?text=Error+Cargando';
+                                  target.src = `https://placehold.co/600x400/1a1a1a/f58220?text=${language === 'en' ? 'Error+Loading' : 'Error+Cargando'}`;
                                 }
                               }}
                             />
