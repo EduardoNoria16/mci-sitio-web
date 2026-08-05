@@ -2653,7 +2653,7 @@ export default function App() {
           <div className="flex flex-col items-center gap-8 pt-8">
             <div className="flex flex-col sm:flex-row gap-6 md:gap-12 justify-center">
               {[
-                { icon: <Phone className="w-5 h-5" />, text: '55 6150 0317', href: 'tel:+525561500317' },
+                { icon: <Phone className="w-5 h-5" />, text: '56 3300 5341', href: 'tel:+525633005341' },
                 { icon: <Mail className="w-5 h-5" />, text: 'mci.spolimericas@polycovers.mx', href: 'mailto:mci.spolimericas@polycovers.mx' }
               ].map((item, i) => (
                 <div key={i} className="flex items-center justify-center gap-4 group">
@@ -2669,7 +2669,7 @@ export default function App() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-2">
               <a 
-                href="https://wa.me/525561500317" 
+                href="https://wa.me/525633005341" 
                 target="_blank"
                 className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] transition-all hover:-translate-y-1"
               >
@@ -2822,7 +2822,7 @@ export default function App() {
                     let formatted = text.replace(/\n/g, '<br/>');
                     // Solo reemplazamos 'whatsapp' si no está ya dentro de una etiqueta HTML
                     if (msg.type === 'bot' && !formatted.includes('href="https://wa.me')) {
-                      const waButton = `<a href="https://wa.me/525561500317" target="_blank" class="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-2 py-0.5 rounded-md font-bold text-xs mx-1 hover:bg-[#20bd5a] transition-all shadow-sm active:scale-95 no-underline whitespace-nowrap"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="14px" width="14px" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 413.6c-33.1 0-65.5-8.9-94-25.8l-6.7-4-69.8 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg> WhatsApp</a>`;
+                      const waButton = `<a href="https://wa.me/525633005341" target="_blank" class="inline-flex items-center gap-1.5 bg-[#25D366] text-white px-2 py-0.5 rounded-md font-bold text-xs mx-1 hover:bg-[#20bd5a] transition-all shadow-sm active:scale-95 no-underline whitespace-nowrap"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="14px" width="14px" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 413.6c-33.1 0-65.5-8.9-94-25.8l-6.7-4-69.8 18.3L72 334.1l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg> WhatsApp</a>`;
                       formatted = formatted.replace(/\bwhatsapp\b/gi, waButton);
                     }
                     return formatted;
@@ -2853,7 +2853,7 @@ export default function App() {
                         {[
                           { 
                             q: 'Comunícate con nosotros', 
-                            a: 'Elige el medio de contacto de tu preferencia:<br/><div class="flex flex-col gap-2 mt-3"><a href="https://wa.me/525561500317" target="_blank" class="bg-[#25D366] text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766 0 1.015.265 2.008.768 2.88l-1.01 3.687 3.774-.99a5.727 5.727 0 002.236.457c3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766h-.002zM12.031 16.59c-.846 0-1.67-.227-2.392-.656l-.17-.1-1.78.467.476-1.737-.11-.176a4.423 4.423 0 01-.676-2.356c0-2.453 1.996-4.448 4.449-4.448 2.452 0 4.449 1.995 4.449 4.448 0 2.453-1.996 4.448-4.448 4.448zm2.443-3.344c-.134-.067-.793-.392-.916-.436-.123-.044-.212-.067-.301.067-.09.134-.346.437-.425.526-.078.09-.156.101-.29.034-.134-.067-.566-.208-1.077-.665-.398-.356-.667-.796-.745-.93-.078-.134-.008-.207.059-.274.06-.06.134-.157.201-.235.067-.078.09-.134.134-.224.045-.09.022-.168-.011-.235-.034-.067-.301-.727-.413-1.006-.109-.271-.22-.234-.301-.238-.078-.004-.167-.004-.257-.004-.09 0-.234.034-.357.168-.123.134-.47.459-.47 1.119 0 .66.48 1.298.548 1.388.067.09.945 1.442 2.29 2.006.32.134.568.214.762.274.321.101.614.086.845.052.261-.038.793-.324.905-.638.112-.313.112-.58.078-.638-.033-.057-.122-.09-.256-.157z"/></svg> Vía WhatsApp</a><a href="mailto:mci.spolimericas@polycovers.mx" class="bg-brand-blue text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Vía Correo</a><a href="tel:+525561500317" class="bg-brand-orange text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> Llamada Telefónica</a></div>' 
+                            a: 'Elige el medio de contacto de tu preferencia:<br/><div class="flex flex-col gap-2 mt-3"><a href="https://wa.me/525633005341" target="_blank" class="bg-[#25D366] text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766 0 1.015.265 2.008.768 2.88l-1.01 3.687 3.774-.99a5.727 5.727 0 002.236.457c3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766h-.002zM12.031 16.59c-.846 0-1.67-.227-2.392-.656l-.17-.1-1.78.467.476-1.737-.11-.176a4.423 4.423 0 01-.676-2.356c0-2.453 1.996-4.448 4.449-4.448 2.452 0 4.449 1.995 4.449 4.448 0 2.453-1.996 4.448-4.448 4.448zm2.443-3.344c-.134-.067-.793-.392-.916-.436-.123-.044-.212-.067-.301.067-.09.134-.346.437-.425.526-.078.09-.156.101-.29.034-.134-.067-.566-.208-1.077-.665-.398-.356-.667-.796-.745-.93-.078-.134-.008-.207.059-.274.06-.06.134-.157.201-.235.067-.078.09-.134.134-.224.045-.09.022-.168-.011-.235-.034-.067-.301-.727-.413-1.006-.109-.271-.22-.234-.301-.238-.078-.004-.167-.004-.257-.004-.09 0-.234.034-.357.168-.123.134-.47.459-.47 1.119 0 .66.48 1.298.548 1.388.067.09.945 1.442 2.29 2.006.32.134.568.214.762.274.321.101.614.086.845.052.261-.038.793-.324.905-.638.112-.313.112-.58.078-.638-.033-.057-.122-.09-.256-.157z"/></svg> Vía WhatsApp</a><a href="mailto:mci.spolimericas@polycovers.mx" class="bg-brand-blue text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Vía Correo</a><a href="tel:+525633005341" class="bg-brand-orange text-white px-4 py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> Llamada Telefónica</a></div>' 
                           }
                         ].map((opt, idx) => (
                           <button
@@ -2935,7 +2935,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {/* Accessibility Widget (TTS) */}
+      {/* Floating Action Buttons */}
       <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[9999] flex flex-col gap-4 pointer-events-none scale-[0.85] origin-bottom-right md:scale-100">
         <AnimatePresence>
           {showBackToTop && (
@@ -2957,31 +2957,20 @@ export default function App() {
           )}
         </AnimatePresence>
 
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            playClickSound();
-            toggleSpeech();
-          }}
-          className={`relative w-14 h-14 backdrop-blur-xl border-2 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:border-transparent transition-all group pointer-events-auto ${isSpeaking ? 'bg-brand-orange/20 border-brand-orange ring-4 ring-brand-orange/20' : 'bg-[#22d3ee]/15 border-[#22d3ee]/30 text-brand-orange'}`}
-          aria-label={isSpeaking ? 'Detener lectura' : 'Escuchar página'}
+        <a 
+          href="https://wa.me/525633005341"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative w-14 h-14 backdrop-blur-xl border-2 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-white hover:border-transparent transition-all group pointer-events-auto bg-[#25D366] border-[#25D366] text-white"
+          aria-label="Contactar por WhatsApp"
         >
-          <div className="absolute -top-10 right-0 bg-[#22d3ee]/20 backdrop-blur-md border border-[#22d3ee]/30 text-brand-orange px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-            {isSpeaking ? 'Detener lectura' : 'Escuchar página'}
+          <div className="absolute -top-10 right-0 bg-[#25D366] backdrop-blur-md border border-[#25D366] text-white px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+            Vía WhatsApp
           </div>
-          {isSpeaking ? (
-            <div className="relative flex items-center justify-center">
-              <VolumeX className="w-6 h-6" />
-              <motion.div 
-                className="absolute inset-0 border-2 border-brand-orange rounded-full"
-                animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              />
-            </div>
-          ) : (
-            <Headphones className="w-6 h-6" />
-          )}
-        </button>
+          <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766 0 1.015.265 2.008.768 2.88l-1.01 3.687 3.774-.99a5.727 5.727 0 002.236.457c3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766h-.002zM12.031 16.59c-.846 0-1.67-.227-2.392-.656l-.17-.1-1.78.467.476-1.737-.11-.176a4.423 4.423 0 01-.676-2.356c0-2.453 1.996-4.448 4.449-4.448 2.452 0 4.449 1.995 4.449 4.448 0 2.453-1.996 4.448-4.448 4.448zm2.443-3.344c-.134-.067-.793-.392-.916-.436-.123-.044-.212-.067-.301.067-.09.134-.346.437-.425.526-.078.09-.156.101-.29.034-.134-.067-.566-.208-1.077-.665-.398-.356-.667-.796-.745-.93-.078-.134-.008-.207.059-.274.06-.06.134-.157.201-.235.067-.078.09-.134.134-.224.045-.09.022-.168-.011-.235-.034-.067-.301-.727-.413-1.006-.109-.271-.22-.234-.301-.238-.078-.004-.167-.004-.257-.004-.09 0-.234.034-.357.168-.123.134-.47.459-.47 1.119 0 .66.48 1.298.548 1.388.067.09.945 1.442 2.29 2.006.32.134.568.214.762.274.321.101.614.086.845.052.261-.038.793-.324.905-.638.112-.313.112-.58.078-.638-.033-.057-.122-.09-.256-.157z"/>
+          </svg>
+        </a>
       </div>
 
       {/* Unified Mobile Menu Overlay (Premium Cyan Glass Redesign) */}
@@ -3100,7 +3089,7 @@ export default function App() {
                     
                     <div className="space-y-4">
                       <a 
-                        href="tel:+525561500317" 
+                        href="tel:+525633005341" 
                         className="flex items-center gap-4 group"
                       >
                         <div className="w-9 h-9 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-brand-orange group-hover:border-brand-orange/30 group-hover:shadow-md transition-all">
@@ -3108,7 +3097,7 @@ export default function App() {
                         </div>
                         <div className="flex flex-col leading-tight">
                           <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">Teléfono</span>
-                          <span className="text-xs font-bold text-slate-700 tracking-wide">55 6150 0317</span>
+                          <span className="text-xs font-bold text-slate-700 tracking-wide">56 3300 5341</span>
                         </div>
                       </a>
 
@@ -3252,7 +3241,7 @@ export default function App() {
                     {/* CTA in Modal */}
                     <div className="pt-8 border-t border-white/10">
                       <a 
-                        href="https://wa.me/525561500317" 
+                        href="https://wa.me/525633005341" 
                         target="_blank"
                         className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-brand-orange transition-all hover:scale-105 shadow-xl"
                       >
