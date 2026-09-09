@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Download } from 'lucide-react';
-import { getProxiedImageUrl } from '../utils/image';
 
 interface Props {
   isOpen: boolean;
@@ -9,12 +8,12 @@ interface Props {
   url: string; // Keep this prop in case it's passed somewhere, or we can ignore it
 }
 
-export default function QRCodeModal({ isOpen, onClose }: Props) {
-  const qrImageUrl = 'https://images2.imgbox.com/9e/31/2zovlJIh_o.png';
+export default function QRCodeModal({ isOpen, onClose, url }: Props) {
+  const qrImageUrl = 'https://i.ibb.co/fdWV1fxX/QR-Polycovers.png';
 
   const downloadQR = async () => {
     try {
-      const response = await fetch(getProxiedImageUrl(qrImageUrl));
+      const response = await fetch(qrImageUrl);
       const blob = await response.blob();
       const blobUrl = URL.createObjectURL(blob);
       
@@ -64,7 +63,7 @@ export default function QRCodeModal({ isOpen, onClose }: Props) {
 
             <div className="p-4 bg-white rounded-2xl shadow-inner cursor-pointer" onClick={downloadQR}>
               <img 
-                src={getProxiedImageUrl(qrImageUrl)} 
+                src={qrImageUrl} 
                 alt="Código QR de MCI" 
                 className="w-[220px] h-[220px] object-contain"
                 referrerPolicy="no-referrer"
